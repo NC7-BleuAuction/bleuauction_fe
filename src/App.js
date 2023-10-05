@@ -7,7 +7,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          BleuAuction 화면 작업 중!.
+          BleuAuction 화면 작업 중!
         </p>
         <a
           className="App-link"
