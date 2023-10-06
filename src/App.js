@@ -79,7 +79,7 @@ function Announce() {
     borderRadius: '30px',
     overflow: 'hidden'
   }
-  return (           
+  return (
     <div style={carousel}>
     <Carousel >
       {/* 슬라이드 이미지 */}
