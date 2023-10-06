@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
-import Notice from './components/Notice';
+import Notice from './Notice'; 
 
 function App() {
   return (
@@ -11,7 +11,7 @@ function App() {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <p>
-            BleuAuction 화면 작업 중!
+            BleuAuction 작업중.
           </p>
           <a
             className="App-link"
@@ -22,10 +22,11 @@ function App() {
             Learn React
           </a>
         </header>
-        <Switch>
-          <Route path="/notice" component={Notice} />
-        </Switch>
       </div>
+      <Switch>
+        <Route exact path="/notice" component={Notice} />
+        {/* 다른 페이지의 라우트를 여기에 추가할 수 있음. */}
+      </Switch>
     </Router>
   );
 }
