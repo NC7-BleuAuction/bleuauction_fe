@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import { Routes, Route, Link } from 'react-router-dom';
 import Notice from './components/Notice/Notice';
 
 function App() {
   return (
-    <Router>
+    <Routes>
       <div className="App">
         <header className="App-header">
           <h1>bleuauction 작업중</h1>
@@ -20,10 +20,10 @@ function App() {
           </a>
         </header>
       </div>
-      <Switch>
-        <Route path="/notices" component={Notice} />
-      </Switch>
-    </Router>
+      <Routes>
+        <Route path="/notices" element={<Notice />} />
+      </Routes>
+    </Routes>
   );
 }
 
