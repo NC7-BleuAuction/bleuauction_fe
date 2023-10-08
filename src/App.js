@@ -1,18 +1,14 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import logo from './logo.svg';
 import './App.css';
-import Notice from './components/Notice';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import Notice from './components/Notice/Notice';
 
 function App() {
   return (
     <Router>
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            BleuAuction 작업중.
-          </p>
+          <h1>bleuauction 작업중</h1>
           <a
             className="App-link"
             href="https://reactjs.org"
@@ -24,8 +20,8 @@ function App() {
         </header>
       </div>
       <Switch>
-        <Route exact path="/notice" component={Notice} />
-        {/* 다른 페이지의 라우트를 여기에 추가할 수 있음. */}
+        <Route path="/notices" component={Notice} />
+        <Redirect from="/" to="/notices" />
       </Switch>
     </Router>
   );
