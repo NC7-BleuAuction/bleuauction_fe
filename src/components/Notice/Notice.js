@@ -1,52 +1,120 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Notice.css';
 
-const Notice = () => {
+function Notice() {
   const [notices, setNotices] = useState([]);
+  const [noticeForm, setNoticeForm] = useState({
+    noticeTitle: '',
+    noticeContent: '',
+  });
+  const [selectedNotice, setSelectedNotice] = useState(null); // 선택한 공지사항을 저장하는 상태
+
+  const fetchNotices = async () => {
+    try {
+      const response = await axios.get('/api/notices'); // 백엔드 경로로 변경
+      setNotices(response.data);
+    } catch (error) {
+      console.error('Error fetching notices:', error);
+    }
+  };
 
   useEffect(() => {
-    // Axios를 사용해 서버에서 공지사항 목록 가져오는 거
-    axios.get('/notices') // 백엔드 API 엔드포인트로 변경
-      .then((response) => {
-        setNotices(response.data);
-      })
-      .catch((error) => {
-        console.error('Error fetching data:', error);
-      });
+    fetchNotices();
   }, []);
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setNoticeForm({
+      ...noticeForm,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post('/api/notice/new', noticeForm); // 백엔드 경로로 변경
+      setNoticeForm({
+        noticeTitle: '',
+        noticeContent: '',
+      });
+      fetchNotices();
+    } catch (error) {
+      console.error('Error creating notice:', error);
+    }
+  };
+
+  const deleteNotice = async (noticeNo) => {
+    try {
+      await axios.post(`/api/notices/delete/${noticeNo}`); // 백엔드 경로로 변경
+      fetchNotices();
+    } catch (error) {
+      console.error('Error deleting notice:', error);
+    }
+  };
+
+  const updateNotice = async () => {
+    if (!selectedNotice) return; // 선택한 공지사항이 없을 경우 아무 작업도 하지 않음
+
+    const updatedNotice = {
+      noticeNo: selectedNotice.noticeNo,
+      noticeTitle: noticeForm.noticeTitle,
+      noticeContent: noticeForm.noticeContent,
+    };
+
+    try {
+      await axios.post(`/api/notice/update/${selectedNotice.noticeNo}`, updatedNotice); // 백엔드 경로로 변경
+      setNoticeForm({
+        noticeTitle: '',
+        noticeContent: '',
+      });
+      setSelectedNotice(null); // 선택한 공지사항 초기화
+      fetchNotices();
+    } catch (error) {
+      console.error('Error updating notice:', error);
+    }
+  };
+
   return (
-    <div className="notice-list">
-      <h1>공지사항 목록</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>번호</th>
-            <th>제목</th>
-            <th>내용</th>
-            <th>작성자</th>
-            <th>등록일</th>
-            <th>수정일</th>
-            <th>상태</th>
-          </tr>
-        </thead>
-        <tbody>
+    <div className="notice-container">
+      <h1>Notices</h1>
+      <div className="create-notice-form">
+        <h2>Create/Update Notice</h2>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            name="noticeTitle"
+            placeholder="Title"
+            value={noticeForm.noticeTitle}
+            onChange={handleChange}
+          />
+          <textarea
+            name="noticeContent"
+            placeholder="Content"
+            value={noticeForm.noticeContent}
+            onChange={handleChange}
+          ></textarea>
+          <button type="submit">Create/Update</button>
+        </form>
+      </div>
+      <div>
+        <h2>Notice List</h2>
+        <ul className="notice-list">
           {notices.map((notice) => (
-            <tr key={notice.noticeNo}>
-              <td>{notice.noticeNo}</td>
-              <td>{notice.noticeTitle}</td>
-              <td>{notice.noticeContent}</td>
-              <td>{notice.member.memberName}</td>
-              <td>{notice.regDatetime}</td>
-              <td>{notice.mdfDatetime}</td>
-              <td>{notice.noticeStatus}</td>
-            </tr>
+            <li className="notice-item" key={notice.noticeNo}>
+              <div>
+                <strong>{notice.noticeTitle}</strong>
+              </div>
+              <p>{notice.noticeContent}</p>
+              <button onClick={() => deleteNotice(notice.noticeNo)}>Delete</button>
+              <button onClick={() => setSelectedNotice(notice)}>Edit</button>
+            </li>
           ))}
-        </tbody>
-      </table>
+        </ul>
+      </div>
     </div>
   );
-};
+}
 
 export default Notice;

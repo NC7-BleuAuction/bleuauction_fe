@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import Notice from './components/Notice/Notice';
 
 function App() {
@@ -9,6 +9,7 @@ function App() {
       <div className="App">
         <header className="App-header">
           <h1>bleuauction 작업중</h1>
+          <Link to="/notices">Go to Notices</Link>
           <a
             className="App-link"
             href="https://reactjs.org"
@@ -21,7 +22,6 @@ function App() {
       </div>
       <Switch>
         <Route path="/notices" component={Notice} />
-        <Redirect from="/" to="/notices" />
       </Switch>
     </Router>
   );
