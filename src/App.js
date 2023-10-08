@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
-import Notice from '../components/Notice/Notice';
+import Notice from './components/Notice/Notice';
 
 function App() {
   return (
