@@ -7,7 +7,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          여기는 킹종원이 점령했다.
+          bleuauction 작업중!
         </p>
         <a
           className="App-link"
