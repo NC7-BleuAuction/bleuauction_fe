@@ -1,23 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './routes/Home';
 import SideBar from './components/SideBar';
-import Test from './components/Test';
-import React from 'react';
+// import Test from './components/Test';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Test from './components/Test/Test'; // 경로 수정
 import Test2 from './components/Test/test2'
-import Main from './components/main'
+// import Main from './components/main'
 
 function App() {
   const [hello, setHello] = useState('');
 
   useEffect(() => {
-    axios.get('/api/hello')
+    axios.get('/api/hello') // 데이터 확인 테스트용
       .then(response => setHello(response.data))
       .catch(error => console.log(error));
   }, []);
