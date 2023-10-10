@@ -2,7 +2,7 @@ import React from "react";
 import logo from '../logo.svg';
 import { useNavigate, Link } from 'react-router-dom';
 import Test from './Test/Test'; // 경로 수정
-import Test2 from './test2'
+import Test2 from '.Test/test2';
 
 
 
