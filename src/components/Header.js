@@ -18,6 +18,7 @@ function Header() {
           <Link to='/'>로그인</Link>
           <Link to='/'>회원가입</Link>
           <Link to="/api/test" >test</Link>
+          <Link to="/api/test2" >test2</Link>
       </div>
 
 
