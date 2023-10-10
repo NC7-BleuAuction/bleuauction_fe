@@ -16,6 +16,14 @@ function App() {
           rel="noopener noreferrer"
         >
           Learn React
+          </a>
+        <a
+          className="App-link"
+          href="https://bleuauction.co.kr/api/test"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Go to TestPage
         </a>
       </header>
     </div>
