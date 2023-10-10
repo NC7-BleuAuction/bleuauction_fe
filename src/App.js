@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Test from './components/Test/Test'; // 경로 수정
-import Test2 from './components/test2'
+import Test2 from './components/Test/test2'
 import Main from './components/main'
 
 function App() {
