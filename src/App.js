@@ -6,7 +6,7 @@ import Test from './components/Test/Test';
 
 function App() {
   const location = useLocation();
-  const [showTestPage, setShowTestPage] = useState(false);
+  const [showTestPage, setShowTestPage] = useState(true);
 
   useEffect(() => {
     // URL 경로가 "/api/test"인 경우 Test 컴포넌트를 렌더링
