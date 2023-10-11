@@ -6,13 +6,22 @@ import Footer from './components/Footer';
 import Home from './routes/Home';
 import SideBar from './components/SideBar';
 // import Test from './components/Test';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import Test from './components/Test/Test'; // 경로 수정
 import Test2 from './components/Test/test2'
 // import Main from './components/main'
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import MenuList from './components/MenuList';
+import TabBar from './components/TabBar';
+import MarketDetailPage from './pages/MarketDetailPage';
+import ReviewForm from './components/ReviewForm';
+import MyPage from './pages/MyPage';
+import EditPage from './pages/EditPage';
 
 function App() {
   const [hello, setHello] = useState('');
+
 
   useEffect(() => {
     axios.get('/api/hello') // 데이터 확인 테스트용
@@ -22,23 +31,40 @@ function App() {
 
 
   return (
-    <div className='App'>
-      <div>
-        {hello}
-      {/* 데이터 확인 테스트용 */}
+    <Router>
+      <div className='App'>
+        <div>{hello}</div>
+        <RoutingComponent />
       </div>
-      <Router>
-        <Header />
-        <Routes>
-          <Route path="/" exact={true} element={<Home />} />
-          <Route path="/api/test" element={<Test />} />
-          <Route path="/api/test2" element={<Test2 />} />
-        </Routes>
-        <SideBar/>
-        <Footer />
-      </Router>
-    </div>
+    </Router>
+  );
+
+}
+
+function RoutingComponent() {
+  const location = useLocation();
+
+  return (
+    <>
+      {location.pathname !== "/login" && location.pathname !== "/register" && <Header />}
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/api/test" element={<Test />} />
+        <Route path="/api/test2" element={<Test2 />} />
+        <Route path="/menulist" element={<MenuList />} />
+        <Route path="/reviewregister" element={<ReviewForm />} />
+        <Route path="/market/detail" element={<MarketDetailPage />} />
+        <Route path="/mypage" element={<MyPage />} />
+        <Route path="/edit" element={<EditPage />} />
+      </Routes>
+      {location.pathname !== "/login" && location.pathname !== "/register" && <SideBar />}
+      {location.pathname !== "/login" && location.pathname !== "/register" && <Footer />}  
+    </>
   );
 }
 
 export default App;
+
+
