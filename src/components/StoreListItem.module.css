@@ -15,6 +15,8 @@
 .storeListItemBoss {
   border-radius: 15px;
   width: 300px;
+  position: relative;
+  left: -2%;
 }
 
 .storeListItemDetailTop {
@@ -81,6 +83,7 @@
   font-size: 20px;
   font-weight: 500;
   text-decoration: none;
+  /* transform: scale(1); */
   transition: transform 0.3s ease;
   position: relative;
   left: 35%;
@@ -88,4 +91,21 @@
 
 .storeListItemDetailBoxMore a:hover {
   transform: scale(1.1);
+}
+
+.storeListItemFresh {
+  /* border-radius: 15px; */
+  width: 10%;
+  margin: 0 5%;
+  position: relative;
+  /* top: -7%; */
+  transform: rotate(45deg);
+}
+
+.storeListItemStateIcon {
+  border-radius: 15px;
+  width: 9%;
+  margin: 0 3% 3% 3%;
+  position: relative;
+  bottom: 7%;
 }

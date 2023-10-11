@@ -15,10 +15,14 @@ function StoreListItem() {
         </div>
         <p className={styles.storeListItemDetailIntroduce}>신선신선</p>
 
-        <p className={styles.storeListItemBoxReview}><img src=''/>5.0 (1024)</p>
-        <p className={styles.storeListItemBoxState}>영업중</p>
+        <p className={styles.storeListItemBoxReview}>
+          <img className={styles.storeListItemFresh} src='/fresh.png'/>5.0 (1024)
+        </p>
+        <p className={styles.storeListItemBoxState}>
+          <img className={styles.storeListItemStateIcon} src='/heart.png'/>영업중
+        </p>
         <div className={styles.storeListItemDetailBoxMore}>
-          <Link to='/'>더보기&gt;</Link>
+          <Link to='/api/test'>더보기&gt;</Link>
         </div>
       </div>
 
