@@ -15,7 +15,7 @@ function Header() {
               <input className={styles.headerSearchBox} type='text' placeholder='검색어를 입력하세요.'></input>
               <button id={styles.searchBtn} type="submit"></button>
             </form>
-          <Link to='/'>로그인</Link>
+          <Link to='/login'>로그인</Link>
           <Link to='/'>회원가입</Link>
           <Link to="/api/test" >test</Link>
       </div>
