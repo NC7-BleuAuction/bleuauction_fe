@@ -5,6 +5,7 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import './StoreItemDailyPrice.css';
 import Footer from '../Footer';
 import Header from '../Header';
+import SideBar from '../SideBar';
 
 function StoreItemDailyPrice() {
   const [selectedCategory, setSelectedCategory] = useState(null);
