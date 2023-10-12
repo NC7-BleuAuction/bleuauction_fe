@@ -5,9 +5,8 @@ import Header from './components/Common/Header';
 import Footer from './components/Common/Footer';
 import Home from './routes/Home';
 import SideBar from './components/Common/SideBar';
-// import Test from './components/Test';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
-import Test from './components/Test/Test'; // 경로 수정
+import Test from './components/Test/Test';
 import Test2 from './components/Test/test2'
 // import Main from './components/main'
 import LoginPage from './components/Auth/LoginPage';
@@ -17,9 +16,9 @@ import StoreList from './routes/StoreList';
 import TabBar from './components/Market/TabBar';
 import MarketDetailPage from './components/Market/MarketDetailPage';
 import ReviewForm from './components/Review/ReviewForm';
-import MyPage from './components/MyPage/MyPage';
+import MyPage from './components/MyPage/MyPage'
 import EditPage from './components/MyPage/EditPage';
-
+import StoreItemDailyPrice from './components/StoreItemDailyPrice/StoreItemDailyPrice';
 function App() {
   const [hello, setHello] = useState('');
 
@@ -60,6 +59,7 @@ function RoutingComponent() {
         <Route path="/market/detail" element={<MarketDetailPage />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/edit" element={<EditPage />} />
+        <Route path="/StoreItemDailyPrice" element={<StoreItemDailyPrice />} />
       </Routes>
       {location.pathname !== "/login" && location.pathname !== "/register" && <SideBar />}
       {location.pathname !== "/login" && location.pathname !== "/register" && <Footer />}  
