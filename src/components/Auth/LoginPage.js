@@ -13,17 +13,6 @@ import axios from 'axios';
 import { useState } from 'react';
 
 
-
-// function Test() {
-//   const [test, setTest] = useState({response: '', loading: true});
-
-//   useEffect(() => {
-//     axios.get('/api/test')
-//       .then(response => setTest(response.data))
-//       .catch(error => console.log(error));
-//   }, []);
-
-
 const defaultTheme = createTheme();
 
 // export default function LoginPage() {
@@ -44,31 +33,80 @@ const defaultTheme = createTheme();
 export default function LoginPage() {
   const navigate = useNavigate();
 
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault();
-  //   const data = new FormData(event.currentTarget);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
     
-  //   const loginData = {
-  //     memberEmail: data.get('email'),
-  //     memberPwd: data.get('password'),
-  //   };
+    const loginData = {
+      memberEmail: data.get('email'),
+      memberPwd: data.get('password'),
+    };
 
-  //   console.log(loginData);
+    console.log(loginData);
 
-  //   try {
-  //     const response = await axios.post('/api/member/login', loginData); // /api/login은 백엔드 로그인 API의 엔드포인트입니다. 실제 경로를 사용해야 합니다.
+    try {
+      const response = await axios.post('/api/member/login', loginData); // /api/login은 백엔드 로그인 API의 엔드포인트입니다. 실제 경로를 사용해야 합니다.
       
-  //     if (response.data.success) { // 응답에 따라 조건을 변경할 수 있습니다.
-  //       console.log("로그인 성공!");
-  //       navigate('/main');
-  //     } else {
-  //       console.error("로그인 실패:", response.data.message);
-  //     }
-  //   } catch (error) {
-  //     console.error("서버에서 에러가 발생했습니다:", error.response.data);
-  //   }
-  // };
+      if (response.data.success) { // 응답에 따라 조건을 변경할 수 있습니다.
+        console.log("로그인 성공!");
+        navigate('/main');
+      } else {
+        console.error("로그인 실패:", response.data.message);
+      }
+    } catch (error) {
+      console.error("서버에서 에러가 발생했습니다:", error.response.data);
+    }
+  };
 
+//   const [email, setEmail] = useState('')
+//   const [password, setPassword] = useState('')
+
+//   const handleEmail = (e) => {
+//     setEmail(e.target.value)
+// }
+
+// const handlePassword = (e) => {
+//     setPassword(e.target.value)
+// }
+
+// const onClickLogin = () => {
+//   console.log('click login')
+//   console.log('Email : ', email)
+//   console.log('PW : ', password)
+//   axios.post('/api/member/login', null, {
+//       params: {
+//       'memberEmail': email,
+//       'memberPwd': password
+//       }
+//   })
+//   .then(res => {
+//       console.log(res)
+//       console.log('res.data.email :: ', res.data.email)
+//       console.log('res.data.msg :: ', res.data.msg)
+//       if(res.data.userId === undefined){
+//           // id 일치하지 않는 경우 userId = undefined, msg = '입력하신 id 가 일치하지 않습니다.'
+//           console.log('======================',res.data.msg)
+//           alert('입력하신 id 가 일치하지 않습니다.')
+//       } else if(res.data.userId === null){
+//           // id는 있지만, pw 는 다른 경우 userId = null , msg = undefined
+//           console.log('======================','입력하신 비밀번호 가 일치하지 않습니다.')
+//           alert('입력하신 비밀번호 가 일치하지 않습니다.')
+//       } else if(res.data.userId === inputId) {
+//           // id, pw 모두 일치 userId = userId1, msg = undefined
+//           console.log('======================','로그인 성공')
+//           sessionStorage.setItem('user_id', inputId)
+//       }
+//       // 작업 완료 되면 페이지 이동(새로고침)
+//       document.location.href = '/'
+//   })
+//   .catch()
+// }
+
+// useEffect(() => {
+//    axios.get('/user_inform/login')
+//    .then(res => console.log(res))
+//    .catch()
+// },[]);
 
 
 
