@@ -4,39 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2c8b4b35-92fd-4371-aaf9-3b15b4b28bef" name="Changes" comment="">
+    <list default="true" id="2c8b4b35-92fd-4371-aaf9-3b15b4b28bef" name="Changes" comment="경로 수정">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Announce.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Announce.module.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Button.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Category.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Category.module.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Coupon.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Footer.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Footer.module.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Header.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Header.module.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/InputField.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/InputField.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/MenuItem.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/MenuList.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ReviewForm.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ReviewList.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ReviewSection.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/SideBar.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/SideBar.module.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/StoreInfo.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/StoreListItem.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/StoreListItem.module.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/TabBar.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/main.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/main.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/EditPage.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/LoginPage.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/MarketDetailPage.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/MyPage.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/RegisterPage.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/Home.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,9 +43,19 @@
       <option name="presentableId" value="Default" />
       <updated>1696394473438</updated>
     </task>
+    <task id="LOCAL-00001" summary="경로 수정">
+      <option name="closed" value="true" />
+      <created>1697078311851</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1697078311851</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
-    <option name="LAST_COMMIT_MESSAGE" value="" />
+    <MESSAGE value="경로 수정" />
+    <option name="LAST_COMMIT_MESSAGE" value="경로 수정" />
   </component>
 </project>
