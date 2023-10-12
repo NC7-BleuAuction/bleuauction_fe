@@ -24,7 +24,7 @@ function Header() {
       <div className={styles.headerBottom}>
           <Link to='/'>추천</Link>
           <Link to='/'>시장</Link>
-          <Link to='/'>시세</Link>
+          <Link to='/StoreItemDailyPrice'>시세</Link>
           <Link to='/'>공지사항</Link>
       </div>
     </div>
