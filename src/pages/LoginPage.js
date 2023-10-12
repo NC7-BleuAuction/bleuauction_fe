@@ -9,25 +9,68 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom'; 
+import axios from 'axios';
+import { useState } from 'react';
 
+
+
+// function Test() {
+//   const [test, setTest] = useState({response: '', loading: true});
+
+//   useEffect(() => {
+//     axios.get('/api/test')
+//       .then(response => setTest(response.data))
+//       .catch(error => console.log(error));
+//   }, []);
 
 
 const defaultTheme = createTheme();
 
-export default function LoginPage() {
+// export default function LoginPage() {
     
-const navigate = useNavigate();
+// const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+//   const handleSubmit = (event) => {
+//     event.preventDefault();
+//     const data = new FormData(event.currentTarget);
+//     console.log({
+//       email: data.get('email'),
+//       password: data.get('password'),
 
-    });
-    navigate('/main');
-  };
+//     });
+//     navigate('/main');
+//   };
+
+export default function LoginPage() {
+  const navigate = useNavigate();
+
+  // const handleSubmit = async (event) => {
+  //   event.preventDefault();
+  //   const data = new FormData(event.currentTarget);
+    
+  //   const loginData = {
+  //     memberEmail: data.get('email'),
+  //     memberPwd: data.get('password'),
+  //   };
+
+  //   console.log(loginData);
+
+  //   try {
+  //     const response = await axios.post('/api/member/login', loginData); // /api/login은 백엔드 로그인 API의 엔드포인트입니다. 실제 경로를 사용해야 합니다.
+      
+  //     if (response.data.success) { // 응답에 따라 조건을 변경할 수 있습니다.
+  //       console.log("로그인 성공!");
+  //       navigate('/main');
+  //     } else {
+  //       console.error("로그인 실패:", response.data.message);
+  //     }
+  //   } catch (error) {
+  //     console.error("서버에서 에러가 발생했습니다:", error.response.data);
+  //   }
+  // };
+
+
+
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -92,12 +135,23 @@ const navigate = useNavigate();
                 >
                 Login
               </Button>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{
+                    mt: 3, 
+                    mb: 2, 
+                    borderRadius: '30px', 
+                    backgroundColor: '#FFEB00',  // 카카오 노란색
+                    '&:hover': {
+            backgroundColor: '#FFD600', // 노란색의 어두운 톤으로 hover 효과 추가
+                       }
+                    }}
+                >
+                KAKAO Login
+              </Button>
               <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    비밀번호 찾기
-                  </Link>
-                </Grid>
                 <Grid item>
                   <Link href="/register" variant="body2">
                     {"회원가입"}
