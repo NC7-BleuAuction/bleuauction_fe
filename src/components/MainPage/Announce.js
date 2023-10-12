@@ -2,8 +2,8 @@ import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import styles from './Announce.module.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import Carousel from 'react-bootstrap/Carousel';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import { Carousel } from 'react-bootstrap';
 import { useLocation } from 'react-router-dom';
 
 function Announce() {
