@@ -62,7 +62,7 @@ function StoreItemDailyPrice() {
           >
             {categoryOptions[code]}
           </button>
-        )}
+        ))}
       </div>
       <div className="origin-buttons">
         <p>원산지 선택:</p>
@@ -74,7 +74,7 @@ function StoreItemDailyPrice() {
           >
             {originOptions[code]}
           </button>
-        )}
+        ))}
       </div>
       <div className="carousel">
         <h2>추천하는 오늘의 생선</h2>

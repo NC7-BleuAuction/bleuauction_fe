@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2c8b4b35-92fd-4371-aaf9-3b15b4b28bef" name="Changes" comment="Home.js 경로 수정">
+    <list default="true" id="2c8b4b35-92fd-4371-aaf9-3b15b4b28bef" name="Changes" comment="시세 컴포넌트 추가2">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -75,12 +75,30 @@
       <option name="project" value="LOCAL" />
       <updated>1697079413910</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="시세 컴포넌트 추가">
+      <option name="closed" value="true" />
+      <created>1697085105204</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1697085105204</updated>
+    </task>
+    <task id="LOCAL-00006" summary="시세 컴포넌트 추가2">
+      <option name="closed" value="true" />
+      <created>1697085327583</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1697085327583</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="경로 수정" />
     <MESSAGE value="Home.js 경로 수정" />
-    <option name="LAST_COMMIT_MESSAGE" value="Home.js 경로 수정" />
+    <MESSAGE value="시세 컴포넌트 추가" />
+    <MESSAGE value="시세 컴포넌트 추가2" />
+    <option name="LAST_COMMIT_MESSAGE" value="시세 컴포넌트 추가2" />
   </component>
 </project>
