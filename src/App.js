@@ -1,23 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './App.css';
-import Header from './components/Header';
-import Footer from './components/Footer';
+import Header from './components/Common/Header';
+import Footer from './components/Common/Footer';
 import Home from './routes/Home';
-import SideBar from './components/SideBar';
+import SideBar from './components/Common/SideBar';
 // import Test from './components/Test';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import Test from './components/Test/Test'; // 경로 수정
 import Test2 from './components/Test/test2'
 // import Main from './components/main'
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
-import MenuList from './components/MenuList';
-import TabBar from './components/TabBar';
-import MarketDetailPage from './pages/MarketDetailPage';
-import ReviewForm from './components/ReviewForm';
-import MyPage from './pages/MyPage';
-import EditPage from './pages/EditPage';
+import LoginPage from './components/Auth/LoginPage';
+import RegisterPage from './components/Auth/RegisterPage';
+import MenuList from './components/Menu/MenuList';
+import StoreList from './routes/StoreList';
+import TabBar from './components/Market/TabBar';
+import MarketDetailPage from './components/Market/MarketDetailPage';
+import ReviewForm from './components/Review/ReviewForm';
+import MyPage from './components/MyPage/MyPage';
+import EditPage from './components/MyPage/EditPage';
 
 function App() {
   const [hello, setHello] = useState('');
@@ -33,7 +34,7 @@ function App() {
   return (
     <Router>
       <div className='App'>
-        <div>{hello}</div>
+        {/* <div>{hello}</div> */}
         <RoutingComponent />
       </div>
     </Router>
@@ -50,7 +51,8 @@ function RoutingComponent() {
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/" element={<Home />} />
+        <Route path="/" exact={true} element={<Home />} />
+        <Route path="/store/list" element={<StoreList />} />
         <Route path="/api/test" element={<Test />} />
         <Route path="/api/test2" element={<Test2 />} />
         <Route path="/menulist" element={<MenuList />} />

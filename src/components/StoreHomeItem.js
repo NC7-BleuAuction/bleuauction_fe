@@ -11,7 +11,7 @@ import Placeholder from 'react-bootstrap/Placeholder';
 function StoreHomeItem() {
   return (
     <>
-    <Link to="/api/test" className={styles.storeHomeItemDetailBoxMore}>
+    <Link to="/market/detail" className={styles.storeHomeItemDetailBoxMore}>
       <Card style={{ width: '18rem' }}>
         <img className={styles.storeHomeItemBoss} variant="top" src="/boss.png" />
         <div className={styles.storeHomeItemHeader}>
