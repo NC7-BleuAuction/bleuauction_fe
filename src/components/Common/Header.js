@@ -16,14 +16,14 @@ function Header() {
               <button id={styles.searchBtn} type="submit"></button>
             </form>
           <Link to='/login'>로그인</Link>
-          <Link to='/'>회원가입</Link>
+          <Link to='/register'>회원가입</Link>
           <Link to="/api/test" >test</Link>
       </div>
 
 
       <div className={styles.headerBottom}>
           <Link to='/'>추천</Link>
-          <Link to='/'>시장</Link>
+          <Link to='/market/detail'>시장</Link>
           <Link to='/StoreItemDailyPrice'>시세</Link>
           <Link to='/'>공지사항</Link>
       </div>
