@@ -15,7 +15,10 @@ function EditPage() {
     accountNumber: '1234-56-789012',
   };
 
+  const defaultImage = '/images/rose.png'; // 기본 이미지 경로
+
   // 각 필드의 상태를 초기화합니다.
+  const [image, setImage] = useState(defaultImage); // 이미지 상태
   const [name, setName] = useState(user.name);
   const [email, setEmail] = useState(user.email);
   const [password, setPassword] = useState(user.password);
@@ -42,6 +45,29 @@ function EditPage() {
       accountNumber,
     });
   };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            setImage(reader.result);
+        };
+        reader.readAsDataURL(file);
+    }
+};
+
+const handleImageClick = () => {
+  const fileInput = document.getElementById('imageInput');
+  fileInput.click(); // 숨겨진 input[type="file"] 요소를 호출
+};
+
+const handleImageDelete = () => {
+  setImage(defaultImage); // 이미지를 기본 이미지로 설정
+
+  // TODO: 서버에 이미지 삭제 정보를 업데이트하는 로직
+  // 예: axios.post('/api/delete-image', { userId: 'exampleId' });
+};
   
   const styles = {
       container: {
@@ -94,7 +120,13 @@ function EditPage() {
   
     return (
       <div style={styles.container}>
-        <img src="/images/rose.png" alt={name} style={styles.profilePicture} />
+        <img src={image} alt={name} style={styles.profilePicture} onClick={handleImageClick} />
+        <input 
+            type="file" 
+            style={{ display: 'none' }} 
+            id="imageInput"
+            onChange={handleImageChange} 
+        />
         <div style={styles.formSection}>
         <h1 style={styles.title}>회원 정보 수정</h1> 
           <InputField type="text" value={name} onChange={e => setName(e.target.value)} placeholder="이름" />
@@ -106,6 +138,7 @@ function EditPage() {
           <InputField type="text" value={detailAddress} onChange={e => setDetailAddress(e.target.value)} placeholder="Detail Address" />
           <InputField type="text" value={bank} onChange={e => setBank(e.target.value)} placeholder="Bank" />
           <InputField type="text" value={accountNumber} onChange={e => setAccountNumber(e.target.value)} placeholder="Account Number" />
+         <button onClick={handleImageDelete} style={styles.buttonStyle}>사진 삭제</button>
           <button onClick={handleUpdate} style={styles.buttonStyle}>수정</button>
         </div>
       </div>
