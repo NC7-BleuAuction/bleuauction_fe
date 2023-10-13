@@ -11,16 +11,43 @@ import styles from './StoreList.module.css'
 
 
 function StoreList() {
+
+  const list = {
+    mdfDatetime: "",
+    memberNo: null,
+    regDatetime: "",
+    reviewContent: "",
+    reviewFreshness: "",
+    reviewNo: null,
+    reviewStatus: "",
+    storeNo: null
+  }
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    axios.get('/api/review/list/sendAxios')
+      .then(response => setData(response.data))
+      .catch(error => console.log(error));
+      // console.log(data);
+  }, []);
+
+  const marketData = [
+
+  ]
+
+  const reviewContent = data.length > 0 ? data[0].reviewContent : '';
+
   return (
     <>
     <Announce/>
+    <button onClick={()=>{
+      console.log(data);
+      }}>
+      {data.length > 0 ? data[0].reviewContent : ''}
+    </button>
     <div className={styles.storeListBox}>
       {/* <Coupon/> */}
-      <StoreListItem/>
-      <StoreListItem/>
-      <StoreListItem/>
-      <StoreListItem/>
-      <StoreListItem/>
+      <StoreListItem data={data}/>
     </div>
     </>
   )

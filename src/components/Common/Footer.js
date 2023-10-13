@@ -6,7 +6,7 @@ import styles from './Footer.module.css';
 function Footer() {
   return (
     <div className={styles.footerBox}>
-      <img src='../LogoPage.png' />
+      <img src='/images/LogoPage.png' />
     </div>
   )
 }
