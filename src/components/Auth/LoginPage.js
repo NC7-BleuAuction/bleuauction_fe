@@ -9,24 +9,52 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom'; 
-
+import axios from 'axios';
+import { useState } from 'react';
 
 
 const defaultTheme = createTheme();
 
-export default function LoginPage() {
-    
-const navigate = useNavigate();
+ function LoginPage() {
+  const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
 
-    });
-    navigate('/main');
+  const useForm = (initialValues) => {
+    const [values, setValues] = useState(initialValues);  // values는 폼 컨트롤의 상태를 나타냄, initialValues로 초기 설정
+    const handleChange = (e) => {   //폼 컨트롤의 onChange 이벤트 핸들러
+      const { name, value } = e.target;
+      setValues({
+        ...values,
+        [name]: value,
+      });
+    };
+    return [values, handleChange];
+  };
+
+  const [values, handleChange] = useForm({ //useForm은 초기 값 initialValues를 인수로 받음,  그 상태와 상태를 변경하는 함수를 반환하는 useForm 훅을 호출
+    email: '',
+    password: '',
+  });
+
+  const requestData = { //객체는 폼에서 사용자가 입력한 데이터를 서버로 전송하기 위해 준비되는 데이터 구조
+    memberEmail: values.email,      //values 객체의 email 속성 값을 requestData 객체의 email 속성에 할당
+    memberPwd: values.password,
+  };
+
+
+ 
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('/api/member/login', requestData);       // 백엔드로 데이터 보내기
+      console.log('API 응답: ', response.data);                                   // 백엔드에서 반환된 데이터 처리하기
+      navigate('/main');                      
+    } catch (error) {
+      console.error('API 호출 중 에러 발생: ', error.response.data);
+      alert('로그인에 실패ㅡㅡ');
+    }
   };
 
   return (
@@ -61,7 +89,7 @@ const navigate = useNavigate();
             <Typography component="h1" variant="h5">
               안녕!
             </Typography>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            <Box component="form"  sx={{ mt: 1 }} noValidate onSubmit={handleSubmit}>
               <TextField
                 margin="normal"
                 required
@@ -69,6 +97,8 @@ const navigate = useNavigate();
                 id="email"
                 label="Email Address"
                 name="email"
+                value={values.email}
+                onChange={handleChange}
                 autoComplete="email"
                 autoFocus
                 InputProps={{ style: { borderRadius: '30px' } }}
@@ -78,6 +108,8 @@ const navigate = useNavigate();
                 required
                 fullWidth
                 name="password"
+                value={values.password}
+                onChange={handleChange}
                 label="Password"
                 type="password"
                 id="password"
@@ -92,12 +124,23 @@ const navigate = useNavigate();
                 >
                 Login
               </Button>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{
+                    mt: 3, 
+                    mb: 2, 
+                    borderRadius: '30px', 
+                    backgroundColor: '#FFEB00',  // 카카오 노란색
+                    '&:hover': {
+                    backgroundColor: '#FFD600', // 노란색의 어두운 톤으로 hover 효과 추가
+                       }
+                    }}
+                >
+                KAKAO Login
+              </Button>
               <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    비밀번호 찾기
-                  </Link>
-                </Grid>
                 <Grid item>
                   <Link href="/register" variant="body2">
                     {"회원가입"}
@@ -111,3 +154,5 @@ const navigate = useNavigate();
     </ThemeProvider>
   );
 }
+
+export default LoginPage;

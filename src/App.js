@@ -16,10 +16,13 @@ import StoreList from './routes/StoreList';
 import TabBar from './components/Market/TabBar';
 import MarketDetailPage from './components/Market/MarketDetailPage';
 import ReviewForm from './components/Review/ReviewForm';
-import MyPage from './components/MyPage/MyPage';
+import MyPage from './components/MyPage/MyPage'
+import StoreMyPage from './components/MyPage/StoreMyPage'
+import UserEditPage from './components/MyPage/UserEditPage';
 import MyOrder from './components/MyPage/MyOrder';
-import EditPage from './components/MyPage/EditPage';
 import StoreItemDailyPrice from './components/StoreItemDailyPrice/StoreItemDailyPrice';
+
+
 function App() {
   // const [hello, setHello] = useState('');
 
@@ -59,8 +62,9 @@ function RoutingComponent() {
         <Route path="/reviewregister" element={<ReviewForm />} />
         <Route path="/market/detail" element={<MarketDetailPage />} />
         <Route path="/mypage" element={<MyPage />} />
+        <Route path="/storemypage" element={<StoreMyPage />} />
+        <Route path="/useredit" element={<UserEditPage />} />
         <Route path="/my-orders" element={<MyOrder />} />
-        <Route path="/edit" element={<EditPage />} />
         <Route path="/StoreItemDailyPrice" element={<StoreItemDailyPrice />} />
       </Routes>
       {location.pathname !== "/login" && location.pathname !== "/register" && <SideBar />}
