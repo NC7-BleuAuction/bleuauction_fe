@@ -15,100 +15,47 @@ import { useState } from 'react';
 
 const defaultTheme = createTheme();
 
-// export default function LoginPage() {
-    
-// const navigate = useNavigate();
-
-//   const handleSubmit = (event) => {
-//     event.preventDefault();
-//     const data = new FormData(event.currentTarget);
-//     console.log({
-//       email: data.get('email'),
-//       password: data.get('password'),
-
-//     });
-//     navigate('/main');
-//   };
-
-export default function LoginPage() {
+ function LoginPage() {
   const navigate = useNavigate();
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    
-    const loginData = {
-      memberEmail: data.get('email'),
-      memberPwd: data.get('password'),
+
+  const useForm = (initialValues) => {
+    const [values, setValues] = useState(initialValues);  // values는 폼 컨트롤의 상태를 나타냄, initialValues로 초기 설정
+    const handleChange = (e) => {   //폼 컨트롤의 onChange 이벤트 핸들러
+      const { name, value } = e.target;
+      setValues({
+        ...values,
+        [name]: value,
+      });
     };
-
-    console.log(loginData);
-
-    try {
-      const response = await axios.post('/api/member/login', loginData); // /api/login은 백엔드 로그인 API의 엔드포인트입니다. 실제 경로를 사용해야 합니다.
-      
-      if (response.data.success) { // 응답에 따라 조건을 변경할 수 있습니다.
-        console.log("로그인 성공!");
-        navigate('/main');
-      } else {
-        console.error("로그인 실패:", response.data.message);
-      }
-    } catch (error) {
-      console.error("서버에서 에러가 발생했습니다:", error.response.data);
-    }
+    return [values, handleChange];
   };
 
-//   const [email, setEmail] = useState('')
-//   const [password, setPassword] = useState('')
+  const [values, handleChange] = useForm({ //useForm은 초기 값 initialValues를 인수로 받음,  그 상태와 상태를 변경하는 함수를 반환하는 useForm 훅을 호출
+    email: '',
+    password: '',
+  });
 
-//   const handleEmail = (e) => {
-//     setEmail(e.target.value)
-// }
-
-// const handlePassword = (e) => {
-//     setPassword(e.target.value)
-// }
-
-// const onClickLogin = () => {
-//   console.log('click login')
-//   console.log('Email : ', email)
-//   console.log('PW : ', password)
-//   axios.post('/api/member/login', null, {
-//       params: {
-//       'memberEmail': email,
-//       'memberPwd': password
-//       }
-//   })
-//   .then(res => {
-//       console.log(res)
-//       console.log('res.data.email :: ', res.data.email)
-//       console.log('res.data.msg :: ', res.data.msg)
-//       if(res.data.userId === undefined){
-//           // id 일치하지 않는 경우 userId = undefined, msg = '입력하신 id 가 일치하지 않습니다.'
-//           console.log('======================',res.data.msg)
-//           alert('입력하신 id 가 일치하지 않습니다.')
-//       } else if(res.data.userId === null){
-//           // id는 있지만, pw 는 다른 경우 userId = null , msg = undefined
-//           console.log('======================','입력하신 비밀번호 가 일치하지 않습니다.')
-//           alert('입력하신 비밀번호 가 일치하지 않습니다.')
-//       } else if(res.data.userId === inputId) {
-//           // id, pw 모두 일치 userId = userId1, msg = undefined
-//           console.log('======================','로그인 성공')
-//           sessionStorage.setItem('user_id', inputId)
-//       }
-//       // 작업 완료 되면 페이지 이동(새로고침)
-//       document.location.href = '/'
-//   })
-//   .catch()
-// }
-
-// useEffect(() => {
-//    axios.get('/user_inform/login')
-//    .then(res => console.log(res))
-//    .catch()
-// },[]);
+  const requestData = { //객체는 폼에서 사용자가 입력한 데이터를 서버로 전송하기 위해 준비되는 데이터 구조
+    memberEmail: values.email,      //values 객체의 email 속성 값을 requestData 객체의 email 속성에 할당
+    memberPwd: values.password,
+  };
 
 
+ 
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('/api/member/login', requestData);       // 백엔드로 데이터 보내기
+      console.log('API 응답: ', response.data);                                   // 백엔드에서 반환된 데이터 처리하기
+      navigate('/main');                      
+    } catch (error) {
+      console.error('API 호출 중 에러 발생: ', error.response.data);
+      alert('로그인에 실패ㅡㅡ');
+    }
+  };
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -142,7 +89,7 @@ export default function LoginPage() {
             <Typography component="h1" variant="h5">
               안녕!
             </Typography>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            <Box component="form"  sx={{ mt: 1 }} noValidate onSubmit={handleSubmit}>
               <TextField
                 margin="normal"
                 required
@@ -150,6 +97,8 @@ export default function LoginPage() {
                 id="email"
                 label="Email Address"
                 name="email"
+                value={values.email}
+                onChange={handleChange}
                 autoComplete="email"
                 autoFocus
                 InputProps={{ style: { borderRadius: '30px' } }}
@@ -159,6 +108,8 @@ export default function LoginPage() {
                 required
                 fullWidth
                 name="password"
+                value={values.password}
+                onChange={handleChange}
                 label="Password"
                 type="password"
                 id="password"
@@ -183,7 +134,7 @@ export default function LoginPage() {
                     borderRadius: '30px', 
                     backgroundColor: '#FFEB00',  // 카카오 노란색
                     '&:hover': {
-            backgroundColor: '#FFD600', // 노란색의 어두운 톤으로 hover 효과 추가
+                    backgroundColor: '#FFD600', // 노란색의 어두운 톤으로 hover 효과 추가
                        }
                     }}
                 >
@@ -203,3 +154,5 @@ export default function LoginPage() {
     </ThemeProvider>
   );
 }
+
+export default LoginPage;
