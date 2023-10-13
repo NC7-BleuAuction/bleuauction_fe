@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import InputField from './InputField'; 
+import InputField from './InputField';
 
 function EditPage() {
   // 예시 사용자 정보

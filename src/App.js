@@ -12,6 +12,8 @@ import Test2 from './components/Test/test2'
 import LoginPage from './components/Auth/LoginPage';
 import RegisterPage from './components/Auth/RegisterPage';
 import MenuList from './components/Menu/MenuList';
+import StoreList from './routes/StoreList';
+import TabBar from './components/Market/TabBar';
 import MarketDetailPage from './components/Market/MarketDetailPage';
 import ReviewForm from './components/Review/ReviewForm';
 import MyPage from './components/MyPage/MyPage'
@@ -25,7 +27,7 @@ function App() {
 
 
   useEffect(() => {
-    axios.get('/api/hello') // 데이터 확인 테스트용
+    axios.get('/api/test') // 데이터 확인 테스트용
       .then(response => setHello(response.data))
       .catch(error => console.log(error));
   }, []);
@@ -34,7 +36,7 @@ function App() {
   return (
     <Router>
       <div className='App'>
-        <div>{hello}</div>
+        {/* <div>{hello}</div> */}
         <RoutingComponent />
       </div>
     </Router>
@@ -51,7 +53,8 @@ function RoutingComponent() {
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/" element={<Home />} />
+        <Route path="/" exact={true} element={<Home />} />
+        <Route path="/store/list" element={<StoreList />} />
         <Route path="/api/test" element={<Test />} />
         <Route path="/api/test2" element={<Test2 />} />
         <Route path="/menulist" element={<MenuList />} />
