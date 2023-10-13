@@ -8,7 +8,7 @@ function StoreItemDailyPrice() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedOrigin, setSelectedOrigin] = useState(null);
   const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false); // 임시 false
 
   const categoryOptions = {
     S: '생선/횟감',

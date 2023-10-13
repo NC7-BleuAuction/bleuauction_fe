@@ -19,18 +19,19 @@ import ReviewForm from './components/Review/ReviewForm';
 import MyPage from './components/MyPage/MyPage'
 import StoreMyPage from './components/MyPage/StoreMyPage'
 import UserEditPage from './components/MyPage/UserEditPage';
+import MyOrder from './components/MyPage/MyOrder';
 import StoreItemDailyPrice from './components/StoreItemDailyPrice/StoreItemDailyPrice';
 
 
 function App() {
-  const [hello, setHello] = useState('');
+  // const [hello, setHello] = useState('');
 
 
-  useEffect(() => {
-    axios.get('/api/test') // 데이터 확인 테스트용
-      .then(response => setHello(response.data))
-      .catch(error => console.log(error));
-  }, []);
+  // useEffect(() => {
+  //   axios.get('/api/hello') // 데이터 확인 테스트용
+  //     .then(response => setHello(response.data))
+  //     .catch(error => console.log(error));
+  // }, []);
 
 
   return (
@@ -63,6 +64,7 @@ function RoutingComponent() {
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/storemypage" element={<StoreMyPage />} />
         <Route path="/useredit" element={<UserEditPage />} />
+        <Route path="/my-orders" element={<MyOrder />} />
         <Route path="/StoreItemDailyPrice" element={<StoreItemDailyPrice />} />
       </Routes>
       {location.pathname !== "/login" && location.pathname !== "/register" && <SideBar />}

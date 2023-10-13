@@ -52,7 +52,7 @@
 }
 
 #searchBtn {
-  background-image: url('/public/search.png');
+  background-image: url('/public/images/search.png');
   background-size: cover;
   background-repeat: no-repeat;
   /* padding-top: 40px; */
