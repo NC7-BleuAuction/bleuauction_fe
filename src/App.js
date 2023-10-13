@@ -24,7 +24,7 @@ function App() {
 
 
   useEffect(() => {
-    axios.get('/api/hello') // 데이터 확인 테스트용
+    axios.get('/api/test') // 데이터 확인 테스트용
       .then(response => setHello(response.data))
       .catch(error => console.log(error));
   }, []);
