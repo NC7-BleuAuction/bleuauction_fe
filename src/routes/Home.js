@@ -7,14 +7,47 @@ import StoreHome from '../components/StoreHome';
 import { Routes, Route } from 'react-router-dom';
 
 
+var list = [
+  {
+    'storeNo': '',
+    'memberNo': '',
+    'storeName': '' ,
+    'licenseNo': '',
+    'storeZipcode': '',
+    'storeAddr': '',
+    'storeDetailAddr': '',
+    'weekdayStartTime': '',
+    'weekdayEndTime': '',
+    'weekendStartTime': '',
+    'weekendStartTime': '',
+    'unsupportedType': '',
+    'storeStatus': '',
+    'menus':[],
+    'orders': []
+  }
+];
+
+
 
 function Home() {
+
+  const [stores, setStores] = useState(list);
+
+  useEffect(() => {
+  axios.get('/api/store/list/axios') 
+    .then(response => setStores(response.data))
+    .catch(error => console.log(error));
+    console.log(stores);
+  }, []);
+
+
+
   return (
     <>
     <Announce/> 
     <Category/>
-    <StoreHome/>
-    {/* <StoreListItem/> */}
+    {/* <StoreHome storeList = {stores}/> */}
+    <button onClick={()=>{console.log(stores)}}></button>
     </>
   )
 }
