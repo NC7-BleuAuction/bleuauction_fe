@@ -21,7 +21,7 @@ import StoreMyPage from './components/MyPage/StoreMyPage'
 import UserEditPage from './components/MyPage/UserEditPage';
 import MyOrder from './components/MyPage/MyOrder';
 import StoreItemDailyPrice from './components/StoreItemDailyPrice/StoreItemDailyPrice';
-import ChatBot from './components/ChatBot/ChatBot';
+import Chatbot from './components/Chatbot/Chatbot';
 
 
 function App() {
@@ -67,7 +67,7 @@ function RoutingComponent() {
         <Route path="/useredit" element={<UserEditPage />} />
         <Route path="/my-orders" element={<MyOrder />} />
         <Route path="/StoreItemDailyPrice" element={<StoreItemDailyPrice />} />
-        <Route path="/chatbot" element={<ChatBot />} />
+        <Route path="/chatbot" element={<Chatbot />} />
       </Routes>
       {location.pathname !== "/login" && location.pathname !== "/register" && <SideBar />}
       {location.pathname !== "/login" && location.pathname !== "/register" && <Footer />}  
