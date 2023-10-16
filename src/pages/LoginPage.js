@@ -8,23 +8,31 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
+import { sendAxiosRequest } from '../components/utility/common';
+import { formToJSON } from 'axios';
 
 
 
 const defaultTheme = createTheme();
 
 export default function LoginPage() {
-    
-const navigate = useNavigate();
+
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    console.log(formToJSON(data));
     console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+      memberEmail: data.get('memberEmail'),
+      memberPwd: data.get('memberPwd'),
+    });
 
+    sendAxiosRequest("/api/member/login", 'POST', formToJSON(data), response => {
+      console.log(response.data);
+    }, error => {
+      console.log(error);
     });
     navigate('/main');
   };
@@ -57,7 +65,7 @@ const navigate = useNavigate();
               alignItems: 'center',
             }}
           >
-        
+
             <Typography component="h1" variant="h5">
               안녕!
             </Typography>
@@ -68,7 +76,7 @@ const navigate = useNavigate();
                 fullWidth
                 id="email"
                 label="Email Address"
-                name="email"
+                name="memberEmail"
                 autoComplete="email"
                 autoFocus
                 InputProps={{ style: { borderRadius: '30px' } }}
@@ -77,7 +85,7 @@ const navigate = useNavigate();
                 margin="normal"
                 required
                 fullWidth
-                name="password"
+                name="memberPwd"
                 label="Password"
                 type="password"
                 id="password"
@@ -89,7 +97,7 @@ const navigate = useNavigate();
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2, borderRadius: '30px' }} // borderRadius 추가
-                >
+              >
                 Login
               </Button>
               <Grid container>

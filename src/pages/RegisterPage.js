@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
+import { sendAxiosRequest } from '../components/utility/common';
+import { formToJSON } from 'axios';
+
 
 
 const useForm = (initialValues) => {
@@ -33,46 +36,52 @@ function RegisterPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Form Data: ', values);
-    navigate('/main');
+    const data = new FormData(e.currentTarget);
+    console.log(formToJSON(data));
+    sendAxiosRequest("/api/member/signup", 'POST', formToJSON(data), response => {
+      console.log(response.data);
+    }, error => {
+      console.log(error);
+    });
+    // navigate('/main');
   };
 
   return (
     <div style={styles.background}>
-        <div style={styles.logoContainer}>
+      <div style={styles.logoContainer}>
         <img src="/images/logo.png" alt="BLEU AUCTION" style={styles.logo} />
       </div>
-    <div style={styles.container}>
-      <div style={styles.toggleButtons}>
-        <button style={accountType === 'personal' ? styles.activeButton : styles.button} onClick={() => setAccountType('personal')}>개인</button>
-        <button style={accountType === 'business' ? styles.activeButton : styles.button} onClick={() => setAccountType('business')}>기업</button>
-      </div>
-      {accountType === 'personal' && (
-        <form onSubmit={handleSubmit} style={styles.form}>
-          <input style={styles.input} type="text" name="name" placeholder="이름" value={values.name} onChange={handleChange} />
-          <input style={styles.input} type="email" name="email" placeholder="이메일" value={values.email} onChange={handleChange} />
-          <input style={styles.input} type="password" name="password" placeholder="비밀번호" value={values.password} onChange={handleChange} />
-          <input style={styles.input} type="text" name="phone" placeholder="전화번호" value={values.phone} onChange={handleChange} />
-          <input style={styles.input} type="text" name="zip" placeholder="우편번호" value={values.zip} onChange={handleChange} />
-          <input style={styles.input} type="text" name="address" placeholder="기본주소" value={values.address} onChange={handleChange} />
-          <input style={styles.input} type="text" name="detailAddress" placeholder="상세주소" value={values.detailAddress} onChange={handleChange} />
-          <input style={styles.input} type="text" name="bank" placeholder="은행" value={values.bank} onChange={handleChange} />
-          <input style={styles.input} type="text" name="accountNumber" placeholder="계좌번호" value={values.accountNumber} onChange={handleChange} />
+      <div style={styles.container}>
+        <div style={styles.toggleButtons}>
+          <button style={accountType === 'personal' ? styles.activeButton : styles.button} onClick={() => setAccountType('personal')}>개인</button>
+          <button style={accountType === 'business' ? styles.activeButton : styles.button} onClick={() => setAccountType('business')}>기업</button>
+        </div>
+        {accountType === 'personal' && (
+          <form onSubmit={handleSubmit} style={styles.form}>
+            <input style={styles.input} type="text" name="memberName" placeholder="이름" value={values.memberName} onChange={handleChange} />
+            <input style={styles.input} type="email" name="memberEmail" placeholder="이메일" value={values.memberEmail} onChange={handleChange} />
+            <input style={styles.input} type="password" name="memberPwd" placeholder="비밀번호" value={values.memberPwd} onChange={handleChange} />
+            <input style={styles.input} type="text" name="memberPhone" placeholder="전화번호" value={values.memberPhone} onChange={handleChange} />
+            <input style={styles.input} type="text" name="memberZipcode" placeholder="우편번호" value={values.memberZipcode} onChange={handleChange} />
+            <input style={styles.input} type="text" name="memberAddr" placeholder="기본주소" value={values.memberAddr} onChange={handleChange} />
+            <input style={styles.input} type="text" name="memberDetailAddr" placeholder="상세주소" value={values.memberDetailAddr} onChange={handleChange} />
+            <input style={styles.input} type="text" name="memberBank" placeholder="은행" value={values.memberBank} onChange={handleChange} />
+            <input style={styles.input} type="text" name="memberAccount" placeholder="계좌번호" value={values.memberAccount} onChange={handleChange} />
             <button type="submit" style={styles.submitButton}>회원 가입</button>
           </form>
         )}
         {accountType === 'business' && (
-        <form onSubmit={handleSubmit} style={styles.form}>
-          <input style={styles.input} type="text" name="name" placeholder="기업명" value={values.name} onChange={handleChange} />
-          <input style={styles.input} type="text" name="businessnum" placeholder="사업자등록번호" value={values.businessnum} onChange={handleChange} />
-          <input style={styles.input} type="email" name="email" placeholder="이메일" value={values.email} onChange={handleChange} />
-          <input style={styles.input} type="password" name="password" placeholder="비밀번호" value={values.password} onChange={handleChange} />
-          <input style={styles.input} type="text" name="phone" placeholder="전화번호" value={values.phone} onChange={handleChange} />
-          <input style={styles.input} type="text" name="zip" placeholder="우편번호" value={values.zip} onChange={handleChange} />
-          <input style={styles.input} type="text" name="address" placeholder="기본주소" value={values.address} onChange={handleChange} />
-          <input style={styles.input} type="text" name="detailAddress" placeholder="상세주소" value={values.detailAddress} onChange={handleChange} />
-          <input style={styles.input} type="text" name="bank" placeholder="은행" value={values.bank} onChange={handleChange} />
-          <input style={styles.input} type="text" name="accountNumber" placeholder="계좌번호" value={values.accountNumber} onChange={handleChange} />
+          <form onSubmit={handleSubmit} style={styles.form}>
+            <input style={styles.input} type="text" name="name" placeholder="기업명" value={values.name} onChange={handleChange} />
+            <input style={styles.input} type="text" name="businessnum" placeholder="사업자등록번호" value={values.businessnum} onChange={handleChange} />
+            <input style={styles.input} type="email" name="email" placeholder="이메일" value={values.email} onChange={handleChange} />
+            <input style={styles.input} type="password" name="password" placeholder="비밀번호" value={values.password} onChange={handleChange} />
+            <input style={styles.input} type="text" name="phone" placeholder="전화번호" value={values.phone} onChange={handleChange} />
+            <input style={styles.input} type="text" name="zip" placeholder="우편번호" value={values.zip} onChange={handleChange} />
+            <input style={styles.input} type="text" name="address" placeholder="기본주소" value={values.address} onChange={handleChange} />
+            <input style={styles.input} type="text" name="detailAddress" placeholder="상세주소" value={values.detailAddress} onChange={handleChange} />
+            <input style={styles.input} type="text" name="bank" placeholder="은행" value={values.bank} onChange={handleChange} />
+            <input style={styles.input} type="text" name="accountNumber" placeholder="계좌번호" value={values.accountNumber} onChange={handleChange} />
             <button type="submit" style={styles.submitButton}>회원 가입</button>
           </form>
         )}
@@ -115,9 +124,9 @@ const styles = {
   button: {
     padding: '10px 20px',
     cursor: 'pointer',
-    border: 'none', 
+    border: 'none',
     backgroundColor: 'white',
-    borderRadius: '10px', 
+    borderRadius: '10px',
   },
   activeButton: {
     padding: '10px 20px',
@@ -140,7 +149,7 @@ const styles = {
     border: 'none',
     borderRadius: '8px',
     color: 'white',
-    
+
   },
 };
 
