@@ -375,14 +375,24 @@ function AnswerListDiv(props) {
   useEffect(() => {
     sendAxiosRequest(`/api/answer/list?reviewNo=${props.reviewNo}`, "GET", null,
       response => {
-        if (response.data.answerList.length <= 1) {
+        let asnwerList = response.data.answerList;
+        let totalRows = response.data.totalRows;
+        console.log('최초 렌더시 totalRow');
+        console.log(totalRows);
+
+        if (totalRows > asnwerList.length) {
+          document.querySelector('.ba-more-btn').style.hidden = false;
+        }
+        // else {
+        //   document.querySelector('.ba-more-btn').style.hidden = true;
+        // }
+
+
+        if (asnwerList.length <= 1) {
           return;
         }
-        console.log(response.data);
         setAnswerList(response.data.answerList);
-
         setStartPageNo(response.data.answerList.length / 2);
-        console.log(answerList);
       }, error => console.log(error));
 
     return () => {
@@ -448,8 +458,8 @@ function AnswerListDiv(props) {
               let newAnswerList = [...answerList, ...appendAnswerList];
               setAnswerList(newAnswerList);
               setStartPageNo(newAnswerList.length / 2);
-              if (totalRows <= newAnswerList.length) {
-                e.target.style.display = 'none';
+              if (totalRows > newAnswerList.length) {
+                e.target.style.hidden = false;
               }
 
             }, error => {
