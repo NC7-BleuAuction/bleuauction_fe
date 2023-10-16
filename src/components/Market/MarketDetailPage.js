@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import TabBar from './TabBar'; 
+import TabBar from './TabBar';
 import MenuList from '../Menu/MenuList';
 import Button from '../MainPage/Button';
-import StoreInfo from './StoreInfo'; 
+import StoreInfo from './StoreInfo';
 import ReviewSection from '../Review/ReviewSection';
 
 
@@ -23,7 +23,7 @@ function MarketDetail() {
       text: 'Really enjoyed using this.',
     },
     // ...기타 리뷰
-  ]; 
+  ];
 
   const storeInfo = {
     image: '/images/storeimage.png',
@@ -44,8 +44,8 @@ function MarketDetail() {
 
   return (
     <div>
-        {/* <div style={infoCouponContainer}> 여기에 스타일을 추가 */}
-        <StoreInfo storeInfo={storeInfo} coupons={coupons} />
+      {/* <div style={infoCouponContainer}> 여기에 스타일을 추가 */}
+      <StoreInfo storeInfo={storeInfo} coupons={coupons} />
       {/* </div> */}
       <div style={tabContainerStyle}>
         <TabBar activeTab={activeTab} onTabClick={setActiveTab} />
