@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import Chatbot from './Chatbot.css';
+import './Chatbot.css';
 
-const Chatbot = () => {
+const CustomChatbot = () => {
   const [chatbotResponse, setChatbotResponse] = useState('');
 
   const handleChatbotRequest = async () => {
@@ -58,4 +58,4 @@ const Chatbot = () => {
   );
 };
 
-export default Chatbot;
+export default CustomChatbot;

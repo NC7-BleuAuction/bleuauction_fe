@@ -7,8 +7,7 @@ import Home from './routes/Home';
 import SideBar from './components/Common/SideBar';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import Test from './components/Test/Test';
-import Test2 from './components/Test/test2'
-// import Main from './components/main'
+import Test2 from './components/Test/test2';
 import LoginPage from './components/Auth/LoginPage';
 import RegisterPage from './components/Auth/RegisterPage';
 import MenuList from './components/Menu/MenuList';
@@ -16,12 +15,12 @@ import StoreList from './routes/StoreList';
 import TabBar from './components/Market/TabBar';
 import MarketDetailPage from './components/Market/MarketDetailPage';
 import ReviewForm from './components/Review/ReviewForm';
-import MyPage from './components/MyPage/MyPage'
-import StoreMyPage from './components/MyPage/StoreMyPage'
+import MyPage from './components/MyPage/MyPage';
+import StoreMyPage from './components/MyPage/StoreMyPage';
 import UserEditPage from './components/MyPage/UserEditPage';
 import MyOrder from './components/MyPage/MyOrder';
 import StoreItemDailyPrice from './components/StoreItemDailyPrice/StoreItemDailyPrice';
-import Chatbot from './components/Chatbot/Chatbot';
+import CustomChatbot from './components/Chatbot/Chatbot';
 
 
 function App() {
@@ -67,7 +66,7 @@ function RoutingComponent() {
         <Route path="/useredit" element={<UserEditPage />} />
         <Route path="/my-orders" element={<MyOrder />} />
         <Route path="/StoreItemDailyPrice" element={<StoreItemDailyPrice />} />
-        <Route path="/chatbot" element={<Chatbot />} />
+        <Route path="/chatbot" element={<CustomChatbot />} />
       </Routes>
       {location.pathname !== "/login" && location.pathname !== "/register" && <SideBar />}
       {location.pathname !== "/login" && location.pathname !== "/register" && <Footer />}  
