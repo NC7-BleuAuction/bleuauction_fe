@@ -9,7 +9,7 @@ function SideBar() {
     <div className={styles.sideBarBox}>
       <Link to='/'>등록</Link>
       <Link to='/'>오늘의 <br/>방사능</Link>
-      <Link to='/'>챗봇</Link>
+      <Link to='/chatbot'>챗봇</Link>
     </div>
   )
 }
