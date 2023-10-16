@@ -1,0 +1,53 @@
+.order_box {
+  background-color: yellow;
+  width: 1200px;
+  /* height: 330px; */
+  margin: 100px auto;
+  border: 1px solid #000;
+  /* border-radius: 15px; */
+}
+
+.order_store_title {
+  width:100%;
+  height: 50px;
+  text-align: left;
+  border-bottom: 1px solid black;
+
+}
+
+.order_store_title span {
+  font-size: 30px;
+  position: relative;
+  left: 5%;
+}
+
+.order_item_box {
+  width:100%;
+  display: grid;
+  place-items: center;
+  grid-template-columns: 1fr 2fr 2fr 2fr;
+  border-bottom: 1px solid black;
+}
+
+.order_item_box img {
+  width: 50%;
+}
+
+.order_item_box span {
+
+}
+
+.order_result_box {
+  height: 50px;
+  
+}
+
+.order_result_box span {
+  /* width: 30%; */
+  position: relative;
+  left: 30%;
+  top: 30%;
+  margin-right: 5%;
+}
+
+
