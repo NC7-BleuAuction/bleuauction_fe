@@ -1,61 +1,90 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { sendAxiosRequest } from '../components/utility/common';
-import { formToJSON } from 'axios';
+import axios, { formToJSON } from 'axios';
+import { sendAxiosRequest } from '../utility/common';
+// import DaumPostcode from 'react-daum-postcode';
 
-const useForm = (initialValues) => {
-  const [values, setValues] = useState(initialValues);  // values는 폼 컨트롤의 상태를 나타냄, initialValues로 초기 설정
-  const handleChange = (e) => {   //폼 컨트롤의 onChange 이벤트 핸들러
-    const { name, value } = e.target;
-    setValues({
-      ...values,
-      [name]: value,
-    });
-  };
-  return [values, handleChange];
-};
+
+
 
 function RegisterPage() {
 
-  const [values, handleChange] = useForm({ //useForm은 초기 값 initialValues를 인수로 받음,  그 상태와 상태를 변경하는 함수를 반환하는 useForm 훅을 호출
-    email: '',
-    password: '',
-    name: '',
-    phone: '',
-    zip: '',
-    address: '',
-    detailAddress: '',
-    bank: '',
-    accountNumber: '',
-    accountType: '',
-  });
+  // const [showPostcode, setShowPostcode] = useState(false);
+
+  //   const handleAddress = (data) => {
+  //     handleChange({
+  //         target: {
+  //             name: "zip",
+  //             value: data.zonecode
+  //         }
+  //     });
+  //     handleChange({
+  //         target: {
+  //             name: "address",
+  //             value: data.address
+  //         }
+  //     });
+  //     setShowPostcode(false); // 주소 선택 후, 우편번호 찾기 창을 닫습니다.
+  // };
+
+  const useForm = (initialValues) => {
+    const [values, setValues] = useState(initialValues);  // values는 폼 컨트롤의 상태를 나타냄, initialValues로 초기 설정
+    const handleChange = (e) => {   //폼 컨트롤의 onChange 이벤트 핸들러
+      const { name, value } = e.target;
+      setValues({
+        ...values,
+        [name]: value,
+      });
+    };
+    return [values, handleChange];
+  };
+
+
+
+  // const [values, handleChange] = useForm({ //useForm은 초기 값 initialValues를 인수로 받음,  그 상태와 상태를 변경하는 함수를 반환하는 useForm 훅을 호출
+  //   email: '',
+  //   password: '',
+  //   name: '',
+  //   phone: '',
+  //   zip: '',
+  //   address: '',
+  //   detailAddress: '',
+  //   bank: '',
+  //   accountNumber: '',
+  //   accountType: '',
+  // });
 
   const navigate = useNavigate();
 
-  const requestData = { //객체는 폼에서 사용자가 입력한 데이터를 서버로 전송하기 위해 준비되는 데이터 구조
-    memberCategory: values.accountType,
-    memberEmail: values.email,      //values 객체의 email 속성 값을 requestData 객체의 email 속성에 할당
-    memberPwd: values.password,
-    memberName: values.name,
-    memberPhone: values.phone,
-    memberZipcode: values.zip,
-    memberAddr: values.address,
-    memberDetailAddr: values.detailAddress,
-    memberBank: values.bank,
-    memberAccount: values.accountNumber,
-  };
+  // const requestData = { //객체는 폼에서 사용자가 입력한 데이터를 서버로 전송하기 위해 준비되는 데이터 구조
+  //   memberCategory: values.accountType,
+  //   memberEmail: values.email,      //values 객체의 email 속성 값을 requestData 객체의 email 속성에 할당
+  //   memberPwd: values.password,
+  //   memberName: values.name,
+  //   memberPhone: values.phone,
+  //   memberZipcode: values.zip,
+  //   memberAddr: values.address,
+  //   memberDetailAddr: values.detailAddress,
+  //   memberBank: values.bank,
+  //   memberAccount: values.accountNumber,
+  // };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    console.log(formToJSON(data));
-    sendAxiosRequest("/api/member/signup", 'POST', formToJSON(data), response => {
-      console.log(response.data);
-    }, error => {
-      console.log(error);
-    });
-    // navigate('/main');
 
+    let formData = new FormData(e.target);
+    let formObj = formToJSON(formData);
+    sendAxiosRequest('/api/member/signup', 'POST', formObj, response => {
+      console.log('응답값:', response.data);
+      alert('회원가입에 성공하셨습니다!');
+      navigate('/main');
+    },
+      error => {
+        console.error('API 호출 중 에러 발생: ', error);
+        alert('회원가입에 실패하셨습니다!');
+      }
+    )
   };
 
   return (
@@ -64,39 +93,45 @@ function RegisterPage() {
         <img src="/images/logo.png" alt="BLEU AUCTION" style={styles.logo} />
       </div>
       <div style={styles.container}>
-        <div style={styles.toggleButtons}>
-          <button style={accountType === 'personal' ? styles.activeButton : styles.button} onClick={() => setAccountType('personal')}>개인</button>
-          <button style={accountType === 'business' ? styles.activeButton : styles.button} onClick={() => setAccountType('business')}>기업</button>
-        </div>
-        {accountType === 'personal' && (
-          <form onSubmit={handleSubmit} style={styles.form}>
-            <input style={styles.input} type="text" name="memberName" placeholder="이름" value={values.memberName} onChange={handleChange} />
-            <input style={styles.input} type="email" name="memberEmail" placeholder="이메일" value={values.memberEmail} onChange={handleChange} />
-            <input style={styles.input} type="password" name="memberPwd" placeholder="비밀번호" value={values.memberPwd} onChange={handleChange} />
-            <input style={styles.input} type="text" name="memberPhone" placeholder="전화번호" value={values.memberPhone} onChange={handleChange} />
-            <input style={styles.input} type="text" name="memberZipcode" placeholder="우편번호" value={values.memberZipcode} onChange={handleChange} />
-            <input style={styles.input} type="text" name="memberAddr" placeholder="기본주소" value={values.memberAddr} onChange={handleChange} />
-            <input style={styles.input} type="text" name="memberDetailAddr" placeholder="상세주소" value={values.memberDetailAddr} onChange={handleChange} />
-            <input style={styles.input} type="text" name="memberBank" placeholder="은행" value={values.memberBank} onChange={handleChange} />
-            <input style={styles.input} type="text" name="memberAccount" placeholder="계좌번호" value={values.memberAccount} onChange={handleChange} />
-            <button type="submit" style={styles.submitButton}>회원 가입</button>
-          </form>
-        )}
-        {accountType === 'business' && (
-          <form onSubmit={handleSubmit} style={styles.form}>
-            <input style={styles.input} type="text" name="name" placeholder="기업명" value={values.name} onChange={handleChange} />
-            <input style={styles.input} type="text" name="businessnum" placeholder="사업자등록번호" value={values.businessnum} onChange={handleChange} />
-            <input style={styles.input} type="email" name="email" placeholder="이메일" value={values.email} onChange={handleChange} />
-            <input style={styles.input} type="password" name="password" placeholder="비밀번호" value={values.password} onChange={handleChange} />
-            <input style={styles.input} type="text" name="phone" placeholder="전화번호" value={values.phone} onChange={handleChange} />
-            <input style={styles.input} type="text" name="zip" placeholder="우편번호" value={values.zip} onChange={handleChange} />
-            <input style={styles.input} type="text" name="address" placeholder="기본주소" value={values.address} onChange={handleChange} />
-            <input style={styles.input} type="text" name="detailAddress" placeholder="상세주소" value={values.detailAddress} onChange={handleChange} />
-            <input style={styles.input} type="text" name="bank" placeholder="은행" value={values.bank} onChange={handleChange} />
-            <input style={styles.input} type="text" name="accountNumber" placeholder="계좌번호" value={values.accountNumber} onChange={handleChange} />
-            <button type="submit" style={styles.submitButton}>회원 가입</button>
-          </form>
-        )}
+        <form onSubmit={handleSubmit} style={styles.form}>
+          <input style={styles.input} type="text" name="memberName" placeholder="이름" />
+          <input style={styles.input} type="email" name="memberEmail" placeholder="이메일" />
+          <input style={styles.input} type="password" name="memberPwd" placeholder="비밀번호" />
+          <input style={styles.input} type="text" name="memberPhone" placeholder="전화번호" />
+          {/* {showPostcode && (
+                <DaumPostcode
+                    onComplete={handleAddress}
+                    autoClose={true}
+                />
+            )} */}
+          <input style={styles.input} type="text" name="memberZipcode" placeholder="우편번호" />
+          {/* <button onClick={() => setShowPostcode(true)} style={{...styles.button, marginBottom: '10px'}}>우편번호 찾기</button> */}
+          <input style={styles.input} type="text" name="memberAddr" placeholder="기본주소" />
+          <input style={styles.input} type="text" name="memberDetailAddr" placeholder="상세주소" />
+          <input style={styles.input} type="text" name="memberBacnk" placeholder="은행" />
+          <input style={styles.input} type="text" name="memberAccount" placeholder="계좌번호" />
+          <div style={styles.accountTypeContainer}>
+            <label style={styles.accountTypeLabel}>
+              <input
+                type="radio"
+                name="memberCategory"
+                value="M"
+                style={styles.accountTypeInput}
+              />
+              개인
+            </label>
+            <label style={styles.accountTypeLabel}>
+              <input
+                type="radio"
+                name="memberCategory"
+                value="S"
+                style={styles.accountTypeInput}
+              />
+              기업
+            </label>
+          </div>
+          <button type="submit" style={styles.submitButton}>회원 가입</button>
+        </form>
       </div>
     </div>
   );
