@@ -20,7 +20,7 @@ import StoreMyPage from './components/MyPage/StoreMyPage';
 import UserEditPage from './components/MyPage/UserEditPage';
 import MyOrder from './components/MyPage/MyOrder';
 import StoreItemDailyPrice from './components/StoreItemDailyPrice/StoreItemDailyPrice';
-import CustomChatbot from '.components/Chatbot'
+import CustomChatbot from './components/Chatbot'
 
 
 function App() {
