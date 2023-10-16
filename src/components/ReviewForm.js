@@ -375,13 +375,13 @@ function AnswerListDiv(props) {
   useEffect(() => {
     sendAxiosRequest(`/api/answer/list?reviewNo=${props.reviewNo}`, "GET", null,
       response => {
-        if (response.data.length <= 1) {
+        if (response.data.answerList.length <= 1) {
           return;
         }
         console.log(response.data);
-        setAnswerList(response.data);
+        setAnswerList(response.data.answerList);
 
-        setStartPageNo(response.data.length / 2);
+        setStartPageNo(response.data.answerList.length / 2);
         console.log(answerList);
       }, error => console.log(error));
 
@@ -395,11 +395,12 @@ function AnswerListDiv(props) {
 
         < div className='answer-div' key={index} >
           <form id={'answerUpdateForm' + index}>
-            <input name='reviewNo' value={props.reviewNo} hidden></input>
-            <input name='answerNo' value={answer.answerNo} hidden></input>
             <div className='ba-title-container'>
-              <div className='ba-margin-right-auto'>{answer.member.memberName}</div>
-              <b>작성일:</b><input type='text' value={dateFormatParse(new Date(answer.mdfDatetime))} className='ba-input-text' disabled></input>
+              <img className='ba-member-profile' src='http://fvhsczepiibf19983519.cdn.ntruss.com/member/defaultProfile.jpg?type=f&w=50&h=50&ttype=jpg' />
+              <div className='ba-title-info'>
+                <b>{answer.member.memberName}</b>
+                <span><b>작성일:</b><input type='text' value={dateFormatParse(new Date(answer.mdfDatetime))} className='ba-input-text' disabled /></span>
+              </div>
             </div>
             {answer.member.memberNo == props.loginUser.memberNo ?
               (
@@ -442,13 +443,15 @@ function AnswerListDiv(props) {
           sendAxiosRequest(`/api/answer/list?reviewNo=${props.reviewNo}&startPage=${startPageNo}`, "GET", null,
             response => {
               console.log(response.data);
-              if (response.data.length < 1) {
-                console.log(e.target);
-                e.target.style.display = 'none';
-              }
-              let newAnswerList = [...answerList, ...response.data];
+              let totalRows = response.data.totalRows;
+              let appendAnswerList = response.data.answerList;
+              let newAnswerList = [...answerList, ...appendAnswerList];
               setAnswerList(newAnswerList);
               setStartPageNo(newAnswerList.length / 2);
+              if (totalRows <= newAnswerList.length) {
+                e.target.style.display = 'none';
+              }
+
             }, error => {
               console.log(error);
             })
