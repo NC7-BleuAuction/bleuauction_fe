@@ -2,14 +2,19 @@ import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import styles from './Header.module.css';
 import { Link }  from 'react-router-dom';
+import { useUser } from '../Auth/UserContext';
 
 
 
 
 function Header() {
 
-  const [user, setUser] = useState('');
+  const {user} = useUser();
 
+  const loginState = (user === null) ? 
+  <Link to='/login'>로그인</Link> : 
+  <Link to='/mypage'>{user?.memberEmail}님</Link>;
+  // null;
 
   return (
     <>
@@ -20,7 +25,8 @@ function Header() {
               <input className={styles.headerSearchBox} type='text' placeholder='검색어를 입력하세요.'></input>
               <button id={styles.searchBtn} type="submit"></button>
             </form>
-          <Link to='/login'>로그인</Link>
+          {/* <Link to='/login'>로그인</Link> */}
+          {loginState}
           <Link to='/register'>회원가입</Link>
           <Link to="/api/test" >test</Link>
           <Link to='/market/detail'>가게1</Link>

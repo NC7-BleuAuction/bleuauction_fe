@@ -4,15 +4,29 @@ import styles from './StoreHome.module.css';
 import StoreHomeItem from './StoreHomeItem';
 
 
-function StoreHome() {
+function StoreHome({stores}) {
+
+  // const [storelist, setStorelist] = useState(stores);
+
+  // useEffect(()=>{
+  //   setStorelist(stores);
+  //   }, []);
+
+  // const storelist = stores;
+
   return (
     <div className={styles.storeBox}>
-      <StoreHomeItem/>
-      <StoreHomeItem/>
-      <StoreHomeItem/>
-      <StoreHomeItem/>
-      <StoreHomeItem/>
-      <StoreHomeItem/>
+      <button onClick={()=>{console.log(stores)}}>
+        {stores[0]?.marketName}
+        </button>
+
+      {
+      stores
+      .filter((item) => item.index < 7)
+      .map((item) => (      
+        <StoreHomeItem key={item.storeNo} store={item}/> ))
+      }
+
     </div>
   )
 }
