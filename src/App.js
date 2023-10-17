@@ -20,7 +20,7 @@ import StoreMyPage from './components/MyPage/StoreMyPage';
 import UserEditPage from './components/MyPage/UserEditPage';
 import MyOrder from './components/MyPage/MyOrder';
 import StoreItemDailyPrice from './components/StoreItemDailyPrice/StoreItemDailyPrice';
-
+import Chat from './components/Chat/Chat';
 
 function App() {
   // const [hello, setHello] = useState('');
@@ -64,10 +64,11 @@ function RoutingComponent() {
         <Route path="/storemypage" element={<StoreMyPage />} />
         <Route path="/useredit" element={<UserEditPage />} />
         <Route path="/my-orders" element={<MyOrder />} />
+        <Route path="/chat" element={<Chat/>} />
         <Route path="/StoreItemDailyPrice" element={<StoreItemDailyPrice />} />
       </Routes>
       {location.pathname !== "/login" && location.pathname !== "/register" && <SideBar />}
-      {location.pathname !== "/login" && location.pathname !== "/register" && <Footer />}  
+      {location.pathname !== "/login" && location.pathname !== "/register" && <Footer />}
     </>
   );
 }
