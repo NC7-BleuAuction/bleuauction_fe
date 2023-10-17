@@ -20,6 +20,7 @@ import StoreMyPage from './components/MyPage/StoreMyPage';
 import UserEditPage from './components/MyPage/UserEditPage';
 import MyOrder from './components/MyPage/MyOrder';
 import StoreItemDailyPrice from './components/StoreItemDailyPrice/StoreItemDailyPrice';
+import StoreRegisterPage from './components/MyPage/StoreRegisterPage';
 
 
 function App() {
@@ -62,6 +63,7 @@ function RoutingComponent() {
         <Route path="/market/detail" element={<MarketDetailPage />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/storemypage" element={<StoreMyPage />} />
+        <Route path="/storeRegister" element={<StoreRegisterPage />} />
         <Route path="/useredit" element={<UserEditPage />} />
         <Route path="/my-orders" element={<MyOrder />} />
         <Route path="/StoreItemDailyPrice" element={<StoreItemDailyPrice />} />

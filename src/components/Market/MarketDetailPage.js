@@ -4,11 +4,13 @@ import MenuList from '../Menu/MenuList';
 import Button from '../MainPage/Button';
 import StoreInfo from './StoreInfo';
 import ReviewSection from '../Review/ReviewSection';
-
+import OrderModal from './OrderModal';
 
 
 function MarketDetail() {
   const [activeTab, setActiveTab] = useState('info');
+  const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
+
 
   const sampleReviews = [
     {
@@ -39,8 +41,14 @@ function MarketDetail() {
   ];
 
   const handleOrderClick = () => {
-    alert('주문하기 버튼 클릭!');
+    setIsOrderModalOpen(true); // 모달을 열도록 상태를 변경합니다.
   };
+
+  // 모달 닫기 함수를 추가합니다.
+  const closeOrderModal = () => {
+    setIsOrderModalOpen(false); // 모달을 닫도록 상태를 변경합니다.
+  };
+
 
   return (
     <div>
@@ -54,6 +62,7 @@ function MarketDetail() {
       {activeTab === 'info' && <p>여기에 가게정보를 표시합니다.</p>}
       {activeTab === 'menu' && <MenuList />}
       {activeTab === 'review' && <ReviewSection />}
+      {isOrderModalOpen && <OrderModal onClose={closeOrderModal} />}
     </div>
   );
 }

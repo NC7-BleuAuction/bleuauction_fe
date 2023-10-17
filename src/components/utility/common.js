@@ -6,18 +6,21 @@ export function sendAxiosRequest(url, method, params, successCallback, errorCall
     timeout: 5000,
     url: url,
     method: method,
+    headers: {
+      'Content-Type': 'application/json'
+  }
   };
   if (params != null)
     axiosConfig.params = params;
   axios(axiosConfig).then(successCallback).catch(errorCallback);
 }
 
-function sendAxiosMultipartRequest(url, formData, successCallback, errorCallback) {
+export function sendAxiosMultipartRequest(url, method, formData, successCallback, errorCallback) {
   console.log(url);
   const axiosConfig = {
     timeout: 5000,
     url: url,
-    method: 'POST',
+    method: method,
     data: formData,
     headers: {
       'Content-Type': 'multipart/form-data'

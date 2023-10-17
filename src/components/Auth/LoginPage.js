@@ -18,6 +18,7 @@ const defaultTheme = createTheme();
 function LoginPage() {
 
   const navigate = useNavigate();
+  
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -31,6 +32,7 @@ function LoginPage() {
     sendAxiosRequest("/api/member/login", 'POST', formToJSON(data), response => {
       console.log(response.data);
     }, error => {
+  
       console.log(error);
     });
     navigate('/main');
