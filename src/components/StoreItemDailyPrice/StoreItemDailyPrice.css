@@ -1,10 +1,17 @@
 /* styles.css */
 
 /* Filter and origin buttons styles */
+
+.daily-box {
+  width: 70%;
+  margin: 50px auto;
+}
+
 .filter-buttons, .origin-buttons {
   display: flex;
   justify-content: space-around;
   padding: 20px;
+  width: 80%;
 }
 
 .filter-buttons button, .origin-buttons button {

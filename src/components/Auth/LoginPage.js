@@ -11,6 +11,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import { sendAxiosRequest } from '../utility/common';
 import { formToJSON } from 'axios';
+import { useState, useContext } from 'react';
+import { useUser} from './UserContext';
 
 
 const defaultTheme = createTheme();
@@ -18,6 +20,8 @@ const defaultTheme = createTheme();
 function LoginPage() {
 
   const navigate = useNavigate();
+
+    const { user, login, logout } = useUser();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -30,10 +34,12 @@ function LoginPage() {
 
     sendAxiosRequest("/api/member/login", 'POST', formToJSON(data), response => {
       console.log(response.data);
+      console.log(formToJSON(data));
+      login(formToJSON(data));
     }, error => {
       console.log(error);
     });
-    navigate('/main');
+    navigate('/');
   };
 
   return (
