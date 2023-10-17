@@ -4,6 +4,7 @@ import MenuList from '../Menu/MenuList';
 import Button from '../MainPage/Button';
 import StoreInfo from './StoreInfo';
 import ReviewSection from '../Review/ReviewSection';
+import { useLocation } from 'react-router-dom';
 import OrderModal from './OrderModal';
 
 
@@ -11,6 +12,10 @@ function MarketDetail() {
   const [activeTab, setActiveTab] = useState('info');
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
 
+
+  const location = useLocation(); // 추가된 부분
+  const store = location.state; // 추가된 부분
+  // console.log(store);
 
   const sampleReviews = [
     {
@@ -41,6 +46,8 @@ function MarketDetail() {
   ];
 
   const handleOrderClick = () => {
+    alert('주문하기 버튼 클릭!');
+  };
     setIsOrderModalOpen(true); // 모달을 열도록 상태를 변경합니다.
   };
 
@@ -53,7 +60,7 @@ function MarketDetail() {
   return (
     <div>
       {/* <div style={infoCouponContainer}> 여기에 스타일을 추가 */}
-      <StoreInfo storeInfo={storeInfo} coupons={coupons} />
+      <StoreInfo storeInfo={storeInfo} store={store} coupons={coupons} />
       {/* </div> */}
       <div style={tabContainerStyle}>
         <TabBar activeTab={activeTab} onTabClick={setActiveTab} />
@@ -62,7 +69,6 @@ function MarketDetail() {
       {activeTab === 'info' && <p>여기에 가게정보를 표시합니다.</p>}
       {activeTab === 'menu' && <MenuList />}
       {activeTab === 'review' && <ReviewSection />}
-      {isOrderModalOpen && <OrderModal onClose={closeOrderModal} />}
     </div>
   );
 }

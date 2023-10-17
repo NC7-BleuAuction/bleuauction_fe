@@ -20,6 +20,7 @@ import StoreMyPage from './components/MyPage/StoreMyPage';
 import UserEditPage from './components/MyPage/UserEditPage';
 import MyOrder from './components/MyPage/MyOrder';
 import StoreItemDailyPrice from './components/StoreItemDailyPrice/StoreItemDailyPrice';
+import UserProvider from  './components/Auth/UserContext';
 import StoreRegisterPage from './components/MyPage/StoreRegisterPage';
 
 
@@ -50,6 +51,7 @@ function RoutingComponent() {
 
   return (
     <>
+    <UserProvider>
       {location.pathname !== "/login" && location.pathname !== "/register" && <Header />}
       <Routes>
         <Route path="/login" element={<LoginPage />} />
@@ -69,11 +71,14 @@ function RoutingComponent() {
         <Route path="/StoreItemDailyPrice" element={<StoreItemDailyPrice />} />
       </Routes>
       {location.pathname !== "/login" && location.pathname !== "/register" && <SideBar />}
-      {location.pathname !== "/login" && location.pathname !== "/register" && <Footer />}  
+      {location.pathname !== "/login" && location.pathname !== "/register" && <Footer />}
+    </UserProvider>
     </>
   );
 }
 
 export default App;
+
+
 
 
