@@ -16,13 +16,13 @@ function StoreHome({stores}) {
 
   return (
     <div className={styles.storeBox}>
-      <button onClick={()=>{console.log(stores)}}>
+      {/* <button onClick={()=>{console.log(stores)}}>
         {stores[0]?.marketName}
-        </button>
+        </button> */}
 
       {
       stores
-      .filter((item) => item.index < 7)
+      .filter((item) => item.storeNo < 7)
       .map((item) => (      
         <StoreHomeItem key={item.storeNo} store={item}/> ))
       }

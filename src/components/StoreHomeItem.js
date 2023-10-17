@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import styles from './StoreHomeItem.module.css';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Placeholder from 'react-bootstrap/Placeholder';
@@ -34,11 +34,15 @@ function StoreHomeItem({store}) {
   
   const isWorking = isCurrentTimeInRange(startTime, endTime) ? '영업중' : '영업 종료';
 
+  // console.log(store);
+
 
 
   return (
     <>
-    <Link to="/market/detail" className={styles.storeHomeItemDetailBoxMore}>
+    <Link to={'/market/detail'} 
+      state= {store}
+      className={styles.storeHomeItemDetailBoxMore}>
       <Card style={{ width: '18rem' }}>
         <img className={styles.storeHomeItemBoss} variant="top" src="/images/boss.png" />
         <div className={styles.storeHomeItemHeader}>
