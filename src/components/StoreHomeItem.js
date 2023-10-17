@@ -14,16 +14,26 @@ function StoreHomeItem({store}) {
     // 현재 날짜와 시간을 생성
     const currentDate = new Date();
     // 시작 시간과 종료 시간을 파싱 (예: "08:00" 형식)
-    const parsedStartTime = new Date(`1970-01-01T${startTime}`);
-    const parsedEndTime = new Date(`1970-01-01T${endTime}`);
     
     // 현재 시간이 시작 시간과 종료 시간 사이에 있는지 확인
-    return currentDate >= parsedStartTime && currentDate <= parsedEndTime;
+    return currentDate >= startTime && currentDate <= endTime;
   }
 
-  const startTime = new Date(store.weekdayStartTime);
-  const endTime = new Date(store.weekdayEndTime);
+  const startTime = new Date();
+  const [startHours, startMinutes, startSecond] = store.weekdayStartTime.split(':');
+  startTime.setHours(parseInt(startHours, 10));
+  startTime.setMinutes(parseInt(startMinutes, 10));
+  // startTime.setSecond(parseInt(startSecond, 10));
+
+  const endTime = new Date();
+  const [endHours, endMinutes, endSecond] = store.weekdayEndTime.split(':');
+  endTime.setHours(parseInt(endHours, 10));
+  endTime.setMinutes(parseInt(endMinutes, 10));
+  // endTime.setSecond(parseInt(endSecond, 10));
+
+  
   const isWorking = isCurrentTimeInRange(startTime, endTime) ? '영업중' : '영업 종료';
+
 
 
   return (

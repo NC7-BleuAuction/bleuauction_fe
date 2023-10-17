@@ -34,11 +34,12 @@ function LoginPage() {
 
     sendAxiosRequest("/api/member/login", 'POST', formToJSON(data), response => {
       console.log(response.data);
-      login(data);
+      console.log(formToJSON(data));
+      login(formToJSON(data));
     }, error => {
       console.log(error);
     });
-    navigate('/main');
+    navigate('/');
   };
 
   return (
