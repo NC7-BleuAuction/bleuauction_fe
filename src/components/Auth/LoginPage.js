@@ -8,69 +8,37 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useNavigate } from 'react-router-dom'; 
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { sendAxiosRequest } from '../utility/common';
+import { formToJSON } from 'axios';
 import { useState, useContext } from 'react';
 import { useUser} from './UserContext';
 
 
 const defaultTheme = createTheme();
 
- function LoginPage() {
+function LoginPage() {
+
   const navigate = useNavigate();
 
-
     const { user, login, logout } = useUser();
-  
-    const handleLogin = () => {
-      // 사용자 로그인 로직
-      login({ username: 'exampleuser' });
-    };
-  
-    // const handleLogout = () => {
-    //   // 사용자 로그아웃 로직
-    //   logout();
-    // };
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    console.log(formToJSON(data));
+    console.log({
+      memberEmail: data.get('memberEmail'),
+      memberPwd: data.get('memberPwd'),
+    });
 
-  const useForm = (initialValues) => {
-    const [values, setValues] = useState(initialValues);  // values는 폼 컨트롤의 상태를 나타냄, initialValues로 초기 설정
-    const handleChange = (e) => {   //폼 컨트롤의 onChange 이벤트 핸들러
-      const { name, value } = e.target;
-      setValues({
-        ...values,
-        [name]: value,
-      });
-    };
-    return [values, handleChange];
-  };
-
-  const [values, handleChange] = useForm({ //useForm은 초기 값 initialValues를 인수로 받음,  그 상태와 상태를 변경하는 함수를 반환하는 useForm 훅을 호출
-    email: '',
-    password: '',
-  });
-
-  const requestData = { //객체는 폼에서 사용자가 입력한 데이터를 서버로 전송하기 위해 준비되는 데이터 구조
-    memberEmail: values.email,      //values 객체의 email 속성 값을 requestData 객체의 email 속성에 할당
-    memberPwd: values.password,
-  };
-
-
- 
-
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post('/api/member/login', requestData);       // 백엔드로 데이터 보내기
-      console.log('API 응답: ', response.data);                                   // 백엔드에서 반환된 데이터 처리하기
-      login(requestData);
-      console.log(requestData);
-      navigate('/');                      
-    } catch (error) {
-      console.error('API 호출 중 에러 발생: ', error.response.data);
-      alert('로그인에 실패ㅡㅡ');
-    }
+    sendAxiosRequest("/api/member/login", 'POST', formToJSON(data), response => {
+      console.log(response.data);
+      login(data);
+    }, error => {
+      console.log(error);
+    });
+    navigate('/main');
   };
 
   return (
@@ -101,20 +69,19 @@ const defaultTheme = createTheme();
               alignItems: 'center',
             }}
           >
-        
+
             <Typography component="h1" variant="h5">
               안녕!
             </Typography>
-            <Box component="form"  sx={{ mt: 1 }} noValidate onSubmit={handleSubmit}>
+            <Box component="form" sx={{ mt: 1 }} noValidate onSubmit={handleSubmit}>
               <TextField
                 margin="normal"
                 required
                 fullWidth
                 id="email"
                 label="Email Address"
-                name="email"
-                value={values.email}
-                onChange={handleChange}
+                name="memberEmail"
+
                 autoComplete="email"
                 autoFocus
                 InputProps={{ style: { borderRadius: '30px' } }}
@@ -123,9 +90,8 @@ const defaultTheme = createTheme();
                 margin="normal"
                 required
                 fullWidth
-                name="password"
-                value={values.password}
-                onChange={handleChange}
+                name="memberPwd"
+
                 label="Password"
                 type="password"
                 id="password"
@@ -137,7 +103,7 @@ const defaultTheme = createTheme();
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2, borderRadius: '30px' }} // borderRadius 추가
-                >
+              >
                 Login
               </Button>
               <Button
@@ -145,15 +111,15 @@ const defaultTheme = createTheme();
                 fullWidth
                 variant="contained"
                 sx={{
-                    mt: 3, 
-                    mb: 2, 
-                    borderRadius: '30px', 
-                    backgroundColor: '#FFEB00',  // 카카오 노란색
-                    '&:hover': {
+                  mt: 3,
+                  mb: 2,
+                  borderRadius: '30px',
+                  backgroundColor: '#FFEB00',  // 카카오 노란색
+                  '&:hover': {
                     backgroundColor: '#FFD600', // 노란색의 어두운 톤으로 hover 효과 추가
-                       }
-                    }}
-                >
+                  }
+                }}
+              >
                 KAKAO Login
               </Button>
               <Grid container>
