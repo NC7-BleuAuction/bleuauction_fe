@@ -1,16 +1,19 @@
 import React from 'react';
 import Coupon from '../Coupon/Coupon'; 
 
-function StoreIntro({ storeInfo, coupons }) {
+function StoreIntro({storeInfo, store, coupons }) {
+  console.log(store);
+  // console.log(storeInfo);
+
   return (
     <div style={outerContainer}>
     <div style={introContainer}>
       <img src={storeInfo.image} alt={storeInfo.name} style={imageStyle} />
      <div style={storeInfoContainer}>
-      <h2>{storeInfo.name}</h2>
+      <h2>{store.storeName}</h2>
       <ul style={infoList}>
-        <li>{storeInfo.location}</li>
-        <li>{storeInfo.hours}</li>
+        <li>{store.storeDetailAddr}</li>
+        <li>{store.weekdayStartTime} ~ {store.weekdayEndTime}</li>
         <li>{storeInfo.phone}</li>
       </ul>
       </div>

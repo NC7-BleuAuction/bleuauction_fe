@@ -4,11 +4,16 @@ import MenuList from '../Menu/MenuList';
 import Button from '../MainPage/Button';
 import StoreInfo from './StoreInfo';
 import ReviewSection from '../Review/ReviewSection';
+import { useLocation } from 'react-router-dom';
 
 
 
 function MarketDetail() {
   const [activeTab, setActiveTab] = useState('info');
+
+  const location = useLocation(); // 추가된 부분
+  const store = location.state; // 추가된 부분
+  // console.log(store);
 
   const sampleReviews = [
     {
@@ -40,12 +45,12 @@ function MarketDetail() {
 
   const handleOrderClick = () => {
     alert('주문하기 버튼 클릭!');
-  };
+  };  
 
   return (
     <div>
       {/* <div style={infoCouponContainer}> 여기에 스타일을 추가 */}
-      <StoreInfo storeInfo={storeInfo} coupons={coupons} />
+      <StoreInfo storeInfo={storeInfo} store={store} coupons={coupons} />
       {/* </div> */}
       <div style={tabContainerStyle}>
         <TabBar activeTab={activeTab} onTabClick={setActiveTab} />

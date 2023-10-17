@@ -50,7 +50,7 @@ function Home() {
     <Announce/> 
     <Category/>
     <StoreHome stores = {stores}/>
-    <button onClick={()=>{console.log(stores)}}></button>
+    <button onClick={()=>{console.log(stores); window.sessionStorage.getItem("memberNo")}}></button>
     </>
   )
 }
