@@ -15,7 +15,7 @@ function StoreList() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    axios.get('/api/review/list/sendAxios')
+    axios.get('/api/store/list')
       .then(response => setData(response.data))
       .catch(error => console.log(error));
       // console.log(data);

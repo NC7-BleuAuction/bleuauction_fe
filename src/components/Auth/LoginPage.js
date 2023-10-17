@@ -10,13 +10,27 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom'; 
 import axios from 'axios';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { useUser} from './UserContext';
 
 
 const defaultTheme = createTheme();
 
  function LoginPage() {
   const navigate = useNavigate();
+
+
+    const { user, login, logout } = useUser();
+  
+    const handleLogin = () => {
+      // 사용자 로그인 로직
+      login({ username: 'exampleuser' });
+    };
+  
+    // const handleLogout = () => {
+    //   // 사용자 로그아웃 로직
+    //   logout();
+    // };
 
 
   const useForm = (initialValues) => {
@@ -50,7 +64,9 @@ const defaultTheme = createTheme();
     try {
       const response = await axios.post('/api/member/login', requestData);       // 백엔드로 데이터 보내기
       console.log('API 응답: ', response.data);                                   // 백엔드에서 반환된 데이터 처리하기
-      navigate('/main');                      
+      login(requestData);
+      console.log(requestData);
+      navigate('/');                      
     } catch (error) {
       console.error('API 호출 중 에러 발생: ', error.response.data);
       alert('로그인에 실패ㅡㅡ');
