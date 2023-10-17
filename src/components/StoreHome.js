@@ -12,6 +12,7 @@ function StoreHome({stores}) {
   //   setStorelist(stores);
   //   }, []);
 
+
   // const storelist = stores;
 
   return (
@@ -21,10 +22,9 @@ function StoreHome({stores}) {
         </button> */}
 
       {
-      stores
-      .filter((item) => item.storeNo < 7)
+      (stores !== null)? stores.filter((item) => item.storeNo < 7)
       .map((item) => (      
-        <StoreHomeItem key={item.storeNo} store={item}/> ))
+        <StoreHomeItem key={item.storeNo} store={item}/> )) : null
       }
 
     </div>

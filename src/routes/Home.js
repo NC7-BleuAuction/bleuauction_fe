@@ -35,14 +35,17 @@ function Home() {
 
   useEffect(() => {
   axios.get('/api/store/list') 
-    .then(response => setStores(response.data))
+    .then(response => setStores(response.data)) 
     .catch(error => console.log(error));
     // console.log(stores);
   }, []);
 
-  for(let i = 0; stores[i]; i++){
-    stores[i].index = i;
-  }
+  // console.log(stores);
+
+
+  // for(let i = 0; stores[i]; i++){
+  //   stores[i].index = i;
+  // }
 
 
   return (
@@ -50,7 +53,7 @@ function Home() {
     <Announce/> 
     <Category/>
     <StoreHome stores = {stores}/>
-    <button onClick={()=>{console.log(stores); window.sessionStorage.getItem("memberNo")}}></button>
+    {/* <button onClick={()=>{console.log(stores); window.sessionStorage.getItem("memberNo")}}></button> */}
     </>
   )
 }

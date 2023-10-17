@@ -36,6 +36,8 @@ function LoginPage() {
       console.log(response.data);
       console.log(formToJSON(data));
       login(formToJSON(data));
+      localStorage.setItem('memberEmail', data.get('memberEmail'));
+      localStorage.setItem('memberPwd', data.get('memberPwd'));
     }, error => {
       console.log(error);
     });

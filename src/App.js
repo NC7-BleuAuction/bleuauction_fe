@@ -20,7 +20,8 @@ import StoreMyPage from './components/MyPage/StoreMyPage';
 import UserEditPage from './components/MyPage/UserEditPage';
 import MyOrder from './components/MyPage/MyOrder';
 import StoreItemDailyPrice from './components/StoreItemDailyPrice/StoreItemDailyPrice';
-import UserProvider from  './components/Auth/UserContext';
+import { useUser } from './components/Auth/UserContext';
+import { sendAxiosRequest } from './components/utility/common';
 
 
 function App() {
@@ -32,6 +33,30 @@ function App() {
   //     .then(response => setHello(response.data))
   //     .catch(error => console.log(error));
   // }, []);
+
+  const {user, login} = useUser();
+
+  // const data = localStorage.getItem(user);
+
+  useEffect(() => {
+  //   // sendAxiosRequest("/api/member/login", 'POST', user, response => {
+  //   //   console.log(response.data);
+      console.log(localStorage.getItem('memberEmail'));
+      console.log(localStorage.getItem('memberPwd'));
+      const saveUser = {
+        'memberEmail': localStorage.getItem('memberEmail'),
+        'memberPwd': localStorage.getItem('memberPwd')
+      }
+      if (localStorage.getItem('memberEmail') !== null) {
+        login(saveUser); 
+      }
+  //     login(localStorage.getItem('data'));
+  //     // console.log(user);
+  //   // }, error => {
+  //     // console.log(error);
+  //   // });
+  }, [])
+
 
 
   return (
@@ -48,9 +73,12 @@ function App() {
 function RoutingComponent() {
   const location = useLocation();
 
+
+
+
+
   return (
     <>
-    <UserProvider>
       {location.pathname !== "/login" && location.pathname !== "/register" && <Header />}
       <Routes>
         <Route path="/login" element={<LoginPage />} />
@@ -70,7 +98,6 @@ function RoutingComponent() {
       </Routes>
       {location.pathname !== "/login" && location.pathname !== "/register" && <SideBar />}
       {location.pathname !== "/login" && location.pathname !== "/register" && <Footer />}
-    </UserProvider>
     </>
   );
 }
