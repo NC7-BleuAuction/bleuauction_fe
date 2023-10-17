@@ -8,23 +8,30 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useNavigate } from 'react-router-dom'; 
-
+import { useNavigate } from 'react-router-dom';
+import { sendAxiosRequest } from '../utility/common';
+import { formToJSON } from 'axios';
 
 
 const defaultTheme = createTheme();
 
-export default function LoginPage() {
-    
-const navigate = useNavigate();
+function LoginPage() {
+
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    console.log(formToJSON(data));
     console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+      memberEmail: data.get('memberEmail'),
+      memberPwd: data.get('memberPwd'),
+    });
 
+    sendAxiosRequest("/api/member/login", 'POST', formToJSON(data), response => {
+      console.log(response.data);
+    }, error => {
+      console.log(error);
     });
     navigate('/main');
   };
@@ -57,18 +64,19 @@ const navigate = useNavigate();
               alignItems: 'center',
             }}
           >
-        
+
             <Typography component="h1" variant="h5">
               안녕!
             </Typography>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            <Box component="form" sx={{ mt: 1 }} noValidate onSubmit={handleSubmit}>
               <TextField
                 margin="normal"
                 required
                 fullWidth
                 id="email"
                 label="Email Address"
-                name="email"
+                name="memberEmail"
+
                 autoComplete="email"
                 autoFocus
                 InputProps={{ style: { borderRadius: '30px' } }}
@@ -77,7 +85,8 @@ const navigate = useNavigate();
                 margin="normal"
                 required
                 fullWidth
-                name="password"
+                name="memberPwd"
+
                 label="Password"
                 type="password"
                 id="password"
@@ -89,15 +98,26 @@ const navigate = useNavigate();
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2, borderRadius: '30px' }} // borderRadius 추가
-                >
+              >
                 Login
               </Button>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{
+                  mt: 3,
+                  mb: 2,
+                  borderRadius: '30px',
+                  backgroundColor: '#FFEB00',  // 카카오 노란색
+                  '&:hover': {
+                    backgroundColor: '#FFD600', // 노란색의 어두운 톤으로 hover 효과 추가
+                  }
+                }}
+              >
+                KAKAO Login
+              </Button>
               <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    비밀번호 찾기
-                  </Link>
-                </Grid>
                 <Grid item>
                   <Link href="/register" variant="body2">
                     {"회원가입"}
@@ -111,3 +131,5 @@ const navigate = useNavigate();
     </ThemeProvider>
   );
 }
+
+export default LoginPage;

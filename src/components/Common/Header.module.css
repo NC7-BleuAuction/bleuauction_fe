@@ -1,10 +1,20 @@
 .headerBox {
-  width: 1600px;
+  width: 1920px;
   height: 200px;
   margin: 0 auto;
   display: grid;
   grid-template-rows: 1fr 1fr;
-  
+  position: fixed;
+  top:0;
+
+  z-index: 9999; 
+  background-color: white;
+  /* border-bottom: 1px solid black; */
+}
+
+.hidden_block {
+  width:auto;
+  height: 300px;
 }
 
 .headerTop {
@@ -42,7 +52,7 @@
 }
 
 #searchBtn {
-  background-image: url('/public/search.png');
+  background-image: url('/public/images/search.png');
   background-size: cover;
   background-repeat: no-repeat;
   /* padding-top: 40px; */

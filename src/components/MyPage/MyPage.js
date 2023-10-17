@@ -23,19 +23,19 @@ function MyPage() {
         </div>
       </div>
       <div style={styles.linkSection}>
-  <div style={styles.linkContainer}>
-    <Link to="/edit" style={styles.link}>회원정보 수정</Link>
-  </div>
-  <div style={styles.linkContainer}>
-    <Link to="/coupons" style={styles.link}>쿠폰함</Link>
-  </div>
-  <div style={styles.linkContainer}>
-    <Link to="/my-orders" style={styles.link}>마이 오더</Link>
-  </div>
-  <div style={styles.linkContainer}>
-    <Link to="/wishlist" style={styles.link}>찜하기</Link>
-  </div>
-</div>
+        <div style={styles.linkContainer}>
+          <Link to="/edit" style={styles.link}>회원정보 수정</Link>
+        </div>
+        <div style={styles.linkContainer}>
+          <Link to="/coupons" style={styles.link}>쿠폰함</Link>
+        </div>
+        <div style={styles.linkContainer}>
+          <Link to="/my-orders" style={styles.link}>마이 오더</Link>
+        </div>
+        <div style={styles.linkContainer}>
+          <Link to="/wishlist" style={styles.link}>찜하기</Link>
+        </div>
+      </div>
     </div>
     </div>
   );
