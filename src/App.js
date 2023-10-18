@@ -21,6 +21,9 @@ import UserEditPage from './components/MyPage/UserEditPage';
 import MyOrder from './components/MyPage/MyOrder';
 import StoreItemDailyPrice from './components/StoreItemDailyPrice/StoreItemDailyPrice';
 import UserProvider from  './components/Auth/UserContext';
+import AdminPage from './components/MyPage/AdminPage';
+import NoticeList from './components/Notice/NoticeList';
+import NoticeDetail from './components/Notice/NoticeDetail';
 
 
 function App() {
@@ -67,6 +70,9 @@ function RoutingComponent() {
         <Route path="/useredit" element={<UserEditPage />} />
         <Route path="/my-orders" element={<MyOrder />} />
         <Route path="/StoreItemDailyPrice" element={<StoreItemDailyPrice />} />
+        <Route path="/adminpage" element={<AdminPage />} />
+        <Route path="/notice/list" element={<NoticeList />} />
+        <Route path="/notice/detail/:noticeNo" element={<NoticeDetail />} />
       </Routes>
       {location.pathname !== "/login" && location.pathname !== "/register" && <SideBar />}
       {location.pathname !== "/login" && location.pathname !== "/register" && <Footer />}
