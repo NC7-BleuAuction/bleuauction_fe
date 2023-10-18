@@ -15,20 +15,7 @@ function MarketDetailPage() {
   const store = location.state; // 추가된 부분
   // console.log(store);
 
-  const sampleReviews = [
-    {
-      id: 1,
-      user: { name: '로제', profilePicture: '/images/rose.png' },
-      text: '맛있어용',
-      image: '/',
-    },
-    {
-      id: 2,
-      user: { name: 'Jane Doe', profilePicture: '/path/to/jane.jpg' },
-      text: 'Really enjoyed using this.',
-    },
-    // ...기타 리뷰
-  ];
+
 
   const storeInfo = {
     image: '/images/storeimage.png',
@@ -38,10 +25,6 @@ function MarketDetailPage() {
     phone: '02-1234-5678',
   };
 
-  const coupons = [
-    { id: 1, title: '20% 할인', description: '연어' },
-    { id: 2, title: '30% 할인', description: '방어' },
-  ];
 
   const handleOrderClick = () => {
     alert('주문하기 버튼 클릭!');
@@ -50,7 +33,7 @@ function MarketDetailPage() {
   return (
     <div>
       {/* <div style={infoCouponContainer}> 여기에 스타일을 추가 */}
-      <StoreInfo storeInfo={storeInfo} store={store} coupons={coupons} />
+      <StoreInfo storeInfo={storeInfo} store={store} />
       {/* </div> */}
       <div style={tabContainerStyle}>
         <TabBar activeTab={activeTab} onTabClick={setActiveTab} />
@@ -71,3 +54,23 @@ const tabContainerStyle = {
 
 
 export default MarketDetailPage;
+
+  // const sampleReviews = [
+  //   {
+  //     id: 1,
+  //     user: { name: '로제', profilePicture: '/images/rose.png' },
+  //     text: '맛있어용',
+  //     image: '/',
+  //   },
+  //   {
+  //     id: 2,
+  //     user: { name: 'Jane Doe', profilePicture: '/path/to/jane.jpg' },
+  //     text: 'Really enjoyed using this.',
+  //   },
+  //   // ...기타 리뷰
+  // ];
+
+    // const coupons = [
+  //   { id: 1, title: '20% 할인', description: '연어' },
+  //   { id: 2, title: '30% 할인', description: '방어' },
+  // ];
