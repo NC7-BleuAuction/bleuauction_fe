@@ -5,13 +5,11 @@ import Button from '../MainPage/Button';
 import StoreInfo from './StoreInfo';
 import ReviewSection from '../Review/ReviewSection';
 import { useLocation } from 'react-router-dom';
-import OrderModal from './OrderModal';
 
 
-function MarketDetail() {
+
+function MarketDetailPage() {
   const [activeTab, setActiveTab] = useState('info');
-  const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
-
 
   const location = useLocation(); // 추가된 부분
   const store = location.state; // 추가된 부분
@@ -47,15 +45,7 @@ function MarketDetail() {
 
   const handleOrderClick = () => {
     alert('주문하기 버튼 클릭!');
-  };
-    setIsOrderModalOpen(true); // 모달을 열도록 상태를 변경합니다.
-  };
-
-  // 모달 닫기 함수를 추가합니다.
-  const closeOrderModal = () => {
-    setIsOrderModalOpen(false); // 모달을 닫도록 상태를 변경합니다.
-  };
-
+  };  
 
   return (
     <div>
@@ -80,4 +70,4 @@ const tabContainerStyle = {
 };
 
 
-export default MarketDetail;
+export default MarketDetailPage;

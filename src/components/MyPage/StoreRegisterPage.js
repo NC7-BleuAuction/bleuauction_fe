@@ -2,83 +2,24 @@ import React, { useState } from 'react';
 import { Form, Card, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import axios, { formToJSON } from 'axios';
-import { sendAxiosRequest } from '../utility/common';
+
 
 
 function StoreRegisterPage() {
-    
-    const useForm = (initialValues) => {
-        const [values, setValues] = useState(initialValues);  // values는 폼 컨트롤의 상태를 나타냄, initialValues로 초기 설정
-        const handleChange = (e) => {   //폼 컨트롤의 onChange 이벤트 핸들러
-          const { name, value } = e.target;
-          setValues({
-            ...values,
-            [name]: value,
-          });
-        };
-        return [values, handleChange];
-      };
-
-      const [values, handleChange] = useForm({
-          marketName: '',
-          storeName: '',
-          licenseNo: '',
-          storeZipcode: '',
-          storeAddr: '',
-          storeDetailAddr: '',
-          weekdayStartTime: '',
-          weekdayEndTime: '',
-          weekendStartTime: '',
-          weekendEndTime: '',
-      });
-
-      
-      
-      
-      const requestData = { 
-          marketName: values.marketName,
-          storeName: values.storeName,      
-          licenseNo: values.licenseNo,
-          storeZipcode: values.storeZipcode,
-          storeAddr: values.storeAddr,
-          storeDetailAddr: values.storeDetailAddr,
-          weekdayStartTime: values.weekdayStartTime,
-          weekdayEndTime: values.weekdayEndTime,
-          weekendStartTime: values.weekendStartTime,
-          weekendEndTime: values.weekendEndTime,
-        };
-      
-    
-    const navigate = useNavigate();
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        
-        
-        // StoreSignUpRequest 객체를 준비
-    // const requestData = {
-    //   marketName: "가락시장",
-    //   storeName: "가락횟집",
-    //   licenseNo: "1111",
-    //   storeZipcode: "1111",
-    //   storeAddr: "기본주소임",
-    //   storeDetailAddr: "상세주소임",
-    //   weekdayStartTime: "06:08",
-    //   weekdayEndTime: "06:08",
-    //   weekendStartTime: "06:08",
-    //   weekendEndTime: "06:07"
-    // };
 
 
-    const jsonString = JSON.stringify(requestData);
+  const navigate = useNavigate();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(e.target);
+    let formData = new FormData(e.target);
 
-    // 로그인한 사용자 세션에서 회원 정보 가져오기
+    let jsonObj = formToJSON(formData);
 
-
-    // 로그인한 회원의 정보를 세션에서 가져와 memberNo에 할당
+    console.log(jsonObj);
 
     // POST 요청 생성
-    console.log(jsonString);
-    axios.post('/api/store/signup', jsonString, {
+    axios.post('/api/store/signup', jsonObj, {
       headers: {
         'Content-Type': 'application/json'
       }
@@ -165,33 +106,33 @@ function StoreRegisterPage() {
         */}
       <form onSubmit={handleSubmit}>
         <label>시장명: </label>
-        <input type="text" name="marketName" value={values.marketName} onChange={handleChange}/>
+        <input type="text" name="marketName" />
         <label>가게명: </label>
-        <input type="text" name="storeName" value={values.storeName} onChange={handleChange}/>
+        <input type="text" name="storeName" />
         <label>사업자등록번호: </label>
-        <input type="text" name="licenseNo" value={values.licenseNo} onChange={handleChange}/>
+        <input type="text" name="licenseNo" />
         <label>우편번호: </label>
-        <input type="text" name="storeZipcode" value={values.storeZipcode} onChange={handleChange}/>
+        <input type="text" name="storeZipcode" />
         <label>기본주소: </label>
-        <input type="text" name="storeAddr" value={values.storeAddr} onChange={handleChange}/>
+        <input type="text" name="storeAddr" />
         <label>상세주소: </label>
-        <input type="text" name="storeDetailAddr" value={values.storeDetailAddr} onChange={handleChange}/>
+        <input type="text" name="storeDetailAddr" />
 
         <div>
           <label>평일운영시작시간: </label>
-          <input type="datetime-local" name="weekdayStartTime" value={values.weekdayStartTime} onChange={handleChange}/>
+          <input type="time" name="weekdayStartTime" />
         </div>
         <div>
           <label>평일운영종료시간: </label>
-          <input type="datetime-local" name="weekdayEndTime" value={values.weekdayEndTime} onChange={handleChange}/>
+          <input type="time" name="weekdayEndTime" />
         </div>
         <div>
           <label>주말운영시작시간: </label>
-          <input type="datetime-local" name="weekendStartTime" value={values.weekendStartTime} onChange={handleChange}/>
+          <input type="time" name="weekendStartTime" />
         </div>
         <div>
           <label>주말운영종료시간: </label>
-          <input type="datetime-local" name="weekendEndTime" value={values.weekendEndTime} onChange={handleChange}/>
+          <input type="time" name="weekendEndTime" />
         </div>
 
         <button type="submit" > 가게 등록</button>

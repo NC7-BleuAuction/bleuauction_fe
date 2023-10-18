@@ -11,6 +11,7 @@ import Test2 from './components/Test/test2';
 import LoginPage from './components/Auth/LoginPage';
 import RegisterPage from './components/Auth/RegisterPage';
 import MenuList from './components/Menu/MenuList';
+import MenuRegisterationForm from './components/Menu/MenuRegisterationForm';
 import StoreList from './routes/StoreList';
 import TabBar from './components/Market/TabBar';
 import MarketDetailPage from './components/Market/MarketDetailPage';
@@ -69,6 +70,7 @@ function RoutingComponent() {
         <Route path="/useredit" element={<UserEditPage />} />
         <Route path="/my-orders" element={<MyOrder />} />
         <Route path="/StoreItemDailyPrice" element={<StoreItemDailyPrice />} />
+        <Route path="/MenuRegisterationForm" element={<MenuRegisterationForm />} />
       </Routes>
       {location.pathname !== "/login" && location.pathname !== "/register" && <SideBar />}
       {location.pathname !== "/login" && location.pathname !== "/register" && <Footer />}
