@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Announce from '../components/MainPage/Announce';
 import Category from '../components/MainPage/Category';
@@ -11,7 +11,7 @@ var list = [
   {
     'storeNo': 1,
     'memberNo': '1',
-    'storeName': '해피' ,
+    'storeName': '해피',
     'licenseNo': '11',
     'storeZipcode': '1111',
     'storeAddr': '주소',
@@ -22,7 +22,7 @@ var list = [
     'weekendStartTime': '',
     'unsupportedType': '',
     'storeStatus': 'Y',
-    'menus':[],
+    'menus': [],
     'orders': []
   }
 ];
@@ -34,23 +34,23 @@ function Home() {
   const [stores, setStores] = useState([]);
 
   useEffect(() => {
-  axios.get('/api/store/list') 
-    .then(response => setStores(response.data))
-    .catch(error => console.log(error));
+    axios.get('/api/store/list')
+      .then(response => setStores(response.data))
+      .catch(error => console.log(error));
     // console.log(stores);
   }, []);
 
-  for(let i = 0; stores[i]; i++){
-    stores[i].index = i;
-  }
+  // for(let i = 0; stores[i]; i++){
+  //   stores[i].index = i;
+  // }
 
 
   return (
     <>
-    <Announce/> 
-    <Category/>
-    <StoreHome stores = {stores}/>
-    <button onClick={()=>{console.log(stores)}}></button>
+      <Announce />
+      <Category />
+      <StoreHome stores={stores} />
+      <button onClick={() => { console.log(stores); window.sessionStorage.getItem("memberNo") }}></button>
     </>
   )
 }

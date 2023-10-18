@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 function SideBar() {
   return (
     <div className={styles.sideBarBox}>
-      <Link to='/'>등록</Link>
+      <Link to='/MenuRegisterationForm'>등록</Link>
       <Link to='/'>오늘의 <br/>방사능</Link>
       <Link to='/'>챗봇</Link>
     </div>
