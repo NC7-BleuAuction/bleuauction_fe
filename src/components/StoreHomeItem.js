@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 
 function StoreHomeItem({store}) {
+
   function isCurrentTimeInRange(startTime, endTime) {
     // 현재 날짜와 시간을 생성
     const currentDate = new Date();
@@ -40,7 +41,7 @@ function StoreHomeItem({store}) {
 
   return (
     <>
-    <Link to={'/market/detail'} 
+    <Link to={'/market/detail'}
       state= {store}
       className={styles.storeHomeItemDetailBoxMore}>
       <Card style={{ width: '18rem' }}>

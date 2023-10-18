@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Form, Card, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import axios, { formToJSON } from 'axios';
-import { sendAxiosRequest, addEventToElements, removeEventToElements } from '../utility/Common';
+import { sendAxiosRequest, addEventToElements, removeEventToElements } from '../utility/common';
 
 function formatNumber(number) {
   return number.toLocaleString();

@@ -9,7 +9,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
-import { sendAxiosRequest } from '../utility/Common';
+import { sendAxiosRequest } from '../utility/common';
 import { formToJSON } from 'axios';
 import { useState, useContext } from 'react';
 import { useUser } from './UserContext';
@@ -37,6 +37,8 @@ function LoginPage() {
       console.log(response.data);
       console.log(formToJSON(data));
       login(formToJSON(data));
+      localStorage.setItem('memberEmail', data.get('memberEmail'));
+      localStorage.setItem('memberPwd', data.get('memberPwd'));
     }, error => {
 
       console.log(error);

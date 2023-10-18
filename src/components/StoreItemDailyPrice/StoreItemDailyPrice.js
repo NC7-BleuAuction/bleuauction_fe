@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import './StoreItemDailyPrice.css';
-import { sendAxiosRequest } from '../utility/Common';
+import { sendAxiosRequest } from '../utility/common';
 
 function StoreItemDailyPrice() {
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -56,45 +56,6 @@ function StoreItemDailyPrice() {
     },
   ];
 
-
-
-  // const itemCodes = ['S', 'F'];
-  // const itemNames = ['광어', '우럭', '도미', '방어', '오징어', '새우', '가리비', '전복', '전갱이', '참치', '연어'];
-  // const itemSizes = ['S', 'M', 'L'];
-  // const originStatus = ['D'];
-  // const originPlaceStatus = ['ES', 'WS', 'SS'];
-  // const wildFarmStatus = ['W', 'F'];
-
-  // const insertQueries = ['INSERT INTO ba_item (member_no, item_code, item_name, item_size, origin_status, origin_place_status, wild_farm_status) VALUES '];
-
-  // for (const itemCode of itemCodes) {
-  //   for (const itemName of itemNames) {
-  //     for (const itemSize of itemSizes) {
-  //       for (const oStatus of originStatus) {
-  //         for (const oPlaceStatus of originPlaceStatus) {
-  //           for (const wFStatus of wildFarmStatus) {
-  //             const query = `(1, '${itemCode}', '${itemName}', '${itemSize}', '${oStatus}', '${oPlaceStatus}', '${wFStatus}');`;
-  //             insertQueries.join('\n');
-  //             insertQueries.push(query);
-  //           }
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
-
-  // console.log(insertQueries.join('\n'));
-
-
-
-
-
-  // useEffect(() => {
-  //   axios.get('/api/daily-price').then((response) => {
-  //     setItems(response.data);
-  //     setLoading(false);
-  //   });
-  // }, []);
 
   return (
     <div className="daily-box">

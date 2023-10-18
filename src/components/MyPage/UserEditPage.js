@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import InputField from './InputField';
-import { sendAxiosMultipartRequest, sendAxiosRequest } from '../utility/Common';
+import { sendAxiosMultipartRequest, sendAxiosRequest } from '../utility/common';
 import axios, { formToJSON } from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 

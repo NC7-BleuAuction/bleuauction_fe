@@ -1,0 +1,2014 @@
+Index: src/components/StoreItemDailyPrice/StoreItemDailyPrice.js
+===================================================================
+diff --git a/src/components/StoreItemDailyPrice/StoreItemDailyPrice.js b/src/components/StoreItemDailyPrice/StoreItemDailyPrice.js
+deleted file mode 100644
+--- a/src/components/StoreItemDailyPrice/StoreItemDailyPrice.js	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
++++ /dev/null	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
+@@ -1,125 +0,0 @@
+-import React, { useState, useEffect } from 'react';
+-import axios from 'axios';
+-import { Carousel } from 'react-responsive-carousel';
+-import 'react-responsive-carousel/lib/styles/carousel.min.css';
+-import './StoreItemDailyPrice.css';
+-
+-function StoreItemDailyPrice() {
+-  const [selectedCategory, setSelectedCategory] = useState(null);
+-  const [selectedOrigin, setSelectedOrigin] = useState(null);
+-  const [items, setItems] = useState([]);
+-  const [loading, setLoading] = useState(true);
+-
+-  const categoryOptions = {
+-    S: '생선/횟감',
+-    F: '생선/비횟감',
+-    C: '갑각류',
+-    M: '패류',
+-    E: '기타',
+-  };
+-
+-  const originOptions = {
+-    ES: '동해',
+-    WS: '서해',
+-    SS: '남해',
+-    JJ: '제주',
+-    WD: '완도',
+-    JP: '일본',
+-    CN: '중국',
+-    RU: '러시아',
+-    NW: '노르웨이',
+-  };
+-
+-  const recommendationItems = [
+-    {
+-      id: 1,
+-      image: 'item1.jpg',
+-      name: '추천 상품 1',
+-    },
+-    {
+-      id: 2,
+-      image: 'item2.jpg',
+-      name: '추천 상품 2',
+-    },
+-  ];
+-
+-  useEffect(() => {
+-    axios.get('/api/daily-price').then((response) => {
+-      setItems(response.data);
+-      setLoading(false);
+-    });
+-  }, []);
+-
+-  return (
+-    <div>
+-      <div className="filter-buttons">
+-        <p>품목 카테고리 선택:</p>
+-        {Object.keys(categoryOptions).map((code) => (
+-          <button
+-            key={code}
+-            className={selectedCategory === code ? 'selected' : ''}
+-            onClick={() => setSelectedCategory(code)}
+-          >
+-            {categoryOptions[code]}
+-          </button>
+-        ))}
+-      </div>
+-      <div className="origin-buttons">
+-        <p>원산지 선택:</p>
+-        {Object.keys(originOptions).map((code) => (
+-          <button
+-            key={code}
+-            className={selectedOrigin === code ? 'selected' : ''}
+-            onClick={() => setSelectedOrigin(code)}
+-          >
+-            {originOptions[code]}
+-          </button>
+-        ))}
+-      </div>
+-      <div className="carousel">
+-        <h2>추천하는 오늘의 생선</h2>
+-        <Carousel showArrows={true}>
+-          {recommendationItems.map((item) => (
+-            <div key={item.id}>
+-              <img src={item.image} alt={item.name} />
+-              <p className="legend">{item.name}</p>
+-            </div>
+-          ))}
+-        </Carousel>
+-      </div>
+-      <h1>오늘의 시세</h1>
+-      <div className="price-list">
+-        {loading ? (
+-          <p>로딩 중...</p>
+-        ) : (
+-          <table>
+-            <thead>
+-              <tr>
+-                <th>품목명</th>
+-                <th>품목크기</th>
+-                <th>원산지 구분</th>
+-              </tr>
+-            </thead>
+-            <tbody>
+-              {items
+-                .filter(
+-                  (item) =>
+-                    (!selectedCategory || item.item_code === selectedCategory) &&
+-                    (!selectedOrigin || item.origin_place_status === selectedOrigin)
+-                )
+-                .map((item) => (
+-                  <tr key={item.id}>
+-                    <td>{item.item_name}</td>
+-                    <td>{item.item_size}</td>
+-                    <td>{originOptions[item.origin_place_status]}</td>
+-                  </tr>
+-                ))}
+-            </tbody>
+-          </table>
+-        )}
+-      </div>
+-    </div>
+-  );
+-}
+-
+-export default StoreItemDailyPrice;
+\ No newline at end of file
+Index: src/components/Review/ReviewSection.js
+===================================================================
+diff --git a/src/components/Review/ReviewSection.js b/src/components/Review/ReviewSection.js
+deleted file mode 100644
+--- a/src/components/Review/ReviewSection.js	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
++++ /dev/null	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
+@@ -1,24 +0,0 @@
+-import React, { useState } from 'react';
+-import ReviewForm from './ReviewForm';
+-import ReviewList from './ReviewList';
+-
+-function ReviewSection() {
+-  // 초기 상태에는 빈 리뷰 배열 또는 샘플 리뷰 데이터를 사용
+-  const [reviews, setReviews] = useState([]);
+-
+-  // ReviewForm에서 호출되는 함수로, 새 리뷰를 reviews 상태에 추가
+-  const addReview = (newReview) => {
+-    setReviews(prevReviews => [...prevReviews, newReview]);
+-  };
+-
+-  return (
+-    <div>
+-      {/* addReview 함수를 prop으로 전달 */}
+-      <ReviewForm addReview={addReview} />
+-      {/* 현재 reviews 상태를 prop으로 전달*/}
+-      <ReviewList reviews={reviews} />
+-    </div>
+-  );
+-}
+-
+-export default ReviewSection;
+Index: src/components/Common/SideBar.module.css
+===================================================================
+diff --git a/src/components/Common/SideBar.module.css b/src/components/Common/SideBar.module.css
+deleted file mode 100644
+--- a/src/components/Common/SideBar.module.css	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
++++ /dev/null	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
+@@ -1,26 +0,0 @@
+-.sideBarBox {
+-  position: fixed;
+-  width: 100px;
+-  height: 300px;
+-  top: 20%;
+-  right: 5%;
+-  background-color: lightgray;
+-  display: grid;
+-  grid-template-rows: 1fr 1fr 1fr;
+-  place-items: center;
+-  border-radius: 20px;
+-
+-}
+-
+-.sideBarBox a {
+-  color: black;
+-  font-size: 20px;
+-  font-weight: 550;
+-  text-decoration: none;
+-  transform: scale(1);
+-  transition: transform 0.3s ease;
+-}
+-
+-.sideBarBox a:hover {
+-  transform: scale(1.1);
+-}
+\ No newline at end of file
+Index: src/components/Coupon/Coupon.js
+===================================================================
+diff --git a/src/components/Coupon/Coupon.js b/src/components/Coupon/Coupon.js
+deleted file mode 100644
+--- a/src/components/Coupon/Coupon.js	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
++++ /dev/null	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
+@@ -1,38 +0,0 @@
+-import React, { useState }from 'react';
+-
+-function Coupon({ coupon }) {
+-    const [isRedeemed, setIsRedeemed] = useState(false); // 쿠폰 상태를 관리하는 로컬 상태
+-
+-    const handleCouponClick = () => {
+-      // 쿠폰이 클릭되면 isRedeemed 상태를 업데이트
+-      setIsRedeemed(true);
+-      // 여기에 추가적인 쿠폰 받아지는 로직을 추가할 수 있습니다.
+-      console.log(`${coupon.title} has been redeemed!`);
+-    }
+-  
+-    // 쿠폰이 받아진 경우, 스타일 또는 내용을 변경
+-    const redeemedStyle = isRedeemed ? { backgroundColor: 'lightgray' } : {};
+-
+-  return (
+-    <div style={{ ...couponStyle, ...redeemedStyle }} onClick={handleCouponClick}>
+-      <p style={{ margin: 0 }}>{coupon.title}</p>
+-      <p style={{ margin: 0 }}>{coupon.description}</p>
+-    </div>
+-  );
+-}
+-
+-const couponStyle = {
+-    display: 'flex', // flexbox layout을 사용
+-    flexDirection: 'column', // children을 세로 방향으로 배열
+-    // justifyContent: 'space-between', // title과 description 사이에 공간을 최대로
+-    border: '1px solid #0063F9',
+-    padding: '10px',
+-    margin: '0 5px',
+-    borderRadius: '8px',
+-    width: '300px', // 가로 길이를 원하는 만큼 조절
+-    height: '100px', // 세로 길이를 원하는 만큼 조절 (선택사항)
+-    cursor: 'pointer', // 클릭 가능한 요소임을 표시
+-
+-  };
+-
+-export default Coupon;
+Index: src/components/Auth/RegisterPage.js
+===================================================================
+diff --git a/src/components/Auth/RegisterPage.js b/src/components/Auth/RegisterPage.js
+deleted file mode 100644
+--- a/src/components/Auth/RegisterPage.js	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
++++ /dev/null	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
+@@ -1,148 +0,0 @@
+-import React, { useState } from 'react';
+-import { useNavigate } from 'react-router-dom'; 
+-
+-
+-const useForm = (initialValues) => {
+-  const [values, setValues] = useState(initialValues);
+-  const handleChange = (e) => {
+-    const { name, value } = e.target;
+-    setValues({
+-      ...values,
+-      [name]: value,
+-    });
+-  };
+-  return [values, handleChange];
+-};
+-
+-function RegisterPage() {
+-  const [accountType, setAccountType] = useState('personal');
+-  const [values, handleChange] = useForm({
+-    email: '',
+-    password: '',
+-    name: '',
+-    phone: '',
+-    zip: '',
+-    address: '',
+-    detailAddress: '',
+-    bank: '',
+-    accountNumber: '',
+-  });
+-
+-  const navigate = useNavigate(); // useNavigate hook
+-
+-
+-  const handleSubmit = (e) => {
+-    e.preventDefault();
+-    console.log('Form Data: ', values);
+-    navigate('/main');
+-  };
+-
+-  return (
+-    <div style={styles.background}>
+-        <div style={styles.logoContainer}>
+-        <img src="/images/logo.png" alt="BLEU AUCTION" style={styles.logo} />
+-      </div>
+-    <div style={styles.container}>
+-      <div style={styles.toggleButtons}>
+-        <button style={accountType === 'personal' ? styles.activeButton : styles.button} onClick={() => setAccountType('personal')}>개인</button>
+-        <button style={accountType === 'business' ? styles.activeButton : styles.button} onClick={() => setAccountType('business')}>기업</button>
+-      </div>
+-      {accountType === 'personal' && (
+-        <form onSubmit={handleSubmit} style={styles.form}>
+-          <input style={styles.input} type="text" name="name" placeholder="이름" value={values.name} onChange={handleChange} />
+-          <input style={styles.input} type="email" name="email" placeholder="이메일" value={values.email} onChange={handleChange} />
+-          <input style={styles.input} type="password" name="password" placeholder="비밀번호" value={values.password} onChange={handleChange} />
+-          <input style={styles.input} type="text" name="phone" placeholder="전화번호" value={values.phone} onChange={handleChange} />
+-          <input style={styles.input} type="text" name="zip" placeholder="우편번호" value={values.zip} onChange={handleChange} />
+-          <input style={styles.input} type="text" name="address" placeholder="기본주소" value={values.address} onChange={handleChange} />
+-          <input style={styles.input} type="text" name="detailAddress" placeholder="상세주소" value={values.detailAddress} onChange={handleChange} />
+-          <input style={styles.input} type="text" name="bank" placeholder="은행" value={values.bank} onChange={handleChange} />
+-          <input style={styles.input} type="text" name="accountNumber" placeholder="계좌번호" value={values.accountNumber} onChange={handleChange} />
+-            <button type="submit" style={styles.submitButton}>회원 가입</button>
+-          </form>
+-        )}
+-        {accountType === 'business' && (
+-        <form onSubmit={handleSubmit} style={styles.form}>
+-          <input style={styles.input} type="text" name="name" placeholder="기업명" value={values.name} onChange={handleChange} />
+-          <input style={styles.input} type="text" name="businessnum" placeholder="사업자등록번호" value={values.businessnum} onChange={handleChange} />
+-          <input style={styles.input} type="email" name="email" placeholder="이메일" value={values.email} onChange={handleChange} />
+-          <input style={styles.input} type="password" name="password" placeholder="비밀번호" value={values.password} onChange={handleChange} />
+-          <input style={styles.input} type="text" name="phone" placeholder="전화번호" value={values.phone} onChange={handleChange} />
+-          <input style={styles.input} type="text" name="zip" placeholder="우편번호" value={values.zip} onChange={handleChange} />
+-          <input style={styles.input} type="text" name="address" placeholder="기본주소" value={values.address} onChange={handleChange} />
+-          <input style={styles.input} type="text" name="detailAddress" placeholder="상세주소" value={values.detailAddress} onChange={handleChange} />
+-          <input style={styles.input} type="text" name="bank" placeholder="은행" value={values.bank} onChange={handleChange} />
+-          <input style={styles.input} type="text" name="accountNumber" placeholder="계좌번호" value={values.accountNumber} onChange={handleChange} />
+-            <button type="submit" style={styles.submitButton}>회원 가입</button>
+-          </form>
+-        )}
+-      </div>
+-    </div>
+-  );
+-}
+-
+-const styles = {
+-  background: {
+-    display: 'flex',
+-    flexDirection: 'column',
+-    justifyContent: 'center',
+-    alignItems: 'center',
+-    height: '100vh',
+-    background: 'var(--Blue, linear-gradient(180deg, #0575E6 0%, #02298A 84.79%, #021B79 100%))',
+-  },
+-  logoContainer: {
+-    marginBottom: '10px',
+-  },
+-  logo: {
+-    width: '200px',
+-  },
+-  container: {
+-    background: 'white',
+-    padding: '20px',
+-    borderRadius: '8px',
+-    width: '400px',
+-  },
+-  form: {
+-    display: 'flex',
+-    flexDirection: 'column',
+-  },
+-  toggleButtons: {
+-    display: 'flex',
+-    justifyContent: 'center',
+-    marginBottom: '20px',
+-    borderRadius: '8px',
+-  },
+-  button: {
+-    padding: '10px 20px',
+-    cursor: 'pointer',
+-    border: 'none', 
+-    backgroundColor: 'white',
+-    borderRadius: '10px', 
+-  },
+-  activeButton: {
+-    padding: '10px 20px',
+-    cursor: 'pointer',
+-    border: 'none',
+-    backgroundColor: 'lightgray',
+-    borderRadius: '10px',
+-  },
+-  input: {
+-    padding: '10px',
+-    margin: '5px 0',
+-    borderRadius: '8px',
+-    border: '1px solid #ccc',
+-    outline: 'none',
+-  },
+-  submitButton: {
+-    padding: '10px 20px',
+-    cursor: 'pointer',
+-    backgroundColor: '#0575E6',
+-    border: 'none',
+-    borderRadius: '8px',
+-    color: 'white',
+-    
+-  },
+-};
+-
+-export default RegisterPage;
+-
+Index: src/components/Market/MarketDetailPage.js
+===================================================================
+diff --git a/src/components/Market/MarketDetailPage.js b/src/components/Market/MarketDetailPage.js
+deleted file mode 100644
+--- a/src/components/Market/MarketDetailPage.js	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
++++ /dev/null	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
+@@ -1,68 +0,0 @@
+-import React, { useState } from 'react';
+-import TabBar from './TabBar'; 
+-import MenuList from '../Menu/MenuList';
+-import Button from '../MainPage/Button';
+-import StoreInfo from './StoreInfo'; 
+-import ReviewSection from '../Review/ReviewSection';
+-
+-
+-
+-function MarketDetail() {
+-  const [activeTab, setActiveTab] = useState('info');
+-
+-  const sampleReviews = [
+-    {
+-      id: 1,
+-      user: { name: '로제', profilePicture: '/images/rose.png' },
+-      text: '맛있어용',
+-      image: '/',
+-    },
+-    {
+-      id: 2,
+-      user: { name: 'Jane Doe', profilePicture: '/path/to/jane.jpg' },
+-      text: 'Really enjoyed using this.',
+-    },
+-    // ...기타 리뷰
+-  ]; 
+-
+-  const storeInfo = {
+-    image: '/images/storeimage.png',
+-    name: '대원수산',
+-    location: '서울특별시 동작구 노들로 674 노량진수산시장 , 2층 활어 2-15호 강변상회',
+-    hours: '월요일 (오늘) 09:00 ~ 21:00',
+-    phone: '02-1234-5678',
+-  };
+-
+-  const coupons = [
+-    { id: 1, title: '20% 할인', description: '연어' },
+-    { id: 2, title: '30% 할인', description: '방어' },
+-  ];
+-
+-  const handleOrderClick = () => {
+-    alert('주문하기 버튼 클릭!');
+-  };
+-
+-  return (
+-    <div>
+-        {/* <div style={infoCouponContainer}> 여기에 스타일을 추가 */}
+-        <StoreInfo storeInfo={storeInfo} coupons={coupons} />
+-      {/* </div> */}
+-      <div style={tabContainerStyle}>
+-        <TabBar activeTab={activeTab} onTabClick={setActiveTab} />
+-        {activeTab === 'menu' && <Button onClick={handleOrderClick} buttonText="주문하기" />}
+-      </div>
+-      {activeTab === 'info' && <p>여기에 가게정보를 표시합니다.</p>}
+-      {activeTab === 'menu' && <MenuList />}
+-      {activeTab === 'review' && <ReviewSection />}
+-    </div>
+-  );
+-}
+-
+-const tabContainerStyle = {
+-  display: 'flex',
+-  flexDirection: 'column',
+-  alignItems: 'center'
+-};
+-
+-
+-export default MarketDetail;
+Index: src/components/MainPage/Category.js
+===================================================================
+diff --git a/src/components/MainPage/Category.js b/src/components/MainPage/Category.js
+deleted file mode 100644
+--- a/src/components/MainPage/Category.js	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
++++ /dev/null	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
+@@ -1,26 +0,0 @@
+-import React, {useEffect, useState} from 'react';
+-import axios from 'axios';
+-import styles from './Category.module.css';
+-
+-
+-function Category() {
+-
+-  const [selectedOption, setSelectedOption] = useState('');
+-
+-  const handleOptionChange = (event) => {
+-    setSelectedOption(event.target.value);}
+-
+-  return (
+-    <>
+-      <select value={selectedOption} onChange={handleOptionChange}>
+-        <option value="option1">옵션 1</option>
+-        <option value="option2">옵션 2</option>
+-        <option value="option3">옵션 3</option>
+-      </select>
+-
+-      <p>{selectedOption}</p>
+-    </>
+-  );
+-}
+-
+-export default Category;
+\ No newline at end of file
+Index: src/components/Review/ReviewList.js
+===================================================================
+diff --git a/src/components/Review/ReviewList.js b/src/components/Review/ReviewList.js
+deleted file mode 100644
+--- a/src/components/Review/ReviewList.js	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
++++ /dev/null	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
+@@ -1,56 +0,0 @@
+-import React from 'react';
+-
+-function ReviewList({ reviews }) {
+-
+-    
+-  return (
+-    <div style={listContainer}>
+-      {reviews.map(review => (
+-        <div key={review.id} style={reviewContainer}>
+-          <div style={profileContainer}>
+-            <img src={review.user.profilePicture} alt={review.user.name} style={profilePicture} />
+-            <span>{review.user.name}</span>
+-          </div>
+-          <p>{review.text}</p>
+-          {review.image && <img src={review.image} alt="review" style={reviewImage} />}
+-        </div>
+-      ))}
+-    </div>
+-  );
+-}
+-
+-// 스타일 객체
+-const listContainer = {
+-  padding: '0px',
+-  width: '70%', // 원하는 너비로 설정
+-  margin: '0 auto', // 중앙 배치를 위한 스타일
+-};
+-
+-const reviewContainer = {
+-  display: 'flex',
+-  flexDirection: 'column',
+-  alignItems: 'center',
+-  padding: '10px',
+-  borderRadius: '8px',
+-  backgroundColor: '#f0f0f0',
+-  margin: '10px 0',
+-};
+-
+-const profileContainer = {
+-  display: 'flex',
+-  alignItems: 'center',
+-};
+-
+-const profilePicture = {
+-  width: '40px',
+-  height: '40px',
+-  borderRadius: '20px',
+-  marginRight: '10px',
+-};
+-
+-const reviewImage = {
+-  maxWidth: '100%', // 이미지가 컨테이너의 너비를 초과하지 않도록 설정
+-  height: 'auto',
+-};
+-
+-export default ReviewList;
+Index: src/components/Market/StoreListItem.js
+===================================================================
+diff --git a/src/components/Market/StoreListItem.js b/src/components/Market/StoreListItem.js
+deleted file mode 100644
+--- a/src/components/Market/StoreListItem.js	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
++++ /dev/null	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
+@@ -1,33 +0,0 @@
+-import React, {useEffect, useState} from 'react';
+-import axios from 'axios';
+-import styles from './StoreListItem.module.css';
+-import { Link }  from 'react-router-dom';
+-
+-
+-function StoreListItem() {
+-  return (
+-    <div className={styles.storeListItemBox}>
+-      <img src='/boss.png' className={styles.storeListItemBoss}/>
+-      <div className={styles.storeListItemDetailTop}>
+-        <div className={styles.storeListItemHeader}>
+-          <strong className={styles.storeListItemDetailName}>해피수산</strong>
+-          <span className={styles.storeListItemDetailMarket}>노량진</span>
+-        </div>
+-        <p className={styles.storeListItemDetailIntroduce}>신선신선</p>
+-
+-        <p className={styles.storeListItemBoxReview}>
+-          <img className={styles.storeListItemFresh} src='/fresh.png'/>5.0 (1024)
+-        </p>
+-        <p className={styles.storeListItemBoxState}>
+-          <img className={styles.storeListItemStateIcon} src='/heart.png'/>영업중
+-        </p>
+-        <div className={styles.storeListItemDetailBoxMore}>
+-          <Link to="/market/detail">더보기&gt;</Link>
+-        </div>
+-      </div>
+-
+-    </div>
+-  );
+-}
+-
+-export default StoreListItem;
+\ No newline at end of file
+Index: src/components/MainPage/Button.js
+===================================================================
+diff --git a/src/components/MainPage/Button.js b/src/components/MainPage/Button.js
+deleted file mode 100644
+--- a/src/components/MainPage/Button.js	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
++++ /dev/null	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
+@@ -1,23 +0,0 @@
+-import React from 'react';
+-
+-function Button({ onClick, buttonText }) {
+-  return (
+-    <button style={buttonStyle} onClick={onClick}>
+-      {buttonText}
+-    </button>
+-  );
+-}
+-
+-const buttonStyle = {
+-  backgroundColor: '#02298A',
+-  color: 'white',
+-  padding: '10px 20px',
+-  border: 'none',
+-  borderRadius: '5px',
+-  cursor: 'pointer',
+-  fontSize: '16px',
+-  width: '70%',
+-  margin: '0 auto',
+-};
+-
+-export default Button;
+Index: src/components/Common/Footer.js
+===================================================================
+diff --git a/src/components/Common/Footer.js b/src/components/Common/Footer.js
+deleted file mode 100644
+--- a/src/components/Common/Footer.js	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
++++ /dev/null	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
+@@ -1,14 +0,0 @@
+-import React, {useEffect, useState} from 'react';
+-import axios from 'axios';
+-import styles from './Footer.module.css';
+-
+-
+-function Footer() {
+-  return (
+-    <div className={styles.footerBox}>
+-      <img src='../LogoPage.png' />
+-    </div>
+-  )
+-}
+-
+-export default Footer;
+\ No newline at end of file
+Index: src/components/Auth/LoginPage.js
+===================================================================
+diff --git a/src/components/Auth/LoginPage.js b/src/components/Auth/LoginPage.js
+deleted file mode 100644
+--- a/src/components/Auth/LoginPage.js	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
++++ /dev/null	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
+@@ -1,113 +0,0 @@
+-import * as React from 'react';
+-import Button from '@mui/material/Button';
+-import CssBaseline from '@mui/material/CssBaseline';
+-import TextField from '@mui/material/TextField';
+-import Box from '@mui/material/Box';
+-import Link from '@mui/material/Link';
+-import Paper from '@mui/material/Paper';
+-import Grid from '@mui/material/Grid';
+-import Typography from '@mui/material/Typography';
+-import { createTheme, ThemeProvider } from '@mui/material/styles';
+-import { useNavigate } from 'react-router-dom'; 
+-
+-
+-
+-const defaultTheme = createTheme();
+-
+-export default function LoginPage() {
+-    
+-const navigate = useNavigate();
+-
+-  const handleSubmit = (event) => {
+-    event.preventDefault();
+-    const data = new FormData(event.currentTarget);
+-    console.log({
+-      email: data.get('email'),
+-      password: data.get('password'),
+-
+-    });
+-    navigate('/main');
+-  };
+-
+-  return (
+-    <ThemeProvider theme={defaultTheme}>
+-      <Grid container component="main" sx={{ height: '100vh' }}>
+-        <CssBaseline />
+-        <Grid
+-          item
+-          xs={false}
+-          sm={4}
+-          md={7}
+-          sx={{
+-            backgroundImage: 'url(/images/login.png)',
+-            backgroundRepeat: 'no-repeat',
+-            backgroundColor: (t) =>
+-              t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+-            backgroundSize: 'cover',
+-            backgroundPosition: 'center',
+-          }}
+-        />
+-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+-          <Box
+-            sx={{
+-              my: 27,
+-              mx: 4,
+-              display: 'flex',
+-              flexDirection: 'column',
+-              alignItems: 'center',
+-            }}
+-          >
+-        
+-            <Typography component="h1" variant="h5">
+-              안녕!
+-            </Typography>
+-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+-              <TextField
+-                margin="normal"
+-                required
+-                fullWidth
+-                id="email"
+-                label="Email Address"
+-                name="email"
+-                autoComplete="email"
+-                autoFocus
+-                InputProps={{ style: { borderRadius: '30px' } }}
+-              />
+-              <TextField
+-                margin="normal"
+-                required
+-                fullWidth
+-                name="password"
+-                label="Password"
+-                type="password"
+-                id="password"
+-                autoComplete="current-password"
+-                InputProps={{ style: { borderRadius: '30px' } }}
+-              />
+-              <Button
+-                type="submit"
+-                fullWidth
+-                variant="contained"
+-                sx={{ mt: 3, mb: 2, borderRadius: '30px' }} // borderRadius 추가
+-                >
+-                Login
+-              </Button>
+-              <Grid container>
+-                <Grid item xs>
+-                  <Link href="#" variant="body2">
+-                    비밀번호 찾기
+-                  </Link>
+-                </Grid>
+-                <Grid item>
+-                  <Link href="/register" variant="body2">
+-                    {"회원가입"}
+-                  </Link>
+-                </Grid>
+-              </Grid>
+-            </Box>
+-          </Box>
+-        </Grid>
+-      </Grid>
+-    </ThemeProvider>
+-  );
+-}
+\ No newline at end of file
+Index: src/components/MainPage/Announce.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/components/MainPage/Announce.js b/src/components/MainPage/Announce.js
+deleted file mode 100644
+--- a/src/components/MainPage/Announce.js	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
++++ /dev/null	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
+@@ -1,63 +0,0 @@
+-import React, {useEffect, useState} from 'react';
+-import axios from 'axios';
+-import styles from './Announce.module.css';
+-import 'bootstrap/dist/css/bootstrap.min.css';
+-import 'react-responsive-carousel/lib/styles/carousel.min.css';
+-import { Carousel } from 'react-bootstrap';
+-import StoreListItem from '../Market/StoreListItem';
+-import { useLocation } from 'react-router-dom';
+-
+-function Announce() {
+-  const carousel = {
+-    height: '400px',
+-    width: '60%',
+-    margin: '0 auto',
+-    borderRadius: '30px',
+-    overflow: 'hidden'
+-  }
+-
+-  const location = useLocation();
+-  const content = (location.pathname !== "/store/list") ? <img
+-  src="/images/storeimage.png"
+-  alt="슬라이드 1"
+-/>: <img src='/images/login.png' />;
+-
+-  return (           
+-    <div style={carousel}>
+-    <Carousel >
+-      {/* 슬라이드 이미지 */}
+-      <Carousel.Item id={styles.carousel}>
+-        {content}
+-        
+-        <Carousel.Caption>
+-          <h3>꽃소녀</h3>
+-          <p>김철수 作</p>
+-        </Carousel.Caption>
+-      </Carousel.Item>
+-      <Carousel.Item id={styles.carousel}>
+-          {content}
+-        <Carousel.Caption>
+-          <h3>형형색색</h3>
+-          <p>이숙자 作</p>
+-        </Carousel.Caption>
+-      </Carousel.Item>
+-      <Carousel.Item id={styles.carousel}>
+-          {content}
+-        <Carousel.Caption>
+-          <h3>분홍</h3>
+-          <p>Robert Park 作</p>
+-        </Carousel.Caption>
+-      </Carousel.Item>
+-      <Carousel.Item id={styles.carousel}>
+-          {content}
+-        <Carousel.Caption>
+-          <h3>두꺼운 터치</h3>
+-          <p>Thomas Lee 作</p>
+-        </Carousel.Caption>
+-      </Carousel.Item>
+-    </Carousel>
+-    </div>
+-  );
+-}
+-
+-export default Announce;
+\ No newline at end of file
+Index: src/components/Menu/MenuList.js
+===================================================================
+diff --git a/src/components/Menu/MenuList.js b/src/components/Menu/MenuList.js
+deleted file mode 100644
+--- a/src/components/Menu/MenuList.js	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
++++ /dev/null	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
+@@ -1,53 +0,0 @@
+-import React from 'react';
+-import MenuItem from './MenuItem';
+-
+-function MenuList() {
+-  const menuItems = [
+-    {
+-      name: '연어',
+-      imageUrl: '/images/salmon.png', 
+-      sizes: [
+-        { name: '소', price: 30000 },
+-        { name: '중', price: 40000 },
+-        { name: '대', price: 50000 },
+-      ],
+-    },
+-    {
+-      name: '방어',
+-      imageUrl: '/images/bang.png',
+-      sizes: [
+-        { name: '소', price: 15000 },
+-        { name: '중', price: 20000 },
+-        { name: '대', price: 25000 },
+-      ],
+-    },
+-    {
+-      name: '우럭',
+-      imageUrl: '/images/cry.png',
+-      sizes: [
+-        { name: '소', price: 15000 },
+-        { name: '중', price: 20000 },
+-        { name: '대', price: 25000 },
+-      ],
+-    },
+-  ];
+-
+-  return (
+-    <div style={menuListStyle}>
+-      {menuItems.map(item => (
+-        <MenuItem key={item.name} name={item.name} sizes={item.sizes} imageUrl={item.imageUrl} />
+-      ))}
+-    </div>
+-  );
+-}
+-
+-const menuListStyle = {
+-  display: 'flex',
+-  flexDirection: 'column',
+-  alignItems: 'center',
+-  justifyContent: 'center', // 수직 방향으로도 가운데 정렬
+-  margin: 'auto', // 컨테이너를 화면 가운데로 이동
+-  paddingTop: '10px', 
+-};
+-
+-export default MenuList;
+Index: src/components/MyPage/InputField.css
+===================================================================
+diff --git a/src/components/MyPage/InputField.css b/src/components/MyPage/InputField.css
+deleted file mode 100644
+--- a/src/components/MyPage/InputField.css	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
++++ /dev/null	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
+@@ -1,10 +0,0 @@
+-.inputField {
+-    border: 1px solid #ccc;
+-    margin: 10px 0;
+-    padding: 20px;
+-    border-radius: 4px;
+-    background-color: #ffffff;
+-    text-align: left;
+-    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+-    width: 500px;
+-}
+Index: src/components/MyPage/InputField.js
+===================================================================
+diff --git a/src/components/MyPage/InputField.js b/src/components/MyPage/InputField.js
+deleted file mode 100644
+--- a/src/components/MyPage/InputField.js	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
++++ /dev/null	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
+@@ -1,18 +0,0 @@
+-import React from 'react';
+-import './InputField.css';
+-
+-const InputField = ({ value, onChange, style, placeholder }) => {
+-  return (
+-    <input
+-      type="text"
+-      value={value}
+-      style={style}
+-      onChange={onChange}
+-      placeholder={placeholder}
+-      className='inputField'
+-    />
+-  );
+-};
+-
+-
+-export default InputField;
+Index: src/components/Common/SideBar.js
+===================================================================
+diff --git a/src/components/Common/SideBar.js b/src/components/Common/SideBar.js
+deleted file mode 100644
+--- a/src/components/Common/SideBar.js	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
++++ /dev/null	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
+@@ -1,17 +0,0 @@
+-import React, {useEffect, useState} from 'react';
+-import axios from 'axios';
+-import styles from './SideBar.module.css';
+-import { Link } from 'react-router-dom';
+-
+-
+-function SideBar() {
+-  return (
+-    <div className={styles.sideBarBox}>
+-      <Link to='/'>등록</Link>
+-      <Link to='/'>오늘의 <br/>방사능</Link>
+-      <Link to='/'>챗봇</Link>
+-    </div>
+-  )
+-}
+-
+-export default SideBar;
+\ No newline at end of file
+Index: src/routes/StoreList.js
+===================================================================
+diff --git a/src/routes/StoreList.js b/src/routes/StoreList.js
+deleted file mode 100644
+--- a/src/routes/StoreList.js	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
++++ /dev/null	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
+@@ -1,29 +0,0 @@
+-import React, {useEffect, useState} from 'react';
+-import axios from 'axios';
+-import Announce from '../components/MainPage/Announce';
+-import Coupon from '../components/MainPage/Announce';
+-import Category from '../components/MainPage/Category';
+-import StoreListItem from '../components/Market/StoreListItem';
+-import StoreHome from '../components/StoreHome';
+-import { Routes, Route } from 'react-router-dom';
+-import styles from './StoreList.module.css'
+-
+-
+-
+-function StoreList() {
+-  return (
+-    <>
+-    <Announce/>
+-    <div className={styles.storeListBox}>
+-      {/* <Coupon/> */}
+-      <StoreListItem/>
+-      <StoreListItem/>
+-      <StoreListItem/>
+-      <StoreListItem/>
+-      <StoreListItem/>
+-    </div>
+-    </>
+-  )
+-}
+-
+-export default StoreList;
+\ No newline at end of file
+Index: src/components/StoreItemDailyPrice/StoreItemDailyPrice.css
+===================================================================
+diff --git a/src/components/StoreItemDailyPrice/StoreItemDailyPrice.css b/src/components/StoreItemDailyPrice/StoreItemDailyPrice.css
+deleted file mode 100644
+--- a/src/components/StoreItemDailyPrice/StoreItemDailyPrice.css	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
++++ /dev/null	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
+@@ -1,71 +0,0 @@
+-/* styles.css */
+-
+-/* Filter and origin buttons styles */
+-.filter-buttons, .origin-buttons {
+-  display: flex;
+-  justify-content: space-around;
+-  padding: 20px;
+-}
+-
+-.filter-buttons button, .origin-buttons button {
+-  background-color: #007bff;
+-  color: #fff;
+-  padding: 10px 20px;
+-  border: none;
+-  cursor: pointer;
+-  font-size: 14px;
+-  font-weight: 600;
+-  border-radius: 5px;
+-}
+-
+-.filter-buttons button.selected, .origin-buttons button.selected {
+-  background-color: #0056b3;
+-}
+-
+-/* Carousel styles */
+-.carousel {
+-  max-width: 600px;
+-  margin: 0 auto;
+-  padding: 20px;
+-}
+-
+-/* Price list styles */
+-.price-list {
+-  margin: 20px;
+-}
+-
+-.price-list table {
+-  width: 100%;
+-  border-collapse: collapse;
+-}
+-
+-.price-list table th, .price-list table td {
+-  border: 1px solid #ddd;
+-  padding: 8px;
+-  text-align: center;
+-}
+-
+-.price-list table th {
+-  background-color: #f2f2f2;
+-}
+-
+-.price-list table tr:nth-child(even) {
+-  background-color: #f2f2f2;
+-}
+-
+-.price-list table tr:hover {
+-  background-color: #cce6ff;
+-}
+-
+-/* Carousel custom styles */
+-.carousel .slide {
+-  background-color: #333;
+-  padding: 20px;
+-  text-align: center;
+-}
+-
+-.carousel .legend {
+-  color: #fff;
+-  font-size: 16px;
+-  font-weight: 600;
+-}
+\ No newline at end of file
+Index: src/components/Common/Footer.module.css
+===================================================================
+diff --git a/src/components/Common/Footer.module.css b/src/components/Common/Footer.module.css
+deleted file mode 100644
+--- a/src/components/Common/Footer.module.css	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
++++ /dev/null	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
+@@ -1,12 +0,0 @@
+-.footerBox {
+-  width: 1600px;
+-  height: 200px;
+-  margin: 200px auto;
+-  text-align: center;
+-}
+-
+-.footerBox img {
+-  width: 200px;
+-  height: 200px;
+-  margin: 0 auto;
+-}
+\ No newline at end of file
+Index: src/components/MyPage/MyPage.js
+===================================================================
+diff --git a/src/components/MyPage/MyPage.js b/src/components/MyPage/MyPage.js
+deleted file mode 100644
+--- a/src/components/MyPage/MyPage.js	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
++++ /dev/null	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
+@@ -1,110 +0,0 @@
+-import React from 'react';
+-import { Link } from 'react-router-dom';
+-
+-function MyPage() {
+-  // 사용자 정보를 상태 혹은 API로부터 불러오기.
+-  // 예시
+-  const user = {
+-    name: 'Rose',
+-    email: 'rose@example.com',
+-    accountType: 'personal', // or 'business'
+-    profilePicture: '/images/rose.png',
+-  };
+-
+-  return (
+-    <div style={outerContainerStyle}>
+-    <div style={styles.container}>
+-      <div style={styles.profileSection}>
+-        <img src={user.profilePicture} alt={user.name} style={styles.profilePicture} />
+-        <div style={styles.userInfo}>
+-          <h2>{user.name}</h2>
+-          <p>{user.accountType === 'personal' ? '개인' : '비즈니스'} 계정</p>
+-          <p>{user.email}</p>
+-        </div>
+-      </div>
+-      <div style={styles.linkSection}>
+-  <div style={styles.linkContainer}>
+-    <Link to="/edit" style={styles.link}>회원정보 수정</Link>
+-  </div>
+-  <div style={styles.linkContainer}>
+-    <Link to="/coupons" style={styles.link}>쿠폰함</Link>
+-  </div>
+-  <div style={styles.linkContainer}>
+-    <Link to="/my-orders" style={styles.link}>마이 오더</Link>
+-  </div>
+-  <div style={styles.linkContainer}>
+-    <Link to="/wishlist" style={styles.link}>찜하기</Link>
+-  </div>
+-</div>
+-    </div>
+-    </div>
+-  );
+-}
+-
+-const outerContainerStyle = {
+-    display: 'flex',
+-    justifyContent: 'center',
+-    alignItems: 'center',
+-    height: '100vh',
+-    margin: '0', 
+-  };
+-
+-const styles = {
+-  container: {
+-    display: 'flex',
+-    flexDirection: 'column',
+-    alignItems: 'center',
+-    justifyContent: 'center', // 가운데 정렬 추가
+-    padding: '20px',
+-    width: '70%',
+-    height: '70vh', // 화면 높이의 100%를 차지하도록 설정
+-  },
+-  profileSection: {
+-    display: 'flex',
+-    alignItems: 'center',
+-    marginBottom: '20px',
+-    width: '100%', //
+-  },
+-  profilePicture: {
+-    width: '110px',
+-    height: '110px',
+-    borderRadius: '80px',
+-    marginRight: '20px', // 사진과 텍스트 사이의 간격을 조정
+-
+-  },
+-  userInfo: {
+-    display: 'flex',
+-    flexDirection: 'column',
+-    alignItems: 'flex-start', // 왼쪽 정렬
+-  },
+-  linkSection: {
+-    display: 'flex',
+-    flexDirection: 'column',
+-    width: '100%', 
+-  },
+-  linkContainer: {
+-    margin: '20px 0',
+-    padding: '20px',
+-    borderRadius: '4px',
+-    backgroundColor: '#ffffff', 
+-    textAlign: 'center',
+-    boxShadow: '0px 0px 15px rgba(0, 0, 0, 0.2)',
+-  },
+-  link: {
+-    textDecoration: 'none',
+-    color: 'black',
+-    fontWeight: 'bold',
+-  },
+-  button: {
+-    display: 'inline-block',
+-    padding: '10px 20px',
+-    margin: '5px 0',
+-    backgroundColor: '#4CAF50', 
+-    color: 'white',
+-    textDecoration: 'none',
+-    textAlign: 'center',
+-    borderRadius: '8px',
+-  },
+-};
+-
+-export default MyPage;
+Index: src/components/Market/StoreListItem.module.css
+===================================================================
+diff --git a/src/components/Market/StoreListItem.module.css b/src/components/Market/StoreListItem.module.css
+deleted file mode 100644
+--- a/src/components/Market/StoreListItem.module.css	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
++++ /dev/null	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
+@@ -1,115 +0,0 @@
+-.storeListItemBox {
+-  /* background-color: yellow; */
+-  width: 700px;
+-  height: 330px;
+-  margin: 0 auto;
+-  display: grid;
+-  place-items: center;
+-  grid-template-columns: 1fr 1fr;
+-  padding: 15px 0;
+-  border: 1px solid #000;
+-  border-radius: 15px;
+-
+-}
+-
+-.storeListItemBoss {
+-  border-radius: 15px;
+-  width: 300px;
+-  position: relative;
+-  left: -2%;
+-}
+-
+-.storeListItemDetailTop {
+-  /* background-color: green; */
+-  width: 100%;
+-  height: 60%;
+-  /* margin-top: 10%; */
+-}
+-
+-
+-
+-
+-.storeListItemHeader {
+-  display: inline-block;
+-  /* grid-template-columns: 1fr 1fr; */
+-  width: 100%;
+-
+-}
+-
+-.storeListItemDetailName {
+-  font-size: 30px;
+-  font-weight: 900;
+-  position: relative;
+-  left: -20%;
+-}
+-
+-.storeListItemDetailMarket {
+-  position: relative;
+-  font-size: 20px;
+-  color: #3b3b3b;
+-  position: relative;
+-  left: -5%;
+-}
+-
+-.storeListItemDetailIntroduce {
+-  min-height: 20%;
+-  width: 80%;
+-  text-align: left;
+-  position: relative;
+-  left: 8%;
+-  margin-top: 5%;
+-}
+-
+-
+-.storeListItemBoxReview {
+-  font-size: 25px;
+-  font-weight: 900;
+-  position: relative;
+-  left: -15%;
+-  margin-top: 20px;
+-  margin-bottom: 10px;
+-}
+-
+-.storeListItemBoxState {
+-  font-size: 25px;
+-  font-weight: 900;
+-  position: relative;
+-  left: -20%;
+-  margin-bottom: 0;
+-}
+-
+-.storeListItemDetailBoxMore {
+-    
+-}
+-
+-.storeListItemDetailBoxMore a {
+-  color: black;
+-  font-size: 20px;
+-  font-weight: 500;
+-  text-decoration: none;
+-  position: relative;
+-  left: 35%;
+-  /* transform: scale(1); 
+-    transition: transform 0.3s ease; */
+-}
+-
+-.storeListItemDetailBoxMore a:hover {
+-  /* transform: scale(1.1); */
+-}
+-
+-.storeListItemFresh {
+-  /* border-radius: 15px; */
+-  width: 10%;
+-  margin: 0 5%;
+-  position: relative;
+-  /* top: -7%; */
+-  transform: rotate(45deg);
+-}
+-
+-.storeListItemStateIcon {
+-  border-radius: 15px;
+-  width: 9%;
+-  margin: 0 3% 3% 3%;
+-  position: relative;
+-  bottom: 7%;
+-}
+\ No newline at end of file
+Index: src/components/Market/TabBar.js
+===================================================================
+diff --git a/src/components/Market/TabBar.js b/src/components/Market/TabBar.js
+deleted file mode 100644
+--- a/src/components/Market/TabBar.js	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
++++ /dev/null	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
+@@ -1,56 +0,0 @@
+-import React from 'react';
+-
+-function TabBar({ activeTab, onTabClick }) {
+-  return (
+-    <div style={tabBarStyle}>
+-      <button 
+-        style={activeTab === 'info' ? activeTabStyle : tabStyle} 
+-        onClick={() => onTabClick('info')}
+-      >
+-        가게정보
+-      </button>
+-      <button 
+-        style={activeTab === 'menu' ? activeTabStyle : tabStyle} 
+-        onClick={() => onTabClick('menu')}
+-      >
+-        메뉴
+-      </button>
+-      <button 
+-        style={activeTab === 'review' ? activeTabStyle : tabStyle} 
+-        onClick={() => onTabClick('review')}
+-      >
+-        리뷰
+-      </button>
+-    </div>
+-  );
+-}
+-
+-const tabBarStyle = {
+-  display: 'flex',
+-  justifyContent: 'space-around',
+-  alignItems: 'center',
+-  padding: '10px',
+-  border: '2px solid #ccc',
+-  borderRadius: '10px',
+-  width: '70%', // 이 값을 조절하여 탭바 전체의 길이를 설정하세요.
+-  margin: '0 auto', // 탭바를 화면 중앙에 위치시키기 위한 설정
+-};
+-
+-const tabStyle = {
+-  padding: '10px 20px',
+-  fontSize: '16px',
+-  border: 'none',
+-  background: 'none',
+-  cursor: 'pointer',
+-  color: '#000',
+-  borderRadius: '10px',
+-};
+-
+-const activeTabStyle = {
+-  ...tabStyle,
+-  border: 'none',
+-  backgroundColor: '#ddd', // 활성 탭의 배경색
+-  color: '#fff', // 활성 탭의 텍스트 색상
+-};
+-
+-export default TabBar;
+Index: src/components/MainPage/Announce.module.css
+===================================================================
+diff --git a/src/components/MainPage/Announce.module.css b/src/components/MainPage/Announce.module.css
+deleted file mode 100644
+--- a/src/components/MainPage/Announce.module.css	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
++++ /dev/null	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
+@@ -1,13 +0,0 @@
+-#carousel {
+-  width: 100%;
+-  height: 400px;
+-  overflow: hidden;
+-  border-radius: 30px;
+-}
+-
+-#carousel img {
+-  width: 100%;
+-  height: 400px;
+-  border-radius: 30px;
+-
+-}
+\ No newline at end of file
+Index: src/components/MyPage/EditPage.js
+===================================================================
+diff --git a/src/components/MyPage/EditPage.js b/src/components/MyPage/EditPage.js
+deleted file mode 100644
+--- a/src/components/MyPage/EditPage.js	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
++++ /dev/null	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
+@@ -1,116 +0,0 @@
+-import React, { useState } from 'react';
+-import InputField from './InputField';
+-
+-function EditPage() {
+-  // 예시 사용자 정보
+-  const user = {
+-    name: 'Rose',
+-    email: 'rose@example.com',
+-    password: 'password123',
+-    phoneNumber: '010-1234-5678',
+-    postalCode: '12345',
+-    primaryAddress: '서울시 강남구',
+-    detailAddress: '역삼동',
+-    bank: '국민은행',
+-    accountNumber: '1234-56-789012',
+-  };
+-
+-  // 각 필드의 상태를 초기화합니다.
+-  const [name, setName] = useState(user.name);
+-  const [email, setEmail] = useState(user.email);
+-  const [password, setPassword] = useState(user.password);
+-  const [phoneNumber, setPhoneNumber] = useState(user.phoneNumber);
+-  const [postalCode, setPostalCode] = useState(user.postalCode);
+-  const [primaryAddress, setPrimaryAddress] = useState(user.primaryAddress);
+-  const [detailAddress, setDetailAddress] = useState(user.detailAddress);
+-  const [bank, setBank] = useState(user.bank);
+-  const [accountNumber, setAccountNumber] = useState(user.accountNumber);
+-
+-  // 수정 버튼 클릭 시 실행될 함수
+-  const handleUpdate = () => {
+-    // TODO: 여기서 프로필 정보 업데이트 로직을 구현합니다.
+-    // 예시: API 호출을 통해 서버에 데이터를 업데이트합니다.
+-    console.log({
+-      name,
+-      email,
+-      password,
+-      phoneNumber,
+-      postalCode,
+-      primaryAddress,
+-      detailAddress,
+-      bank,
+-      accountNumber,
+-    });
+-  };
+-  
+-  const styles = {
+-      container: {
+-        display: 'flex',
+-        flexDirection: 'row', // 행 방향으로 아이템들을 정렬합니다.
+-        alignItems: 'flex-start', // 아이템들을 컨테이너의 시작 부분에 정렬합니다.
+-        // margin: '0 auto', // 컨테이너를 화면 가운데 정렬합니다.
+-        padding: '20px', // 컨테이너의 패딩을 추가합니다.
+-        // width: '50%',
+-        justifyContent: 'center'
+-    },
+-    profilePicture: {
+-        width: '200px',
+-        height: '200px',
+-        borderRadius: '100px',
+-        marginBottom: '20px',
+-        alignSelf: 'flex-start', // 사진을 컨테이너의 시작 부분에 정렬합니다.
+-    },
+-    formSection: {
+-        display: 'flex',
+-        flexDirection: 'column',
+-        alignItems: 'flex-start',
+-        marginLeft: '20px', // 프로필 사진과 폼 섹션 사이에 마진을 추가합니다.
+-    },
+-    title: {
+-        fontSize: '24px', // 원하는 폰트 크기로 설정합니다.
+-        fontWeight: 'bold', // 제목의 폰트를 굵게 설정합니다.
+-        marginBottom: '20px', // 제목 아래에 마진을 추가합니다.
+-        textAlign: 'center',
+-      },
+-    buttonStyle: {
+-        border: 'none',
+-        margin: '10px 0',
+-        padding: '10px',
+-        borderRadius: '4px',
+-        backgroundColor: '#C4C4C433',
+-        textAlign: 'center', // 수정: 텍스트를 중앙에 배치합니다.
+-        // boxShadow: '0px 0px 15px rgba(0, 0, 0, 0.2)',
+-        width: '500px',
+-        cursor: 'pointer',
+-
+-    }
+-    
+-};
+-
+-// Input 태그의 style 프로퍼티에 styles.input을 추가하세요.
+-  // <input style={styles.input} ... />
+-  
+-  
+-  
+-    return (
+-      <div style={styles.container}>
+-        <img src="/images/rose.png" alt={name} style={styles.profilePicture} />
+-        <div style={styles.formSection}>
+-        <h1 style={styles.title}>회원 정보 수정</h1> 
+-          <InputField type="text" value={name} onChange={e => setName(e.target.value)} placeholder="이름" />
+-          <InputField type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Email" />
+-          <InputField type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" />
+-          <InputField type="text" value={phoneNumber} onChange={e => setPhoneNumber(e.target.value)} placeholder="Phone Number" />
+-          <InputField type="text" value={postalCode} onChange={e => setPostalCode(e.target.value)} placeholder="Postal Code" />
+-          <InputField type="text" value={primaryAddress} onChange={e => setPrimaryAddress(e.target.value)} placeholder="Primary Address" />
+-          <InputField type="text" value={detailAddress} onChange={e => setDetailAddress(e.target.value)} placeholder="Detail Address" />
+-          <InputField type="text" value={bank} onChange={e => setBank(e.target.value)} placeholder="Bank" />
+-          <InputField type="text" value={accountNumber} onChange={e => setAccountNumber(e.target.value)} placeholder="Account Number" />
+-          <button onClick={handleUpdate} style={styles.buttonStyle}>수정</button>
+-        </div>
+-      </div>
+-    );
+-
+-}
+-export default EditPage;
+-
+Index: src/components/Common/Header.js
+===================================================================
+diff --git a/src/components/Common/Header.js b/src/components/Common/Header.js
+deleted file mode 100644
+--- a/src/components/Common/Header.js	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
++++ /dev/null	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
+@@ -1,43 +0,0 @@
+-import React, {useEffect, useState} from 'react';
+-import axios from 'axios';
+-import styles from './Header.module.css';
+-import { Link }  from 'react-router-dom';
+-
+-
+-
+-
+-function Header() {
+-
+-  const [user, setUser] = useState('');
+-
+-
+-  return (
+-    <>
+-    <div className={styles.headerBox}>
+-      <div className={styles.headerTop}>
+-          <Link to="/" id={styles.headerTitle}>BLEU AUCTION</Link>
+-            <form className={styles.headerSearchForm}>
+-              <input className={styles.headerSearchBox} type='text' placeholder='검색어를 입력하세요.'></input>
+-              <button id={styles.searchBtn} type="submit"></button>
+-            </form>
+-          <Link to='/login'>로그인</Link>
+-          {/* <Link to='/'>회원가입</Link> */}
+-          {/* <Link to="/api/test" >test</Link> */}
+-          {/* <Link to="/api/test2" >test2</Link> */}
+-      </div>
+-
+-
+-      <div className={styles.headerBottom}>
+-          <Link to='/'>추천</Link>
+-          <Link to='/store/list'>시장</Link>
+-          <Link to='/StoreItemDailyPrice'>시세</Link>
+-          <Link to='/'>공지사항</Link>
+-      </div>
+-    <hr></hr>
+-    </div>
+-    <div className={styles.hidden_block}></div>
+-    </>
+-  )
+-}
+-
+-export default Header;
+\ No newline at end of file
+Index: src/components/Review/ReviewForm.js
+===================================================================
+diff --git a/src/components/Review/ReviewForm.js b/src/components/Review/ReviewForm.js
+deleted file mode 100644
+--- a/src/components/Review/ReviewForm.js	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
++++ /dev/null	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
+@@ -1,106 +0,0 @@
+-
+-import React, { useState } from 'react';
+-
+-function ReviewForm({ addReview }) {
+-  const [review, setReview] = useState(''); // 리뷰 텍스트 상태
+-  const [file, setFile] = useState(null); // 선택된 파일 상태
+-
+-
+-  // 리뷰 텍스트가 변경될 때 호출되는 핸들러
+-  const handleReviewChange = (e) => {
+-    setReview(e.target.value);
+-  };
+-
+-  // 파일 선택이 변경될 때 호출되는 핸들러
+-  const handleFileChange = (e) => {
+-    setFile(e.target.files[0]);
+-  };
+-
+-  // 제출 버튼을 클릭했을 때 호출되는 핸들러
+-  const handleSubmit = (e) => {
+-    e.preventDefault(); // 페이지 리로드 방지
+-    console.log('Submitted Review:', review);
+-    console.log('Submitted File:', file);
+-    // 여기에 서버로 리뷰 및 파일 데이터 전송 로직을 추가?
+-
+-    addReview({ text: review, user: { name: 'Username', profilePicture: '/image/rose.png' } });
+-    setReview('');
+-  };
+-
+-  return (
+-    <div style={formContainer}>
+-      <div style={profileContainer}>
+-        <img src="/images/rose.png" alt="profile" style={profilePicture} />
+-        <span>회원이름</span>
+-      </div>
+-      <textarea
+-        value={review}
+-        onChange={handleReviewChange}
+-        placeholder="리뷰를 입력하세요"
+-        style={textareaStyle}
+-      />
+-    <div style={buttonContainerStyle}>
+-      <input type="file" onChange={handleFileChange} style={fileInputStyle} />
+-      <button onClick={handleSubmit} style={submitButtonStyle}>Submit Review</button>
+-    </div>
+-    </div>
+-  );
+-}
+-
+-const formContainer = {
+-  display: 'flex',
+-  flexDirection: 'column',
+-  alignItems: 'center',
+-  padding: '20px',
+-  borderRadius: '8px',
+-  backgroundColor: '#f0f0f0',
+-  width: '70%',
+-  margin: '0 auto', // 중앙 배치
+-
+-};
+-
+-const profileContainer = {
+-  display: 'flex',
+-  flexDirection: 'column', 
+-  alignItems: 'flex-start', 
+-  width: '80%', 
+-  marginBottom: '10px',
+-};
+-
+-
+-const profilePicture = {
+-  width: '40px',
+-  height: '40px',
+-  borderRadius: '20px',
+-  marginRight: '10px',
+-};
+-
+-const textareaStyle = {
+-  width: '80%',
+-  height: '100px',
+-  margin: '10px 0',
+-  padding: '10px',
+-  borderRadius: '8px',
+-};
+-
+-const fileInputStyle = {
+-  margin: '10px 0',
+-};
+-
+-const submitButtonStyle = {
+-  padding: '10px 20px',
+-  backgroundColor: 'blue',
+-  color: 'white',
+-  border: 'none',
+-  borderRadius: '4px',
+-  cursor: 'pointer',
+-};
+-
+-const buttonContainerStyle = {
+-  display: 'flex',
+-  flexDirection: 'row',
+-  justifyContent: 'space-between',
+-  width: '50%',
+-};
+-
+-export default ReviewForm;
+Index: src/components/Common/Header.module.css
+===================================================================
+diff --git a/src/components/Common/Header.module.css b/src/components/Common/Header.module.css
+deleted file mode 100644
+--- a/src/components/Common/Header.module.css	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
++++ /dev/null	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
+@@ -1,85 +0,0 @@
+-.headerBox {
+-  width: 1920px;
+-  height: 200px;
+-  margin: 0 auto;
+-  display: grid;
+-  grid-template-rows: 1fr 1fr;
+-  position: fixed;
+-  top:0;
+-
+-  z-index: 9999; 
+-  background-color: white;
+-  /* border-bottom: 1px solid black; */
+-}
+-
+-.hidden_block {
+-  width:auto;
+-  height: 300px;
+-}
+-
+-.headerTop {
+-  display: grid;
+-  place-items: center;
+-  grid-template-columns: 2fr 4fr 1fr 1fr;
+-}
+-
+-.headerTop a {
+-  color: black;
+-  font-size: 20px;
+-  font-weight: 500;
+-  text-decoration: none;
+-  transition: transform 0.3s ease;
+-}
+-
+-.headerTop a:hover {
+-  transform: scale(1.1);
+-}
+-
+-#headerTitle {
+-    font-size: 30px;
+-    font-weight: bold;
+-    color: blue;
+-}
+-
+-.headerSearchForm {
+-  display: flex;
+-  flex-direction: row;
+-}
+-
+-.headerSearchBox {
+-  width: 300px;
+-  height: 40px;
+-}
+-
+-#searchBtn {
+-  background-image: url('/public/search.png');
+-  background-size: cover;
+-  background-repeat: no-repeat;
+-  /* padding-top: 40px; */
+-  /* 콘텐츠의 높이를 말한다.*/
+-  height: 40px;
+-  width: 40px;
+-  /* overflow: hidden; */
+-}
+-
+-
+-.headerBottom {
+-  width: 1000px;
+-  margin: 0 auto;
+-  display: grid;
+-  place-items: center;
+-  grid-template-columns: 1fr 1fr 1fr 1fr;
+-
+-}
+-
+-.headerBottom a {
+-  color: black;
+-  font-size: 30px;
+-  font-weight: 500;
+-  text-decoration: none;
+-  transition: transform 0.3s ease;
+-}
+-
+-.headerBottom a:hover {
+-  transform: scale(1.1);
+-}
+Index: src/components/Market/StoreInfo.js
+===================================================================
+diff --git a/src/components/Market/StoreInfo.js b/src/components/Market/StoreInfo.js
+deleted file mode 100644
+--- a/src/components/Market/StoreInfo.js	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
++++ /dev/null	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
+@@ -1,69 +0,0 @@
+-import React from 'react';
+-import Coupon from '../Coupon/Coupon'; 
+-
+-function StoreIntro({ storeInfo, coupons }) {
+-  return (
+-    <div style={outerContainer}>
+-    <div style={introContainer}>
+-      <img src={storeInfo.image} alt={storeInfo.name} style={imageStyle} />
+-     <div style={storeInfoContainer}>
+-      <h2>{storeInfo.name}</h2>
+-      <ul style={infoList}>
+-        <li>{storeInfo.location}</li>
+-        <li>{storeInfo.hours}</li>
+-        <li>{storeInfo.phone}</li>
+-      </ul>
+-      </div>
+-      <div style={couponContainer}>
+-        {coupons.map(coupon => (
+-          <Coupon key={coupon.id} coupon={coupon} />
+-        ))}
+-      </div>
+-    </div>
+-    </div>
+-  );
+-}
+-
+-const outerContainer = {
+-    display: 'flex',
+-    justifyContent: 'center',
+-    alignItems: 'center',
+-    height: '67vh', // 화면 높이를 100%로 설정 (필요한 경우 조절)
+-  };
+-
+-const introContainer = {
+-    display: 'flex',
+-    flexDirection: 'column', // children들을 열 방향으로 배열
+-    alignItems: 'center', // children들을 가운데 정렬
+-    backgroundColor: '#f0f0f0', // 연한 회색 배경
+-    padding: '0px',
+-    borderRadius: '8px', // 소프트한 테두리를 위한 둥근 모서리 추가
+-    textAlign: 'center',
+-    width : '70%',
+-};
+-
+-const storeInfoContainer = {
+-    textAlign: 'left', 
+-    padding: '20px',
+-    marginBottom: '10px', // 쿠폰 컨테이너와의 간격을 조절
+-    width : '100%',
+-  };
+-
+-const imageStyle = {
+-  width: '100%',
+-  height: '200px',
+-  objectFit: 'cover',
+-};
+-
+-const infoList = {
+-  listStyleType: 'none',
+-  padding: '0',
+-  margin: '10px 0',
+-};
+-
+-const couponContainer = {
+-  display: 'flex',
+-  justifyContent: 'center',
+-};
+-
+-export default StoreIntro;
+Index: src/routes/StoreList.module.css
+===================================================================
+diff --git a/src/routes/StoreList.module.css b/src/routes/StoreList.module.css
+deleted file mode 100644
+--- a/src/routes/StoreList.module.css	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
++++ /dev/null	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
+@@ -1,18 +0,0 @@
+-.storeBox {
+-  width: 80%;
+-  height: 30%;
+-  margin: 100px auto;
+-  text-align: center;
+-  display: grid;
+-  place-items: center;
+-  border: 1px solid black;
+-  border-radius: 20px;
+-  padding: 30px;
+-  grid-template-columns: 1fr 1fr 1fr;
+-  grid-template-rows: 1fr 1fr;
+-  transition: transform 0.3s ease;
+-}
+-
+-.storeBox a:hover  {
+-  transform: scale(1.1);
+-}
+\ No newline at end of file
+Index: src/components/Menu/MenuItem.js
+===================================================================
+diff --git a/src/components/Menu/MenuItem.js b/src/components/Menu/MenuItem.js
+deleted file mode 100644
+--- a/src/components/Menu/MenuItem.js	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
++++ /dev/null	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
+@@ -1,68 +0,0 @@
+-import React from 'react';
+-
+-function MenuItem({ name, sizes, imageUrl }) {
+-  return (
+-    <div style={menuItemStyle}>
+-      <div style={contentStyle}>
+-        {imageUrl && (
+-          <img src={imageUrl} alt={name} style={imageStyle} />
+-        )}
+-        <div style={textStyle}>
+-          <span style={nameStyle}>{name}</span>
+-          <div style={sizesStyle}>
+-            {sizes.map(size => (
+-              <div key={size.name} style={sizeStyle}>
+-                <span>{size.name}</span>
+-                <span>{size.price}원</span>
+-              </div>
+-            ))}
+-          </div>
+-        </div>
+-      </div>
+-    </div>
+-  );
+-}
+-
+-const menuItemStyle = {
+-  padding: '10px',
+-  borderBottom: '1px solid #ccc',
+-  background: 'white', 
+-  margin: '10px', 
+-  borderRadius: '8px', 
+-  boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.1)', 
+-  width: '70%',
+-};
+-
+-const contentStyle = {
+-  display: 'flex',
+-  alignItems: 'center',
+-  marginTop: '10px',
+-};
+-
+-const imageStyle = {
+-  width: '160px',
+-  height: '100px',
+-  objectFit: 'cover',
+-  marginRight: '30px', 
+-};
+-
+-const textStyle = {
+-  display: 'flex',
+-  flexDirection: 'column',
+-  alignItems: 'flex-start',
+-};
+-
+-const nameStyle = {
+-  fontSize: '20px',
+-  fontWeight: 'bold',
+-};
+-
+-const sizesStyle = {
+-  marginTop: '5px',
+-};
+-
+-const sizeStyle = {
+-  margin: '2px 0',
+-};
+-
+-export default MenuItem;
+Index: node_modules/.cache/.eslintcache
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/node_modules/.cache/.eslintcache b/node_modules/.cache/.eslintcache
+--- a/node_modules/.cache/.eslintcache	(revision 020f01bda1e084dc456c322a8ec7d6f8843dd08f)
++++ b/node_modules/.cache/.eslintcache	(date 1697095019899)
+@@ -1,0 +1,1 @@
++[{"C:\\Users\\think\\git\\bleuauction_fe\\src\\index.js":"1","C:\\Users\\think\\git\\bleuauction_fe\\src\\App.js":"2","C:\\Users\\think\\git\\bleuauction_fe\\src\\reportWebVitals.js":"3","C:\\Users\\think\\git\\bleuauction_fe\\src\\components\\main.jsx":"4","C:\\Users\\think\\git\\bleuauction_fe\\src\\components\\Test\\Test.js":"5","C:\\Users\\think\\git\\bleuauction_fe\\src\\components\\Test\\test2.jsx":"6","C:\\Users\\think\\git\\bleuauction_fe\\src\\routes\\Home.js":"7","C:\\Users\\think\\git\\bleuauction_fe\\src\\components\\StoreHome.js":"8","C:\\Users\\think\\git\\bleuauction_fe\\src\\components\\MainPage\\Announce.js":"9","C:\\Users\\think\\git\\bleuauction_fe\\src\\components\\StoreHomeItem.js":"10"},{"size":552,"mtime":1696236038542,"results":"11","hashOfConfig":"12"},{"size":2694,"mtime":1697094894889,"results":"13","hashOfConfig":"12"},{"size":375,"mtime":1696236038543,"results":"14","hashOfConfig":"12"},{"size":743,"mtime":1696943521786,"results":"15","hashOfConfig":"12"},{"size":1115,"mtime":1696943521784,"results":"16","hashOfConfig":"12"},{"size":470,"mtime":1696943521785,"results":"17","hashOfConfig":"12"},{"size":526,"mtime":1697094894951,"results":"18","hashOfConfig":"12"},{"size":441,"mtime":1697087234076,"results":"19","hashOfConfig":"12"},{"size":1800,"mtime":1697094960932,"results":"20","hashOfConfig":"12"},{"size":1261,"mtime":1697094894942,"results":"21","hashOfConfig":"12"},{"filePath":"22","messages":"23","suppressedMessages":"24","errorCount":0,"fatalErrorCount":0,"warningCount":0,"fixableErrorCount":0,"fixableWarningCount":0},"131ovsd",{"filePath":"25","messages":"26","suppressedMessages":"27","errorCount":0,"fatalErrorCount":0,"warningCount":2,"fixableErrorCount":0,"fixableWarningCount":0,"source":null},{"filePath":"28","messages":"29","suppressedMessages":"30","errorCount":0,"fatalErrorCount":0,"warningCount":0,"fixableErrorCount":0,"fixableWarningCount":0},{"filePath":"31","messages":"32","suppressedMessages":"33","errorCount":0,"fatalErrorCount":0,"warningCount":5,"fixableErrorCount":0,"fixableWarningCount":0,"source":"34"},{"filePath":"35","messages":"36","suppressedMessages":"37","errorCount":0,"fatalErrorCount":0,"warningCount":0,"fixableErrorCount":0,"fixableWarningCount":0},{"filePath":"38","messages":"39","suppressedMessages":"40","errorCount":0,"fatalErrorCount":0,"warningCount":3,"fixableErrorCount":0,"fixableWarningCount":0,"source":"41"},{"filePath":"42","messages":"43","suppressedMessages":"44","errorCount":0,"fatalErrorCount":0,"warningCount":6,"fixableErrorCount":0,"fixableWarningCount":0,"source":null},{"filePath":"45","messages":"46","suppressedMessages":"47","errorCount":0,"fatalErrorCount":0,"warningCount":3,"fixableErrorCount":0,"fixableWarningCount":0,"source":null},{"filePath":"48","messages":"49","suppressedMessages":"50","errorCount":0,"fatalErrorCount":0,"warningCount":3,"fixableErrorCount":0,"fixableWarningCount":0,"source":null},{"filePath":"51","messages":"52","suppressedMessages":"53","errorCount":0,"fatalErrorCount":0,"warningCount":8,"fixableErrorCount":0,"fixableWarningCount":0,"source":null},"C:\\Users\\think\\git\\bleuauction_fe\\src\\index.js",[],[],"C:\\Users\\think\\git\\bleuauction_fe\\src\\App.js",["54","55"],[],"C:\\Users\\think\\git\\bleuauction_fe\\src\\reportWebVitals.js",[],[],"C:\\Users\\think\\git\\bleuauction_fe\\src\\components\\main.jsx",["56","57","58","59","60"],[],"import React from \"react\";\r\nimport logo from '../logo.svg';\r\nimport { useNavigate, Link } from 'react-router-dom';\r\nimport Test from './Test/Test'; // 경로 수정\r\nimport Test2 from './Test/test2';\r\n\r\n\r\n\r\nimport '../App.css';\r\n\r\nexport default function() {\r\n  const navigate = useNavigate();\r\n  const goToTest = () => {\r\n    navigate(\"/api/test\")\r\n  }\r\n  const goToTest2 = () => {\r\n    navigate(\"/api/test2\")\r\n  }\r\n  return (\r\n      <>\r\n        <img src={logo} className=\"App-logo\" alt=\"logo\" />\r\n          <p>\r\n            bleuauction 작업중!\r\n          </p>\r\n         <Link to=\"/api/test\" className=\"App-link\">Go to TestPage</Link><br></br>\r\n         <Link to=\"/api/test2\" className=\"App-link\">Go to TestPag222</Link>\r\n      </>\r\n  )\r\n}","C:\\Users\\think\\git\\bleuauction_fe\\src\\components\\Test\\Test.js",[],[],"C:\\Users\\think\\git\\bleuauction_fe\\src\\components\\Test\\test2.jsx",["61","62","63"],[],"import React, { useEffect, useState } from 'react';\r\nimport axios from 'axios';\r\nimport './Test.css';\r\n\r\nconst Test = () => {\r\n  const [testStatus, setState] = useState({\r\n    loading: false,\r\n    response: '값을 가져오니라'\r\n  });\r\n\r\n  console.log(\"testStatus : \",testStatus)\r\n  return (\r\n    <>\r\n      <h1>Test API</h1>\r\n      <div className=\"response-container\">\r\n          <p>{testStatus.response}</p>\r\n        </div>\r\n    </>\r\n  );\r\n}\r\nexport default Test;\r\n","C:\\Users\\think\\git\\bleuauction_fe\\src\\routes\\Home.js",["64","65","66","67","68","69"],[],"C:\\Users\\think\\git\\bleuauction_fe\\src\\components\\StoreHome.js",["70","71","72"],[],"C:\\Users\\think\\git\\bleuauction_fe\\src\\components\\MainPage\\Announce.js",["73","74","75"],[],"C:\\Users\\think\\git\\bleuauction_fe\\src\\components\\StoreHomeItem.js",["76","77","78","79","80","81","82","83"],[],{"ruleId":"84","severity":1,"message":"85","line":16,"column":8,"nodeType":"86","messageId":"87","endLine":16,"endColumn":14},{"ruleId":"84","severity":1,"message":"88","line":23,"column":10,"nodeType":"86","messageId":"87","endLine":23,"endColumn":15},{"ruleId":"84","severity":1,"message":"89","line":4,"column":8,"nodeType":"86","messageId":"87","endLine":4,"endColumn":12},{"ruleId":"84","severity":1,"message":"90","line":5,"column":8,"nodeType":"86","messageId":"87","endLine":5,"endColumn":13},{"ruleId":"91","severity":1,"message":"92","line":11,"column":1,"nodeType":"93","endLine":29,"endColumn":2},{"ruleId":"84","severity":1,"message":"94","line":13,"column":9,"nodeType":"86","messageId":"87","endLine":13,"endColumn":17},{"ruleId":"84","severity":1,"message":"95","line":16,"column":9,"nodeType":"86","messageId":"87","endLine":16,"endColumn":18},{"ruleId":"84","severity":1,"message":"96","line":1,"column":17,"nodeType":"86","messageId":"87","endLine":1,"endColumn":26},{"ruleId":"84","severity":1,"message":"97","line":2,"column":8,"nodeType":"86","messageId":"87","endLine":2,"endColumn":13},{"ruleId":"84","severity":1,"message":"98","line":6,"column":22,"nodeType":"86","messageId":"87","endLine":6,"endColumn":30},{"ruleId":"84","severity":1,"message":"96","line":1,"column":16,"nodeType":"86","messageId":"87","endLine":1,"endColumn":25},{"ruleId":"84","severity":1,"message":"99","line":1,"column":27,"nodeType":"86","messageId":"87","endLine":1,"endColumn":35},{"ruleId":"84","severity":1,"message":"97","line":2,"column":8,"nodeType":"86","messageId":"87","endLine":2,"endColumn":13},{"ruleId":"84","severity":1,"message":"100","line":5,"column":8,"nodeType":"86","messageId":"87","endLine":5,"endColumn":21},{"ruleId":"84","severity":1,"message":"101","line":7,"column":10,"nodeType":"86","messageId":"87","endLine":7,"endColumn":16},{"ruleId":"84","severity":1,"message":"102","line":7,"column":18,"nodeType":"86","messageId":"87","endLine":7,"endColumn":23},{"ruleId":"84","severity":1,"message":"96","line":1,"column":16,"nodeType":"86","messageId":"87","endLine":1,"endColumn":25},{"ruleId":"84","severity":1,"message":"99","line":1,"column":27,"nodeType":"86","messageId":"87","endLine":1,"endColumn":35},{"ruleId":"84","severity":1,"message":"97","line":2,"column":8,"nodeType":"86","messageId":"87","endLine":2,"endColumn":13},{"ruleId":"84","severity":1,"message":"96","line":1,"column":16,"nodeType":"86","messageId":"87","endLine":1,"endColumn":25},{"ruleId":"84","severity":1,"message":"99","line":1,"column":27,"nodeType":"86","messageId":"87","endLine":1,"endColumn":35},{"ruleId":"84","severity":1,"message":"97","line":2,"column":8,"nodeType":"86","messageId":"87","endLine":2,"endColumn":13},{"ruleId":"84","severity":1,"message":"96","line":1,"column":16,"nodeType":"86","messageId":"87","endLine":1,"endColumn":25},{"ruleId":"84","severity":1,"message":"99","line":1,"column":27,"nodeType":"86","messageId":"87","endLine":1,"endColumn":35},{"ruleId":"84","severity":1,"message":"97","line":2,"column":8,"nodeType":"86","messageId":"87","endLine":2,"endColumn":13},{"ruleId":"84","severity":1,"message":"103","line":5,"column":8,"nodeType":"86","messageId":"87","endLine":5,"endColumn":14},{"ruleId":"84","severity":1,"message":"104","line":7,"column":8,"nodeType":"86","messageId":"87","endLine":7,"endColumn":19},{"ruleId":"105","severity":1,"message":"106","line":16,"column":9,"nodeType":"107","endLine":16,"endColumn":83},{"ruleId":"105","severity":1,"message":"106","line":20,"column":13,"nodeType":"107","endLine":20,"endColumn":73},{"ruleId":"105","severity":1,"message":"106","line":25,"column":9,"nodeType":"107","endLine":25,"endColumn":74},"no-unused-vars","'TabBar' is defined but never used.","Identifier","unusedVar","'hello' is assigned a value but never used.","'Test' is defined but never used.","'Test2' is defined but never used.","import/no-anonymous-default-export","Unexpected default export of anonymous function","ExportDefaultDeclaration","'goToTest' is assigned a value but never used.","'goToTest2' is assigned a value but never used.","'useEffect' is defined but never used.","'axios' is defined but never used.","'setState' is assigned a value but never used.","'useState' is defined but never used.","'StoreListItem' is defined but never used.","'Routes' is defined but never used.","'Route' is defined but never used.","'Button' is defined but never used.","'Placeholder' is defined but never used.","jsx-a11y/alt-text","img elements must have an alt prop, either with meaningful text, or an empty string for decorative images.","JSXOpeningElement"]
+\ No newline at end of file
+diff --git a/src/components/MainPage/Category.module.css b/src/components/MainPage/Category.module.css
+deleted file mode 100644
