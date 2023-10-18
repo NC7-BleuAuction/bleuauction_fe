@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import './StoreItemDailyPrice.css';
-import { sendAxiosRequest } from '../utility/common';
+import { sendAxiosRequest } from '../utility/Common';
 
 function StoreItemDailyPrice() {
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -14,13 +14,13 @@ function StoreItemDailyPrice() {
   // const [stores, setStores] = useState([]);
 
   useEffect(() => {
-  axios.get('/api/item') 
-    .then(response => setItems(response.data)) 
-    .catch(error => console.log(error));
+    axios.get('/api/item')
+      .then(response => setItems(response.data))
+      .catch(error => console.log(error));
     // console.log(stores);
   }, []);
 
-console.log(items);
+  console.log(items);
 
 
   const categoryOptions = {
@@ -64,9 +64,9 @@ console.log(items);
   // const originStatus = ['D'];
   // const originPlaceStatus = ['ES', 'WS', 'SS'];
   // const wildFarmStatus = ['W', 'F'];
-  
+
   // const insertQueries = ['INSERT INTO ba_item (member_no, item_code, item_name, item_size, origin_status, origin_place_status, wild_farm_status) VALUES '];
-  
+
   // for (const itemCode of itemCodes) {
   //   for (const itemName of itemNames) {
   //     for (const itemSize of itemSizes) {
@@ -82,7 +82,7 @@ console.log(items);
   //     }
   //   }
   // }
-  
+
   // console.log(insertQueries.join('\n'));
 
 
