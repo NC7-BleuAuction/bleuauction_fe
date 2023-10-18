@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios, { formToJSON } from 'axios';
-import { sendAxiosMultipartRequest, sendAxiosRequest } from '../utility/Common';
+import { sendAxiosMultipartRequest, sendAxiosRequest } from '../utility/common';
 
 
 

@@ -1,0 +1,74 @@
+Index: src/components/MainPage/Announce.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React, {useEffect, useState} from 'react';\r\nimport axios from 'axios';\r\nimport styles from './Announce.module.css';\r\nimport 'bootstrap/dist/css/bootstrap.min.css';\r\nimport 'react-responsive-carousel/lib/styles/carousel.min.css';\r\nimport { Carousel } from 'react-bootstrap';\r\nimport StoreListItem from '../Market/StoreListItem';\r\nimport { useLocation } from 'react-router-dom';\r\n\r\nfunction Announce() {\r\n  const carousel = {\r\n    height: '400px',\r\n    width: '60%',\r\n    margin: '0 auto',\r\n    borderRadius: '30px',\r\n    overflow: 'hidden'\r\n  }\r\n\r\n  const location = useLocation();\r\n  const content = (location.pathname !== \"/store/list\") ? <img\r\n  src=\"/images/storeimage.png\"\r\n  alt=\"슬라이드 1\"\r\n/>: <img src='/images/login.png' />;\r\n\r\n  return (           \r\n    <div style={carousel}>\r\n    <Carousel >\r\n      {/* 슬라이드 이미지 */}\r\n      <Carousel.Item id={styles.carousel}>\r\n        {content}\r\n        \r\n        <Carousel.Caption>\r\n          <h3>꽃소녀</h3>\r\n          <p>김철수 作</p>\r\n        </Carousel.Caption>\r\n      </Carousel.Item>\r\n      <Carousel.Item id={styles.carousel}>\r\n          {content}\r\n        <Carousel.Caption>\r\n          <h3>형형색색</h3>\r\n          <p>이숙자 作</p>\r\n        </Carousel.Caption>\r\n      </Carousel.Item>\r\n      <Carousel.Item id={styles.carousel}>\r\n          {content}\r\n        <Carousel.Caption>\r\n          <h3>분홍</h3>\r\n          <p>Robert Park 作</p>\r\n        </Carousel.Caption>\r\n      </Carousel.Item>\r\n      <Carousel.Item id={styles.carousel}>\r\n          {content}\r\n        <Carousel.Caption>\r\n          <h3>두꺼운 터치</h3>\r\n          <p>Thomas Lee 作</p>\r\n        </Carousel.Caption>\r\n      </Carousel.Item>\r\n    </Carousel>\r\n    </div>\r\n  );\r\n}\r\n\r\nexport default Announce;
+===================================================================
+diff --git a/src/components/MainPage/Announce.js b/src/components/MainPage/Announce.js
+--- a/src/components/MainPage/Announce.js	
++++ b/src/components/MainPage/Announce.js	
+@@ -1,7 +1,7 @@
+ import React, {useEffect, useState} from 'react';
+ import axios from 'axios';
+ import styles from './Announce.module.css';
+-import 'bootstrap/dist/css/bootstrap.min.css';
++// import 'bootstrap/dist/css/bootstrap.min.css';
+ import 'react-responsive-carousel/lib/styles/carousel.min.css';
+ import { Carousel } from 'react-bootstrap';
+ import StoreListItem from '../Market/StoreListItem';
+@@ -10,8 +10,8 @@
+ function Announce() {
+   const carousel = {
+     height: '400px',
+-    width: '60%',
+-    margin: '0 auto',
++    width: '1200px',
++    margin: '100px auto',
+     borderRadius: '30px',
+     overflow: 'hidden'
+   }
+@@ -19,16 +19,15 @@
+   const location = useLocation();
+   const content = (location.pathname !== "/store/list") ? <img
+   src="/images/storeimage.png"
+-  alt="슬라이드 1"
+-/>: <img src='/images/login.png' />;
++  alt="슬라이드 1"/> : <img src='/images/login.png' alt="슬라이드 1"/>;
+ 
+   return (           
+     <div style={carousel}>
+     <Carousel >
+       {/* 슬라이드 이미지 */}
+       <Carousel.Item id={styles.carousel}>
+-        {content}
+-        
++        {/* {content} */}
++        <img src='/images/login.png' alt="슬라이드 1"/>
+         <Carousel.Caption>
+           <h3>꽃소녀</h3>
+           <p>김철수 作</p>
+Index: src/components/MainPage/Announce.module.css
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>#carousel {\r\n  width: 100%;\r\n  height: 400px;\r\n  overflow: hidden;\r\n  border-radius: 30px;\r\n}\r\n\r\n#carousel img {\r\n  width: 100%;\r\n  height: 400px;\r\n  border-radius: 30px;\r\n\r\n}
+===================================================================
+diff --git a/src/components/MainPage/Announce.module.css b/src/components/MainPage/Announce.module.css
+--- a/src/components/MainPage/Announce.module.css	
++++ b/src/components/MainPage/Announce.module.css	
+@@ -1,13 +1,14 @@
+ #carousel {
+-  width: 100%;
++  width: 1200px;
+   height: 400px;
+   overflow: hidden;
+   border-radius: 30px;
++  /* position: relative; */
+ }
+ 
+ #carousel img {
+   width: 100%;
+-  height: 400px;
++  height: 100%;
+   border-radius: 30px;
+ 
+ }
+\ No newline at end of file

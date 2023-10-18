@@ -7,7 +7,7 @@ import StoreListItem from './StoreListItem';
 import StoreHome from '../StoreHome';
 import { Routes, Route } from 'react-router-dom';
 import styles from './StoreList.module.css'
-import { sendAxiosRequest, sendAxiosMultipartRequest, dateFormatParse, handleInputChange, scrollMoveTop } from '../utility/Common';
+import { sendAxiosRequest, sendAxiosMultipartRequest, dateFormatParse, handleInputChange, scrollMoveTop } from '../utility/common';
 
 function StoreList() {
   const pageRowCnt = 3;

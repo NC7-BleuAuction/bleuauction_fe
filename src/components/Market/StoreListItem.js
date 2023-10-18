@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styles from './StoreListItem.module.css';
 import { Link } from 'react-router-dom';
-import { isOpenNow, startEndTimeInfo, sendAxiosRequest, sendAxiosMultipartRequest, dateFormatParse, handleInputChange, scrollMoveTop } from '../utility/Common';
+import { isOpenNow, startEndTimeInfo, sendAxiosRequest, sendAxiosMultipartRequest, dateFormatParse, handleInputChange, scrollMoveTop } from '../utility/common';
 
 function StoreListItem(props) {
   let [store, setStore] = useState(props.data);
@@ -42,7 +42,7 @@ function StoreListItem(props) {
           {open == 'O' ? '영업중' : '영업종료'}
         </p>
         <div className={styles.storeListItemDetailBoxMore}>
-          <Link to="/market/detail">더보기&gt;</Link>
+          <Link to="/market/detail" state={store}>더보기&gt;</Link>
         </div>
       </div>
 

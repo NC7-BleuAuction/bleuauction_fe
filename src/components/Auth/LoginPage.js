@@ -9,7 +9,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
-import { sendAxiosRequest } from '../utility/Common';
+import { sendAxiosRequest } from '../utility/common';
 import { formToJSON } from 'axios';
 import { useState, useContext } from 'react';
 import { useUser } from './UserContext';

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { sendAxiosRequest } from '../utility/Common';
+import { sendAxiosRequest } from '../utility/common';
 
 
 

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import './StoreItemDailyPrice.css';
-import { sendAxiosRequest } from '../utility/Common';
+import { sendAxiosRequest } from '../utility/common';
 
 function StoreItemDailyPrice() {
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -56,13 +56,6 @@ function StoreItemDailyPrice() {
     },
   ];
 
-
-  // useEffect(() => {
-  //   axios.get('/api/daily-price').then((response) => {
-  //     setItems(response.data);
-  //     setLoading(false);
-  //   });
-  // }, []);
 
   return (
     <div className="daily-box">

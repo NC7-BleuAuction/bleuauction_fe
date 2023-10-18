@@ -1,6 +1,6 @@
 import '../utility/Common.css';
 import React, { useState, useEffect } from 'react';
-import { scrollMoveTop, sendAxiosRequest, sendAxiosMultipartRequest, dateFormatParse, handleInputChange } from '../utility/Common';
+import { scrollMoveTop, sendAxiosRequest, sendAxiosMultipartRequest, dateFormatParse, handleInputChange } from '../utility/common';
 import { formToJSON } from 'axios';
 
 
