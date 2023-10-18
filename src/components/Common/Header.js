@@ -11,24 +11,22 @@ import { sendAxiosRequest } from '../utility/common';
 function Header() {
 
   const {user, logout} = useUser();
-  let [loginUser, setLoginUser] = useState(null);
+  // let [loginUser, setLoginUser] = useState(null);
 
-  useEffect (()=>{
-    sendAxiosRequest("/api/member/loginCheck", "GET", null,
-    response => {
-      let repLoginUser = response.data.loginUser;
-      if (repLoginUser === null) {
-        window.location.href = '/';
-      } else {
-        setLoginUser(repLoginUser);
-      }
-    }, error => console.log(error));}, []
-  )
+  // useEffect (()=>{
+  //   sendAxiosRequest("/api/member/loginCheck", "GET", null,
+  //   response => {
+  //     let repLoginUser = response.data.loginUser;
+  //     if (repLoginUser !== null) {
+  //       setLoginUser(repLoginUser);
+  //     }
+  //   }, error => console.log(error));}, []
+  // )
 
 
   const loginState = (user === null) ? 
   <Link to='/login'>로그인</Link> : 
-  <Link to='/mypage'>{loginUser?.memberName}님 My Page</Link>;
+  <Link to='/mypage'>{user?.memberEmail}님</Link>;
   // null;
 
   const onClick = () => {
