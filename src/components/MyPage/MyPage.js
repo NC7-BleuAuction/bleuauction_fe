@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios, { formToJSON } from 'axios';
-import { sendAxiosMultipartRequest, sendAxiosRequest } from '../utility/Common';
-
-
+import { isOpenNow, sendAxiosRequest } from '../utility/common';
 
 function MyPage() {
   // 사용자 정보를 상태 혹은 API로부터 불러오기.

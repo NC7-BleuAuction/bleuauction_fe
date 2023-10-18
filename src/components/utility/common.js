@@ -1,22 +1,24 @@
 import axios from 'axios';
 
-export function sendAxiosRequest(url, method, params, successCallback, errorCallback) {
+export function sendAxiosRequest(url, method, params, successCallback, errorCallback, contentType) {
   console.log('sendAxiosRequest의 요청 URL: ', url);
   console.log('sendAxiosRequest의 요청 데이터: ', params);
   const axiosConfig = {
     timeout: 5000,
     url: url,
     method: method,
+    params: params,
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': contentType,
     }
+
   };
   if (params != null)
     axiosConfig.params = params;
   axios(axiosConfig).then(successCallback).catch(errorCallback);
 }
 
-export function sendAxiosMultipartRequest(url, method, formData, successCallback, errorCallback) {
+export function sendAxiosMultipartRequest(url, method, formData, successCallback, errorCallback, contentType) {
   console.log('sendAxiosMultipartRequest의 요청 URL: ', url);
   console.log('sendAxiosMultipartRequest의 요청 데이터: ', formData);
   const axiosConfig = {
@@ -25,7 +27,7 @@ export function sendAxiosMultipartRequest(url, method, formData, successCallback
     method: method,
     data: formData,
     headers: {
-      'Content-Type': 'multipart/form-data'
+      'Content-Type': contentType,
     }
   };
   axios(axiosConfig).then(successCallback).catch(errorCallback);
@@ -88,6 +90,7 @@ export function isOpenNow(startTime, endTime) {
   // O: 마감 C: 영업중
   return currentTimeMinutes >= startTimeMinutes && currentTimeMinutes <= endTimeMinutes ? 'O' : 'C';
 }
+
 
 // 리스트(요소여러 개)에 이벤트 추가
 export function addEventToElements(eventName, eventFunction, elements) {

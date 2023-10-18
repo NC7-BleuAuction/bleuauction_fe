@@ -4,7 +4,6 @@ import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import './StoreItemDailyPrice.css';
 import { sendAxiosRequest } from '../utility/common';
-
 function StoreItemDailyPrice() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedOrigin, setSelectedOrigin] = useState(null);
