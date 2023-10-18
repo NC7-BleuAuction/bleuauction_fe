@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styles from './StoreHome.module.css';
 import StoreHomeItem from './StoreHomeItem';
 
 
-function StoreHome({stores}) {
+function StoreHome({ stores }) {
 
   // const [storelist, setStorelist] = useState(stores);
 
@@ -21,10 +21,10 @@ function StoreHome({stores}) {
         </button> */}
 
       {
-      stores
-      .filter((item) => item.storeNo < 7)
-      .map((item) => (      
-        <StoreHomeItem key={item.storeNo} store={item}/> ))
+        stores
+          .filter((item) => item.storeNo < 7)
+          .map((item) => (
+            <StoreHomeItem key={item.storeNo} store={item} />))
       }
 
     </div>

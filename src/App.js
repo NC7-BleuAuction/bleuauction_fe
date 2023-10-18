@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, createContext } from 'react';
 import axios from 'axios';
 import './App.css';
 import Header from './components/Common/Header';
@@ -11,8 +11,8 @@ import Test2 from './components/Test/test2';
 import LoginPage from './components/Auth/LoginPage';
 import RegisterPage from './components/Auth/RegisterPage';
 import MenuList from './components/Menu/MenuList';
+import StoreList from './components/Market/StoreList';
 import MenuRegisterationForm from './components/Menu/MenuRegisterationForm';
-import StoreList from './routes/StoreList';
 import TabBar from './components/Market/TabBar';
 import MarketDetailPage from './components/Market/MarketDetailPage';
 import ReviewForm from './components/Review/ReviewForm';
@@ -21,8 +21,9 @@ import StoreMyPage from './components/MyPage/StoreMyPage';
 import UserEditPage from './components/MyPage/UserEditPage';
 import MyOrder from './components/MyPage/MyOrder';
 import StoreItemDailyPrice from './components/StoreItemDailyPrice/StoreItemDailyPrice';
-import UserProvider from  './components/Auth/UserContext';
-import Payment from  './components/Pay/Pay';
+import StoreItemRegister from './components/MyPage/StoreItemRegister'
+import UserProvider from './components/Auth/UserContext';
+import Payment from './components/Pay/Pay';
 import StoreRegisterPage from './components/MyPage/StoreRegisterPage';
 
 
@@ -53,30 +54,31 @@ function RoutingComponent() {
 
   return (
     <>
-    <UserProvider>
-      {location.pathname !== "/login" && location.pathname !== "/register" && <Header />}
-      <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/" exact={true} element={<Home />} />
-        <Route path="/store/list" element={<StoreList />} />
-        <Route path="/api/test" element={<Test />} />
-        <Route path="/api/test2" element={<Test2 />} />
-        <Route path="/menulist" element={<MenuList />} />
-        <Route path="/reviewregister" element={<ReviewForm />} />
-        <Route path="/market/detail" element={<MarketDetailPage />} />
-        <Route path="/mypage" element={<MyPage />} />
-        <Route path="/storemypage" element={<StoreMyPage />} />
-        <Route path="/storeRegister" element={<StoreRegisterPage />} />
-        <Route path="/useredit" element={<UserEditPage />} />
-        <Route path="/my-orders" element={<MyOrder />} />
-        <Route path="/StoreItemDailyPrice" element={<StoreItemDailyPrice />} />
-        <Route path="/pay" element={<Payment />} />
-        <Route path="/MenuRegisterationForm" element={<MenuRegisterationForm />} />
-      </Routes>
-      {location.pathname !== "/login" && location.pathname !== "/register" && <SideBar />}
-      {location.pathname !== "/login" && location.pathname !== "/register" && <Footer />}
-    </UserProvider>
+      <UserProvider>
+        {location.pathname !== "/login" && location.pathname !== "/register" && <Header />}
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/" exact={true} element={<Home />} />
+          <Route path="/store/list" element={<StoreList />} />
+          <Route path="/api/test" element={<Test />} />
+          <Route path="/api/test2" element={<Test2 />} />
+          <Route path="/menulist" element={<MenuList />} />
+          <Route path="/reviewregister" element={<ReviewForm />} />
+          <Route path="/market/detail" element={<MarketDetailPage />} />
+          <Route path="/mypage" element={<MyPage />} />
+          <Route path="/storemypage" element={<StoreMyPage />} />
+          <Route path="/storeRegister" element={<StoreRegisterPage />} />
+          <Route path="/storeItemRegister" element={<StoreItemRegister />} />
+          <Route path="/useredit" element={<UserEditPage />} />
+          <Route path="/my-orders" element={<MyOrder />} />
+          <Route path="/StoreItemDailyPrice" element={<StoreItemDailyPrice />} />
+          <Route path="/pay" element={<Payment />} />
+          <Route path="/MenuRegisterationForm" element={<MenuRegisterationForm />} />
+        </Routes>
+        {location.pathname !== "/login" && location.pathname !== "/register" && <SideBar />}
+        {location.pathname !== "/login" && location.pathname !== "/register" && <Footer />}
+      </UserProvider>
     </>
   );
 }

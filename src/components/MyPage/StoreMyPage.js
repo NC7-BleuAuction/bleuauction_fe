@@ -13,41 +13,41 @@ function StoreMyPage() {
 
   return (
     <div style={outerContainerStyle}>
-    <div style={styles.container}>
-      <div style={styles.profileSection}>
-        <img src={user.profilePicture} alt={user.name} style={styles.profilePicture} />
-        <div style={styles.userInfo}>
-          <h2>{user.name}</h2>
-          <p>{user.accountType === 'personal' ? '개인' : '비즈니스'} 계정</p>
-          <p>{user.email}</p>
+      <div style={styles.container}>
+        <div style={styles.profileSection}>
+          <img src={user.profilePicture} alt={user.name} style={styles.profilePicture} />
+          <div style={styles.userInfo}>
+            <h2>{user.name}</h2>
+            <p>{user.accountType === 'personal' ? '개인' : '비즈니스'} 계정</p>
+            <p>{user.email}</p>
+          </div>
+        </div>
+        <div style={styles.linkSection}>
+          <div style={styles.linkContainer}>
+            <Link to="/storeEdit" style={styles.link}>회원정보 수정</Link>
+          </div>
+          <div style={styles.linkContainer}>
+            <Link to="/storeItemRegister" style={styles.link}>등록 상품 관리</Link>
+          </div>
+          <div style={styles.linkContainer}>
+            <Link to="/order-check" style={styles.link}>주문확인</Link>
+          </div>
+          <div style={styles.linkContainer}>
+            <Link to="/storeRegister" style={styles.link}>가게등록</Link>
+          </div>
         </div>
       </div>
-      <div style={styles.linkSection}>
-  <div style={styles.linkContainer}>
-    <Link to="/storeEdit" style={styles.link}>회원정보 수정</Link>
-  </div>
-  <div style={styles.linkContainer}>
-    <Link to="/re-item" style={styles.link}>등록 상품 관리</Link>
-  </div>
-  <div style={styles.linkContainer}>
-    <Link to="/order-check" style={styles.link}>주문확인</Link>
-  </div>
-  <div style={styles.linkContainer}>
-    <Link to="/wishlist" style={styles.link}>가게등록</Link>
-  </div>
-</div>
-    </div>
     </div>
   );
 }
 
 const outerContainerStyle = {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100vh',
-    margin: '0',
-  };
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  height: '100vh',
+  margin: '0',
+};
 
 const styles = {
   container: {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { sendAxiosRequest } from '../utility/common';
+import { sendAxiosRequest } from '../utility/Common';
 
 
 
@@ -14,13 +14,14 @@ function MenuItem({ name, sizes, imageUrl }) {
 
 
   // 컴포넌트가 마운트될 때 메뉴 데이터를 불러옵니다.
-  useEffect(() => { 
+  useEffect(() => {
     sendAxiosRequest('api/member/loginCheck', 'GET', null, response => {
-    let loginUser = response.data.loginUser;
-    setStore(loginUser);
-  }, error => console.log(error))} 
+      let loginUser = response.data.loginUser;
+      setStore(loginUser);
+    }, error => console.log(error))
+  }
 
-, []); 
+    , []);
   // 로딩 중이거나 메뉴 항목이 없는 경우 처리
   if (!menuItems.length) {
     return <div>Loading menu items, or there are none available.</div>;
@@ -51,10 +52,10 @@ function MenuItem({ name, sizes, imageUrl }) {
 const menuItemStyle = {
   padding: '10px',
   borderBottom: '1px solid #ccc',
-  background: 'white', 
-  margin: '10px', 
-  borderRadius: '8px', 
-  boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.1)', 
+  background: 'white',
+  margin: '10px',
+  borderRadius: '8px',
+  boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.1)',
   width: '70%',
 };
 
@@ -68,7 +69,7 @@ const imageStyle = {
   width: '160px',
   height: '100px',
   objectFit: 'cover',
-  marginRight: '30px', 
+  marginRight: '30px',
 };
 
 const textStyle = {
