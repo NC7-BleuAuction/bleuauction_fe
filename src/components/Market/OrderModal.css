@@ -1,0 +1,30 @@
+.orderModalBackground {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5); /* 검은색 반투명 배경 */
+    z-index: 9999; /* 다른 요소 위에 표시 */
+  }
+  
+  .orderModalContainer {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .closeButton {
+    background-color: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  
+  /* 필요한 추가 스타일링 */
+  

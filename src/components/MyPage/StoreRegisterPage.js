@@ -2,46 +2,8 @@ import React, { useState } from 'react';
 import { Form, Card, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import axios, { formToJSON } from 'axios';
-import { sendAxiosRequest } from '../utility/Common';
-
-// const useForm = (initialValues) => {
-//     const [values, setValues] = useState(initialValues);  // values는 폼 컨트롤의 상태를 나타냄, initialValues로 초기 설정
-//     const handleChange = (e) => {   //폼 컨트롤의 onChange 이벤트 핸들러
-//       const { name, value } = e.target;
-//       setValues({
-//         ...values,
-//         [name]: value,
-//       });
-//     };
-//     return [values, handleChange];
-//   };
-
-// const [values, handleChange] = useForm({
-//     marketName: '',
-//     storeName: '',
-//     businessNumber: '',
-//     postalCode: '',
-//     primaryAddress: '',
-//     detailedAddress: '',
-//     weekdayStart: '',
-//     weekdayEnd: '',
-//     weekendStart: '',
-//     weekendEnd: '',
-// });
 
 
-// const requestData = { 
-//     marketName: values.marketName,
-//     storeName: values.storeName,      
-//     licenseNo: values.businessNumber,
-//     storeZipCode: values.postalCode,
-//     storeAddr: values.primaryAddress,
-//     storeDetailAddr: values.detailedAddress,
-//     weekdayStartTime: values.weekdayStart,
-//     weekdayEndTime: values.weekdayEnd,
-//     weekendStartTime: values.weekendStart,
-//     weekendEndTime: values.weekendEnd,
-//   };
 
 function StoreRegisterPage() {
 

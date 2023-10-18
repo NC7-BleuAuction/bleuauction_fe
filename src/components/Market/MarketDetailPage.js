@@ -8,7 +8,7 @@ import { useLocation } from 'react-router-dom';
 
 
 
-function MarketDetail() {
+function MarketDetailPage() {
   const [activeTab, setActiveTab] = useState('info');
 
   const location = useLocation(); // 추가된 부분
@@ -70,4 +70,4 @@ const tabContainerStyle = {
 };
 
 
-export default MarketDetail;
+export default MarketDetailPage;
