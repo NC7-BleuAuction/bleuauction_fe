@@ -22,6 +22,7 @@ import UserEditPage from './components/MyPage/UserEditPage';
 import MyOrder from './components/MyPage/MyOrder';
 import StoreItemDailyPrice from './components/StoreItemDailyPrice/StoreItemDailyPrice';
 import UserProvider from  './components/Auth/UserContext';
+import Payment from  './components/Pay/Pay';
 import StoreRegisterPage from './components/MyPage/StoreRegisterPage';
 
 
@@ -70,6 +71,7 @@ function RoutingComponent() {
         <Route path="/useredit" element={<UserEditPage />} />
         <Route path="/my-orders" element={<MyOrder />} />
         <Route path="/StoreItemDailyPrice" element={<StoreItemDailyPrice />} />
+        <Route path="/pay" element={<Payment />} />
         <Route path="/MenuRegisterationForm" element={<MenuRegisterationForm />} />
       </Routes>
       {location.pathname !== "/login" && location.pathname !== "/register" && <SideBar />}
