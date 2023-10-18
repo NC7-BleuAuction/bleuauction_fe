@@ -9,10 +9,10 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
-import { sendAxiosRequest } from '../utility/common';
+import { sendAxiosRequest } from '../utility/Common';
 import { formToJSON } from 'axios';
 import { useState, useContext } from 'react';
-import { useUser} from './UserContext';
+import { useUser } from './UserContext';
 
 
 const defaultTheme = createTheme();
@@ -21,7 +21,8 @@ function LoginPage() {
 
   const navigate = useNavigate();
 
-    const { user, login, logout } = useUser();
+
+  const { user, login, logout } = useUser();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -39,6 +40,7 @@ function LoginPage() {
       localStorage.setItem('memberEmail', data.get('memberEmail'));
       localStorage.setItem('memberPwd', data.get('memberPwd'));
     }, error => {
+
       console.log(error);
     });
     navigate('/');
