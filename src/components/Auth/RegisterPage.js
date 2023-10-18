@@ -78,7 +78,7 @@ function RegisterPage() {
     sendAxiosRequest('/api/member/signup', 'POST', formObj, response => {
       console.log('응답값:', response.data);
       alert('회원가입에 성공하셨습니다!');
-      navigate('/main');
+      navigate('/');
     },
       error => {
         console.error('API 호출 중 에러 발생: ', error);

@@ -14,14 +14,14 @@ function StoreIntro({storeInfo, store, coupons }) {
       <ul style={infoList}>
         <li>{store.storeDetailAddr}</li>
         <li>{store.weekdayStartTime} ~ {store.weekdayEndTime}</li>
-        <li>{storeInfo.phone}</li>
+        <li>{store.store}</li>
       </ul>
       </div>
-      <div style={couponContainer}>
+      {/* <div style={couponContainer}>
         {coupons.map(coupon => (
           <Coupon key={coupon.id} coupon={coupon} />
         ))}
-      </div>
+      </div> */}
     </div>
     </div>
   );
@@ -31,7 +31,7 @@ const outerContainer = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '67vh', // 화면 높이를 100%로 설정 (필요한 경우 조절)
+    height: '50vh', // 화면 높이를 100%로 설정 (필요한 경우 조절)
   };
 
 const introContainer = {
@@ -43,6 +43,7 @@ const introContainer = {
     borderRadius: '8px', // 소프트한 테두리를 위한 둥근 모서리 추가
     textAlign: 'center',
     width : '70%',
+    height: '100%'
 };
 
 const storeInfoContainer = {
@@ -54,7 +55,7 @@ const storeInfoContainer = {
 
 const imageStyle = {
   width: '100%',
-  height: '200px',
+  height: '400px',
   objectFit: 'cover',
 };
 

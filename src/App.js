@@ -25,7 +25,8 @@ import StoreItemRegister from './components/MyPage/StoreItemRegister'
 import UserProvider from './components/Auth/UserContext';
 import Payment from './components/Pay/Pay';
 import StoreRegisterPage from './components/MyPage/StoreRegisterPage';
-
+import { useUser } from './components/Auth/UserContext';
+import { sendAxiosRequest } from './components/utility/Common';
 
 function App() {
   // const [hello, setHello] = useState('');
@@ -36,6 +37,30 @@ function App() {
   //     .then(response => setHello(response.data))
   //     .catch(error => console.log(error));
   // }, []);
+
+  const {user, login} = useUser();
+
+  // const data = localStorage.getItem(user);
+
+  useEffect(() => {
+  //   // sendAxiosRequest("/api/member/login", 'POST', user, response => {
+  //   //   console.log(response.data);
+      console.log(localStorage.getItem('memberEmail'));
+      console.log(localStorage.getItem('memberPwd'));
+      const saveUser = {
+        'memberEmail': localStorage.getItem('memberEmail'),
+        'memberPwd': localStorage.getItem('memberPwd')
+      }
+      if (localStorage.getItem('memberEmail') !== null) {
+        login(saveUser);
+      }
+  //     login(localStorage.getItem('data'));
+  //     // console.log(user);
+  //   // }, error => {
+  //     // console.log(error);
+  //   // });
+  }, [])
+
 
 
   return (

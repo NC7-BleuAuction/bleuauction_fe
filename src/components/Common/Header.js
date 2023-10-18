@@ -3,18 +3,41 @@ import axios from 'axios';
 import styles from './Header.module.css';
 import { Link }  from 'react-router-dom';
 import { useUser } from '../Auth/UserContext';
+import { sendAxiosRequest } from '../utility/common';
 
 
 
 
 function Header() {
 
-  const {user} = useUser();
+  const {user, logout} = useUser();
+  // let [loginUser, setLoginUser] = useState(null);
+
+  // useEffect (()=>{
+  //   sendAxiosRequest("/api/member/loginCheck", "GET", null,
+  //   response => {
+  //     let repLoginUser = response.data.loginUser;
+  //     if (repLoginUser !== null) {
+  //       setLoginUser(repLoginUser);
+  //     }
+  //   }, error => console.log(error));}, []
+  // )
+
 
   const loginState = (user === null) ? 
   <Link to='/login'>로그인</Link> : 
   <Link to='/mypage'>{user?.memberEmail}님</Link>;
   // null;
+
+  const onClick = () => {
+    logout();
+    localStorage.removeItem('memberEmail');
+    localStorage.removeItem('memberPwd');
+  }
+
+  const logoutState = (user === null) ?
+  <Link to='/register'>회원가입</Link> :
+  <Link to='/' onClick={onClick}>로그아웃</Link>;
 
   return (
     <>
@@ -27,7 +50,8 @@ function Header() {
             </form>
           {/* <Link to='/login'>로그인</Link> */}
           {loginState}
-          <Link to='/register'>회원가입</Link>
+          {logoutState}
+          {/* <Link to='/register'>회원가입</Link> */}
           <Link to="/api/test" >test</Link>
           <Link to='/market/detail'>가게1</Link>
           <Link to='/my-orders'>주문상세</Link>

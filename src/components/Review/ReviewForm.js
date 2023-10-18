@@ -3,8 +3,30 @@ import React, { useState, useEffect } from 'react';
 import { scrollMoveTop, sendAxiosRequest, sendAxiosMultipartRequest, dateFormatParse, handleInputChange } from '../utility/Common';
 import { formToJSON } from 'axios';
 
+function dateFormatParse(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const seconds = String(date.getSeconds()).padStart(2, '0');
+  return `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
+}
+
+function handleInputChange(e, index, state, stateSetter) {
+  let { name, value } = e.target;
+  let deepCopyState = [...state];
+  deepCopyState[index] = {
+    ...deepCopyState[index],
+    [name]: value,
+  };
+  stateSetter(deepCopyState);
+};
 
 
+function scrollMoveTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
 function ReviewForm() {
   let [loginUser, setLoginUser] = useState(null);

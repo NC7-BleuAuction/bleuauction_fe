@@ -37,6 +37,17 @@ function LoginPage() {
       console.log(response.data);
       console.log(formToJSON(data));
       login(formToJSON(data));
+      localStorage.setItem('memberEmail', data.get('memberEmail'));
+      localStorage.setItem('memberPwd', data.get('memberPwd'));
+      // sendAxiosRequest("/api/member/loginCheck", "GET", null,
+      // response => {
+      //   let repLoginUser = response.data.loginUser;
+      //   if (repLoginUser === null) {
+      //     window.location.href = '/main';
+      //   } else {
+      //     setLoginUser(repLoginUser);
+      //   }
+      // }, error => console.log(error));
     }, error => {
 
       console.log(error);
