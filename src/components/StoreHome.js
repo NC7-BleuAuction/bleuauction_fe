@@ -14,6 +14,7 @@ function StoreHome({stores}) {
 
 
   // const storelist = stores;
+  // const storesArray = Object.keys(stores);
 
   return (
     <div className={styles.storeBox}>
@@ -22,9 +23,9 @@ function StoreHome({stores}) {
         </button> */}
 
       {
-      (stores !== null)? stores.filter((item) => item.storeNo < 7)
+      stores.filter((item) => item.storeNo < 7)
       .map((item) => (      
-        <StoreHomeItem key={item.storeNo} store={item}/> )) : null
+        <StoreHomeItem key={item.storeNo} store={item}/> ))
       }
 
     </div>

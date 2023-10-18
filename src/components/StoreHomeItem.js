@@ -41,7 +41,7 @@ function StoreHomeItem({store}) {
 
   return (
     <>
-    <Link to={'/market/detail'} 
+    <Link to={'/market/detail'}
       state= {store}
       className={styles.storeHomeItemDetailBoxMore}>
       <Card style={{ width: '18rem' }}>

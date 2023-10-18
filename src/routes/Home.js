@@ -6,7 +6,17 @@ import StoreListItem from '../components/Market/StoreListItem';
 import StoreHome from '../components/StoreHome';
 import { Routes, Route } from 'react-router-dom';
 
-
+function sendAxiosRequest(url, method, params, successCallback, errorCallback) {
+  console.log(url);
+  const axiosConfig = {
+    timeout: 5000,
+    url: url,
+    method: method,
+  };
+  if (params != null)
+    axiosConfig.params = params;
+  axios(axiosConfig).then(successCallback).catch(errorCallback);
+}
 var list = [
   {
     'storeNo': 1,
@@ -34,13 +44,24 @@ function Home() {
   const [stores, setStores] = useState([]);
 
   useEffect(() => {
-  axios.get('/api/store/list') 
-    .then(response => setStores(response.data)) 
-    .catch(error => console.log(error));
-    // console.log(stores);
+
+    sendAxiosRequest('/api/store/list', 'GET', null, response => {
+      console.log(response.data);
+      setStores(response.data);
+    }, error => {
+      console.log(error);
+    });
+
+
+  // axios.get('/api/store/list') 
+  //   .then(response => {
+  //     console.log('responseData', response);
+  //     setStores(response.data)
+  //   }) 
+  //   .catch(error => console.log(error));
+  //   // console.log(stores);
   }, []);
 
-  // console.log(stores);
 
 
   // for(let i = 0; stores[i]; i++){
