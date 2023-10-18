@@ -20,6 +20,7 @@ const defaultTheme = createTheme();
 function LoginPage() {
 
   const navigate = useNavigate();
+  
 
     const { user, login, logout } = useUser();
 
@@ -37,6 +38,7 @@ function LoginPage() {
       console.log(formToJSON(data));
       login(formToJSON(data));
     }, error => {
+  
       console.log(error);
     });
     navigate('/');
