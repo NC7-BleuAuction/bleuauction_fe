@@ -19,14 +19,7 @@ function NoticeList() {
 
   return (
     <>
-
-    <button onClick={()=>{
-      console.log(data);
-      }}>
-    {data.length > 0 ? data[0].noticeContent : ''}
-    </button>
     <div className={styles.storeListBox}>
-      {/* <Coupon/> */}
       <NoticeListItem data={data}/>
     </div>
     </>
