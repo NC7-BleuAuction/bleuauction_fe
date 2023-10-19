@@ -9,22 +9,28 @@ import { sendAxiosRequest } from '../utility/common';
 function MenuItem({ name, sizes, imageUrl }) {
 
 
-  const [menuItems, setMenuItems] = useState([]);
-  const [store, setStore] = useState(null);
+  const [menus, setMenus] = useState([]);
+  const [storeNo, setStoreNo] = useState(null);
 
 
   // 컴포넌트가 마운트될 때 메뉴 데이터를 불러옵니다.
-  useEffect(() => { 
-    sendAxiosRequest('api/member/loginCheck', 'GET', null, response => {
-    let loginUser = response.data.loginUser;
-    setStore(loginUser);
-  }, error => console.log(error))} 
-
-, []); 
-  // 로딩 중이거나 메뉴 항목이 없는 경우 처리
-  if (!menuItems.length) {
-    return <div>Loading menu items, or there are none available.</div>;
-  }
+  useEffect(() => {
+    // 사용자의 가게 정보를 가져오는 함수
+    const fetchMyStoreInfo = async () => {
+      try {
+        // 엔드포인트에 요청을 보내 현재 로그인한 사용자의 가게 정보 가져오기
+        const response = await axios.get('/api/store/myStoreInfo');
+        if (response.data && response.data.storeNo) {
+          setStoreNo(response.data.storeNo); // 성공적으로 가게 번호를 가져왔다면 상태를 업데이트합니다.
+        }
+      } catch (error) {
+        console.error("가게 정보를 가져오는 데 실패했습니다.", error);
+      }
+    };
+  
+    fetchMyStoreInfo();
+  }, []); // 컴포넌트가 마운트될 때 한 번만 실행됩니다.
+  
 
   return (
     <div style={menuItemStyle}>

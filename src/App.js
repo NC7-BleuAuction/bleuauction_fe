@@ -13,11 +13,9 @@ import RegisterPage from './components/Auth/RegisterPage';
 import MenuList from './components/Menu/MenuList';
 import MenuRegisterationForm from './components/Menu/MenuRegisterationForm';
 import StoreList from './routes/StoreList';
-import TabBar from './components/Market/TabBar';
 import MarketDetailPage from './components/Market/MarketDetailPage';
 import ReviewForm from './components/Review/ReviewForm';
 import MyPage from './components/MyPage/MyPage';
-import StoreMyPage from './components/MyPage/StoreMyPage';
 import UserEditPage from './components/MyPage/UserEditPage';
 import MyOrder from './components/MyPage/MyOrder';
 import StoreItemDailyPrice from './components/StoreItemDailyPrice/StoreItemDailyPrice';
@@ -65,7 +63,6 @@ function RoutingComponent() {
         <Route path="/reviewregister" element={<ReviewForm />} />
         <Route path="/market/detail" element={<MarketDetailPage />} />
         <Route path="/mypage" element={<MyPage />} />
-        <Route path="/storemypage" element={<StoreMyPage />} />
         <Route path="/storeRegister" element={<StoreRegisterPage />} />
         <Route path="/useredit" element={<UserEditPage />} />
         <Route path="/my-orders" element={<MyOrder />} />

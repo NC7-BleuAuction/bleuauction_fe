@@ -1,7 +1,7 @@
 import React from 'react';
 import Coupon from '../Coupon/Coupon'; 
 
-function StoreIntro({storeInfo, store, coupons }) {
+function StoreIntro({storeInfo, store }) {
   console.log(store);
   // console.log(storeInfo);
 
@@ -16,11 +16,6 @@ function StoreIntro({storeInfo, store, coupons }) {
         <li>{store.weekdayStartTime} ~ {store.weekdayEndTime}</li>
         <li>{storeInfo.phone}</li>
       </ul>
-      </div>
-      <div style={couponContainer}>
-        {coupons.map(coupon => (
-          <Coupon key={coupon.id} coupon={coupon} />
-        ))}
       </div>
     </div>
     </div>
@@ -54,7 +49,7 @@ const storeInfoContainer = {
 
 const imageStyle = {
   width: '100%',
-  height: '200px',
+  height: 'auto',
   objectFit: 'cover',
 };
 
@@ -64,9 +59,5 @@ const infoList = {
   margin: '10px 0',
 };
 
-const couponContainer = {
-  display: 'flex',
-  justifyContent: 'center',
-};
 
 export default StoreIntro;
