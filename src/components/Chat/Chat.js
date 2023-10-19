@@ -11,7 +11,7 @@ const Chat = ({ closeModal }) => {
 
     const handleMessage = async () => {
         try {
-            const response = await axios.post('/chat/message', chatMessage, {
+            const response = await axios.post('/api/chat/message', chatMessage, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
