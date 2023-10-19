@@ -1,9 +1,7 @@
 import '../utility/Common.css';
 import React, { useState, useEffect } from 'react';
-import { scrollMoveTop, sendAxiosRequest, sendAxiosMultipartRequest, dateFormatParse, handleInputChange } from '../utility/common';
 import { formToJSON } from 'axios';
-
-
+import { scrollMoveTop, sendAxiosMultipartRequest, sendAxiosRequest, dateFormatParse, handleInputChange } from '../utility/common';
 
 
 function ReviewForm() {
@@ -77,16 +75,17 @@ function ReviewWriteForm(props) {
               for (let i = 0; i < files.length; i++) {
                 formData.append("multipartFiles", files[i]);
               }
-
-
-              console.log('여기다.');
-              sendAxiosMultipartRequest('/api/review/add', formData,
-                response => {
-                  window.location.reload();
-                  alert('리뷰를 성공적으로 작성하였습니다!');
-                  console.log(response.data);
-                }, error => console.log(error));
             }
+
+            console.log('여기다.');
+            sendAxiosMultipartRequest('/api/review/add', formData,
+              response => {
+                console.log('리뷰작성성공');
+                window.location.reload();
+                alert('리뷰를 성공적으로 작성하였습니다!');
+                console.log(response.data);
+              }, error => console.log(error));
+
           }}>리뷰작성</button>
           <label htmlFor='fileInput' className='ba-file-label'>파일 첨부</label><span id='fileInfoSpan'></span>
           <input type='file' id='fileInput' multiple hidden className='ba-file-btn' onChange={(e) => {

@@ -30,14 +30,18 @@ const Payment = () => {
     axios(axiosConfig).then(successCallback).catch(errorCallback);
   }
 
+  const memberNo = 1;
+  const payNo = 1;
+  const orderNo = 1;
   const [member, setMember] = useState(null);
   const [pay, setPay] = useState(null);
   const [order, setOrder] = useState(null);
 
   useEffect(() => {
     // Fetch member data
-    sendAxiosRequest('/api/member', 'GET', member.memberNo,
+    sendAxiosRequest(`/api/member/${memberNo}`, 'GET', null,
       response => {
+
         console.log('Member data:', response.data);
         setMember(response.data); // Update member state
       },
@@ -46,19 +50,8 @@ const Payment = () => {
       }
     );
 
-    // Fetch pay data
-    sendAxiosRequest('/api/pay', 'GET', pay.payNo,
-      response => {
-        console.log('Pay data:', response.data);
-        setPay(response.data); // Update pay state
-      },
-      error => {
-        console.error('Error fetching pay data:', error);
-      }
-    );
-
     // Fetch order data
-    sendAxiosRequest('/api/order', 'GET', order.orderNo,
+    sendAxiosRequest(`/api/order/detail/${orderNo}`, 'GET', null,
       response => {
         console.log('Order data:', response.data);
         setOrder(response.data); // Update order state
@@ -70,6 +63,9 @@ const Payment = () => {
   }, []); // Empty dependency array to ensure this effect runs only once
 
   const requestPay = () => {
+    console.log('memberState', member);
+    console.log('orderState', order);
+
     const { IMP } = window;
     const buyerEmail = member ? member.memberEmail : '';
     const buyerName = member ? member.memberName : '';
@@ -77,7 +73,7 @@ const Payment = () => {
     const name = order ? order.orderNo : '';
     const buyerAddr = order ? order.resipientAddr : '';
     const buyerPostcode = order ? order.resipientZipcode : '';
-    const amount = pay ? pay.payPrice : '';
+    const amount = order.orderPrice;
 
     IMP.init('imp11340204');
 
@@ -93,12 +89,41 @@ const Payment = () => {
       buyer_addr: buyerAddr,
       buyer_postcode: buyerPostcode,
     }, async (rsp) => {
+      console.log('rsp: ', rsp);
       try {
         const { data } = await axios.post('http://localhost:8080/api/pay/verifyIamport/' + rsp.imp_uid);
-        if (rsp.paid_amount === data.response.amount) {
-          alert('결제 성공');
+        if (rsp.paid_amount === amount) {
+          alert('결제 성공!');
+          const testPay = {
+            // "payType": "C",
+            // "orderStatus": "Y",
+            // "payNo": 123,
+            orderNo: order.orderNo,
+            payPrice: amount,
+            payStatus: rsp.success ? 'Y' : 'N'
+            // "payDatetime": "2023-10-18T12:34:56",  // 예: ISO 8601 형식의 날짜 및 시간
+            // "payCancelDatetime": "2023-10-18T14:45:00"  // 예: ISO 8601 형식의 날짜 및 시간
+          }
+
+          console.log('testPay.payStatus: ', testPay.payStatus);
+
+          axios.post('/api/pay/createPayment', testPay, {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          })
+            .then(response => {
+              console.log('Pay data:', response.data);
+              setPay(response.data);
+            })
+            .catch(error => {
+              console.error('Error fetching pay data:', error);
+            });
+
+        } else if (rsp.paid_amount == amount) {
+          alert('결제 성공?');
         } else {
-          alert('결제 실패');
+          alert('결제 실패?');
         }
       } catch (error) {
         console.error('Error while verifying payment:', error);
