@@ -17,7 +17,6 @@ import TabBar from './components/Market/TabBar';
 import MarketDetailPage from './components/Market/MarketDetailPage';
 import ReviewForm from './components/Review/ReviewForm';
 import MyPage from './components/MyPage/MyPage';
-import StoreMyPage from './components/MyPage/StoreMyPage';
 import UserEditPage from './components/MyPage/UserEditPage';
 import MyOrder from './components/MyPage/MyOrder';
 import StoreItemDailyPrice from './components/StoreItemDailyPrice/StoreItemDailyPrice';
@@ -25,6 +24,9 @@ import StoreItemRegister from './components/MyPage/StoreItemRegister'
 import UserProvider from './components/Auth/UserContext';
 import Payment from './components/Pay/Pay';
 import StoreRegisterPage from './components/MyPage/StoreRegisterPage';
+import AdminPage from './components/MyPage/AdminPage';
+import NoticeList from './components/Notice/NoticeList';
+import NoticeDetail from './components/Notice/NoticeDetail';
 import { useUser } from './components/Auth/UserContext';
 import { sendAxiosRequest } from './components/utility/common';
 import StoreItemAdd from  './components/StoreItemDailyPrice/StoreItemAdd';
@@ -80,31 +82,31 @@ function RoutingComponent() {
 
   return (
     <>
-        {location.pathname !== "/login" && location.pathname !== "/register" && <Header />}
-        <Routes>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/" exact={true} element={<Home />} />
-          <Route path="/store/list" element={<StoreList />} />
-          <Route path="/api/test" element={<Test />} />
-          <Route path="/api/test2" element={<Test2 />} />
-          <Route path="/menulist" element={<MenuList />} />
-          <Route path="/reviewregister" element={<ReviewForm />} />
-          <Route path="/market/detail" element={<MarketDetailPage />} />
-          <Route path="/mypage" element={<MyPage />} />
-          <Route path="/storemypage" element={<StoreMyPage />} />
-          <Route path="/storeRegister" element={<StoreRegisterPage />} />
-          <Route path="/storeItemRegister" element={<StoreItemRegister />} />
-          <Route path="/useredit" element={<UserEditPage />} />
-          <Route path="/my-orders" element={<MyOrder />} />
-          <Route path="/StoreItemDailyPrice" element={<StoreItemDailyPrice />} />
-          <Route path="/pay" element={<Payment />} />
-          <Route path="/MenuRegisterationForm" element={<MenuRegisterationForm />} />
-          <Route path="/StoreItemAdd" element={<StoreItemAdd />} />
-
-        </Routes>
-        {location.pathname !== "/login" && location.pathname !== "/register" && <SideBar />}
-        {location.pathname !== "/login" && location.pathname !== "/register" && <Footer />}
+      {location.pathname !== "/login" && location.pathname !== "/register" && <Header />}
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/" exact={true} element={<Home />} />
+        <Route path="/store/list" element={<StoreList />} />
+        <Route path="/api/test" element={<Test />} />
+        <Route path="/api/test2" element={<Test2 />} />
+        <Route path="/menulist" element={<MenuList />} />
+        <Route path="/reviewregister" element={<ReviewForm />} />
+        <Route path="/market/detail" element={<MarketDetailPage />} />
+        <Route path="/mypage" element={<MyPage />} />
+        <Route path="/storeRegister" element={<StoreRegisterPage />} />
+        <Route path="/useredit" element={<UserEditPage />} />
+        <Route path="/my-orders" element={<MyOrder />} />
+        <Route path="/StoreItemDailyPrice" element={<StoreItemDailyPrice />} />
+        <Route path="/MenuRegisterationForm" element={<MenuRegisterationForm />} />
+        <Route path="/adminpage" element={<AdminPage />} />
+        <Route path="/notice/list" element={<NoticeList />} />
+        <Route path="/notice/detail/:noticeNo" element={<NoticeDetail />} />
+        <Route path="/StoreItemAdd" element={<StoreItemAdd />} />
+        <Route path="/pay" element={<Payment />} />
+      </Routes>
+      {location.pathname !== "/login" && location.pathname !== "/register" && <SideBar />}
+      {location.pathname !== "/login" && location.pathname !== "/register" && <Footer />}
     </>
   );
 }

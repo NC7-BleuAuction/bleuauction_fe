@@ -8,12 +8,12 @@ import { sendAxiosMultipartRequest, sendAxiosRequest } from '../utility/common';
 function MyPage() {
   // 사용자 정보를 상태 혹은 API로부터 불러오기.
   // 예시
-  const user = {
-    name: 'Rose',
-    email: 'rose@example.com',
-    accountType: 'personal', // or 'business'
-    profilePicture: '/images/rose.png',
-  };
+  // const user = {
+  //   name: 'Rose',
+  //   email: 'rose@example.com',
+  //   accountType: 'personal', // or 'business'
+  //   profilePicture: '/images/rose.png',
+  // };
 
   const defaultImage = '/images/rose.png';
 
@@ -27,6 +27,7 @@ function MyPage() {
   }
 
     , []);
+
 
   const outerContainerStyle = {
     display: 'flex',
@@ -44,7 +45,7 @@ function MyPage() {
       justifyContent: 'center', // 가운데 정렬 추가
       padding: '20px',
       width: '70%',
-      height: '70vh', // 화면 높이의 100%를 차지하도록 설정
+      height: '30vh', // 화면 높이의 100%를 차지하도록 설정
     },
     profileSection: {
       display: 'flex',
@@ -57,7 +58,6 @@ function MyPage() {
       height: '110px',
       borderRadius: '80px',
       marginRight: '20px', // 사진과 텍스트 사이의 간격을 조정
-
     },
     userInfo: {
       display: 'flex',
@@ -86,48 +86,68 @@ function MyPage() {
       display: 'inline-block',
       padding: '10px 20px',
       margin: '5px 0',
-      backgroundColor: '#4CAF50',
+      backgroundColor: '#4CAF50', 
       color: 'white',
       textDecoration: 'none',
       textAlign: 'center',
       borderRadius: '8px',
     },
   };
+  const personalLinks = (
+    <>
+      <div style={styles.linkContainer}>
+        <Link to="/useredit" style={styles.link}>회원정보 수정</Link>
+      </div>
+      <div style={styles.linkContainer}>
+        <Link to="/" style={styles.link}>마이 오더</Link>
+      </div>
+      <div style={styles.linkContainer}>
+        <Link to="/" style={styles.link}>찜하기</Link>
+      </div>
+    </>
+  );
+
+  // 비즈니스 사용자용 링크
+  const businessLinks = (
+    <>
+      <div style={styles.linkContainer}>
+        <Link to="/useredit" style={styles.link}>회원정보 수정</Link>
+      </div>
+      <div style={styles.linkContainer}>
+        <Link to="/product-management" style={styles.link}>등록상품관리</Link>
+      </div>
+      <div style={styles.linkContainer}>
+        <Link to="/order-confirmation" style={styles.link}>주문확인</Link>
+      </div>
+      <div style={styles.linkContainer}>
+        <Link to="/storeRegister" style={styles.link}>가게등록</Link>
+      </div>
+    </>
+  );
+
   if (member === null) {
     return <div>Loading...</div>; // 로딩 표시
   } else {
-    return (
-      <div style={outerContainerStyle}>
-        <div style={styles.container}>
-          <div style={styles.profileSection}>
-            <img src={defaultImage} alt={user.name} style={styles.profilePicture} />
-            <div style={styles.userInfo}>
-              <h2 >{member.memberName}</h2>
-              <p>{member.memberCategory === 'M' ? '개인' : '비즈니스'} 계정</p>
-              <p>{member.memberEmail}</p>
-            </div>
-          </div>
-
-
-
-          <div style={styles.linkSection}>
-            <div style={styles.linkContainer}>
-              <Link to="/useredit" style={styles.link}>회원정보 수정</Link>
-            </div>
-            <div style={styles.linkContainer}>
-              <Link to="/coupons" style={styles.link}>쿠폰함</Link>
-            </div>
-            <div style={styles.linkContainer}>
-              <Link to="/my-orders" style={styles.link}>마이 오더</Link>
-            </div>
-            <div style={styles.linkContainer}>
-              <Link to="/wishlist" style={styles.link}>찜하기</Link>
-            </div>
+  return (
+    <div style={outerContainerStyle}>
+      <div style={styles.container}>
+        <div style={styles.profileSection}>
+          <img src={defaultImage} alt={member.memberName} style={styles.profilePicture} />
+          <div style={styles.userInfo}>
+            <h2>{member.memberName}</h2>
+            <p>{member.memberCategory === 'M' ? '개인' : '비즈니스'} 계정</p>
+            <p>{member.memberEmail}</p>
           </div>
         </div>
+
+        <div style={styles.linkSection}>
+          {/* member.memberCategory 값에 따라 링크 섹션을 조건부로 렌더링합니다. */}
+          {member.memberCategory === 'M' ? personalLinks : businessLinks}
+        </div>
       </div>
-    );
-  }
+    </div>
+  );
+}
 
 }
 export default MyPage;
