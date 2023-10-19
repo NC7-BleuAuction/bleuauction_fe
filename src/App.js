@@ -1,4 +1,4 @@
-import React, { useEffect, useState, createContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './App.css';
 import Header from './components/Common/Header';
@@ -20,6 +20,7 @@ import MyPage from './components/MyPage/MyPage';
 import UserEditPage from './components/MyPage/UserEditPage';
 import MyOrder from './components/MyPage/MyOrder';
 import StoreItemDailyPrice from './components/StoreItemDailyPrice/StoreItemDailyPrice';
+import UserProvider from './components/Auth/UserContext';
 import StoreItemRegister from './components/MyPage/StoreItemRegister'
 import UserProvider from './components/Auth/UserContext';
 import Payment from './components/Pay/Pay';
@@ -28,6 +29,8 @@ import AdminPage from './components/MyPage/AdminPage';
 import NoticeList from './components/Notice/NoticeList';
 import NoticeDetail from './components/Notice/NoticeDetail';
 import { useUser } from './components/Auth/UserContext';
+import StoreMyPage from './components/MyPage/StoreItemRegister'; // StoreMyPage 컴포넌트 파일의 경로에 따라 수정
+import StoreItemRegister from './components/MyPage/StoreItemRegister'; // StoreItemRegister 컴포넌트 파일의 경로에 따라 수정
 import { sendAxiosRequest } from './components/utility/common';
 import StoreItemAdd from  './components/StoreItemDailyPrice/StoreItemAdd';
 
@@ -102,6 +105,8 @@ function RoutingComponent() {
         <Route path="/adminpage" element={<AdminPage />} />
         <Route path="/notice/list" element={<NoticeList />} />
         <Route path="/notice/detail/:noticeNo" element={<NoticeDetail />} />
+        <Route path="/storemypage" element={<StoreMyPage />} />
+        <Route path="/storeItemRegister" element={<StoreItemRegister />} />
         <Route path="/StoreItemAdd" element={<StoreItemAdd />} />
         <Route path="/pay" element={<Payment />} />
       </Routes>
