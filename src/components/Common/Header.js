@@ -10,8 +10,8 @@ import { sendAxiosRequest } from '../utility/common';
 
 function Header() {
 
-  const {user, logout} = useUser();
-  // let [loginUser, setLoginUser] = useState(null);
+  // const {user, logout} = useUser();
+  let [loginUser, setLoginUser] = useState(null);
 
   // useEffect (()=>{
   //   sendAxiosRequest("/api/member/loginCheck", "GET", null,
@@ -22,7 +22,7 @@ function Header() {
   //     }
   //   }, error => console.log(error));}, []
   // )
-    let [loginUser, setLoginUser] = useState(null);
+    // let [loginUser, setLoginUser] = useState(null);
   useEffect(() => {
     if (loginUser == null) {
       sendAxiosRequest("/api/member/loginCheck", "GET", null,
@@ -36,29 +36,30 @@ function Header() {
   }, [loginUser]
   )
 
-  const loginState = (loginUser == null) ?
-    <Link to='/login'>로그인</Link> :
-    <Link to='/mypage'>{loginUser.memberEmail}님</Link>;
+  // const loginState = (loginUser == null) ?
+  //   <Link to='/login'>로그인</Link> :
+  //   <Link to='/mypage'>{loginUser.memberEmail}님</Link>;
 
-  // const logout = () => {
-  //     sendAxiosRequest("/api/member/logout", "GET", null,
-  //         response => {
-  //             const message = response.data.message;
-  //             if (message != null && message == 'Logout successful') {
-  //                 alert('로그아웃에 성공하였습니다!');
-  //                 setLoginUser(null);
-  //             }
-  //         }, error => console.log(error));
-  // }
-  // const onClick = () => {
-  //   logout();
-  //   localStorage.removeItem('memberEmail');
-  //   localStorage.removeItem('memberPwd');
-  // }
+  const logoutCall = () => {
+      sendAxiosRequest("/api/member/logout", "GET", null,
+          response => {
+              const message = response.data.message;
+              if (message != null && message == 'Logout successful') {
+                  alert('로그아웃에 성공하였습니다!');
+                  setLoginUser(null);
+              }
+          }, error => console.log(error));
+  }
+  const onClick = () => {
+    // logout();
+    logoutCall();
+    localStorage.removeItem('memberEmail');
+    localStorage.removeItem('memberPwd');
+  }
 
-  const logoutState = (user === null) ?
-  <Link to='/register'>회원가입</Link> :
-  <Link to='/' onClick={onClick}>로그아웃</Link>;
+  // const logoutState = (user === null) ?
+  // <Link to='/register'>회원가입</Link> :
+  // <Link to='/' onClick={onClick}>로그아웃</Link>;
 
   return (
     <>
@@ -70,7 +71,7 @@ function Header() {
             <button id={styles.searchBtn} type="submit"></button>
           </form>
           {loginUser == null ? (<Link to='/login'>로그인</Link>) : (<Link to='/mypage'>{loginUser.memberName}님 환영합니다!</Link>)}
-          {loginUser == null ? (<Link to='/register'>회원가입</Link>) : (<Link onClick={logout}>로그아웃</Link>)}
+          {loginUser == null ? (<Link to='/register'>회원가입</Link>) : (<Link onClick={logoutCall}>로그아웃</Link>)}
           <Link to="/api/test" >test</Link>
           <Link to='/market/detail'>가게1</Link>
           <Link to='/my-orders'>주문상세</Link>
