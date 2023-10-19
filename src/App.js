@@ -27,6 +27,7 @@ import Payment from './components/Pay/Pay';
 import StoreRegisterPage from './components/MyPage/StoreRegisterPage';
 import { useUser } from './components/Auth/UserContext';
 import { sendAxiosRequest } from './components/utility/common';
+import StoreItemAdd from  './components/StoreItemDailyPrice/StoreItemAdd';
 
 function App() {
   // const [hello, setHello] = useState('');
@@ -99,6 +100,8 @@ function RoutingComponent() {
           <Route path="/StoreItemDailyPrice" element={<StoreItemDailyPrice />} />
           <Route path="/pay" element={<Payment />} />
           <Route path="/MenuRegisterationForm" element={<MenuRegisterationForm />} />
+          <Route path="/StoreItemAdd" element={<StoreItemAdd />} />
+
         </Routes>
         {location.pathname !== "/login" && location.pathname !== "/register" && <SideBar />}
         {location.pathname !== "/login" && location.pathname !== "/register" && <Footer />}
