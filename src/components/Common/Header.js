@@ -63,7 +63,7 @@ function Header() {
           <Link to='/'>추천</Link>
           <Link to='/store/list'>시장</Link>
           <Link to='/StoreItemDailyPrice'>시세</Link>
-          <Link to='/'>공지사항</Link>
+          <Link to='/notice/list'>공지사항</Link>
       </div>
     <hr></hr>
     </div>
