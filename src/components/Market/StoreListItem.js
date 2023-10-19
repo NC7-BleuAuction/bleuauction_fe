@@ -42,7 +42,7 @@ function StoreListItem(props) {
           {open == 'O' ? '영업중' : '영업종료'}
         </p>
         <div className={styles.storeListItemDetailBoxMore}>
-          <Link to="/market/detail">더보기&gt;</Link>
+          <Link to="/market/detail" state={store}>더보기&gt;</Link>
         </div>
       </div>
 

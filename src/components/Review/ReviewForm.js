@@ -11,8 +11,9 @@ function ReviewForm() {
     sendAxiosRequest("/api/member/loginCheck", "GET", null,
       response => {
         let repLoginUser = response.data.loginUser;
+        console.log('loginUser#@#@#@#@', response.data);
         if (repLoginUser === null) {
-          window.location.href = '/main';
+          window.location.href = '/';
         } else {
           setLoginUser(repLoginUser);
         }
@@ -125,7 +126,8 @@ function ReviewListDiv(props) {
 
         console.log("스크롤 이벤트 핸들러 작동");
         sendAxiosRequest(`/api/review/list?startPage=${startPageNo}`, 'GET', null, response => {
-          console.log(response.data);
+          console.log('response:', response);
+          console.log('response.data:',response.data);
           let addReviewList = response.data.reviewList;
           setNewAddLength(response.data.reviewList.length);
           let newReviewList = [...reviewList, ...addReviewList];
@@ -146,7 +148,7 @@ function ReviewListDiv(props) {
   useEffect(() => {
     sendAxiosRequest("/api/review/list", "GET", null,
       response => {
-        console.log(response.data);
+        console.log('response.datasdsd:', response.data);
         let data = response.data;
         setLoginUser(data.loginUser);
         setReviewList(data.reviewList);
@@ -159,7 +161,7 @@ function ReviewListDiv(props) {
 
   return (
     <div id="reviewListDiv" className='review-list-div'>
-      {reviewList.map((review, index) => (
+      { reviewList.map((review, index) => (
         <div key={index} className='review-div'>
           <form id={'reviewUpdateForm' + index}>
             <input id={'reviewNo' + index} name='reviewNo' hidden value={review.reviewNo} />

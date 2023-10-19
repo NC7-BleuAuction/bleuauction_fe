@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export function sendAxiosRequest(url, method, params, successCallback, errorCallback, contentType) {
+export function sendAxiosRequest(url, method, params, successCallback, errorCallback) {
   console.log('sendAxiosRequest의 요청 URL: ', url);
   console.log('sendAxiosRequest의 요청 데이터: ', params);
   const axiosConfig = {
@@ -9,9 +9,8 @@ export function sendAxiosRequest(url, method, params, successCallback, errorCall
     method: method,
     params: params,
     headers: {
-      'Content-Type': contentType,
-    }
-
+      'Accept': 'application/json', 
+    },
   };
   if (params != null)
     axiosConfig.params = params;
