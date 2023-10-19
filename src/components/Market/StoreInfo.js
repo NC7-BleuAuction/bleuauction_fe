@@ -55,7 +55,7 @@ const storeInfoContainer = {
 
 const imageStyle = {
   width: '100%',
-  height: '400px',
+  height: 'auto',
   objectFit: 'cover',
 };
 
@@ -65,9 +65,5 @@ const infoList = {
   margin: '10px 0',
 };
 
-const couponContainer = {
-  display: 'flex',
-  justifyContent: 'center',
-};
 
 export default StoreIntro;

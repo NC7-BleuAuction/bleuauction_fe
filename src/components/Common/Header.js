@@ -10,9 +10,19 @@ import { sendAxiosRequest } from '../utility/common';
 
 function Header() {
 
-  let [loginUser, setLoginUser] = useState(null);
+  const {user, logout} = useUser();
+  // let [loginUser, setLoginUser] = useState(null);
 
-
+  // useEffect (()=>{
+  //   sendAxiosRequest("/api/member/loginCheck", "GET", null,
+  //   response => {
+  //     let repLoginUser = response.data.loginUser;
+  //     if (repLoginUser !== null) {
+  //       setLoginUser(repLoginUser);
+  //     }
+  //   }, error => console.log(error));}, []
+  // )
+    let [loginUser, setLoginUser] = useState(null);
   useEffect(() => {
     if (loginUser == null) {
       sendAxiosRequest("/api/member/loginCheck", "GET", null,
@@ -26,25 +36,29 @@ function Header() {
   }, [loginUser]
   )
 
-  console.log('뭐야', loginUser);
   const loginState = (loginUser == null) ?
     <Link to='/login'>로그인</Link> :
     <Link to='/mypage'>{loginUser.memberEmail}님</Link>;
 
-  const logout = () => {
-    sendAxiosRequest("/api/member/logout", "GET", null,
-      response => {
-        const message = response.data.message;
-        if (message != null && message == 'Logout successful') {
-          alert('로그아웃에 성공하였습니다!');
-          setLoginUser(null);
-        }
-      }, error => console.log(error));
+  // const logout = () => {
+  //     sendAxiosRequest("/api/member/logout", "GET", null,
+  //         response => {
+  //             const message = response.data.message;
+  //             if (message != null && message == 'Logout successful') {
+  //                 alert('로그아웃에 성공하였습니다!');
+  //                 setLoginUser(null);
+  //             }
+  //         }, error => console.log(error));
+  // }
+  // const onClick = () => {
+  //   logout();
+  //   localStorage.removeItem('memberEmail');
+  //   localStorage.removeItem('memberPwd');
+  // }
 
-  }
-
-
-
+  const logoutState = (user === null) ?
+  <Link to='/register'>회원가입</Link> :
+  <Link to='/' onClick={onClick}>로그아웃</Link>;
 
   return (
     <>
@@ -64,15 +78,15 @@ function Header() {
         </div>
 
 
-        <div className={styles.headerBottom}>
-          <Link to='/'>추천</Link>
-          <Link to='/store/list'>시장</Link>
-          <Link to='/StoreItemDailyPrice'>시세</Link>
-          <Link to='/'>공지사항</Link>
-        </div>
-        <hr></hr>
+          <div className={styles.headerBottom}>
+              <Link to='/'>추천</Link>
+              <Link to='/store/list'>시장</Link>
+              <Link to='/StoreItemDailyPrice'>시세</Link>
+              <Link to='/notice/list'>공지사항</Link>
+          </div>
+          <hr></hr>
       </div>
-      <div className={styles.hidden_block}></div>
+        <div className={styles.hidden_block}></div>
     </>
   )
 }
