@@ -6,7 +6,7 @@ import Category from '../MainPage/Category';
 import StoreListItem from './StoreListItem';
 import StoreHome from '../StoreHome';
 import { Routes, Route } from 'react-router-dom';
-import { isOpenNow, sendAxiosRequest } from '../utility/common';
+import { isOpenNow, sendAxiosRequest, scrollMoveTop } from '../utility/common';
 import styles from './StoreList.module.css'
 
 function StoreList() {
@@ -66,6 +66,7 @@ function StoreList() {
           <StoreListItem key={index} data={store} />
         ))}
       </div>
+      <div id="topBtnDiv" onClick={scrollMoveTop}>↑</div>
     </>
   )
 }

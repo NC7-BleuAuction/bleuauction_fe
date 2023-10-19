@@ -28,12 +28,12 @@ function MarketDetailPage() {
 
   const handleOrderClick = () => {
     alert('주문하기 버튼 클릭!');
-  };  
+  };
 
   return (
     <div>
       {/* <div style={infoCouponContainer}> 여기에 스타일을 추가 */}
-      <StoreInfo storeInfo={storeInfo} store={store} />
+      {/* <StoreInfo storeInfo={storeInfo} store={store} /> */}
       {/* </div> */}
       <div style={tabContainerStyle}>
         <TabBar activeTab={activeTab} onTabClick={setActiveTab} />
@@ -55,22 +55,22 @@ const tabContainerStyle = {
 
 export default MarketDetailPage;
 
-  // const sampleReviews = [
-  //   {
-  //     id: 1,
-  //     user: { name: '로제', profilePicture: '/images/rose.png' },
-  //     text: '맛있어용',
-  //     image: '/',
-  //   },
-  //   {
-  //     id: 2,
-  //     user: { name: 'Jane Doe', profilePicture: '/path/to/jane.jpg' },
-  //     text: 'Really enjoyed using this.',
-  //   },
-  //   // ...기타 리뷰
-  // ];
+// const sampleReviews = [
+//   {
+//     id: 1,
+//     user: { name: '로제', profilePicture: '/images/rose.png' },
+//     text: '맛있어용',
+//     image: '/',
+//   },
+//   {
+//     id: 2,
+//     user: { name: 'Jane Doe', profilePicture: '/path/to/jane.jpg' },
+//     text: 'Really enjoyed using this.',
+//   },
+//   // ...기타 리뷰
+// ];
 
-    // const coupons = [
-  //   { id: 1, title: '20% 할인', description: '연어' },
-  //   { id: 2, title: '30% 할인', description: '방어' },
-  // ];
+// const coupons = [
+//   { id: 1, title: '20% 할인', description: '연어' },
+//   { id: 2, title: '30% 할인', description: '방어' },
+// ];

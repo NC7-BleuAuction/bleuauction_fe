@@ -17,6 +17,7 @@ function updateItemNames() {
   const itemNames = itemNameSelect;
 
   const options = {
+    'N': ['품목구분 항목을 먼저 선택해주세요.'],
     'S': ['광어', '우럭', '도미', '방어', '전복', '참치', '연어', '가리비', '전갱이'],
     'F': ['광어', '우럭', '도미', '방어', '전복', '참치', '연어', '가리비', '전갱이'],
     'C': ['새우'],
@@ -115,7 +116,7 @@ function StoreItemRegister() {
               <th><label htmlFor="item_code">품목구분</label></th>
               <td>
                 <select name='item_code' id="item_code">
-                  <option selected>선택안함</option>
+                  <option selected value="N">선택안함</option>
                   <option value="S">생선(횟감)</option>
                   <option value="F">생선(비횟감)</option>
                   <option value="C">갑각류</option>
@@ -128,7 +129,7 @@ function StoreItemRegister() {
               <th><label htmlFor="item_name">품목</label></th>
               <td>
                 <select name='item_name' id="item_name">
-                  <option selected>품목구분 항목을 먼저 선택해주세요.</option>
+                  {/* <option selected>품목구분 항목을 먼저 선택해주세요.</option> */}
                 </select>
               </td>
             </tr>
