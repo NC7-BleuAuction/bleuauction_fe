@@ -1,0 +1,16 @@
+.storeListBox {
+  width: 80%;
+  height: 100%;
+  margin: 100px auto;
+  text-align: center;
+  display: grid;
+  place-items: center;
+  border: 1px solid black;
+  border-radius: 20px;
+  padding: 30px;
+  transition: transform 0.3s ease;
+}
+
+/* .storeList a:hover  {
+  transform: scale(1.1);
+} */

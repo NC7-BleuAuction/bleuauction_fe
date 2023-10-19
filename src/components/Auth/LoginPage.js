@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { sendAxiosRequest } from '../utility/common';
 import { formToJSON } from 'axios';
 import { useState, useContext } from 'react';
-import { useUser} from './UserContext';
+import { useUser } from './UserContext';
 
 
 const defaultTheme = createTheme();
@@ -20,9 +20,9 @@ const defaultTheme = createTheme();
 function LoginPage() {
 
   const navigate = useNavigate();
-  
 
-    const { user, login, logout } = useUser();
+
+  const { user, login, logout } = useUser();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -37,8 +37,19 @@ function LoginPage() {
       console.log(response.data);
       console.log(formToJSON(data));
       login(formToJSON(data));
+      localStorage.setItem('memberEmail', data.get('memberEmail'));
+      localStorage.setItem('memberPwd', data.get('memberPwd'));
+      // sendAxiosRequest("/api/member/loginCheck", "GET", null,
+      // response => {
+      //   let repLoginUser = response.data.loginUser;
+      //   if (repLoginUser === null) {
+      //     window.location.href = '/main';
+      //   } else {
+      //     setLoginUser(repLoginUser);
+      //   }
+      // }, error => console.log(error));
     }, error => {
-  
+
       console.log(error);
     });
     navigate('/');

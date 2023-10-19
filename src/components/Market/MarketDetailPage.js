@@ -15,20 +15,7 @@ function MarketDetailPage() {
   const store = location.state; // 추가된 부분
   // console.log(store);
 
-  const sampleReviews = [
-    {
-      id: 1,
-      user: { name: '로제', profilePicture: '/images/rose.png' },
-      text: '맛있어용',
-      image: '/',
-    },
-    {
-      id: 2,
-      user: { name: 'Jane Doe', profilePicture: '/path/to/jane.jpg' },
-      text: 'Really enjoyed using this.',
-    },
-    // ...기타 리뷰
-  ];
+
 
   const storeInfo = {
     image: '/images/storeimage.png',
@@ -45,7 +32,7 @@ function MarketDetailPage() {
 
   return (
     <div>
-      <div style={infoContainerStyle}> 
+      <div style={infoContainerStyle}>
       <StoreInfo storeInfo={storeInfo} store={store} />
       </div>
       <div style={tabContainerStyle}>

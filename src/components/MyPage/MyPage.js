@@ -15,27 +15,28 @@ function MyPage() {
   //   profilePicture: '/images/rose.png',
   // };
 
-  const defaultImage = '/images/rose.png'; 
+  const defaultImage = '/images/rose.png';
 
   const [member, setMember] = useState(null);
 
-  useEffect(() => { 
-          sendAxiosRequest('api/member/loginCheck', 'GET', null, response => {
-          let loginUser = response.data.loginUser;
-          setMember(loginUser);
-        }, error => console.log(error))} 
+  useEffect(() => {
+    sendAxiosRequest('api/member/loginCheck', 'GET', null, response => {
+      let loginUser = response.data.loginUser;
+      setMember(loginUser);
+    }, error => console.log(error))
+  }
 
-  , []); 
+    , []);
 
-  
+
   const outerContainerStyle = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     height: '100vh',
-    margin: '0', 
+    margin: '0',
   };
-  
+
   const styles = {
     container: {
       display: 'flex',
@@ -57,7 +58,6 @@ function MyPage() {
       height: '110px',
       borderRadius: '80px',
       marginRight: '20px', // 사진과 텍스트 사이의 간격을 조정
-      
     },
     userInfo: {
       display: 'flex',
@@ -67,13 +67,13 @@ function MyPage() {
     linkSection: {
       display: 'flex',
       flexDirection: 'column',
-      width: '100%', 
+      width: '100%',
     },
     linkContainer: {
       margin: '20px 0',
       padding: '20px',
       borderRadius: '4px',
-      backgroundColor: '#ffffff', 
+      backgroundColor: '#ffffff',
       textAlign: 'center',
       boxShadow: '0px 0px 15px rgba(0, 0, 0, 0.2)',
     },
@@ -139,7 +139,7 @@ function MyPage() {
             <p>{member.memberEmail}</p>
           </div>
         </div>
-        
+
         <div style={styles.linkSection}>
           {/* member.memberCategory 값에 따라 링크 섹션을 조건부로 렌더링합니다. */}
           {member.memberCategory === 'M' ? personalLinks : businessLinks}
