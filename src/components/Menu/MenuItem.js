@@ -52,10 +52,10 @@ function MenuItem({ name, sizes, imageUrl }) {
 const menuItemStyle = {
   padding: '10px',
   borderBottom: '1px solid #ccc',
-  background: 'white',
-  margin: '10px',
-  borderRadius: '8px',
-  boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.1)',
+  background: 'white', 
+  margin: '10px', 
+  borderRadius: '8px', 
+  boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.1)', 
   width: '70%',
 };
 
@@ -69,7 +69,7 @@ const imageStyle = {
   width: '160px',
   height: '100px',
   objectFit: 'cover',
-  marginRight: '30px',
+  marginRight: '30px', 
 };
 
 const textStyle = {

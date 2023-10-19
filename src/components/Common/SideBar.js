@@ -13,7 +13,7 @@ function SideBar() {
 
     return (
         <div className={styles.sideBarBox}>
-            <Link to="/">등록</Link>
+            <Link to="/MenuRegisterationForm">등록</Link>
             <Link to="/">오늘의 <br />방사능</Link>
             <Link to="#" onClick={toggleModal}>챗봇</Link>
             {isModalOpen && <Chat closeModal={toggleModal} />}

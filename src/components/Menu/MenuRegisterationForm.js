@@ -55,12 +55,12 @@ function MenuRegisterationForm() {
   };
 
   return (
-    <div>
+    <div style={styles.container}>
+      <form onSubmit={handleSubmit} style={styles.form}>
       <h2>메뉴 등록</h2>
-      <form onSubmit={handleSubmit}>
         <div>
           <label>메뉴 이미지:</label>
-          <input type="file" onChange={handleImageChange} />
+          <input style={styles.input} type="file" onChange={handleImageChange} />
           {previewImage && (
             <div>
               <h3>이미지 미리보기:</h3>
@@ -68,27 +68,62 @@ function MenuRegisterationForm() {
             </div>
           )}
         </div>
-        {/* 나머지 입력 필드들... */}
         <div>
           <label>메뉴 이름:</label>
-          <input type="text" name="menuName" value={menu.menuName} onChange={handleChange} />
+          <input style={styles.input} type="text" name="menuName" value={menu.menuName} onChange={handleChange} />
         </div>
         <div>
           <label>메뉴 사이즈:</label>
-          <input type="text" name="menuSize" value={menu.menuSize} onChange={handleChange} />
+          <input style={styles.input} type="text" name="menuSize" value={menu.menuSize} onChange={handleChange} />
         </div>
         <div>
           <label>메뉴 가격:</label>
-          <input type="text" name="menuPrice" value={menu.menuPrice} onChange={handleChange} />
+          <input style={styles.input} type="text" name="menuPrice" value={menu.menuPrice} onChange={handleChange} />
         </div>
         <div>
           <label>메뉴 설명:</label>
           <textarea name="menuContent" value={menu.menuContent} onChange={handleChange} />
         </div>
-        <button type="submit">메뉴 등록</button>
+        <button type="submit" style={styles.submitButton}>메뉴 등록</button>
       </form>
     </div>
   );
 }
+
+const styles = {
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '30vh',
+  },
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center', // 폼 내용을 중앙 정렬합니다.
+    padding: '20px',  // 내부 패딩을 추가합니다.
+    borderRadius: '12px',  // 모서리를 둥글게 합니다.
+    boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)', // 약간의 그림자 효과를 추가합니다.
+    background: 'white', // 배경색을 흰색으로 설정합니다.
+    width: '800px', 
+  },
+  input: {
+    padding: '10px',
+    margin: '5px 0',
+    borderRadius: '6px',
+    border: '1px solid #ccc',
+    outline: 'none',
+    width: '300px', 
+  },
+  submitButton: {
+    padding: '10px 20px',
+    cursor: 'pointer',
+    backgroundColor: '#0575E6',
+    border: 'none',
+    borderRadius: '8px',
+    color: 'white',
+  },
+}
+
 
 export default MenuRegisterationForm;
