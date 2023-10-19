@@ -1,32 +1,34 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
 import styles from './MyOrderContent.module.css';
 
 
-function MyOrderContent({selectd}) {
+function MyOrderContent({orderlist}) {
 
-  const order = {
 
-  }
-
-  // let [selected, setSelected] = useState('');
-
-  // const onClick = (e) => {
-  //   setSelected(e.target.value);
-  // };
+  // const [orders, setOrders] = useState(orderlist);
 
   // useEffect(()=>{
-  //   console.log(selected);
-  // }, [selected])
+  //   console.log(orders);
+  // }, [orders])
+
+  // function onClick() {
+  //   console.log(orders);
+  // }
+
+  const orders = orderlist;
 
   return (
     <>
+    {orders.map((item)=>(
+    <div key={item.index}>
+  
+    {/* <button onClick={onClick} >버튼</button> */}
     <div className={styles.order_box}>
       <div className={styles.order_store_title}>
-        <span>storename</span>
+        <span>name</span>
       </div>
-
+      
       <div className={styles.order_item_box}>
         <img src='/images/fresh.png'/>
         <span>fishname</span>
@@ -38,8 +40,11 @@ function MyOrderContent({selectd}) {
         <span>총액: price</span>
         <span>주문일: date</span>
       </div>
+      </div>
+   
     </div>
-    </>
+  ))}
+       </>
   );
 }
 

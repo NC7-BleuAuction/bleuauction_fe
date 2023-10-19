@@ -1,58 +1,10 @@
-import './Review.css';
+import '../utility/Common.css';
 import React, { useState, useEffect } from 'react';
-import axios, { formToJSON } from 'axios';
-
-function sendAxiosRequest(url, method, params, successCallback, errorCallback) {
-  console.log(url);
-  const axiosConfig = {
-    timeout: 5000,
-    url: url,
-    method: method,
-  };
-  if (params != null)
-    axiosConfig.params = params;
-  axios(axiosConfig).then(successCallback).catch(errorCallback);
-}
-
-function sendAxiosMultipartRequest(url, formData, successCallback, errorCallback) {
-  console.log(url);
-  const axiosConfig = {
-    timeout: 5000,
-    url: url,
-    method: 'POST',
-    data: formData,
-    headers: {
-      'Content-Type': 'multipart/form-data'
-    }
-  };
-  axios(axiosConfig).then(successCallback).catch(errorCallback);
-}
+import { scrollMoveTop, sendAxiosRequest, sendAxiosMultipartRequest, dateFormatParse, handleInputChange } from '../utility/common';
+import { formToJSON } from 'axios';
 
 
-function dateFormatParse(date) {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  const hours = String(date.getHours()).padStart(2, '0');
-  const minutes = String(date.getMinutes()).padStart(2, '0');
-  const seconds = String(date.getSeconds()).padStart(2, '0');
-  return `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
-}
 
-function handleInputChange(e, index, state, stateSetter) {
-  let { name, value } = e.target;
-  let deepCopyState = [...state];
-  deepCopyState[index] = {
-    ...deepCopyState[index],
-    [name]: value,
-  };
-  stateSetter(deepCopyState);
-};
-
-
-function scrollMoveTop() {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
 
 function ReviewForm() {
   let [loginUser, setLoginUser] = useState(null);
@@ -98,7 +50,7 @@ function ReviewWriteForm(props) {
     return (
       <form id="reviewWriteForm" encType='multipart/form-data' className='ba-form'>
         <label htmlFor='storeNo'><input id='storeNo' name='storeNo' value={storeNo} hidden onChange={(e) => setStoreNo(e.target.value)}></input></label>
-        <label htmlFor='memberNo'><input id='memberNo' name='memberNo' value={loginUser.memberNo} hidden onChange={(e) => setMemberNo(e.target.value)}></input></label>
+        <label htmlFor='memberNo'><input id='memberNo' name='memberNo' value={loginUser.memberNo} hidden text onChange={(e) => setMemberNo(e.target.value)}></input></label>
         <img className='ba-member-profile' src='http://fvhsczepiibf19983519.cdn.ntruss.com/member/defaultProfile.jpg?type=f&w=50&h=50&ttype=jpg' ></img>
         <sapn className='ba-font-name'>{loginUser.memberName}</sapn>
         <span className='ba-font-title'>신선도 :</span>
@@ -119,16 +71,22 @@ function ReviewWriteForm(props) {
               return;
             }
 
-            let fileInput = document.querySelector('input[type="file"]');
-            for (let i = 0; i < fileInput.files.length; i++) {
-              formData.append("multipartFiles", fileInput.files[i]);
-            }
+            let inputFile = document.querySelector('input[type="file"]');
+            if (inputFile.files.length > 0) {
+              let files = inputFile.files;
+              for (let i = 0; i < files.length; i++) {
+                formData.append("multipartFiles", files[i]);
+              }
 
-            sendAxiosMultipartRequest('/api/review/add', formData,
-              response => {
-                alert('리뷰를 성공적으로 작성하였습니다!');
-                console.log(response.data);
-              }, error => console.log(error));
+
+              console.log('여기다.');
+              sendAxiosMultipartRequest('/api/review/add', formData,
+                response => {
+                  window.location.reload();
+                  alert('리뷰를 성공적으로 작성하였습니다!');
+                  console.log(response.data);
+                }, error => console.log(error));
+            }
           }}>리뷰작성</button>
           <label htmlFor='fileInput' className='ba-file-label'>파일 첨부</label><span id='fileInfoSpan'></span>
           <input type='file' id='fileInput' multiple hidden className='ba-file-btn' onChange={(e) => {
@@ -234,13 +192,13 @@ function ReviewListDiv(props) {
             <div>
               {review.reviewAttaches.length > 0 && (
                 <div className='ba-img-list-div'>
-                  <img id={'defaultImg' + index} className='ba-img-first' src={`https://kr.object.ncloudstorage.com/bleuauction-bucket/review/${review.reviewAttaches.length > 0 ? review.reviewAttaches[0].saveFilename : ''}`} />
+                  <img id={'defaultImg' + index} className='ba-img-first' src={`http://kr.object.ncloudstorage.com/bleuauction-bucket/review/${review.reviewAttaches.length > 0 ? review.reviewAttaches[0].saveFilename : ''}`} />
 
                   <div className='ba-div-col-sort'>
                     {
                       review.reviewAttaches.map((attach) => (
                         <div>
-                          <img className='ba-img-sub-list-div' src={`https://kr.object.ncloudstorage.com/bleuauction-bucket/review/${attach.saveFilename}`} onMouseEnter={(e) => {
+                          <img className='ba-img-sub-list-div' src={`http://kr.object.ncloudstorage.com/bleuauction-bucket/review/${attach.saveFilename}`} onMouseEnter={(e) => {
                             let targetImgSrc = e.target.src;
                             let defaultImgId = 'defaultImg' + index;
                             console.log(targetImgSrc);
@@ -271,6 +229,7 @@ function ReviewListDiv(props) {
                         sendAxiosRequest(`/api/review/deleteFile?fileNo=${attach.fileNo}`, 'GET', null,
                           response => {
                             console.log(response.data);
+                            window.location.reload();
                             alert(response.data.originFilename + '(이)가 삭제되었습니다!');
                           },
                           error => {
@@ -287,6 +246,8 @@ function ReviewListDiv(props) {
                   console.log(jsonObj);
                   sendAxiosRequest('/api/review/update', 'POST', jsonObj, response => {
                     console.log(response.data);
+                    console.log('리뷰변경 성공!');
+                    window.location.reload();
                     alert('리뷰를 성공적으로 변경하였습니다!');
                   }, error => console.log(error));
                 }}>리뷰수정</button>
@@ -294,6 +255,7 @@ function ReviewListDiv(props) {
                   () => {
                     sendAxiosRequest(`/api/review/delete?reviewNo=${review.reviewNo}`, 'GET', null, response => {
                       console.log(response.data);
+                      window.location.reload();
                       alert('리뷰가 성공적으로 삭제되었습니다!');
                     }, error => {
                       console.log(error);
@@ -305,7 +267,7 @@ function ReviewListDiv(props) {
             <div className='ba-text-right'>
               <button type='button' className='ba-small-btn' onClick={() => {
                 selectedReviewNo === review.reviewNo ? setSelectedReviewNo(null) : setSelectedReviewNo(review.reviewNo);
-              }}>답글목록</button>
+              }}>답글</button>
             </div>
           </form>
 
@@ -354,6 +316,7 @@ function AnswerForm(props) {
               }
               sendAxiosRequest('/api/answer/add', 'POST', jsonObj,
                 response => {
+                  window.location.reload();
                   alert('답글을 성공적으로 작성하였습니다!');
                   console.log(response.data);
                 }, error => console.log(error));
@@ -379,17 +342,12 @@ function AnswerListDiv(props) {
         let totalRows = response.data.totalRows;
         console.log('최초 렌더시 totalRow');
         console.log(totalRows);
+        console.log('최초 렌더시 asnwerList.length');
+        console.log(asnwerList.length);
 
         if (totalRows > asnwerList.length) {
-          document.querySelector('.ba-more-btn').style.hidden = false;
-        }
-        // else {
-        //   document.querySelector('.ba-more-btn').style.hidden = true;
-        // }
-
-
-        if (asnwerList.length <= 1) {
-          return;
+          console.log(document.querySelector('.ba-more-btn'));
+          document.querySelector('.ba-more-btn').hidden = false;
         }
         setAnswerList(response.data.answerList);
         setStartPageNo(response.data.answerList.length / 2);
@@ -415,6 +373,10 @@ function AnswerListDiv(props) {
             {answer.member.memberNo == props.loginUser.memberNo ?
               (
                 <div>
+                  <input type='text' name='answerNo' hidden value={answer.answerNo} />
+                  <input type='text' name='reviewNo' hidden value={answer.reviewNo} />
+                  <input type='text' name='memberNo' hidden value={answer.member.memberNo} />
+
                   <textarea name='answerContent' value={answer.answerContent} className='ba-textarea' onChange={(e) => {
                     handleInputChange(e, index, answerList, setAnswerList);
                   }} />
@@ -424,7 +386,7 @@ function AnswerListDiv(props) {
                         let jsonObj = formToJSON(new FormData(document.getElementById('answerUpdateForm' + index)));
                         console.log(jsonObj);
                         sendAxiosRequest(`/api/answer/update?`, 'POST', jsonObj, response => {
-                          console.log(response.data);
+                          window.location.reload();
                           alert('답글이 성공적으로 변경되었습니다!');
                         }, error => {
                           console.log(error);
@@ -434,7 +396,7 @@ function AnswerListDiv(props) {
                     <button type='button' className='ba-btn ba-margin-right80' onClick={
                       () => {
                         sendAxiosRequest(`/api/answer/delete?answerNo=${answer.answerNo}`, 'GET', null, response => {
-                          console.log(response.data);
+                          window.location.reload();
                           alert('답글이 성공적으로 삭제되었습니다!');
                         }, error => {
                           console.log(error);
@@ -449,7 +411,7 @@ function AnswerListDiv(props) {
       ))
       }
       <div className='ba-btn-div'>
-        <button type='button' className='ba-more-btn' onClick={(e) => {
+        <button type='button' className='ba-more-btn' hidden onClick={(e) => {
           sendAxiosRequest(`/api/answer/list?reviewNo=${props.reviewNo}&startPage=${startPageNo}`, "GET", null,
             response => {
               console.log(response.data);
@@ -458,8 +420,8 @@ function AnswerListDiv(props) {
               let newAnswerList = [...answerList, ...appendAnswerList];
               setAnswerList(newAnswerList);
               setStartPageNo(newAnswerList.length / 2);
-              if (totalRows > newAnswerList.length) {
-                e.target.style.hidden = false;
+              if (totalRows <= newAnswerList.length) {
+                e.target.hidden = true;
               }
 
             }, error => {
