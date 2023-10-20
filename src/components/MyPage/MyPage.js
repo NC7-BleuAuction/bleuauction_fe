@@ -123,6 +123,16 @@ function MyPage() {
     </>
   );
 
+  // 관리자 사용자용 링크
+  const adminLinks = (
+    <>
+      <div style={styles.linkContainer}>
+        <Link to="/admin/notice/list" style={styles.link}>공지사항 관리</Link>
+      </div>
+
+    </>
+  );
+
   if (member === null) {
     return <div>Loading...</div>; // 로딩 표시
   } else {
@@ -133,14 +143,20 @@ function MyPage() {
           <img src={defaultImage} alt={member.memberName} style={styles.profilePicture} />
           <div style={styles.userInfo}>
             <h2>{member.memberName}</h2>
-            <p>{member.memberCategory === 'M' ? '개인' : '비즈니스'} 계정</p>
+            <p> {member.memberCategory === 'M' ? '개인' : 
+                  member.memberCategory === 'S' ? '비즈니스' :
+                  member.memberCategory === 'A' ? '관리자' : '기타'}
+                  계정</p>
             <p>{member.memberEmail}</p>
           </div>
         </div>
 
         <div style={styles.linkSection}>
           {/* member.memberCategory 값에 따라 링크 섹션을 조건부로 렌더링합니다. */}
-          {member.memberCategory === 'M' ? personalLinks : businessLinks}
+           {/* member.memberCategory 값에 따라 링크 섹션을 조건부로 렌더링합니다. */}
+          {member.memberCategory === 'M' ? personalLinks : 
+          member.memberCategory === 'S' ? businessLinks :
+          member.memberCategory === 'A' ? adminLinks : undefined}
         </div>
       </div>
     </div>
