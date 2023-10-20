@@ -49,26 +49,28 @@ function App() {
 
   const { user, login } = useUser();
 
-  // const data = localStorage.getItem(user);
+  // user !==null ? ()
 
-  useEffect(() => {
-    //   // sendAxiosRequest("/api/member/login", 'POST', user, response => {
-    //   //   console.log(response.data);
-    console.log(localStorage.getItem('memberEmail'));
-    console.log(localStorage.getItem('memberPwd'));
-    const saveUser = {
-      'memberEmail': localStorage.getItem('memberEmail'),
-      'memberPwd': localStorage.getItem('memberPwd')
-    }
-    if (localStorage.getItem('memberEmail') !== null) {
-      login(saveUser);
-    }
-    //     login(localStorage.getItem('data'));
-    //     // console.log(user);
-    //   // }, error => {
-    //     // console.log(error);
-    //   // });
-  }, [])
+  // // const data = localStorage.getItem(user);
+
+  // useEffect(() => {
+  // //   // sendAxiosRequest("/api/member/login", 'POST', user, response => {
+  // //   //   console.log(response.data);
+  //     console.log(localStorage.getItem('memberEmail'));
+  //     console.log(localStorage.getItem('memberPwd'));
+  //     const saveUser = {
+  //       'memberEmail': localStorage.getItem('memberEmail'),
+  //       'memberPwd': localStorage.getItem('memberPwd')
+  //     }
+  //     if (localStorage.getItem('memberEmail') !== null) {
+  //       login(saveUser);
+  //     }
+  // //     login(localStorage.getItem('data'));
+  // //     // console.log(user);
+  // //   // }, error => {
+  // //     // console.log(error);
+  // //   // });
+  // }, [])
 
 
 

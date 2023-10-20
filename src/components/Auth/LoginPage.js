@@ -21,13 +21,12 @@ function LoginPage() {
 
   const navigate = useNavigate();
 
-
   const { user, login, logout } = useUser();
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log(formToJSON(data));
+    // console.log(formToJSON(data));
     console.log({
       memberEmail: data.get('memberEmail'),
       memberPwd: data.get('memberPwd'),
@@ -35,19 +34,18 @@ function LoginPage() {
 
     sendAxiosRequest("/api/member/login", 'POST', formToJSON(data), response => {
       console.log(response.data);
-      console.log(formToJSON(data));
-      login(formToJSON(data));
-      localStorage.setItem('memberEmail', data.get('memberEmail'));
-      localStorage.setItem('memberPwd', data.get('memberPwd'));
-      // sendAxiosRequest("/api/member/loginCheck", "GET", null,
-      // response => {
-      //   let repLoginUser = response.data.loginUser;
-      //   if (repLoginUser === null) {
-      //     window.location.href = '/main';
-      //   } else {
-      //     setLoginUser(repLoginUser);
-      //   }
-      // }, error => console.log(error));
+      // console.log(formToJSON(data));
+      // localStorage.setItem('memberEmail', data.get('memberEmail'));
+      // localStorage.setItem('memberPwd', data.get('memberPwd'));
+      sendAxiosRequest("/api/member/loginCheck", "GET", null,
+      response => {
+        let repLoginUser = response.data.loginUser;
+        if (repLoginUser === null) {
+          window.location.href = '/main';
+        } else {
+          login(repLoginUser);
+        }
+      }, error => console.log(error));
     }, error => {
 
       console.log(error);
