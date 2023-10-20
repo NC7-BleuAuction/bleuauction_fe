@@ -27,7 +27,8 @@ function StoreRegisterPage() {
       .then(response => {
         // 성공적으로 서버에서 응답을 받은 경우의 처리
         console.log('등록된 가게 정보:', response.data);
-        navigate('/main');
+        alert('가게 등록 성공!')
+        navigate('/mypage');
 
       })
       .catch(error => {
