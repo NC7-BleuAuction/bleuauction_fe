@@ -1,29 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import axios, { formToJSON } from 'axios';
 import { isOpenNow, sendAxiosRequest } from '../utility/common';
 
 function MyPage() {
-  // 사용자 정보를 상태 혹은 API로부터 불러오기.
-  // 예시
-  // const user = {
-  //   name: 'Rose',
-  //   email: 'rose@example.com',
-  //   accountType: 'personal', // or 'business'
-  //   profilePicture: '/images/rose.png',
-  // };
 
   const defaultImage = '/images/rose.png';
 
   const [member, setMember] = useState(null);
+  const [menuData, setMenuData] = useState([]); // 메뉴 데이터를 저장할 상태
+
+  const location = useLocation(); // 추가된 부분
+  const store = location.state; // 추가된 부분
+  console.log(store);
 
   useEffect(() => {
     sendAxiosRequest('api/member/loginCheck', 'GET', null, response => {
       let loginUser = response.data.loginUser;
       setMember(loginUser);
+      console.log(loginUser);
     }, error => console.log(error))
   }
     , []);
+
+
 
 
   const outerContainerStyle = {
@@ -111,7 +112,10 @@ function MyPage() {
         <Link to="/useredit" style={styles.link}>회원정보 수정</Link>
       </div>
       <div style={styles.linkContainer}>
-        <Link to="/" style={styles.link}>등록상품관리</Link>
+      <Link to="/menuEdit" style={styles.link}>메뉴 관리</Link>
+      </div>
+      <div style={styles.linkContainer}>
+        <Link to="/" style={styles.link}>품목 관리</Link>
       </div>
       <div style={styles.linkContainer}>
         <Link to="/order-confirmation" style={styles.link}>주문확인</Link>
@@ -121,6 +125,7 @@ function MyPage() {
       </div>
     </>
   );
+
 
   if (member === null) {
     return <div>Loading...</div>; // 로딩 표시
