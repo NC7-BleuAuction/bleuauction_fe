@@ -91,7 +91,7 @@ const Payment = () => {
     }, async (rsp) => {
       console.log('rsp: ', rsp);
       try {
-        const { data } = await axios.post('http://localhost:8080/api/pay/verifyIamport/' + rsp.imp_uid);
+        const { data } = await axios.post('/api/pay/verifyIamport/' + rsp.imp_uid);
         if (rsp.paid_amount === amount) {
           alert('결제 성공!');
           const testPay = {

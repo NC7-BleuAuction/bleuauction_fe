@@ -56,6 +56,7 @@ function UserEditPage() {
     sendAxiosMultipartRequest('/api/member/update', 'PUT', formData,
       response => {
         console.log('response.data', response.data);
+        navigate('/mypage')
       },
       error => {
         console.error('멤버 업데이트 중 에러 발생', error);

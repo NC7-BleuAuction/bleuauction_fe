@@ -1,42 +1,29 @@
 import React from 'react';
-import MenuItem from './MenuItem';
 
-function MenuList() {
-  const menuItems = [
-    {
-      name: '연어',
-      imageUrl: '/images/salmon.png', 
-      sizes: [
-        { name: '소', price: 30000 },
-        { name: '중', price: 40000 },
-        { name: '대', price: 50000 },
-      ],
-    },
-    {
-      name: '방어',
-      imageUrl: '/images/bang.png',
-      sizes: [
-        { name: '소', price: 15000 },
-        { name: '중', price: 20000 },
-        { name: '대', price: 25000 },
-      ],
-    },
-    {
-      name: '우럭',
-      imageUrl: '/images/cry.png',
-      sizes: [
-        { name: '소', price: 15000 },
-        { name: '중', price: 20000 },
-        { name: '대', price: 25000 },
-      ],
-    },
-  ];
+function MenuList({ menus }) {
+
+  // 메뉴 아이템을 위한 인라인 스타일. 필요에 따라 수정할 수 있습니다.
+  const menuItemStyle = {
+    border: '1px solid #ddd',
+    padding: '10px',
+    marginBottom: '10px',
+    textAlign: 'center',
+    width: '300px',
+  };
 
   return (
     <div style={menuListStyle}>
-      {menuItems.map(item => (
-        <MenuItem key={item.name} name={item.name} sizes={item.sizes} imageUrl={item.imageUrl} />
-      ))}
+      <ul style={{ listStyleType: 'none' }}>
+        {menus.map(menu => (
+          <li key={menu.menuNo} style={menuItemStyle}>
+            {menu.menuAttaches && <img src={menu.menuAttaches} alt={menu.menuName} style={{ width: '100%', height: 'auto' }} />}
+            <h2>{menu.menuName}</h2>
+            <p>{menu.menuSize}</p>
+            <p>{menu.menuPrice}</p>
+            <p>{menu.menuContent}</p>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
@@ -45,9 +32,10 @@ const menuListStyle = {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  justifyContent: 'center', // 수직 방향으로도 가운데 정렬
-  margin: 'auto', // 컨테이너를 화면 가운데로 이동
+  justifyContent: 'center', 
+  margin: 'auto',
   paddingTop: '10px', 
+  // width: '100%',
 };
 
 export default MenuList;

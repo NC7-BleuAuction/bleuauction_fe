@@ -20,13 +20,22 @@ import UserEditPage from './components/MyPage/UserEditPage';
 import MyOrder from './components/MyPage/MyOrder';
 import StoreItemDailyPrice from './components/StoreItemDailyPrice/StoreItemDailyPrice';
 import UserProvider from './components/Auth/UserContext';
+import UserProvider from './components/Auth/UserContext';
+import StoreItemRegister from './components/MyPage/StoreItemRegister'
+import Payment from './components/Pay/Pay';
 import StoreRegisterPage from './components/MyPage/StoreRegisterPage';
-import AdminPage from './components/MyPage/AdminPage';
 import NoticeList from './components/Notice/NoticeList';
 import NoticeDetail from './components/Notice/NoticeDetail';
 import { useUser } from './components/Auth/UserContext';
 import StoreMyPage from './components/MyPage/StoreItemRegister'; // StoreMyPage 컴포넌트 파일의 경로에 따라 수정
 import StoreItemRegister from './components/MyPage/StoreItemRegister'; // StoreItemRegister 컴포넌트 파일의 경로에 따라 수정
+import { useUser } from './components/Auth/UserContext';
+import StoreMyPage from './components/MyPage/StoreItemRegister'; // StoreMyPage 컴포넌트 파일의 경로에 따라 수정
+import { sendAxiosRequest } from './components/utility/common';
+import StoreItemAdd from  './components/StoreItemDailyPrice/StoreItemAdd';
+import NoticeRegisterationForm from  './components/Admin/NoticeRegisterationForm';
+import AdminNoticeList from  './components/Admin/AdminNoticeList';
+import AdminNoticeDetail from  './components/Admin/AdminNoticeDetail';
 
 function App() {
   // const [hello, setHello] = useState('');
@@ -79,35 +88,37 @@ function RoutingComponent() {
 
   return (
     <>
-      <UserProvider>
-        {location.pathname !== "/login" && location.pathname !== "/register" && <Header />}
-        <Routes>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/" exact={true} element={<Home />} />
-          <Route path="/store/list" element={<StoreList />} />
-          <Route path="/api/test" element={<Test />} />
-          <Route path="/api/test2" element={<Test2 />} />
-          <Route path="/menulist" element={<MenuList />} />
-          <Route path="/reviewregister" element={<ReviewForm />} />
-          <Route path="/market/detail" element={<MarketDetailPage />} />
-          <Route path="/mypage" element={<MyPage />} />
-          <Route path="/storeRegister" element={<StoreRegisterPage />} />
-          <Route path="/useredit" element={<UserEditPage />} />
-          <Route path="/my-orders" element={<MyOrder />} />
-          <Route path="/storemypage" element={<StoreMyPage />} />
-          <Route path="/storeItemRegister" element={<StoreItemRegister />} />
-
+      {location.pathname !== "/login" && location.pathname !== "/register" && <Header />}
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/" exact={true} element={<Home />} />
+        <Route path="/store/list" element={<StoreList />} />
+        <Route path="/api/test" element={<Test />} />
+        <Route path="/api/test2" element={<Test2 />} />
+        <Route path="/menulist" element={<MenuList />} />
+        <Route path="/reviewregister" element={<ReviewForm />} />
+        <Route path="/market/detail" element={<MarketDetailPage />} />
+        <Route path="/mypage" element={<MyPage />} />
+        <Route path="/storeRegister" element={<StoreRegisterPage />} />
+        <Route path="/useredit" element={<UserEditPage />} />
+        <Route path="/my-orders" element={<MyOrder />} />
+        <Route path="/StoreItemDailyPrice" element={<StoreItemDailyPrice />} />
+        <Route path="/MenuRegisterationForm" element={<MenuRegisterationForm />} />
+        <Route path="/notice/list" element={<NoticeList />} />
+        <Route path="/notice/detail/:noticeNo" element={<NoticeDetail />} />
+        <Route path="/storemypage" element={<StoreMyPage />} />
+        <Route path="/storeItemRegister" element={<StoreItemRegister />} />
+        <Route path="/StoreItemAdd" element={<StoreItemAdd />} />
           <Route path="/StoreItemDailyPrice" element={<StoreItemDailyPrice />} />
-          <Route path="/MenuRegisterationForm" element={<MenuRegisterationForm />} />
-          <Route path="/adminpage" element={<AdminPage />} />
-          <Route path="/notice/list" element={<NoticeList />} />
-          <Route path="/notice/detail/:noticeNo" element={<NoticeDetail />} />
 
-        </Routes>
-        {location.pathname !== "/login" && location.pathname !== "/register" && <SideBar />}
-        {location.pathname !== "/login" && location.pathname !== "/register" && <Footer />}
-      </UserProvider>
+          <Route path="/pay" element={<Payment />} />
+        <Route path="/admin/notice/register" element={<NoticeRegisterationForm />} />
+        <Route path="/admin/notice/list" element={<AdminNoticeList />} />
+        <Route path="/admin/notice/detail/:noticeNo" element={<AdminNoticeDetail />} />
+      </Routes>
+      {location.pathname !== "/login" && location.pathname !== "/register" && <SideBar />}
+      {location.pathname !== "/login" && location.pathname !== "/register" && <Footer />}
     </>
   );
 }
