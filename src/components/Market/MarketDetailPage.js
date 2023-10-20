@@ -5,11 +5,15 @@ import Button from '../MainPage/Button';
 import StoreInfo from './StoreInfo';
 import ReviewSection from '../Review/ReviewSection';
 import { useLocation } from 'react-router-dom';
+import OrderModal from './OrderModal';
+import { useUser } from '../Auth/UserContext';
 
 
 
 function MarketDetailPage() {
+
   const [activeTab, setActiveTab] = useState('info');
+  const [modal, setModal] = useState(false);
 
   const location = useLocation(); // 추가된 부분
   const store = location.state; // 추가된 부분
@@ -27,8 +31,15 @@ function MarketDetailPage() {
 
 
   const handleOrderClick = () => {
-    alert('주문하기 버튼 클릭!');
-  };  
+    // alert('주문하기 버튼 클릭!');
+    setModal(true);
+    console.log(modal);
+  };
+
+  const closeModal = () => {
+    setModal(false);
+  };
+
 
   return (
     <div>
@@ -38,6 +49,7 @@ function MarketDetailPage() {
       <div style={tabContainerStyle}>
         <TabBar activeTab={activeTab} onTabClick={setActiveTab} />
         {activeTab === 'menu' && <Button onClick={handleOrderClick} buttonText="주문하기" />}
+        <OrderModal isOpen={modal} onClose={closeModal}/>
       </div>
       {activeTab === 'info' && <p>여기에 가게정보를 표시합니다.</p>}
       {activeTab === 'menu' && <MenuList />}

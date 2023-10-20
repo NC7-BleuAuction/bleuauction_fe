@@ -3,6 +3,7 @@ import axios from 'axios';
 import { sendAxiosRequest } from '../utility/common';
 import './StoreItemAdd.css';
 import { useNavigate } from 'react-router-dom';
+import { Hidden } from '@mui/material';
 
 
 function StroeItemAdd() {
@@ -144,7 +145,7 @@ function StroeItemAdd() {
         </div>
       </div>
 
-      <div className='fish_size'>
+      <div className='fish_size' style={{overflow:Hidden}}>
         <p>금일 판매 가격 (원)</p>
         <div>
           <input

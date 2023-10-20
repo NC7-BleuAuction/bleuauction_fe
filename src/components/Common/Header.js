@@ -72,8 +72,8 @@ function Header() {
           </form>
           {loginUser == null ? (<Link to='/login'>로그인</Link>) : (<Link to='/mypage'>{loginUser.memberName}님 환영합니다!</Link>)}
           {loginUser == null ? (<Link to='/register'>회원가입</Link>) : (<Link onClick={logoutCall}>로그아웃</Link>)}
-          <Link to="/api/test" >test</Link>
-          <Link to='/market/detail'>가게1</Link>
+          {/* <Link to="/api/test" >test</Link> */}
+          {/* <Link to='/market/detail'>가게1</Link> */}
           <Link to='/my-orders'>주문상세</Link>
 
         </div>

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import './OrderModal.css'; // 모달에 대한 CSS 스타일 (별도로 작성 필요)
 
-const OrderModal = ({ onClose }) => {
+const OrderModal = ({ isOpen, onClose }) => {
+
   // 여기에 필요한 state를 추가할 수 있습니다. 예: 선택한 메뉴, 수령 방식 등
   const [deliveryMethod, setDeliveryMethod] = useState('quick'); // 기본값으로 'quick' 배송 방식 선택
   const [contactDetails, setContactDetails] = useState({ // 수령 정보를 위한 상태
@@ -36,6 +37,8 @@ const OrderModal = ({ onClose }) => {
       setActiveSection(section);
     };
 
+    if (!isOpen) return null;
+
   return (
 <div className="orderModalBackground">
       <div className="orderModalContainer">
@@ -54,13 +57,17 @@ const OrderModal = ({ onClose }) => {
             {/* 주문 정보 입력 부분 */}
             <h2>주문 정보</h2>
             {/* 주문 정보 입력 필드들... */}
+            <div>
+              <OrderItem/>
+              <OrderItem/>
+            </div>
             {/* ... */}
             {/* 주문 정보 제출 버튼 */}
             <button type="submit">주문 정보 제출</button>
           </form>
         )}
 
-{activeSection === 'deliveryMethod' && (
+        {activeSection === 'deliveryMethod' && (
           <div>
             {/* 수령 방식 선택 부분 */}
             <h2>수령 방식</h2>
@@ -141,6 +148,59 @@ const OrderModal = ({ onClose }) => {
     </div>
   );
 };
+
+
+
+function OrderItem() {
+
+  const [count, setCount] = useState(0)
+
+  const handleCount = (e)=> {
+    if (e.target.value >= 0) {
+      setCount(e.target.value)
+    } else {
+      setCount(0)
+    }
+  };
+
+
+  return (
+    <>
+    <div className='order-item-box'>
+      
+      <div style={{overflow:'hidden'}}>
+        <img src='/images/fish1.jpg'/>
+      </div>
+
+      <div>
+        <p>name</p>
+      </div>
+
+      <div>
+        <p>size</p>
+      </div>
+
+      <div>
+        <p>price</p>
+      </div>
+
+      <div>
+        {/* <button onClick={()=>setCount(count + 1)}>+</button> */}
+        <input
+              type="number"
+              value={count}
+              onChange={handleCount}
+            />
+        {/* <button onClick={()=>setCount(count + 1)}>-</button> */}
+      </div>
+
+
+
+
+    </div>
+    </>
+  );
+}
 
           
 
