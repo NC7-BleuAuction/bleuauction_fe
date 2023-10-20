@@ -19,11 +19,17 @@ import MyPage from './components/MyPage/MyPage';
 import UserEditPage from './components/MyPage/UserEditPage';
 import MyOrder from './components/MyPage/MyOrder';
 import StoreItemDailyPrice from './components/StoreItemDailyPrice/StoreItemDailyPrice';
-import UserProvider from  './components/Auth/UserContext';
+import UserProvider from './components/Auth/UserContext';
+import StoreItemRegister from './components/MyPage/StoreItemRegister'
+import Payment from './components/Pay/Pay';
 import StoreRegisterPage from './components/MyPage/StoreRegisterPage';
 import AdminPage from './components/MyPage/AdminPage';
 import NoticeList from './components/Notice/NoticeList';
 import NoticeDetail from './components/Notice/NoticeDetail';
+import { useUser } from './components/Auth/UserContext';
+import StoreMyPage from './components/MyPage/StoreItemRegister'; // StoreMyPage 컴포넌트 파일의 경로에 따라 수정
+import { sendAxiosRequest } from './components/utility/common';
+import StoreItemAdd from  './components/StoreItemDailyPrice/StoreItemAdd';
 
 function App() {
   // const [hello, setHello] = useState('');
@@ -34,6 +40,30 @@ function App() {
   //     .then(response => setHello(response.data))
   //     .catch(error => console.log(error));
   // }, []);
+
+  const {user, login} = useUser();
+
+  // const data = localStorage.getItem(user);
+
+  useEffect(() => {
+  //   // sendAxiosRequest("/api/member/login", 'POST', user, response => {
+  //   //   console.log(response.data);
+      console.log(localStorage.getItem('memberEmail'));
+      console.log(localStorage.getItem('memberPwd'));
+      const saveUser = {
+        'memberEmail': localStorage.getItem('memberEmail'),
+        'memberPwd': localStorage.getItem('memberPwd')
+      }
+      if (localStorage.getItem('memberEmail') !== null) {
+        login(saveUser);
+      }
+  //     login(localStorage.getItem('data'));
+  //     // console.log(user);
+  //   // }, error => {
+  //     // console.log(error);
+  //   // });
+  }, [])
+
 
 
   return (
@@ -52,7 +82,6 @@ function RoutingComponent() {
 
   return (
     <>
-    <UserProvider>
       {location.pathname !== "/login" && location.pathname !== "/register" && <Header />}
       <Routes>
         <Route path="/login" element={<LoginPage />} />
@@ -73,11 +102,13 @@ function RoutingComponent() {
         <Route path="/adminpage" element={<AdminPage />} />
         <Route path="/notice/list" element={<NoticeList />} />
         <Route path="/notice/detail/:noticeNo" element={<NoticeDetail />} />
-        
+        <Route path="/storemypage" element={<StoreMyPage />} />
+        <Route path="/storeItemRegister" element={<StoreItemRegister />} />
+        <Route path="/StoreItemAdd" element={<StoreItemAdd />} />
+        <Route path="/pay" element={<Payment />} />
       </Routes>
       {location.pathname !== "/login" && location.pathname !== "/register" && <SideBar />}
       {location.pathname !== "/login" && location.pathname !== "/register" && <Footer />}
-    </UserProvider>
     </>
   );
 }

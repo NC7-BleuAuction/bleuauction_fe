@@ -72,7 +72,9 @@ import React from 'react';
 import Coupon from '../Coupon/Coupon'; 
 
 function StoreIntro({storeInfo, store, coupons }) {
-  console.log(store);
+
+  console.log('storeInfo,',storeInfo);
+  console.log('store,',store);
   // console.log(storeInfo);
 
   return (

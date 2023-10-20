@@ -1,0 +1,71 @@
+.freezer_box {
+  margin: 0 auto;
+  padding: 1%;
+  width: 50%;
+  height: 20%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+
+  border: 1px solid black;
+}
+
+.fish_image {
+  width: 100%;
+  height: 80%;
+}
+
+.selected {
+  border: 5px solid #0063f9;
+  border-radius: 10px;
+
+  width: 100%;
+  height: 100%;
+  /* overflow: hidden; */
+  padding: 5%;
+}
+
+.not_selected {
+  padding: 5%;
+}
+
+.fish_size {
+  margin: 5% auto;
+
+}
+
+
+.fish_origin {
+  width: 20%;
+  margin: 5% auto;
+}
+
+.fish_place {
+  width: 40%;
+  margin: 5% auto;
+}
+
+.filter_buttons, .origin_buttons {
+  display: flex;
+  gap: 5%;
+  justify-content: space-around;
+  padding: 20px;
+  width: 100%;
+}
+
+.filter_buttons button, .origin_buttons button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 5px;
+  width: 60%;
+}
+
+.filter_buttons button.selected, .origin_buttons button.selected {
+  background-color: #0056b3;
+  /* width: 8%; */
+}

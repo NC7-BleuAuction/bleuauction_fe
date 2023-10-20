@@ -7,25 +7,26 @@ export function sendAxiosRequest(url, method, params, successCallback, errorCall
     timeout: 5000,
     url: url,
     method: method,
+    params: params,
     headers: {
-      'Content-Type': 'application/json'
-    }
+      'Accept': 'application/json', 
+    },
   };
   if (params != null)
     axiosConfig.params = params;
   axios(axiosConfig).then(successCallback).catch(errorCallback);
 }
 
-export function sendAxiosMultipartRequest(url, method, formData, successCallback, errorCallback) {
+export function sendAxiosMultipartRequest(url, formData, successCallback, errorCallback) {
   console.log('sendAxiosMultipartRequest의 요청 URL: ', url);
   console.log('sendAxiosMultipartRequest의 요청 데이터: ', formData);
   const axiosConfig = {
     timeout: 5000,
     url: url,
-    method: method,
+    method: 'POST',
     data: formData,
     headers: {
-      'Content-Type': 'multipart/form-data'
+      'Content-Type': 'multipart/form-data',
     }
   };
   axios(axiosConfig).then(successCallback).catch(errorCallback);
@@ -88,6 +89,7 @@ export function isOpenNow(startTime, endTime) {
   // O: 마감 C: 영업중
   return currentTimeMinutes >= startTimeMinutes && currentTimeMinutes <= endTimeMinutes ? 'O' : 'C';
 }
+
 
 // 리스트(요소여러 개)에 이벤트 추가
 export function addEventToElements(eventName, eventFunction, elements) {

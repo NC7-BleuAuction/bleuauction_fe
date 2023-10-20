@@ -1,9 +1,7 @@
 import '../utility/Common.css';
 import React, { useState, useEffect } from 'react';
-import { scrollMoveTop, sendAxiosRequest, sendAxiosMultipartRequest, dateFormatParse, handleInputChange } from '../utility/common';
 import { formToJSON } from 'axios';
-
-
+import { scrollMoveTop, sendAxiosMultipartRequest, sendAxiosRequest, dateFormatParse, handleInputChange } from '../utility/common';
 
 
 function ReviewForm() {
@@ -13,8 +11,9 @@ function ReviewForm() {
     sendAxiosRequest("/api/member/loginCheck", "GET", null,
       response => {
         let repLoginUser = response.data.loginUser;
+        console.log('loginUser#@#@#@#@', response.data);
         if (repLoginUser === null) {
-          window.location.href = '/main';
+          window.location.href = '/';
         } else {
           setLoginUser(repLoginUser);
         }
@@ -77,16 +76,17 @@ function ReviewWriteForm(props) {
               for (let i = 0; i < files.length; i++) {
                 formData.append("multipartFiles", files[i]);
               }
-
-
-              console.log('여기다.');
-              sendAxiosMultipartRequest('/api/review/add', formData,
-                response => {
-                  window.location.reload();
-                  alert('리뷰를 성공적으로 작성하였습니다!');
-                  console.log(response.data);
-                }, error => console.log(error));
             }
+
+            console.log('여기다.');
+            sendAxiosMultipartRequest('/api/review/add', formData,
+              response => {
+                console.log('리뷰작성성공');
+                window.location.reload();
+                alert('리뷰를 성공적으로 작성하였습니다!');
+                console.log(response.data);
+              }, error => console.log(error));
+
           }}>리뷰작성</button>
           <label htmlFor='fileInput' className='ba-file-label'>파일 첨부</label><span id='fileInfoSpan'></span>
           <input type='file' id='fileInput' multiple hidden className='ba-file-btn' onChange={(e) => {
@@ -126,7 +126,8 @@ function ReviewListDiv(props) {
 
         console.log("스크롤 이벤트 핸들러 작동");
         sendAxiosRequest(`/api/review/list?startPage=${startPageNo}`, 'GET', null, response => {
-          console.log(response.data);
+          console.log('response:', response);
+          console.log('response.data:',response.data);
           let addReviewList = response.data.reviewList;
           setNewAddLength(response.data.reviewList.length);
           let newReviewList = [...reviewList, ...addReviewList];
@@ -147,7 +148,7 @@ function ReviewListDiv(props) {
   useEffect(() => {
     sendAxiosRequest("/api/review/list", "GET", null,
       response => {
-        console.log(response.data);
+        console.log('response.datasdsd:', response.data);
         let data = response.data;
         setLoginUser(data.loginUser);
         setReviewList(data.reviewList);
@@ -160,7 +161,7 @@ function ReviewListDiv(props) {
 
   return (
     <div id="reviewListDiv" className='review-list-div'>
-      {reviewList.map((review, index) => (
+      { reviewList.map((review, index) => (
         <div key={index} className='review-div'>
           <form id={'reviewUpdateForm' + index}>
             <input id={'reviewNo' + index} name='reviewNo' hidden value={review.reviewNo} />
