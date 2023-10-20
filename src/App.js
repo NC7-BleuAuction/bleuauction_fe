@@ -24,11 +24,11 @@ import UserProvider from './components/Auth/UserContext';
 import StoreItemRegister from './components/MyPage/StoreItemRegister'
 import Payment from './components/Pay/Pay';
 import StoreRegisterPage from './components/MyPage/StoreRegisterPage';
+import StoreEditPage from './components/MyPage/StoreEditPage ';
 import AdminPage from './components/MyPage/AdminPage';
 import NoticeList from './components/Notice/NoticeList';
 import NoticeDetail from './components/Notice/NoticeDetail';
 import { useUser } from './components/Auth/UserContext';
-import StoreMyPage from './components/MyPage/StoreItemRegister'; // StoreMyPage 컴포넌트 파일의 경로에 따라 수정
 import { sendAxiosRequest } from './components/utility/common';
 import StoreItemAdd from  './components/StoreItemDailyPrice/StoreItemAdd';
 
@@ -103,7 +103,7 @@ function RoutingComponent() {
         <Route path="/adminpage" element={<AdminPage />} />
         <Route path="/notice/list" element={<NoticeList />} />
         <Route path="/notice/detail/:noticeNo" element={<NoticeDetail />} />
-        <Route path="/storemypage" element={<StoreMyPage />} />
+        <Route path="/StoreEditPage" element={<StoreEditPage />} />
         <Route path="/storeItemRegister" element={<StoreItemRegister />} />
         <Route path="/StoreItemAdd" element={<StoreItemAdd />} />
         <Route path="/pay" element={<Payment />} />

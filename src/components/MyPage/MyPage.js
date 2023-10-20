@@ -120,6 +120,9 @@ function MyPage() {
       <div style={styles.linkContainer}>
         <Link to="/storeRegister" style={styles.link}>가게등록</Link>
       </div>
+      <div style={styles.linkContainer}>
+              <Link to="/StoreEditPage" style={styles.link}>가게정보수정</Link>
+            </div>
     </>
   );
 
