@@ -1,60 +1,76 @@
 import React, { useState, useEffect } from 'react';
-import InputField from './InputField';
-import { sendAxiosMultipartRequest, sendAxiosRequest } from '../utility/common';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { sendAxiosRequest, sendAxiosMultipartRequest } from '../utility/common';
+import { Form, Card, Button } from 'react-bootstrap';
 
 function StoreEditPage() {
   const defaultImage = '/images/rose.png';
   const [store, setStore] = useState(null);
-
-  useEffect(() => {
-    sendAxiosRequest('api/store/loginCheck', 'GET', null, (response) => {
-      let loginStore = response.data.loginStore;
-      setStore(loginStore);
-    }, (error) => {
-      console.log(error);
-    });
-  }, []);
-
-  const navigate = useNavigate();
-
-  function updateStore() {
-    let formData = new FormData();
-
-    const updateStoreRequest = JSON.stringify(store);
-    const updateStoreBlob = new Blob([updateStoreRequest], { type: 'application/json' });
-    formData.append('updateStoreRequest', updateStoreBlob);
-
-    let fileInput = document.getElementById('imageInput');
-    if (fileInput.files[0]) {
-      formData.append('profileImage', fileInput.files[0]);
-    }
-
-    sendAxiosMultipartRequest('/api/store/update', 'PUT', formData, response => {
-      console.log('response.data', response.data);
-    }, (error) => {
-      console.error('가게 업데이트 중 에러 발생', error);
-    });
-  }
-
   const [currentImage, setCurrentImage] = useState(defaultImage);
+  const [loginUser, setLoginUser] = useState(null);
 
-  const handleImageChange = (event) => {
-    if (event.target.files && event.target.files[0]) {
-      const reader = new FileReader();
+ useEffect(() => {
+     sendAxiosRequest('/api/store/loginCheck', 'GET', null, (response) => {
+       setLoginUser(response.data.loginUser);
+     }, (error) => {
+       console.log(error);
+     });
+   }, []);
 
-      reader.onload = (e) => {
-        setCurrentImage(e.target.result);
+   useEffect(() => {
+     if (loginUser) {
+       sendAxiosRequest(`/api/store/detailByMember?member=${loginUser?.memberNo}`, 'GET', null, (res) => {
+         setStore(res.data);
+       }, (err) => {
+         console.error('Failed to fetch store details', err);
+       });
+     }
+   }, [loginUser]);
+
+    function updateStore() {
+      let formData = new FormData();
+
+      const updateStoreRequest = {
+        storeName: store.storeName,
+        marketName: store.marketName,
+        licenseNo: store.licenseNo,
+        storeZipcode: store.storeZipcode,
+        storeAddr: store.storeAddr,
+        storeDetailAddr: store.storeDetailAddr,
+        weekdayStartTime: store.weekdayStartTime,
+        weekdayEndTime: store.weekdayEndTime,
+        weekendStartTime: store.weekendStartTime,
+        weekendEndTime: store.weekendEndTime
       };
 
-      reader.readAsDataURL(event.target.files[0]);
-    }
-  };
+      formData.append('updateStoreRequest', JSON.stringify(updateStoreRequest));
 
-  const handleImageClick = () => {
-    document.getElementById('imageInput').click();
-  };
+      let fileInput = document.getElementById('imageInput');
+      if (fileInput.files[0]) {
+        formData.append('profileImage', fileInput.files[0]);
+      }
+
+      sendAxiosMultipartRequest('/api/store/update', 'PUT', formData, response => {
+        console.log('response.data', response.data);
+      }, (error) => {
+        console.error('Error occurred during store update', error);
+      });
+    }
+
+    const handleImageChange = (event) => {
+      if (event.target.files && event.target.files[0]) {
+        const reader = new FileReader();
+
+        reader.onload = (e) => {
+          setCurrentImage(e.target.result);
+        };
+
+        reader.readAsDataURL(event.target.files[0]);
+      }
+    };
+
+    const handleImageClick = () => {
+      document.getElementById('imageInput').click();
+    };
 
   const styles = {
     container: {
@@ -93,19 +109,17 @@ function StoreEditPage() {
       width: '500px',
       cursor: 'pointer',
     },
-    // Add other styles here
   };
 
   if (store === null) {
     return <div>Loading...</div>;
   } else {
-    const { storeName, marketName, licenseNo, storeZipcode, storeAddr, storeDetailAddr, weekdayStartTime, weekdayEndTime, weekendStartTime, weekendEndTime } = store || {};
+    const { marketName, storeName, licenseNo, storeZipcode, storeAddr, storeDetailAddr, weekdayStartTime, weekdayEndTime, weekendStartTime, weekendEndTime } = store || {};
 
     return (
       <div style={styles.container}>
-        <form id='storeForm' onClick={handleImageChange} style={styles.form}>
+        <form id='storeForm'>
           <img src={currentImage} alt={storeName} style={styles.profilePicture} onClick={handleImageClick} />
-          <br />
           <button type="button" style={styles.buttonStyle} onClick={() => { document.getElementById('imageInput').click() }}>사진 등록</button>
           <input
             type="file"
@@ -155,7 +169,7 @@ function StoreEditPage() {
               <label>주말운영종료시간: </label>
               <input style={styles.input} type="time" name="weekendEndTime" defaultValue={weekendEndTime} />
             </div>
-            <button type="submit" style={styles.submitButton}>수정</button>
+            <button type="submit" style={styles.submitButton} onClick={updateStore}>수정</button>
           </div>
         </form>
       </div>
