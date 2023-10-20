@@ -20,7 +20,7 @@ function MarketDetailPage() {
 
   const location = useLocation(); // 추가된 부분
   const store = location.state; // 추가된 부분
-  console.log(store);
+  // console.log(store);
 
   const storeInfo = {
     image: '/images/storeimage.png',
@@ -37,6 +37,7 @@ function MarketDetailPage() {
         if (response.data && response.data.length > 0) {
           console.log(response.data);
           setMenuData(response.data); // 받아온 데이터로 상태를 업데이트합니다.
+          console.log(menuData);
         }
       }, error => {
         console.error("An error occurred while fetching the menus:", error);
@@ -63,7 +64,7 @@ function MarketDetailPage() {
       <div style={tabContainerStyle}>
         <TabBar activeTab={activeTab} onTabClick={setActiveTab} />
         {activeTab === 'menu' && <Button onClick={handleOrderClick} buttonText="주문하기" />}
-        <OrderModal isOpen={modal} onClose={closeModal}/>
+        <OrderModal menus={menuData} isOpen={modal} onClose={closeModal}/>
       </div>
       {activeTab === 'info' && <p>여기에 가게정보를 표시합니다.</p>}
       {activeTab === 'menu' && <MenuList menus={menuData}/>}
