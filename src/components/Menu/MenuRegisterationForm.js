@@ -45,7 +45,7 @@ function MenuRegisterationForm() {
     sendAxiosRequest('/api/menu/new', 'POST', formObj, response => {
       console.log('응답값:', response.data);
       alert('메뉴등록에 성공하셨습니다!');
-      navigate('/main');
+      navigate('/');
     },
       error => {
         console.error('API 호출 중 에러 발생: ', error);
@@ -78,7 +78,7 @@ function MenuRegisterationForm() {
         </div>
         <div>
           <label>메뉴 가격:</label>
-          <input style={styles.input} type="text" name="menuPrice" value={menu.menuPrice} onChange={handleChange} />
+          <input style={styles.input} type="number" name="menuPrice" value={menu.menuPrice} onChange={handleChange} />
         </div>
         <div>
           <label>메뉴 설명:</label>

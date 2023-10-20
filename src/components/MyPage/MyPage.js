@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios, { formToJSON } from 'axios';
-import { sendAxiosMultipartRequest, sendAxiosRequest } from '../utility/common';
-
-
+import { isOpenNow, sendAxiosRequest } from '../utility/common';
 
 function MyPage() {
   // 사용자 정보를 상태 혹은 API로부터 불러오기.
@@ -25,7 +23,6 @@ function MyPage() {
       setMember(loginUser);
     }, error => console.log(error))
   }
-
     , []);
 
 
@@ -114,7 +111,7 @@ function MyPage() {
         <Link to="/useredit" style={styles.link}>회원정보 수정</Link>
       </div>
       <div style={styles.linkContainer}>
-        <Link to="/product-management" style={styles.link}>등록상품관리</Link>
+        <Link to="/" style={styles.link}>등록상품관리</Link>
       </div>
       <div style={styles.linkContainer}>
         <Link to="/order-confirmation" style={styles.link}>주문확인</Link>

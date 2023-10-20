@@ -12,7 +12,7 @@ import LoginPage from './components/Auth/LoginPage';
 import RegisterPage from './components/Auth/RegisterPage';
 import MenuList from './components/Menu/MenuList';
 import MenuRegisterationForm from './components/Menu/MenuRegisterationForm';
-import StoreList from './routes/StoreList';
+import StoreList from './components/Market/StoreList';
 import MarketDetailPage from './components/Market/MarketDetailPage';
 import ReviewForm from './components/Review/ReviewForm';
 import MyPage from './components/MyPage/MyPage';
