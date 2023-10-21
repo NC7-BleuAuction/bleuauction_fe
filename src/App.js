@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios, { formToJSON } from 'axios';
 import './App.css';
 import Header from './components/Common/Header';
 import Footer from './components/Common/Footer';
@@ -34,40 +34,35 @@ import AdminNoticeList from  './components/Admin/AdminNoticeList';
 import AdminNoticeDetail from  './components/Admin/AdminNoticeDetail';
 
 function App() {
-  // const [hello, setHello] = useState('');
-
-
-  // useEffect(() => {
-  //   axios.get('/api/hello') // 데이터 확인 테스트용
-  //     .then(response => setHello(response.data))
-  //     .catch(error => console.log(error));
-  // }, []);
 
   const {user, login} = useUser();
 
-  // user !==null ? ()
-
-  // // const data = localStorage.getItem(user);
-
+  
   // useEffect(() => {
-  // //   // sendAxiosRequest("/api/member/login", 'POST', user, response => {
-  // //   //   console.log(response.data);
-  //     console.log(localStorage.getItem('memberEmail'));
-  //     console.log(localStorage.getItem('memberPwd'));
-  //     const saveUser = {
-  //       'memberEmail': localStorage.getItem('memberEmail'),
-  //       'memberPwd': localStorage.getItem('memberPwd')
+  // if (localStorage.getItem('memberEmail') !== null) {
+  // const saveUser = {
+  //   'memberEmail': localStorage.getItem('memberEmail'),
+  //   'memberPwd': localStorage.getItem('memberPwd')
+  // };
+  
+  //   if (saveUser !== null) {
+  //     sendAxiosRequest("/api/member/login", 'POST', formToJSON(saveUser), response => {
+  //       //   //   console.log(response.data);
+  //       console.log(localStorage.getItem('memberEmail'));
+  //       console.log(localStorage.getItem('memberPwd'));
+  //       // if (response.data.loginUser !== null) {
+  //         login(response.data.loginUser)
+  //       // }
+  //       // login(saveUser);
+  //       //     login(localStorage.getItem('data'));
+  //       //     // console.log(user);
+  //       //   // }, error => {
+  //         //     // console.log(error);
+  //       });
   //     }
-  //     if (localStorage.getItem('memberEmail') !== null) {
-  //       login(saveUser);
-  //     }
-  // //     login(localStorage.getItem('data'));
-  // //     // console.log(user);
-  // //   // }, error => {
-  // //     // console.log(error);
-  // //   // });
-  // }, [])
-
+  //   }
+  //   }, []);
+    
 
 
   return (

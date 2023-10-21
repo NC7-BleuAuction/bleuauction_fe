@@ -20,7 +20,7 @@ function MarketDetailPage() {
 
   const location = useLocation(); // 추가된 부분
   const store = location.state; // 추가된 부분
-  // console.log(store);
+
 
   const storeInfo = {
     image: '/images/storeimage.png',

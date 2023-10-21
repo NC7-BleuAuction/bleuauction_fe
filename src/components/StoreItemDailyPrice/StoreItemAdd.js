@@ -145,7 +145,7 @@ function StroeItemAdd() {
         </div>
       </div>
 
-      <div className='fish_size' style={{overflow:Hidden}}>
+      <div className='fish_size'>
         <p>금일 판매 가격 (원)</p>
         <div>
           <input
