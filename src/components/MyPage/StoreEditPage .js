@@ -27,34 +27,33 @@ function StoreEditPage() {
    }, [loginUser]);
 
     function updateStore() {
-      let formData = new FormData();
+        let formData = new FormData();
 
-      const updateStoreRequest = {
-        storeName: store.storeName,
-        marketName: store.marketName,
-        licenseNo: store.licenseNo,
-        storeZipcode: store.storeZipcode,
-        storeAddr: store.storeAddr,
-        storeDetailAddr: store.storeDetailAddr,
-        weekdayStartTime: store.weekdayStartTime,
-        weekdayEndTime: store.weekdayEndTime,
-        weekendStartTime: store.weekendStartTime,
-        weekendEndTime: store.weekendEndTime
-      };
+        formData.append('storeName', store.storeName);
+        formData.append('marketName', store.marketName);
+        formData.append('licenseNo', store.licenseNo);
+        formData.append('storeZipcode', store.storeZipcode);
+        formData.append('storeAddr', store.storeAddr);
+        formData.append('storeDetailAddr', store.storeDetailAddr);
+        formData.append('weekdayStartTime', store.weekdayStartTime);
+        formData.append('weekdayEndTime', store.weekdayEndTime);
+        formData.append('weekendStartTime', store.weekendStartTime);
+        formData.append('weekendEndTime', store.weekendEndTime);
 
-      formData.append('updateStoreRequest', JSON.stringify(updateStoreRequest));
+        let fileInput = document.getElementById('imageInput');
+        if (fileInput.files[0]) {
+            formData.append('profileImage', fileInput.files[0]);
+        }
 
-      let fileInput = document.getElementById('imageInput');
-      if (fileInput.files[0]) {
-        formData.append('profileImage', fileInput.files[0]);
-      }
+        sendAxiosMultipartRequest('/api/store/update', 'POST', formData, response => {
+              console.log('response.data', response.data);
+              console.log('가게 업데이트 성공');
+            }, (error) => {
+              console.error('가게 업데이트 중에 오류가 발생했습니다', error);
+              console.error('가게 업데이트 오류', error);
+            });
+          }
 
-      sendAxiosMultipartRequest('/api/store/update', 'PUT', formData, response => {
-        console.log('response.data', response.data);
-      }, (error) => {
-        console.error('Error occurred during store update', error);
-      });
-    }
 
     const handleImageChange = (event) => {
       if (event.target.files && event.target.files[0]) {
