@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios, { formToJSON } from 'axios';
 import { isOpenNow, sendAxiosRequest } from '../utility/common';
+import { useUser } from '../Auth/UserContext';
 
 function MyPage() {
   // 사용자 정보를 상태 혹은 API로부터 불러오기.
@@ -17,13 +18,17 @@ function MyPage() {
 
   const [member, setMember] = useState(null);
 
-  useEffect(() => {
-    sendAxiosRequest('api/member/loginCheck', 'GET', null, response => {
-      let loginUser = response.data.loginUser;
-      setMember(loginUser);
-    }, error => console.log(error))
-  }
-    , []);
+  const { user, login, logout } = useUser();
+
+  console.log(user)
+
+  // useEffect(() => {
+  //   sendAxiosRequest('api/member/loginCheck', 'GET', null, response => {
+  //     let loginUser = response.data.loginUser;
+  //     setMember(loginUser);
+  //   }, error => console.log(error))
+  // }
+  //   , []);
 
 
   const outerContainerStyle = {
@@ -132,30 +137,30 @@ function MyPage() {
     </>
   );
 
-  if (member === null) {
+  if (user === null) {
     return <div>Loading...</div>; // 로딩 표시
   } else {
   return (
     <div style={outerContainerStyle}>
       <div style={styles.container}>
         <div style={styles.profileSection}>
-          <img src={defaultImage} alt={member.memberName} style={styles.profilePicture} />
+          <img src={defaultImage} alt={user.memberName} style={styles.profilePicture} />
           <div style={styles.userInfo}>
-            <h2>{member.memberName}</h2>
-            <p> {member.memberCategory === 'M' ? '개인' : 
-                  member.memberCategory === 'S' ? '비즈니스' :
-                  member.memberCategory === 'A' ? '관리자' : '기타'}
+            <h2>{user.memberName}</h2>
+            <p> {user.memberCategory === 'M' ? '개인' : 
+                  user.memberCategory === 'S' ? '비즈니스' :
+                  user.memberCategory === 'A' ? '관리자' : '기타'}
                   계정</p>
-            <p>{member.memberEmail}</p>
+            <p>{user.memberEmail}</p>
           </div>
         </div>
 
         <div style={styles.linkSection}>
           {/* member.memberCategory 값에 따라 링크 섹션을 조건부로 렌더링합니다. */}
            {/* member.memberCategory 값에 따라 링크 섹션을 조건부로 렌더링합니다. */}
-          {member.memberCategory === 'M' ? personalLinks : 
-          member.memberCategory === 'S' ? businessLinks :
-          member.memberCategory === 'A' ? adminLinks : undefined}
+          {user.memberCategory === 'M' ? personalLinks : 
+          user.memberCategory === 'S' ? businessLinks :
+          user.memberCategory === 'A' ? adminLinks : undefined}
         </div>
       </div>
     </div>
