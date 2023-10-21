@@ -34,45 +34,35 @@ import AdminNoticeList from  './components/Admin/AdminNoticeList';
 import AdminNoticeDetail from  './components/Admin/AdminNoticeDetail';
 
 function App() {
-  // const [hello, setHello] = useState('');
-
-
-  // useEffect(() => {
-  //   axios.get('/api/hello') // 데이터 확인 테스트용
-  //     .then(response => setHello(response.data))
-  //     .catch(error => console.log(error));
-  // }, []);
 
   const {user, login} = useUser();
 
-  // user !==null ? ()
-
-  // // const data = localStorage.getItem(user);
   
-  const saveUser = {
-    // if (localStorage.getItem('memberEmail')) {
-    'memberEmail': localStorage.getItem('memberEmail'),
-    'memberPwd': localStorage.getItem('memberPwd')
-    // }
-  }
-
   // useEffect(() => {
-  //   if (saveUser !== null)
-  //   sendAxiosRequest("/api/member/login", 'POST', formToJSON(saveUser), response => {
-  // //   //   console.log(response.data);
-  //     // console.log(localStorage.getItem('memberEmail'));
-  //     // console.log(localStorage.getItem('memberPwd'));
-  //     if (response.data.loginUser !== null) {
-  //       login(response.data.loginUser)
-  //     }
+  // if (localStorage.getItem('memberEmail') !== null) {
+  // const saveUser = {
+  //   'memberEmail': localStorage.getItem('memberEmail'),
+  //   'memberPwd': localStorage.getItem('memberPwd')
+  // };
+  
+  //   if (saveUser !== null) {
+  //     sendAxiosRequest("/api/member/login", 'POST', formToJSON(saveUser), response => {
+  //       //   //   console.log(response.data);
+  //       console.log(localStorage.getItem('memberEmail'));
+  //       console.log(localStorage.getItem('memberPwd'));
+  //       // if (response.data.loginUser !== null) {
+  //         login(response.data.loginUser)
+  //       // }
   //       // login(saveUser);
-  // //     login(localStorage.getItem('data'));
-  // //     // console.log(user);
-  // //   // }, error => {
-  // //     // console.log(error);
-  //   });
-  // }, [])
-
+  //       //     login(localStorage.getItem('data'));
+  //       //     // console.log(user);
+  //       //   // }, error => {
+  //         //     // console.log(error);
+  //       });
+  //     }
+  //   }
+  //   }, []);
+    
 
 
   return (

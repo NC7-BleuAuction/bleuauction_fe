@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { axios, formToJSON } from 'axios';
 import styles from './Header.module.css';
 import { Link } from 'react-router-dom';
 import { useUser } from '../Auth/UserContext';
@@ -11,35 +11,20 @@ import { sendAxiosRequest } from '../utility/common';
 function Header() {
 
   const {user, login, logout} = useUser();
-  // let [loginUser, setLoginUser] = useState(null);
 
-  // useEffect (()=>{
-  //   sendAxiosRequest("/api/member/loginCheck", "GET", null,
-  //   response => {
-  //     let repLoginUser = response.data.loginUser;
-  //     if (repLoginUser !== null) {
-  //       setLoginUser(repLoginUser);
-  //     }
-  //   }, error => console.log(error));}, []
-  // )
-    // let [loginUser, setLoginUser] = useState(null);
-  // useEffect(() => {
-  //   if (loginUser == null) {
-  //     sendAxiosRequest("/api/member/loginCheck", "GET", null,
-  //       response => {
-  //         let repLoginUser = response.data.loginUser;
-  //         if (repLoginUser != null) {
-  //           setLoginUser(repLoginUser);
-  //           login(repLoginUser);
-  //         }
-  //       }, error => console.log(error));
-  //   }
-  // }, [loginUser]
-  // )
+  useEffect(() => {
+    if (user == null) {
+      sendAxiosRequest("/api/member/loginCheck", "GET", null,
+        response => {
+          let repLoginUser = response.data.loginUser;
+          if (repLoginUser != null) {
+            // setLoginUser(repLoginUser);
+            login(repLoginUser);
+          }
+        }, error => console.log(error));
+    }
+  }, [user])
 
-  // const loginState = (loginUser == null) ?
-  //   <Link to='/login'>로그인</Link> :
-  //   <Link to='/mypage'>{loginUser.memberEmail}님</Link>;
 
   const logoutCall = () => {
       sendAxiosRequest("/api/member/logout", "GET", null,
@@ -55,8 +40,8 @@ function Header() {
   const onClick = () => {
     // logout();
     logoutCall();
-    localStorage.removeItem('memberEmail');
-    localStorage.removeItem('memberPwd');
+    // localStorage.removeItem('memberEmail');
+    // localStorage.removeItem('memberPwd');
   }
 
   // const logoutState = (user === null) ?
