@@ -15,7 +15,7 @@
     background-color: #fff;
     padding: 20px;
     border-radius: 5px;
-    max-width: 500px;
+    max-width: 1200px;
     width: 100%;
   }
   
@@ -27,4 +27,19 @@
   }
   
   /* 필요한 추가 스타일링 */
+
+  .order-item-box {
+    margin: 5px auto;
+    width: 90%;
+    height: 100px;
+    border: 1px solid black;
+    border-radius: 5px;
+    display: grid;
+    place-items: center;
+    grid-template-columns: 1fr 1fr 1fr 1fr 2fr;
+  }
+
+  .order-item-box img {
+    width: 70%;
+  }
   

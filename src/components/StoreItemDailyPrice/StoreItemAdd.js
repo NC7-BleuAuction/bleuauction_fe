@@ -3,6 +3,7 @@ import axios from 'axios';
 import { sendAxiosRequest } from '../utility/common';
 import './StoreItemAdd.css';
 import { useNavigate } from 'react-router-dom';
+import { Hidden } from '@mui/material';
 
 
 function StroeItemAdd() {
@@ -13,6 +14,7 @@ function StroeItemAdd() {
   const [origin, setOrigin] = useState('');
   const [place, setPlace] = useState('');
   const [wild, setWild] = useState('');
+  const [price, setPrice] = useState('');
 
   const handleCode = () => {
     setCode(
@@ -25,6 +27,10 @@ function StroeItemAdd() {
 
   const handleSize = (e) => {
     setSize(e.target.value)
+  }
+
+  const handlePrice = (e) => {
+    setPrice(e.target.value)
   }
 
   const itemSize = 
@@ -128,13 +134,25 @@ function StroeItemAdd() {
       </div>
 
       <div className='fish_size'>
-        <p>무게 입력</p>
+        <p>무게 입력 (kg)</p>
         <div>
           <input
-              type="text"
+              type="number"
               value={size}
               onChange={handleSize}
               placeholder="예) 2.5"
+            />
+        </div>
+      </div>
+
+      <div className='fish_size'>
+        <p>금일 판매 가격 (원)</p>
+        <div>
+          <input
+              type="number"
+              value={price}
+              onChange={handlePrice}
+              placeholder="예) 10000"
             />
         </div>
       </div>

@@ -4,17 +4,22 @@ import MenuList from '../Menu/MenuList';
 import Button from '../MainPage/Button';
 import StoreInfo from './StoreInfo';
 import ReviewSection from '../Review/ReviewSection';
+import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-
+import { sendAxiosRequest } from '../utility/common';
+import { MenuItem } from '@mui/material';
+import OrderModal from './OrderModal';
+import { useUser } from '../Auth/UserContext';
 
 
 function MarketDetailPage() {
+
   const [activeTab, setActiveTab] = useState('info');
+  const [modal, setModal] = useState(false);
+  const [menuData, setMenuData] = useState([]); // 메뉴 데이터를 저장할 상태
 
   const location = useLocation(); // 추가된 부분
   const store = location.state; // 추가된 부분
-  // console.log(store);
-
 
 
   const storeInfo = {
@@ -25,10 +30,31 @@ function MarketDetailPage() {
     phone: '02-1234-5678',
   };
 
+  useEffect(() => {
+    if (store && store.storeNo) {
+      // 상점 번호가 있는 경우에만 요청을 실행합니다.
+      sendAxiosRequest(`/api/menu/${store.storeNo}`, 'GET', null, response => {
+        if (response.data && response.data.length > 0) {
+          console.log(response.data);
+          setMenuData(response.data); // 받아온 데이터로 상태를 업데이트합니다.
+          console.log(menuData);
+        }
+      }, error => {
+        console.error("An error occurred while fetching the menus:", error);
+      });
+    }
+  }, [store])
 
   const handleOrderClick = () => {
-    alert('주문하기 버튼 클릭!');
-  };  
+    // alert('주문하기 버튼 클릭!');
+    setModal(true);
+    console.log(modal);
+  };
+
+  const closeModal = () => {
+    setModal(false);
+  };
+
 
   return (
     <div>
@@ -38,9 +64,10 @@ function MarketDetailPage() {
       <div style={tabContainerStyle}>
         <TabBar activeTab={activeTab} onTabClick={setActiveTab} />
         {activeTab === 'menu' && <Button onClick={handleOrderClick} buttonText="주문하기" />}
+        <OrderModal menus={menuData} isOpen={modal} onClose={closeModal}/>
       </div>
       {activeTab === 'info' && <p>여기에 가게정보를 표시합니다.</p>}
-      {activeTab === 'menu' && <MenuList />}
+      {activeTab === 'menu' && <MenuList menus={menuData}/>}
       {activeTab === 'review' && <ReviewSection />}
     </div>
 

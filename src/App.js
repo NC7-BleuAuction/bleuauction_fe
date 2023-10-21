@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios, { formToJSON } from 'axios';
 import './App.css';
 import Header from './components/Common/Header';
 import Footer from './components/Common/Footer';
@@ -11,9 +11,8 @@ import Test2 from './components/Test/test2';
 import LoginPage from './components/Auth/LoginPage';
 import RegisterPage from './components/Auth/RegisterPage';
 import MenuList from './components/Menu/MenuList';
-import StoreList from './components/Market/StoreList';
 import MenuRegisterationForm from './components/Menu/MenuRegisterationForm';
-import TabBar from './components/Market/TabBar';
+import StoreList from './components/Market/StoreList';
 import MarketDetailPage from './components/Market/MarketDetailPage';
 import ReviewForm from './components/Review/ReviewForm';
 import MyPage from './components/MyPage/MyPage';
@@ -31,39 +30,39 @@ import NoticeDetail from './components/Notice/NoticeDetail';
 import { useUser } from './components/Auth/UserContext';
 import { sendAxiosRequest } from './components/utility/common';
 import StoreItemAdd from  './components/StoreItemDailyPrice/StoreItemAdd';
+import NoticeRegisterationForm from  './components/Admin/NoticeRegisterationForm';
+import AdminNoticeList from  './components/Admin/AdminNoticeList';
+import AdminNoticeDetail from  './components/Admin/AdminNoticeDetail';
 
 function App() {
-  // const [hello, setHello] = useState('');
-
-
-  // useEffect(() => {
-  //   axios.get('/api/hello') // 데이터 확인 테스트용
-  //     .then(response => setHello(response.data))
-  //     .catch(error => console.log(error));
-  // }, []);
 
   const {user, login} = useUser();
 
-  // const data = localStorage.getItem(user);
 
-  useEffect(() => {
-  //   // sendAxiosRequest("/api/member/login", 'POST', user, response => {
-  //   //   console.log(response.data);
-      console.log(localStorage.getItem('memberEmail'));
-      console.log(localStorage.getItem('memberPwd'));
-      const saveUser = {
-        'memberEmail': localStorage.getItem('memberEmail'),
-        'memberPwd': localStorage.getItem('memberPwd')
-      }
-      if (localStorage.getItem('memberEmail') !== null) {
-        login(saveUser);
-      }
-  //     login(localStorage.getItem('data'));
-  //     // console.log(user);
-  //   // }, error => {
-  //     // console.log(error);
-  //   // });
-  }, [])
+  // useEffect(() => {
+  // if (localStorage.getItem('memberEmail') !== null) {
+  // const saveUser = {
+  //   'memberEmail': localStorage.getItem('memberEmail'),
+  //   'memberPwd': localStorage.getItem('memberPwd')
+  // };
+
+  //   if (saveUser !== null) {
+  //     sendAxiosRequest("/api/member/login", 'POST', formToJSON(saveUser), response => {
+  //       //   //   console.log(response.data);
+  //       console.log(localStorage.getItem('memberEmail'));
+  //       console.log(localStorage.getItem('memberPwd'));
+  //       // if (response.data.loginUser !== null) {
+  //         login(response.data.loginUser)
+  //       // }
+  //       // login(saveUser);
+  //       //     login(localStorage.getItem('data'));
+  //       //     // console.log(user);
+  //       //   // }, error => {
+  //         //     // console.log(error);
+  //       });
+  //     }
+  //   }
+  //   }, []);
 
 
 
@@ -100,13 +99,15 @@ function RoutingComponent() {
         <Route path="/my-orders" element={<MyOrder />} />
         <Route path="/StoreItemDailyPrice" element={<StoreItemDailyPrice />} />
         <Route path="/MenuRegisterationForm" element={<MenuRegisterationForm />} />
-        <Route path="/adminpage" element={<AdminPage />} />
         <Route path="/notice/list" element={<NoticeList />} />
         <Route path="/notice/detail/:noticeNo" element={<NoticeDetail />} />
         <Route path="/StoreEditPage" element={<StoreEditPage />} />
         <Route path="/storeItemRegister" element={<StoreItemRegister />} />
         <Route path="/StoreItemAdd" element={<StoreItemAdd />} />
         <Route path="/pay" element={<Payment />} />
+        <Route path="/admin/notice/register" element={<NoticeRegisterationForm />} />
+        <Route path="/admin/notice/list" element={<AdminNoticeList />} />
+        <Route path="/admin/notice/detail/:noticeNo" element={<AdminNoticeDetail />} />
       </Routes>
       {location.pathname !== "/login" && location.pathname !== "/register" && <SideBar />}
       {location.pathname !== "/login" && location.pathname !== "/register" && <Footer />}
