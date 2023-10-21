@@ -55,8 +55,8 @@ function Header() {
   const onClick = () => {
     // logout();
     logoutCall();
-    // localStorage.removeItem('memberEmail');
-    // localStorage.removeItem('memberPwd');
+    localStorage.removeItem('memberEmail');
+    localStorage.removeItem('memberPwd');
   }
 
   // const logoutState = (user === null) ?

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios, { formToJSON } from 'axios';
 import './App.css';
 import Header from './components/Common/Header';
 import Footer from './components/Common/Footer';
@@ -48,24 +48,29 @@ function App() {
   // user !==null ? ()
 
   // // const data = localStorage.getItem(user);
+  
+  const saveUser = {
+    // if (localStorage.getItem('memberEmail')) {
+    'memberEmail': localStorage.getItem('memberEmail'),
+    'memberPwd': localStorage.getItem('memberPwd')
+    // }
+  }
 
   // useEffect(() => {
-  // //   // sendAxiosRequest("/api/member/login", 'POST', user, response => {
+  //   if (saveUser !== null)
+  //   sendAxiosRequest("/api/member/login", 'POST', formToJSON(saveUser), response => {
   // //   //   console.log(response.data);
-  //     console.log(localStorage.getItem('memberEmail'));
-  //     console.log(localStorage.getItem('memberPwd'));
-  //     const saveUser = {
-  //       'memberEmail': localStorage.getItem('memberEmail'),
-  //       'memberPwd': localStorage.getItem('memberPwd')
+  //     // console.log(localStorage.getItem('memberEmail'));
+  //     // console.log(localStorage.getItem('memberPwd'));
+  //     if (response.data.loginUser !== null) {
+  //       login(response.data.loginUser)
   //     }
-  //     if (localStorage.getItem('memberEmail') !== null) {
-  //       login(saveUser);
-  //     }
+  //       // login(saveUser);
   // //     login(localStorage.getItem('data'));
   // //     // console.log(user);
   // //   // }, error => {
   // //     // console.log(error);
-  // //   // });
+  //   });
   // }, [])
 
 
