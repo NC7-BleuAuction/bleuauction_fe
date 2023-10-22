@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { sendAxiosRequest, sendAxiosMultipartRequest } from '../utility/common';
 import { Form, Card, Button } from 'react-bootstrap';
+import axios, { formToJSON } from 'axios';
 
 function StoreEditPage() {
   const defaultImage = '/images/rose.png';
@@ -8,51 +9,50 @@ function StoreEditPage() {
   const [currentImage, setCurrentImage] = useState(defaultImage);
   const [loginUser, setLoginUser] = useState(null);
 
- useEffect(() => {
-     sendAxiosRequest('/api/store/loginCheck', 'GET', null, (response) => {
-       setLoginUser(response.data.loginUser);
-     }, (error) => {
-       console.log(error);
-     });
-   }, []);
+  useEffect(() => {
+    sendAxiosRequest('/api/store/loginCheck', 'GET', null, (response) => {
+      setLoginUser(response.data.loginUser);
+    }, (error) => {
+      console.log(error);
+    });
+  }, []);
 
-   useEffect(() => {
-     if (loginUser) {
-       sendAxiosRequest(`/api/store/detailByMember?member=${loginUser?.memberNo}`, 'GET', null, (res) => {
-         setStore(res.data);
-       }, (err) => {
-         console.error('Failed to fetch store details', err);
-       });
-     }
-   }, [loginUser]);
+  useEffect(() => {
+    if (loginUser) {
+      sendAxiosRequest(`/api/store/detailByMember?member=${loginUser?.memberNo}`, 'GET', null, (res) => {
+        setStore(res.data);
+      }, (err) => {
+        console.error('Failed to fetch store details', err);
+      });
+    }
+  }, [loginUser]);
 
-    function updateStore() {
-        let formData = new FormData();
+  function updateStore() {
+    let storeForm = document.getElementById('storeForm');
+    const formData = new FormData(storeForm);
 
-        formData.append('storeName', store.storeName);
-        formData.append('marketName', store.marketName);
-        formData.append('licenseNo', store.licenseNo);
-        formData.append('storeZipcode', store.storeZipcode);
-        formData.append('storeAddr', store.storeAddr);
-        formData.append('storeDetailAddr', store.storeDetailAddr);
-        formData.append('weekdayStartTime', store.weekdayStartTime);
-        formData.append('weekdayEndTime', store.weekdayEndTime);
-        formData.append('weekendStartTime', store.weekendStartTime);
-        formData.append('weekendEndTime', store.weekendEndTime);
+    // JSON 데이터를 문자열로 변환하여 추가
+    const updateStoreRequest = JSON.stringify(formData);
+    const updateStoreBlob = new Blob([updateStoreRequest], { type: 'application/json' });
+    formData.append('updateStoreRequest', updateStoreBlob);
 
-        let fileInput = document.getElementById('imageInput');
-        if (fileInput.files[0]) {
-            formData.append('profileImage', fileInput.files[0]);
-        }
+    // 이미지 파일 추가 (있는 경우)
+    const fileInput = document.getElementById('imageInput');
+    if (fileInput.files[0]) {
+      formData.append('profileImage', fileInput.files[0]);
+    }
 
-        sendAxiosMultipartRequest('/api/store/update', 'POST', formData, response => {
-              console.log('response.data', response.data);
-              console.log('가게 업데이트 성공');
-            }, (error) => {
-              console.error('가게 업데이트 중에 오류가 발생했습니다', error);
-              console.error('가게 업데이트 오류', error);
-            });
-          }
+    console.log('formData: ', formData);
+    // Axios를 이용하여 멀티파트 폼 데이터를 서버로 전송합니다.
+    sendAxiosMultipartRequest('/api/store/update', formData, (response) => {
+      console.log('가게 업데이트 성공');
+      // 성공적으로 업데이트된 경우에 수행할 작업을 추가하세요
+    }, (error) => {
+      console.error('가게 업데이트 중에 오류가 발생했습니다', error);
+      // 오류 발생 시 처리를 추가하세요
+    });
+  }
+
 
 
     const handleImageChange = (event) => {

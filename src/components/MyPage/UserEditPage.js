@@ -29,39 +29,51 @@ function UserEditPage() {
   useEffect(() => {
     sendAxiosRequest('api/member/loginCheck', 'GET', null, response => {
       let loginUser = response.data.loginUser;
+      console.log(loginUser);
       setMember(loginUser);
     }, error => console.log(error))
-  }
-
-    , []);
+  }, []);
 
   const navigate = useNavigate();
 
   function memberUpdate() {
-    // 폼 데이터 객체 생성
-    let formData = new FormData();
 
-    const updateMemberRequest = JSON.stringify(member);
+
+    let memberForm = document.getElementById('memberForm');
+
+
+    // 폼 데이터 객체 생성
+    const formData = new FormData(memberForm);
+
+    // JSON 데이터를 문자열로 변환하여 추가
+    const updateMemberRequest = JSON.stringify(formData);
+
     // Blob 객체로 변환하여 'updateMemberRequest' 파트로 추가
     const updateMemberBlob = new Blob([updateMemberRequest], { type: 'application/json' });
     formData.append('updateMemberRequest', updateMemberBlob);
 
     // 이미지 파일 추가 (있는 경우)
-    let fileInput = document.getElementById('imageInput');
-    if (fileInput.files[0]) {
+    const fileInput = document.getElementById('imageInput');
+    if (fileInput) {
       formData.append('profileImage', fileInput.files[0]);
     }
 
+    console.log('formData: ', formData);
+    console.log('formData: ', formToJSON(formData));
     // Axios를 이용하여 멀티파트 폼 데이터를 서버로 전송합니다.
-    sendAxiosMultipartRequest('/api/member/update', 'PUT', formData,
-      response => {
-        console.log('response.data', response.data);
-        navigate('/mypage')
+    axios.post('/api/member/update', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
       },
-      error => {
-        console.error('멤버 업데이트 중 에러 발생', error);
-      }
-    );
+    })
+      .then(response => {
+        console.log('서버 응답:', response.data);
+        // 처리 완료 후 동작을 추가하세요
+      })
+      .catch(error => {
+        console.error('에러 발생:', error);
+        // 에러 처리를 추가하세요
+      });
   }
 
   const [currentImage, setCurrentImage] = useState(defaultImage);
@@ -192,4 +204,3 @@ function UserEditPage() {
   }
 }
 export default UserEditPage;
-

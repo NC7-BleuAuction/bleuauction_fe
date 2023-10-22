@@ -24,7 +24,6 @@ import StoreItemRegister from './components/MyPage/StoreItemRegister'
 import Payment from './components/Pay/Pay';
 import StoreRegisterPage from './components/MyPage/StoreRegisterPage';
 import StoreEditPage from './components/MyPage/StoreEditPage ';
-import AdminPage from './components/MyPage/AdminPage';
 import NoticeList from './components/Notice/NoticeList';
 import NoticeDetail from './components/Notice/NoticeDetail';
 import { useUser } from './components/Auth/UserContext';
