@@ -30,6 +30,8 @@ function MarketDetailPage() {
     phone: '02-1234-5678',
   };
 
+
+
   useEffect(() => {
     if (store && store.storeNo) {
       // 상점 번호가 있는 경우에만 요청을 실행합니다.
@@ -44,6 +46,10 @@ function MarketDetailPage() {
       });
     }
   }, [store])
+
+  const initOrderMenus = menuData?.map((menu) => ({
+    ...menu, count: 0
+  }))
 
   const handleOrderClick = () => {
     // alert('주문하기 버튼 클릭!');
@@ -64,7 +70,7 @@ function MarketDetailPage() {
       <div style={tabContainerStyle}>
         <TabBar activeTab={activeTab} onTabClick={setActiveTab} />
         {activeTab === 'menu' && <Button onClick={handleOrderClick} buttonText="주문하기" />}
-        <OrderModal menus={menuData} isOpen={modal} onClose={closeModal}/>
+        <OrderModal store={store} menus={initOrderMenus} isOpen={modal} onClose={closeModal}/>
       </div>
       {activeTab === 'info' && <p>여기에 가게정보를 표시합니다.</p>}
       {activeTab === 'menu' && <MenuList menus={menuData}/>}

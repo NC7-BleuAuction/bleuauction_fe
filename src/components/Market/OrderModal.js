@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './OrderModal.css';
+import { useUser } from '../Auth/UserContext';
+import OrderItem from './OrderItem';
 
-const OrderModal = ({ menus, isOpen, onClose }) => {
+const OrderModal = ({ store, menus, isOpen, onClose }) => {
+
+  
+const {user, login, logout} = useUser();
 
 const [order, setOrder] = useState({
   orderType:'Q',
@@ -15,13 +20,38 @@ const [order, setOrder] = useState({
   orderStatus:'',
 })
 
-const [count, setCount] = useState(0)
+// const initOrderMenus = menus.map((menu) => ({
+//   menuNo:menu.menuNo,
+//   orderMenuCount: 0
+// }))
+
+// for (let i = 0; menus; i++) {
+//   menus[i].push({count:0})
+// }
+
+const [orderMenu, setOrderMenu] = useState(menus)
+
+// const initOrderMenus = menus?.map((menu) => ({
+//   ...menu, count: 0
+// }))
+
+// useEffect(()=> (
+//   setOrderMenu(initOrderMenus)
+// ), [])
+
+console.log('메뉴: ',menus)
+console.log('주문목록: ',orderMenu)
 
 
-  // const handleItem = (order) => {
-  //   // 자식 컴포넌트의 스테이트 값을 받아서 처리
-  //   console.log('자식 컴포넌트의 스테이트:', order);
-  // };
+    const updateMenuCount = (index, e)=> {
+    if (e.target.value >= 0) {
+      const update = [...orderMenu];
+      update[index] = { ...orderMenu[index], count: e.target.value };
+      setOrderMenu(
+        update
+      )
+    }
+  };
 
 
 
@@ -68,36 +98,36 @@ const [count, setCount] = useState(0)
             <h2>주문 정보</h2>
 
             <div>
-              {menus.map((menu) => 
-                // <OrderItem menu={menu} handleItem={handleItem} key={menu.menuNo} />
+              {orderMenu?.map((menu) => 
+                <OrderItem menu={menu} update = {updateMenuCount} />
 
-                <div className='order-item-box'>
+                // <div className='order-item-box' key={menu.menuNo}>
       
-                  <div style={{overflow:'hidden'}}>
-                    <img src='/images/fish1.jpg'/>
-                  </div>
+                //   <div style={{overflow:'hidden'}}>
+                //     <img src='/images/fish1.jpg'/>
+                //   </div>
             
-                  <div>
-                    <p>{menu.menuName}</p>
-                  </div>
+                //   <div>
+                //     <p>{menu.menuName}</p>
+                //   </div>
             
-                  <div>
-                    <p>{menu.menuSize}</p>
-                  </div>
+                //   <div>
+                //     <p>{menu.menuSize}</p>
+                //   </div>
             
-                  <div>
-                  <p>{menu.menuPrice}</p>
-                  </div>
+                //   <div>
+                //   <p>{menu.menuPrice}</p>
+                //   </div>
           
-                <div>
-                  <input
-                        type="number"
-                        value={count}
-                        onChange={(e) => (setCount(e.target.value))}
-                      />
-                </div>
+                // <div>
+                //   <input
+                //         type="number"
+                //         value={menu.count}
+                //         onChange={handleMenuChange(menu.menuNo)}
+                //       />
+                // </div>
                 
-              </div>
+              // </div>
               )}
             </div>
 
@@ -192,62 +222,6 @@ const [count, setCount] = useState(0)
     </div>
   );
 };
-
-
-
-// function OrderItem({ menu, handleItem }) {
-
-//   const [count, setCount] = useState(0)
-
-//   useEffect(() => {
-//     // 자식 컴포넌트의 스테이트가 변경될 때 콜백 함수 호출
-//     handleItem(count);
-//     console.log("handleItem 호출", count)
-//   }, [count]);
-
-//   const handleCount = (e)=> {
-//     if (e.target.value >= 0) {
-//       setCount(e.target.value)
-//     } else {
-//       setCount(0)
-//     }
-//   };
-
-
-//   return (
-//     <>
-//     <div className='order-item-box'>
-      
-//       <div style={{overflow:'hidden'}}>
-//         <img src='/images/fish1.jpg'/>
-//       </div>
-
-//       <div>
-//         <p>{menu.menuName}</p>
-//       </div>
-
-//       <div>
-//         <p>{menu.menuSize}</p>
-//       </div>
-
-//       <div>
-//        <p>{menu.menuPrice}</p>
-//       </div>
-
-//       <div>
-//         {/* <button onClick={()=>setCount(count + 1)}>+</button> */}
-//         <input
-//               type="number"
-//               value={count}
-//               onChange={handleCount}
-//             />
-//         {/* <button onClick={()=>setCount(count + 1)}>-</button> */}
-//       </div>
-      
-//     </div>
-//     </>
-//   );
-// }
 
           
 
