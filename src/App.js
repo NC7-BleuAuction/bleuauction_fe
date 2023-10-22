@@ -32,23 +32,23 @@ import StoreItemRegister from './components/MyPage/StoreItemRegister'; // StoreI
 import { useUser } from './components/Auth/UserContext';
 import StoreMyPage from './components/MyPage/StoreItemRegister'; // StoreMyPage 컴포넌트 파일의 경로에 따라 수정
 import { sendAxiosRequest } from './components/utility/common';
-import StoreItemAdd from  './components/StoreItemDailyPrice/StoreItemAdd';
-import NoticeRegisterationForm from  './components/Admin/NoticeRegisterationForm';
-import AdminNoticeList from  './components/Admin/AdminNoticeList';
-import AdminNoticeDetail from  './components/Admin/AdminNoticeDetail';
+import StoreItemAdd from './components/StoreItemDailyPrice/StoreItemAdd';
+import NoticeRegisterationForm from './components/Admin/NoticeRegisterationForm';
+import AdminNoticeList from './components/Admin/AdminNoticeList';
+import AdminNoticeDetail from './components/Admin/AdminNoticeDetail';
 
 function App() {
 
   const { user, login } = useUser();
 
-  
+
   // useEffect(() => {
   // if (localStorage.getItem('memberEmail') !== null) {
   // const saveUser = {
   //   'memberEmail': localStorage.getItem('memberEmail'),
   //   'memberPwd': localStorage.getItem('memberPwd')
   // };
-  
+
   //   if (saveUser !== null) {
   //     sendAxiosRequest("/api/member/login", 'POST', formToJSON(saveUser), response => {
   //       //   //   console.log(response.data);
@@ -66,7 +66,7 @@ function App() {
   //     }
   //   }
   //   }, []);
-    
+
 
 
   return (
@@ -107,9 +107,9 @@ function RoutingComponent() {
         <Route path="/storemypage" element={<StoreMyPage />} />
         <Route path="/storeItemRegister" element={<StoreItemRegister />} />
         <Route path="/StoreItemAdd" element={<StoreItemAdd />} />
-          <Route path="/StoreItemDailyPrice" element={<StoreItemDailyPrice />} />
+        <Route path="/StoreItemDailyPrice" element={<StoreItemDailyPrice />} />
 
-          <Route path="/pay" element={<Payment />} />
+        <Route path="/pay" element={<Payment />} />
         <Route path="/admin/notice/register" element={<NoticeRegisterationForm />} />
         <Route path="/admin/notice/list" element={<AdminNoticeList />} />
         <Route path="/admin/notice/detail/:noticeNo" element={<AdminNoticeDetail />} />

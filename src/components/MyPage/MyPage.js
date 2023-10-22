@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios, { formToJSON } from 'axios';
 import { isOpenNow, sendAxiosRequest } from '../utility/common';
-import { useUser } from '../Auth/UserContext';
 
 function MyPage() {
   // 사용자 정보를 상태 혹은 API로부터 불러오기.
@@ -18,17 +17,13 @@ function MyPage() {
 
   const [member, setMember] = useState(null);
 
-  const { user, login, logout } = useUser();
-
-  console.log(user)
-
-  // useEffect(() => {
-  //   sendAxiosRequest('api/member/loginCheck', 'GET', null, response => {
-  //     let loginUser = response.data.loginUser;
-  //     setMember(loginUser);
-  //   }, error => console.log(error))
-  // }
-  //   , []);
+  useEffect(() => {
+    sendAxiosRequest('/api/member/loginCheck', 'GET', null, response => {
+      let loginUser = response.data.loginUser;
+      setMember(loginUser);
+    }, error => console.log(error))
+  }
+    , []);
 
 
   const outerContainerStyle = {
@@ -88,7 +83,7 @@ function MyPage() {
       display: 'inline-block',
       padding: '10px 20px',
       margin: '5px 0',
-      backgroundColor: '#4CAF50', 
+      backgroundColor: '#4CAF50',
       color: 'white',
       textDecoration: 'none',
       textAlign: 'center',
@@ -116,7 +111,7 @@ function MyPage() {
         <Link to="/useredit" style={styles.link}>회원정보 수정</Link>
       </div>
       <div style={styles.linkContainer}>
-        <Link to="/" style={styles.link}>등록상품관리</Link>
+        <Link to="/storeItemRegister" style={styles.link}>등록상품관리</Link>
       </div>
       <div style={styles.linkContainer}>
         <Link to="/order-confirmation" style={styles.link}>주문확인</Link>
@@ -137,35 +132,35 @@ function MyPage() {
     </>
   );
 
-  if (user === null) {
+  if (member === null) {
     return <div>Loading...</div>; // 로딩 표시
   } else {
-  return (
-    <div style={outerContainerStyle}>
-      <div style={styles.container}>
-        <div style={styles.profileSection}>
-          <img src={defaultImage} alt={user.memberName} style={styles.profilePicture} />
-          <div style={styles.userInfo}>
-            <h2>{user.memberName}</h2>
-            <p> {user.memberCategory === 'M' ? '개인' : 
-                  user.memberCategory === 'S' ? '비즈니스' :
-                  user.memberCategory === 'A' ? '관리자' : '기타'}
-                  계정</p>
-            <p>{user.memberEmail}</p>
+    return (
+      <div style={outerContainerStyle}>
+        <div style={styles.container}>
+          <div style={styles.profileSection}>
+            <img src={defaultImage} alt={member.memberName} style={styles.profilePicture} />
+            <div style={styles.userInfo}>
+              <h2>{member.memberName}</h2>
+              <p> {member.memberCategory === 'M' ? '개인' :
+                member.memberCategory === 'S' ? '비즈니스' :
+                  member.memberCategory === 'A' ? '관리자' : '기타'}
+                계정</p>
+              <p>{member.memberEmail}</p>
+            </div>
+          </div>
+
+          <div style={styles.linkSection}>
+            {/* member.memberCategory 값에 따라 링크 섹션을 조건부로 렌더링합니다. */}
+            {/* member.memberCategory 값에 따라 링크 섹션을 조건부로 렌더링합니다. */}
+            {member.memberCategory === 'M' ? personalLinks :
+              member.memberCategory === 'S' ? businessLinks :
+                member.memberCategory === 'A' ? adminLinks : undefined}
           </div>
         </div>
-
-        <div style={styles.linkSection}>
-          {/* member.memberCategory 값에 따라 링크 섹션을 조건부로 렌더링합니다. */}
-           {/* member.memberCategory 값에 따라 링크 섹션을 조건부로 렌더링합니다. */}
-          {user.memberCategory === 'M' ? personalLinks : 
-          user.memberCategory === 'S' ? businessLinks :
-          user.memberCategory === 'A' ? adminLinks : undefined}
-        </div>
       </div>
-    </div>
-  );
-}
+    );
+  }
 
 }
 export default MyPage;

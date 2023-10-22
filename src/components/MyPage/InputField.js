@@ -1,10 +1,10 @@
 import React from 'react';
 import './InputField.css';
 
-const InputField = ({ name, value, onChange, style, placeholder }) => {
+const InputField = ({ type, name, value, onChange, style, placeholder }) => {
   return (
     <input
-      type="text"
+      type={type}
       value={value}
       name={name}
       style={style}

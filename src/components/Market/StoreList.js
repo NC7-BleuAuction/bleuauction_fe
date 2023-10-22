@@ -8,8 +8,10 @@ import StoreHome from '../StoreHome';
 import { Routes, Route } from 'react-router-dom';
 import { isOpenNow, sendAxiosRequest, scrollMoveTop } from '../utility/common';
 import styles from './StoreList.module.css'
+import jwtDecode from 'jwt-decode';
 
 function StoreList() {
+  console.log('StoreList.accessToken:', sessionStorage.getItem('accessToken'));
   const pageRowCnt = 3;
   let [startPageNo, setStartPageNo] = useState(0);
   let [storeList, setStoreList] = useState([]);
@@ -47,13 +49,27 @@ function StoreList() {
   }, [startPageNo, storeList]);
 
   useEffect(() => {
-    sendAxiosRequest("/api/store/list", "GET", null,
-      response => {
+    const accessToken = sessionStorage.getItem('accessToken');
+
+    const config = {
+      headers: {
+        'Authorization': `Bearer ${accessToken}`
+      }
+    };
+
+    // 보호된 리소스에 GET 요청 보내기
+    axios.get('/api/store/list', config)
+      .then(response => {
+        // 요청이 성공한 경우
         console.log(response.data);
         setStoreList(response.data);
         setNewAddLength(response.data.length);
         setStartPageNo(Math.floor(newAddLength / pageRowCnt));
-      }, error => console.log(error));
+      })
+      .catch(error => {
+        // 요청이 실패한 경우 (예: 권한 없음 또는 토큰 만료)
+        console.error(error);
+      });
   }, []);
 
 

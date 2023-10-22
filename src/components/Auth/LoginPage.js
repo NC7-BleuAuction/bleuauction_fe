@@ -13,47 +13,47 @@ import { formToJSON } from 'axios';
 import { useState, useContext } from 'react';
 import { useUser } from './UserContext';
 import { isOpenNow, sendAxiosRequest } from '../utility/common';
+import axios from 'axios';
+import jwtDecode from 'jwt-decode';
+
 
 
 const defaultTheme = createTheme();
 
 function LoginPage() {
-
   const navigate = useNavigate();
-
-  const { user, login, logout } = useUser();
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    // console.log(formToJSON(data));
-    // console.log({
-    //   memberEmail: data.get('memberEmail'),
-    //   memberPwd: data.get('memberPwd'),
-    // });
 
-    sendAxiosRequest("/api/member/login", 'POST', formToJSON(data), response => {
-      console.log(response.data);
-      // console.log(formToJSON(data));
+    const loginRequest = {
+      memberEmail: data.get('memberEmail'),
+      memberPwd: data.get('memberPwd')
+    };
 
-      // sendAxiosRequest("/api/member/loginCheck", "GET", null,
-      // response => {
-      //   let repLoginUser = response.data.loginUser;
-      //   // if (repLoginUser === null) {
-      //   //   window.location.href = '/main';
-      //   // } else {
-      //     login(repLoginUser);
-      //   // }
-      // }, error => console.log(error));
-      if (response.data.loginUser !== null) {
-        login(response.data.loginUser)
-          localStorage.setItem('memberEmail', data.get('memberEmail'));
-          localStorage.setItem('memberPwd', data.get('memberPwd'));
+    sendAxiosRequest('/api/member/login', 'POST', loginRequest, response => {
+      const tokenList = response.data;
+      if (tokenList) {
+        const accessToken = response.data.accessToken;
+        const refreshToken = response.data.refreshToken;
+
+        console.log('accessToken: ', accessToken);
+        console.log('refreshToken: ', refreshToken);
+
+        const decodedAccToken = jwtDecode(accessToken);
+        const decodedRefToken = jwtDecode(refreshToken);
+
+        console.log('decodedAccToken: ', decodedAccToken);
+        console.log('decodedRefToken: ', decodedRefToken);
+
+        sessionStorage.setItem('accessToken', accessToken);
+        localStorage.setItem('refreshToken', refreshToken);
+
+        alert("'" + decodedAccToken.username + "' 회원님 BLEU AUCTION에 오신 것을 환영합니다!");
+        navigate('/');
       }
-    }, error => {
-      console.log(error);
-    });
-    navigate('/');
+    }, error => console.log(error), 'application/json');
   };
 
   return (

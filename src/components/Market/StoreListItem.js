@@ -9,20 +9,11 @@ function StoreListItem(props) {
   let [open, setOpen] = useState('O');
 
   useEffect(() => {
-    // 컴포넌트가 처음 렌더링될 때만 실행됨
-
-
+    console.log('store.storeName:', store.storeName);
     let startEndTime = startEndTimeInfo(store);
     let openStatus = isOpenNow(startEndTime[0], startEndTime[1]);
-
-    console.log(store.storeName, '의 가게 영업시간: ', startEndTime);
-    console.log('열었나 닫았나?', openStatus);
     setOpen(openStatus);
-
-
-
-  }, []); // 빈 배열을 사용하여 처음 렌더링 때만 실행
-
+  }, []);
 
   return (
     <div className={styles.storeListItemBox}>
