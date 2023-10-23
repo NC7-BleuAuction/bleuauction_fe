@@ -1,17 +1,18 @@
 import '../utility/Common.css';
 import React, { useState, useEffect } from 'react';
 import { Form, Card, Button } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { json, useNavigate } from 'react-router-dom';
 import axios, { formToJSON } from 'axios';
 import { sendAxiosRequest, addEventToElements, removeEventToElements } from '../utility/common';
+import { useUser } from '../Auth/UserContext';
 
 function formatNumber(number) {
   return number.toLocaleString();
 }
 
 function updateItemNames() {
-  const itemCodeSelect = document.getElementById("item_code");
-  const itemNameSelect = document.getElementById("item_name");
+  const itemCodeSelect = document.getElementById("itemCode");
+  const itemNameSelect = document.getElementById("itemName");
 
   const selectedValue = itemCodeSelect.value;
   const itemNames = itemNameSelect;
@@ -34,6 +35,19 @@ function updateItemNames() {
   });
 }
 
+const codeToTextMap = {
+  'ES': '동해',
+  'WS': '서해',
+  'SS': '남해',
+  'JJ': '제주',
+  'WD': '완도',
+  'JP': '일본',
+  'CN': '중국',
+  'RU': '러시아',
+  'NW': '노르웨이',
+  'ET': '기타'
+};
+
 
 function updateOriginStatus() {
   const originStatusSelects = document.querySelectorAll("[name=originStatus]");
@@ -46,26 +60,51 @@ function updateOriginStatus() {
     }
   })
 
-
   const originPlaceNames = originPlaceStatusSelect;
 
   const options = {
-    'D': ['동해', '서해', '남해', '제주', '완도', '기타'],
-    'I': ['일본', '중국', '러시아', '노르웨이', '기타']
+    'D': ['ES', 'WS', 'SS', 'JJ', 'WD', 'ET'],
+    'I': ['JP', 'CN', 'RU', 'NW', 'ET']
   };
 
   originPlaceNames.innerHTML = '';
-  options[selectedValue].forEach(region => {
+  options[selectedValue].forEach(regionCode => {
     const option = document.createElement('option');
-    option.value = region;
-    option.textContent = region;
+    option.value = regionCode;
+    console.log(regionCode);
+    option.textContent = codeToTextMap[regionCode] || regionCode;
     originPlaceNames.appendChild(option);
   });
 }
-function StoreItemRegister() {
+
+
+function insertSidp() {
+  let form = document.getElementById('sidpForm');
+  let formData = new FormData(form);
+  let jsonObj = formToJSON(formData);
+  jsonObj.dailyPrice = formatNumber(jsonObj.dailyPrice).replaceAll(',', '');
+  console.log('jsonObj: ', jsonObj);
+  sendAxiosRequest('api/sidp/add', 'POST', jsonObj, response => {
+    let sidp = response.data
+    if (sidp) {
+      console.log('sidp: ', sidp);
+      alert('품목 시세를 성공적으로 등록하였습니다.');
+    }
+  }, erorr => console.log(console.log(erorr)));
+}
+
+
+
+
+function StoreItemRegister(props) {
+  const { user, login, logout } = useUser();
+  const [loginUser] = useState(props.loginUser);
   const [dailyPrice, setDailyPrice] = useState(''); // 사용자 입력을 저장할 상태
   const [minPrice] = useState(1000); // 최소가격
   const [maxPrice] = useState(1000000); // 최대가격
+  const [store] = useState(1);
+
+  console.log('user: ', user);
 
   function handleDailyPriceChange(event) {
     let inputNumber = parseInt(event.target.value.replace(/,/g, ''), 10);
@@ -81,7 +120,7 @@ function StoreItemRegister() {
   }
   // useEffect 내에서 updateItemNames를 호출
   useEffect(() => {
-    const itemCodeSelect = document.getElementById("item_code");
+    const itemCodeSelect = document.getElementById("itemCode");
     const originStatusSelects = document.querySelectorAll("[name=originStatus]");
 
     itemCodeSelect.addEventListener('change', updateItemNames);
@@ -98,7 +137,7 @@ function StoreItemRegister() {
   return (
 
     <div className='ba-cursor-pointer-div'>
-      <form className='ba-form-container'>
+      <form id='sidpForm' className='ba-form-container'>
         <table>
           <thead>
             <tr>
@@ -107,15 +146,16 @@ function StoreItemRegister() {
           </thead>
           <tbody>
             <tr>
-              <th><label htmlFor="daliy_price_date">기준날짜</label></th>
+              <th><label htmlFor="daliyPriceDate">기준날짜</label></th>
               <td>
-                <input type='date' name='daliy_price_date' />
+                <input name='storeNo' type='text' hidden value='1' />
+                <input type='date' name='daliyPriceDate' />
               </td>
             </tr>
             <tr>
               <th><label htmlFor="item_code">품목구분</label></th>
               <td>
-                <select name='item_code' id="item_code">
+                <select name='itemCode' id="itemCode">
                   <option selected value="N">선택안함</option>
                   <option value="S">생선(횟감)</option>
                   <option value="F">생선(비횟감)</option>
@@ -126,24 +166,24 @@ function StoreItemRegister() {
               </td>
             </tr>
             <tr>
-              <th><label htmlFor="item_name">품목</label></th>
+              <th><label htmlFor="itemName">품목</label></th>
               <td>
-                <select name='item_name' id="item_name">
-                  {/* <option selected>품목구분 항목을 먼저 선택해주세요.</option> */}
+                <select name='itemName' id="itemName">
+                  <option selected>품목구분 항목을 먼저 선택해주세요.</option>
                 </select>
               </td>
             </tr>
             <tr>
               <th><label>크기</label></th>
               <td>
-                <label htmlFor="sizeS">
-                  <input type="radio" id="sizeS" name="itemSize" value="S" /> 소
+                <label htmlFor="itemSizeS">
+                  <input type="radio" id="itemSizeS" name="itemSize" value="S" /> 소
                 </label>
-                <label htmlFor="sizeM">
-                  <input type="radio" id="sizeM" name="itemSize" value="M" /> 중
+                <label htmlFor="itemSizeM">
+                  <input type="radio" id="itemSizeM" name="itemSize" value="M" /> 중
                 </label>
-                <label htmlFor="sizeL">
-                  <input type="radio" id="sizeL" name="itemSize" value="L" /> 대
+                <label htmlFor="itemSizeL">
+                  <input type="radio" id="itemSizeL" name="itemSize" value="L" /> 대
                 </label>
               </td>
             </tr>
@@ -169,26 +209,26 @@ function StoreItemRegister() {
             <tr>
               <th><label>자연산/양식</label></th>
               <td>
-                <label htmlFor="wild_farm_statusW">
-                  <input type="radio" id="wild_farm_statusW" name="wild_farm_status" value="W" /> 자연산
+                <label htmlFor="wildFarmStatusW">
+                  <input type="radio" id="wildFarmStatusW" name="wildFarmStatus" value="W" /> 자연산
                 </label>
-                <label htmlFor="wild_farm_statusF">
-                  <input type="radio" id="wild_farm_statusF" name="wild_farm_status" value="F" /> 양식
+                <label htmlFor="wildFarmStatusF">
+                  <input type="radio" id="wildFarmStatusF" name="wildFarmStatus" value="F" /> 양식
                 </label>
               </td>
             </tr>
             <tr>
               <th><label>금일가격</label></th>
               <td>
-                <label htmlFor="daily_price">
-                  <input type="text" id="daily_price" name="daily_price" value={dailyPrice}
+                <label htmlFor="dailPrice">
+                  <input type="text" id="dailyPrice" name="dailyPrice" value={dailyPrice}
                     onChange={handleDailyPriceChange} />(원)
                 </label>
               </td>
             </tr>
           </tbody>
         </table>
-        <button type="button" className='ba-btn ba-margin-tb50'>품목등록</button>
+        <button type="button" className='ba-btn ba-margin-tb50' onClick={insertSidp}>품목시세 등록</button>
       </form>
     </div >
 

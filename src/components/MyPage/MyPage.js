@@ -2,27 +2,32 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import axios, { formToJSON } from 'axios';
-import { isOpenNow, sendAxiosRequest } from '../utility/common';
+import { isOpenNow, sendAxiosRequest, isTokenExpired } from '../utility/common';
+import jwtDecode from 'jwt-decode';
 
 function MyPage() {
 
   const defaultImage = '/images/rose.png';
 
-  const [member, setMember] = useState(null);
-  const [menuData, setMenuData] = useState([]); // 메뉴 데이터를 저장할 상태
+  const accessToken = sessionStorage.getItem('accessToken');
+  const decodedAccToken = isTokenExpired(accessToken) ? null : jwtDecode(accessToken);
+// const [member, setMember] = useState(null);
+//  const [menuData, setMenuData] = useState([]); // 메뉴 데이터를 저장할 상태
+//
+//  const location = useLocation(); // 추가된 부분
+//  const store = location.state; // 추가된 부분
+//  console.log(store);
 
-  const location = useLocation(); // 추가된 부분
-  const store = location.state; // 추가된 부분
-  console.log(store);
+  // const [member, setMember] = useState(null);
+  // useEffect(() => {
+  //   sendAxiosRequest('/api/member/loginCheck', 'GET', null, response => {
+  //     let loginUser = response.data.loginUser;
+  //     setMember(loginUser);
+  //   }, error => console.log(error))
+  // }
+  //   , []);
 
-  useEffect(() => {
-    sendAxiosRequest('api/member/loginCheck', 'GET', null, response => {
-      let loginUser = response.data.loginUser;
-      setMember(loginUser);
-      console.log(loginUser);
-    }, error => console.log(error))
-  }
-    , []);
+
 
 
   const outerContainerStyle = {
@@ -95,7 +100,7 @@ function MyPage() {
         <Link to="/useredit" style={styles.link}>회원정보 수정</Link>
       </div>
       <div style={styles.linkContainer}>
-        <Link to="/" style={styles.link}>마이 오더</Link>
+        <Link to="/my-orders" style={styles.link}>마이 오더</Link>
       </div>
       <div style={styles.linkContainer}>
         <Link to="/" style={styles.link}>찜하기</Link>
@@ -110,15 +115,16 @@ function MyPage() {
         <Link to="/useredit" style={styles.link}>회원정보 수정</Link>
       </div>
       <div style={styles.linkContainer}>
-      <Link 
-        to= "/menuEdit" 
-        style={styles.link}
-      >
-        메뉴 관리
-  </Link>      
-  </div>
-      <div style={styles.linkContainer}>
-        <Link to="/" style={styles.link}>품목 관리</Link>
+        <Link to="/storeItemRegister" style={styles.link}>등록상품관리</Link>
+          <Link
+            to= "/menuEdit"
+            style={styles.link}
+          >
+            메뉴 관리
+      </Link>
+      </div>
+          <div style={styles.linkContainer}>
+            <Link to="/" style={styles.link}>품목 관리</Link>
       </div>
       <div style={styles.linkContainer}>
         <Link to="/order-confirmation" style={styles.link}>주문확인</Link>
@@ -139,35 +145,35 @@ function MyPage() {
     </>
   );
 
-  if (member === null) {
-    return <div>Loading...</div>; // 로딩 표시
-  } else {
-  return (
-    <div style={outerContainerStyle}>
-      <div style={styles.container}>
-        <div style={styles.profileSection}>
-          <img src={defaultImage} alt={member.memberName} style={styles.profilePicture} />
-          <div style={styles.userInfo}>
-            <h2>{member.memberName}</h2>
-            <p> {member.memberCategory === 'M' ? '개인' :
-                  member.memberCategory === 'S' ? '비즈니스' :
-                  member.memberCategory === 'A' ? '관리자' : '기타'}
-                  계정</p>
-            <p>{member.memberEmail}</p>
-          </div>
-        </div>
+  // if (member === null) {
+  return <div>Loading...</div>; // 로딩 표시
+  // } else {
+  //   return (
+  //     <div style={outerContainerStyle}>
+  //       <div style={styles.container}>
+  //         <div style={styles.profileSection}>
+  //           <img src={defaultImage} alt={member.memberName} style={styles.profilePicture} />
+  //           <div style={styles.userInfo}>
+  //             <h2>{member.memberName}</h2>
+  //             <p> {member.memberCategory === 'M' ? '개인' :
+  //               member.memberCategory === 'S' ? '비즈니스' :
+  //                 member.memberCategory === 'A' ? '관리자' : '기타'}
+  //               계정</p>
+  //             <p>{member.memberEmail}</p>
+  //           </div>
+  //         </div>
 
-        <div style={styles.linkSection}>
-          {/* member.memberCategory 값에 따라 링크 섹션을 조건부로 렌더링합니다. */}
-           {/* member.memberCategory 값에 따라 링크 섹션을 조건부로 렌더링합니다. */}
-          {member.memberCategory === 'M' ? personalLinks :
-          member.memberCategory === 'S' ? businessLinks :
-          member.memberCategory === 'A' ? adminLinks : undefined}
-        </div>
-      </div>
-    </div>
-  );
-}
+  //         <div style={styles.linkSection}>
+  //           {/* member.memberCategory 값에 따라 링크 섹션을 조건부로 렌더링합니다. */}
+  //           {/* member.memberCategory 값에 따라 링크 섹션을 조건부로 렌더링합니다. */}
+  //           {member.memberCategory === 'M' ? personalLinks :
+  //             member.memberCategory === 'S' ? businessLinks :
+  //               member.memberCategory === 'A' ? adminLinks : undefined}
+  //         </div>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
 }
 export default MyPage;

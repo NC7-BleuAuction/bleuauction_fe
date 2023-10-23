@@ -1,20 +1,23 @@
-/* styles.css */
+/* styles.css .custom-cell {
+  font-size: 20px;
+}
 
-/* Filter and origin buttons styles */
 
 .daily-box {
-  width: 70%;
+  width: 100%;
   margin: 50px auto;
 }
 
-.filter-buttons, .origin-buttons {
+.filter-buttons,
+.origin-buttons {
   display: flex;
   justify-content: space-around;
   padding: 20px;
   width: 80%;
 }
 
-.filter-buttons button, .origin-buttons button {
+.filter-buttons button,
+.origin-buttons button {
   background-color: #007bff;
   color: #fff;
   padding: 10px 20px;
@@ -25,18 +28,19 @@
   border-radius: 5px;
 }
 
-.filter-buttons button.selected, .origin-buttons button.selected {
+.filter-buttons button.selected,
+.origin-buttons button.selected {
   background-color: #0056b3;
 }
 
-/* Carousel styles */
+
 .carousel {
   max-width: 600px;
   margin: 0 auto;
   padding: 20px;
 }
 
-/* Price list styles */
+
 .price-list {
   margin: 20px;
 }
@@ -46,14 +50,15 @@
   border-collapse: collapse;
 }
 
-.price-list table th, .price-list table td {
+.price-list table th,
+.price-list table td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: center;
 }
 
 .price-list table th {
-  background-color: #f2f2f2;
+  background-color: #0056b3;
 }
 
 .price-list table tr:nth-child(even) {
@@ -64,7 +69,7 @@
   background-color: #cce6ff;
 }
 
-/* Carousel custom styles */
+
 .carousel .slide {
   background-color: #333;
   padding: 20px;
@@ -75,4 +80,35 @@
   color: #fff;
   font-size: 16px;
   font-weight: 600;
+}
+
+*/
+
+.controlsQuickFilter {
+  margin: 0;
+  padding: 0;
+}
+
+.selectColumn {
+  color: gray;
+}
+
+#filterField {
+  margin-top: 20px;
+  padding: 2px 5px;
+}
+
+.customFilterButtonExample1 .changeType {
+  background: #e2e2e2;
+  border-radius: 100%;
+  width: 16px;
+  color: #0075ff;
+  height: 16px;
+  padding: 3px 2px;
+  border: none;
+}
+
+.customFilterButtonExample1 .changeType::before {
+  content: '▼ ';
+  zoom: 0.9;
 }
