@@ -22,9 +22,9 @@ function StoreHome({ stores }) {
         </button> */}
 
       {
-      stores.filter((item) => item.storeNo < 7)
-      .map((item) => (      
-        <StoreHomeItem key={item.storeNo} store={item}/> ))
+        stores.filter((item) => item.storeNo < 7)
+          .map((item) => (
+            <StoreHomeItem key={item.storeNo} store={item} />))
       }
 
     </div>

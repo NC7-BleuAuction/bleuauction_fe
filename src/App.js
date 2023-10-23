@@ -38,16 +38,16 @@ import StoreOrder from './components/MyPage/StoreOrder';
 
 function App() {
 
-  const {user, login} = useUser();
+  const { user, login } = useUser();
 
-  
+
   // useEffect(() => {
   // if (localStorage.getItem('memberEmail') !== null) {
   // const saveUser = {
   //   'memberEmail': localStorage.getItem('memberEmail'),
   //   'memberPwd': localStorage.getItem('memberPwd')
   // };
-  
+
   //   if (saveUser !== null) {
   //     sendAxiosRequest("/api/member/login", 'POST', formToJSON(saveUser), response => {
   //       //   //   console.log(response.data);
@@ -65,7 +65,7 @@ function App() {
   //     }
   //   }
   //   }, []);
-    
+
 
 
   return (
