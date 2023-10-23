@@ -43,7 +43,7 @@ function LoginPage() {
           localStorage.setItem('refreshToken', refreshToken);
 
           const decodedAccessToken = jwtDecode(accessToken);
-          alert("'" + decodedAccessToken.username + "' 회원님 BLEU AUCTION에 오신 것을 환영합니다!");
+          alert("'" + decodedAccessToken.memberName + "' 회원님 BLEU AUCTION에 오신 것을 환영합니다!");
           navigate('/');
         }
       }
