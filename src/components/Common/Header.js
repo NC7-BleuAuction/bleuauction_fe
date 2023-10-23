@@ -3,31 +3,40 @@ import { axios, formToJSON } from 'axios';
 import styles from './Header.module.css';
 import { Link } from 'react-router-dom';
 import { useUser } from '../Auth/UserContext';
-import { sendAxiosRequest, getAccessToken, getLoginUserInfo, logout, accessTokenRefresh, isNullUndefinedOrEmpty } from '../utility/common';
+import { refreshTokenInvalid, getAccessToken, getLoginUserInfo, logout, accessTokenRefresh, isNullUndefinedOrEmpty, mainUrl } from '../utility/common';
 import jwtDecode from 'jwt-decode';
-
-
 
 
 function Header() {
   const accessToken = isNullUndefinedOrEmpty(sessionStorage.getItem('accessToken'));
   const refreshToken = isNullUndefinedOrEmpty(localStorage.getItem('refreshToken'));
-
+  const currentURL = window.location.href;
+  console.log('mainUrl: ' + mainUrl);
   console.log('Header.js => accessToken: ', accessToken);
   console.log('Header.js => refreshToken: ', refreshToken);
+  console.log('(currentURL.replace(mainUrl)', currentURL.replace(mainUrl, ''));
+
 
   let loginInit
   if (!accessToken && refreshToken) { // accessToken은 유효하지 않으면서 refreshToken이 유효한 경우
-    console.log('accessTokenRefresh(): ', accessTokenRefresh()); // accessToken 재발급 
+    console.log('Header.js => accessToken (X) && refreshToken (O)');
+    if (currentURL.replace(mainUrl, '') !== '/') {
+      console.log('accessTokenRefresh(): ', accessTokenRefresh()); // accessToken 재발급 
+    }
   } else if (!accessToken && !refreshToken) { // 둘다 유효하지 않은 경우
-
+    console.log('Header.js => accessToken (X) && refreshToken (X)');
+    if (currentURL.replace(mainUrl, '') !== '/') {
+      refreshTokenInvalid();
+    }
   } else { // 둘다 유효하거나 accessToken만 유효한 경우
+    console.log('Header.js => accessToken만 유효 OR accessToken과 refreshToken 모두 유효');
     loginInit = isNullUndefinedOrEmpty(getAccessToken('d')) ? getLoginUserInfo(getAccessToken('d')) : null;
   }
-  console.log('Header.js => loginInit: ', loginInit);
 
-  const [loginUser, setLoginUser] = useState(isNullUndefinedOrEmpty(loginInit));
 
+  const isUserLoggedIn = isNullUndefinedOrEmpty(loginInit);
+
+  console.log('Header.js => isUserLoggedIn: ', isUserLoggedIn);
 
   return (
     <>
@@ -38,12 +47,17 @@ function Header() {
             <input className={styles.headerSearchBox} type='text' placeholder='검색어를 입력하세요.'></input>
             <button id={styles.searchBtn} type="submit"></button>
           </form>
-          {loginUser == null ? (<Link to='/login'>로그인</Link>) : (<Link to='/mypage'>{loginUser.username}님 환영합니다!</Link>)}
-          {loginUser == null ? (<Link to='/register'>회원가입</Link>) : (<Link onClick={logout}>로그아웃</Link>)}
-          {/* <Link to="/api/test" >test</Link> */}
-          {/* <Link to='/market/detail'>가게1</Link> */}
-          <Link to='/my-orders'>주문상세</Link>
-
+          {isUserLoggedIn ? (
+            <>
+              <Link to='/mypage'>{loginInit.username}님 환영합니다!</Link>
+              <Link onClick={logout}>로그아웃</Link>
+            </>
+          ) : (
+            <>
+              <Link to='/login'>로그인</Link>
+              <Link to='/register'>회원가입</Link>
+            </>
+          )}
         </div>
 
 

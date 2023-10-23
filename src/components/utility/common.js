@@ -1,6 +1,8 @@
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 
+export const mainUrl = 'http://localhost:3000';
+
 export function isNullUndefinedOrEmpty(value) {
   const valueStr = value + '';
   if (valueStr === 'null' || value === 'undefined' || /^\s*$/.test(valueStr)) {
@@ -46,6 +48,7 @@ export function logout() {
 
   if (isConfirmed) {
     sessionStorage.clear();
+    localStorage.clear();
     alert('정상적으로 로그아웃 되었습니다!');
     window.location.reload();
 
@@ -76,7 +79,7 @@ export function getLoginUserInfo(decodedToken) {
   return null;
 }
 
-export function sendAxiosRequest(url, method, data, successCallback, errorCallback, contentType) {
+export function sendAxiosRequest(url, method, data, successCallback, errorCallback, contentType, jwtToken) {
   console.log('sendAxiosRequest의 요청 URL: ', url);
   console.log('sendAxiosRequest의 요청 데이터: ', data);
 
@@ -88,21 +91,32 @@ export function sendAxiosRequest(url, method, data, successCallback, errorCallba
 
   if (data) {
     if (contentType === 'application/json') {
-
       axiosConfig.headers = {
         'Content-Type': contentType,
+        'Authorization': jwtToken !== 'UA' ? `Bearer ${jwtToken}` : 'UA',
       };
-      // JSON 객체일시 문자열로 변환 문자열로 변환
+      // JSON 객체일시 문자열로 변환
       axiosConfig.data = JSON.stringify(data);
     } else {
       axiosConfig.data = data;
+      axiosConfig.headers = {
+        'Authorization': jwtToken !== 'UA' ? `Bearer ${jwtToken}` : 'UA',
+      };
     }
+  } else {
+    // 데이터가 없는 경우
+    axiosConfig.headers = {
+      'Authorization': jwtToken !== 'UA' ? `Bearer ${jwtToken}` : 'UA',
+    };
   }
+
+  console.log('sendAxiosRequest().axiosConfig: ', axiosConfig);
 
   axios(axiosConfig)
     .then(successCallback)
     .catch(errorCallback);
 }
+
 
 export function sendAxiosMultipartRequest(url, formData, successCallback, errorCallback) {
   console.log('sendAxiosMultipartRequest의 요청 URL: ', url);

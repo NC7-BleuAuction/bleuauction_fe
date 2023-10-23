@@ -20,15 +20,11 @@ import UserEditPage from './components/MyPage/UserEditPage';
 import MyOrder from './components/MyPage/MyOrder';
 import StoreItemDailyPrice from './components/StoreItemDailyPrice/StoreItemDailyPrice';
 import UserProvider from './components/Auth/UserContext';
-import UserProvider from './components/Auth/UserContext';
 import StoreItemRegister from './components/MyPage/StoreItemRegister'
 import Payment from './components/Pay/Pay';
 import StoreRegisterPage from './components/MyPage/StoreRegisterPage';
 import NoticeList from './components/Notice/NoticeList';
 import NoticeDetail from './components/Notice/NoticeDetail';
-import { useUser } from './components/Auth/UserContext';
-import StoreMyPage from './components/MyPage/StoreItemRegister'; // StoreMyPage 컴포넌트 파일의 경로에 따라 수정
-import StoreItemRegister from './components/MyPage/StoreItemRegister'; // StoreItemRegister 컴포넌트 파일의 경로에 따라 수정
 import { useUser } from './components/Auth/UserContext';
 import StoreMyPage from './components/MyPage/StoreItemRegister'; // StoreMyPage 컴포넌트 파일의 경로에 따라 수정
 import { sendAxiosRequest } from './components/utility/common';

@@ -7,7 +7,6 @@ import StoreHome from '../components/StoreHome';
 import { Routes, Route } from 'react-router-dom';
 import { accessTokenRefresh, refreshTokenInvalid, isNullUndefinedOrEmpty, sendAxiosRequest } from '../components/utility/common';
 import { accordionSummaryClasses } from '@mui/material';
-import { error } from 'handsontable/helpers';
 
 function Home() {
 
@@ -46,15 +45,15 @@ function Home() {
   //   }
   // }, [accessToken]); // accessToken이 변경될 때만 실행
 
-  // useEffect(() => {
-  //   sendAxiosRequest('/api/store/list', 'GET', null, response => {
-  //     console.log('/api/store/list => response.data: ' + response.data);
-  //     if (isNullUndefinedOrEmpty(response.data)) {
-  //       setStores(response.data);
-  //     }
-  //   }, error => console.log(error));
+  useEffect(() => {
+    sendAxiosRequest(`/api/store/list?pageLowCount=${pageRowCount}`, 'GET', null, response => {
+      console.log('/api/store/list => response.data: ' + response.data);
+      if (isNullUndefinedOrEmpty(response.data)) {
+        setStores(response.data);
+      }
+    }, error => console.log(error), null, 'UA');
 
-  // }, []);
+  }, []);
 
 
   return (
