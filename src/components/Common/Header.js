@@ -12,34 +12,35 @@ function Header() {
   const refreshToken = localStorage.getItem('refreshToken');
   const decodedAccToken = isTokenExpired(accessToken) ? null : jwtDecode(accessToken);
   const decodedRefToken = isTokenExpired(refreshToken) ? null : jwtDecode(refreshToken);
-  // const currentURL = window.location.href;
+  const currentURL = window.location.href;
+  const [tokenMember, setTokenMember] = useState(null);
 
-  console.log('Header.js => accessToken 디코딩값 : ', decodedAccToken);
-  console.log('Header.js => refreshToken 디코딩값 : ', decodedRefToken);
+  // console.log('Header.js => accessToken 디코딩값 : ', decodedAccToken);
+  // console.log('Header.js => refreshToken 디코딩값 : ', decodedRefToken);
   // console.log('(currentURL.replace(mainUrl)', currentURL.replace(mainUrl, ''));
 
-
-
   let loginInit
-  if (!decodedAccToken && decodedRefToken) { // accessToken은 유효하지 않으면서 refreshToken이 유효한 경우
-    console.log('Header.js => 엑세스 토큰 만료에 따른 재발급!');
-    // if (currentURL.replace(mainUrl, '') !== '/') {
-    console.log('accessTokenRefresh(): ', accessTokenRefresh()); // accessToken 재발급 
-    // }
-  } else if (!decodedAccToken && !decodedRefToken) { // 둘다 유효하지 않은 경우
-    console.log('Header.js => accessToken (X) && refreshToken (X)');
-    // if (currentURL.replace(mainUrl, '') !== '/') {
-    refreshTokenInvalid();
-    // }
-  } else { // 둘다 유효하거나 accessToken만 유효한 경우
-    console.log('Header.js => accessToken만 유효 OR accessToken과 refreshToken 모두 유효');
-    loginInit = isNullUndefinedOrEmpty(getAccessToken('d')) ? getLoginUserInfo(getAccessToken('d')) : null;
-  }
 
 
-  const isUserLoggedIn = isNullUndefinedOrEmpty(loginInit);
+  useEffect(() => {
+    if (isNullUndefinedOrEmpty(accessToken)) { // 로그인 중이면
 
-  console.log('Header.js => isUserLoggedIn: ', isUserLoggedIn);
+      if (!decodedAccToken && decodedRefToken) { // accessToken은 유효하지 않으면서 refreshToken이 유효한 경우
+        console.log('Header.js => 엑세스 토큰 만료에 따른 재발급!');
+        if (currentURL.replace(mainUrl, '') !== '/') {
+          console.log('accessTokenRefresh(): ', accessTokenRefresh()); // accessToken 재발급
+        }
+      } else if (!decodedAccToken && !decodedRefToken) { // 둘다 유효하지 않은 경우
+        console.log('Header.js => accessToken (X) && refreshToken (X)');
+        if (currentURL.replace(mainUrl, '') !== '/') {
+          refreshTokenInvalid();
+        }
+      } else { // 둘다 유효하거나 accessToken만 유효한 경우
+        console.log('Header.js => accessToken만 유효 OR accessToken과 refreshToken 모두 유효');
+        setTokenMember(decodedAccToken);
+      }
+    }
+  }, []);
 
   return (
     <>
@@ -50,9 +51,9 @@ function Header() {
             <input className={styles.headerSearchBox} type='text' placeholder='검색어를 입력하세요.'></input>
             <button id={styles.searchBtn} type="submit"></button>
           </form>
-          {isUserLoggedIn ? (
+          {isNullUndefinedOrEmpty(tokenMember) ? (
             <>
-              <Link to='/mypage'>{loginInit.username}님 환영합니다!</Link>
+              <Link to='/mypage'>{tokenMember.memberName}님 환영합니다!</Link>
               <Link onClick={logout}>로그아웃</Link>
             </>
           ) : (

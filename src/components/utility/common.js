@@ -63,7 +63,6 @@ export function logout() {
     localStorage.clear();
     alert('정상적으로 로그아웃 되었습니다!');
     window.location.reload();
-
   }
 }
 
@@ -85,8 +84,8 @@ export function getAccessToken(encodingOrDecodingType) {
 
 export function getLoginUserInfo(decodedToken) {
   if (decodedToken != null) {
-    const { username, email } = decodedToken;
-    return { username, email };
+    const { sub, memberName, memberEmail } = decodedToken;
+    return { sub, memberName, memberEmail };
   }
   return null;
 }
