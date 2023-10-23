@@ -81,7 +81,7 @@ function LoginPage() {
           >
 
             <Typography component="h1" variant="h5">
-              안녕!
+              안녕하세요 블루옥션입니다.
             </Typography>
             <Box component="form" sx={{ mt: 1 }} noValidate onSubmit={handleSubmit}>
               <TextField
