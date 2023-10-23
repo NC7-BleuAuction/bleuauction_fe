@@ -38,18 +38,19 @@ function MarketDetailPage() {
       sendAxiosRequest(`/api/menu/${store.storeNo}`, 'GET', null, response => {
         if (response.data && response.data.length > 0) {
           console.log(response.data);
-          setMenuData(response.data); // 받아온 데이터로 상태를 업데이트합니다.
+          setMenuData(response.data.map((menu) => ({
+            ...menu, 
+            count: 0
+          }))); // 받아온 데이터로 상태를 업데이트합니다.
           console.log(menuData);
         }
       }, error => {
         console.error("An error occurred while fetching the menus:", error);
       });
     }
-  }, [store])
+  }, [])
 
-  const initOrderMenus = menuData?.map((menu) => ({
-    ...menu, count: 0
-  }))
+
 
   const handleOrderClick = () => {
     // alert('주문하기 버튼 클릭!');
@@ -70,7 +71,7 @@ function MarketDetailPage() {
       <div style={tabContainerStyle}>
         <TabBar activeTab={activeTab} onTabClick={setActiveTab} />
         {activeTab === 'menu' && <Button onClick={handleOrderClick} buttonText="주문하기" />}
-        <OrderModal store={store} menus={initOrderMenus} isOpen={modal} onClose={closeModal}/>
+        <OrderModal store={store} menus={menuData} isOpen={modal} onClose={closeModal} setMenuData={setMenuData} />
       </div>
       {activeTab === 'info' && <p>여기에 가게정보를 표시합니다.</p>}
       {activeTab === 'menu' && <MenuList menus={menuData}/>}

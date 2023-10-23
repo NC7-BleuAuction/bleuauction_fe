@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react';
 import './OrderModal.css';
 import { useUser } from '../Auth/UserContext';
 import OrderItem from './OrderItem';
+import { sendAxiosRequest } from '../utility/common';
+import Payment from '../Pay/Pay';
+import { formToJSON } from 'axios';
 
-const OrderModal = ({ store, menus, isOpen, onClose }) => {
+const OrderModal = ({ store, menus, isOpen, onClose, setMenuData }) => {
 
   
 const {user, login, logout} = useUser();
@@ -20,49 +23,32 @@ const [order, setOrder] = useState({
   orderStatus:'',
 })
 
-// const initOrderMenus = menus.map((menu) => ({
-//   menuNo:menu.menuNo,
-//   orderMenuCount: 0
-// }))
-
-// for (let i = 0; menus; i++) {
-//   menus[i].push({count:0})
-// }
-
-const [orderMenu, setOrderMenu] = useState(menus)
-
-// const initOrderMenus = menus?.map((menu) => ({
-//   ...menu, count: 0
-// }))
-
-// useEffect(()=> (
-//   setOrderMenu(initOrderMenus)
-// ), [])
-
-console.log('메뉴: ',menus)
-console.log('주문목록: ',orderMenu)
-
-
-    const updateMenuCount = (index, e)=> {
-    if (e.target.value >= 0) {
-      const update = [...orderMenu];
-      update[index] = { ...orderMenu[index], count: e.target.value };
-      setOrderMenu(
-        update
+  // OrderItem 변경 사항 적용
+    const updateMenuCount = (updateMenu)=> { 
+      const updatedItems = menus?.map((menu) =>
+      menu.menuNo === updateMenu.menuNo ? updateMenu : menu
+    );
+      setMenuData(
+        updatedItems
       )
-    }
   };
 
 
+  const [orderMenus, setOrderMenus] = useState([])
 
-  // 폼 제출 핸들러: 여기에서 API 호출 등을 할 수 있습니다.
+  let totalPrice = 0
+  let totalOrders = [];
+  
+ 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // 여기에서 주문 정보를 처리합니다 (예: API 호출)
-    console.log('주문 정보:', order, '배송 방식:', order.orderType);
-    onClose(); 
-  };
 
+    setActiveSection('deliveryMethod');
+
+  }
+  
+
+  // 수령 방식 변경 사항을 저장
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setOrder(prevDetails => ({
@@ -70,6 +56,69 @@ console.log('주문목록: ',orderMenu)
       [name]: value,
     }));
   };
+
+
+  // order, orderMenu 생성 및 결제 진행
+  const handleOrder = (event) => {
+    event.preventDefault();
+    // console.log(orderMenus)
+
+
+   // orderMenu 생성
+    menus.filter((menu) => menu.count !== 0).map((menu) => {
+      
+      totalPrice += menu.count * menu.menuPrice
+
+      totalOrders.push({
+        menuNo: Number(menu.menuNo),
+        orderMenuCount: Number(menu.count),
+        // orderNo: 0,
+        // memberNo:0,
+      })
+    })
+    
+    setOrderMenus(totalOrders)
+
+
+
+    setOrder({
+      ...order, orderPrice: totalPrice
+    })
+
+    // console.log(orderMenus)
+    // console.log(typeof(orderMenus[0].menuNo))
+
+
+    // 주문 생성
+    sendAxiosRequest('/api/order/new', 'POST', order, response => {
+      if (response.data && response.data.length > 0) {
+        console.log("주문 생성에 성공했습니다:", response.data);
+      }
+    }, error => {
+      console.error("주문 생성에 실패했습니다:", error);
+    });
+
+    
+    //주문 메뉴 추가 생성
+    setTimeout(() => {
+      orderMenus.map((orderMenu) => {
+        console.log('orderMenu=> : ', orderMenu);
+
+        sendAxiosRequest('/api/ordermenu/new', 'POST', orderMenu, response => {
+          if (response.data && response.data.length > 0) {
+            console.log("주문메뉴 생성에 성공했습니다:", response.data);
+            // console.log('orderMenu=> : ', orderMenu);
+            console.log(typeof(orderMenu.menuNo))
+          }
+        }, error => {
+          console.error("주문메뉴 생성에 실패했습니다:", error);
+        });
+      })
+    }, 6000);
+
+    
+    
+  }
 
 
   const [activeSection, setActiveSection] = useState('orderInfo'); // 현재 활성화된 섹션을 추적
@@ -98,36 +147,8 @@ console.log('주문목록: ',orderMenu)
             <h2>주문 정보</h2>
 
             <div>
-              {orderMenu?.map((menu) => 
-                <OrderItem menu={menu} update = {updateMenuCount} />
-
-                // <div className='order-item-box' key={menu.menuNo}>
-      
-                //   <div style={{overflow:'hidden'}}>
-                //     <img src='/images/fish1.jpg'/>
-                //   </div>
-            
-                //   <div>
-                //     <p>{menu.menuName}</p>
-                //   </div>
-            
-                //   <div>
-                //     <p>{menu.menuSize}</p>
-                //   </div>
-            
-                //   <div>
-                //   <p>{menu.menuPrice}</p>
-                //   </div>
-          
-                // <div>
-                //   <input
-                //         type="number"
-                //         value={menu.count}
-                //         onChange={handleMenuChange(menu.menuNo)}
-                //       />
-                // </div>
-                
-              // </div>
+              {menus?.map((menu) => 
+                <OrderItem key={menu.menuNo} menu={menu}  update = {updateMenuCount} />
               )}
             </div>
 
@@ -157,8 +178,8 @@ console.log('주문목록: ',orderMenu)
                 <input
                   type="radio"
                   name="orderType"
-                  value='P'
-                  checked={order.orderType === 'P'}
+                  value='T'
+                  checked={order.orderType === 'T'}
                   onChange={handleInputChange}
                 />
                 포장
@@ -214,7 +235,8 @@ console.log('주문목록: ',orderMenu)
             onChange={handleInputChange}
             required
           />
-            <button onClick={() => {console.log(order)}}>배송 방식 제출</button>
+            <button onClick={handleOrder}>결제하기</button>
+            {/* <Payment onClick={handleOrder}>결제하기</Payment> */}
           </div>
         )}
 
