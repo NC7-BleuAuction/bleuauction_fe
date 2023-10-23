@@ -101,7 +101,7 @@ function MyPage() {
         <Link to="/useredit" style={styles.link}>회원정보 수정</Link>
       </div>
       <div style={styles.linkContainer}>
-        <Link to="/" style={styles.link}>마이 오더</Link>
+        <Link to="/my-orders" style={styles.link}>마이 오더</Link>
       </div>
       <div style={styles.linkContainer}>
         <Link to="/" style={styles.link}>찜하기</Link>

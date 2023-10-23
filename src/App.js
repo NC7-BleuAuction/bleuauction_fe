@@ -32,6 +32,9 @@ import StoreItemAdd from  './components/StoreItemDailyPrice/StoreItemAdd';
 import NoticeRegisterationForm from  './components/Admin/NoticeRegisterationForm';
 import AdminNoticeList from  './components/Admin/AdminNoticeList';
 import AdminNoticeDetail from  './components/Admin/AdminNoticeDetail';
+import OrderMenuList from './components/MyPage/OrderMenuList';
+import StoreOrder from './components/MyPage/StoreOrder';
+
 
 function App() {
 
@@ -107,6 +110,9 @@ function RoutingComponent() {
         <Route path="/admin/notice/register" element={<NoticeRegisterationForm />} />
         <Route path="/admin/notice/list" element={<AdminNoticeList />} />
         <Route path="/admin/notice/detail/:noticeNo" element={<AdminNoticeDetail />} />
+        <Route path="/mypage/ordermenu/detail/:orderNo" element={<OrderMenuList />} />
+        <Route path="/order/detail/:orderNo" element={<OrderMenuList />} />
+        <Route path="/order-confirmation" element={<StoreOrder />} />
       </Routes>
       {location.pathname !== "/login" && location.pathname !== "/register" && <SideBar />}
       {location.pathname !== "/login" && location.pathname !== "/register" && <Footer />}
