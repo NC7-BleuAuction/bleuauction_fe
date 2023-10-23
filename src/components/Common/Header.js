@@ -3,31 +3,34 @@ import { axios, formToJSON } from 'axios';
 import styles from './Header.module.css';
 import { Link } from 'react-router-dom';
 import { useUser } from '../Auth/UserContext';
-import { refreshTokenInvalid, getAccessToken, getLoginUserInfo, logout, accessTokenRefresh, isNullUndefinedOrEmpty, mainUrl } from '../utility/common';
+import { refreshTokenInvalid, getAccessToken, getLoginUserInfo, logout, accessTokenRefresh, isNullUndefinedOrEmpty, mainUrl, isTokenExpired } from '../utility/common';
 import jwtDecode from 'jwt-decode';
 
 
 function Header() {
-  const accessToken = isNullUndefinedOrEmpty(sessionStorage.getItem('accessToken'));
-  const refreshToken = isNullUndefinedOrEmpty(localStorage.getItem('refreshToken'));
-  const currentURL = window.location.href;
-  console.log('mainUrl: ' + mainUrl);
-  console.log('Header.js => accessToken: ', accessToken);
-  console.log('Header.js => refreshToken: ', refreshToken);
-  console.log('(currentURL.replace(mainUrl)', currentURL.replace(mainUrl, ''));
+  const accessToken = sessionStorage.getItem('accessToken');
+  const refreshToken = localStorage.getItem('refreshToken');
+  const decodedAccToken = isTokenExpired(accessToken) ? null : jwtDecode(accessToken);
+  const decodedRefToken = isTokenExpired(refreshToken) ? null : jwtDecode(refreshToken);
+  // const currentURL = window.location.href;
+
+  console.log('Header.js => accessToken 디코딩값 : ', decodedAccToken);
+  console.log('Header.js => refreshToken 디코딩값 : ', decodedRefToken);
+  // console.log('(currentURL.replace(mainUrl)', currentURL.replace(mainUrl, ''));
+
 
 
   let loginInit
-  if (!accessToken && refreshToken) { // accessToken은 유효하지 않으면서 refreshToken이 유효한 경우
-    console.log('Header.js => accessToken (X) && refreshToken (O)');
-    if (currentURL.replace(mainUrl, '') !== '/') {
-      console.log('accessTokenRefresh(): ', accessTokenRefresh()); // accessToken 재발급 
-    }
-  } else if (!accessToken && !refreshToken) { // 둘다 유효하지 않은 경우
+  if (!decodedAccToken && decodedRefToken) { // accessToken은 유효하지 않으면서 refreshToken이 유효한 경우
+    console.log('Header.js => 엑세스 토큰 만료에 따른 재발급!');
+    // if (currentURL.replace(mainUrl, '') !== '/') {
+    console.log('accessTokenRefresh(): ', accessTokenRefresh()); // accessToken 재발급 
+    // }
+  } else if (!decodedAccToken && !decodedRefToken) { // 둘다 유효하지 않은 경우
     console.log('Header.js => accessToken (X) && refreshToken (X)');
-    if (currentURL.replace(mainUrl, '') !== '/') {
-      refreshTokenInvalid();
-    }
+    // if (currentURL.replace(mainUrl, '') !== '/') {
+    refreshTokenInvalid();
+    // }
   } else { // 둘다 유효하거나 accessToken만 유효한 경우
     console.log('Header.js => accessToken만 유효 OR accessToken과 refreshToken 모두 유효');
     loginInit = isNullUndefinedOrEmpty(getAccessToken('d')) ? getLoginUserInfo(getAccessToken('d')) : null;

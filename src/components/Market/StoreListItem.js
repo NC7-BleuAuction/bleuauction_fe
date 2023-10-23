@@ -9,7 +9,6 @@ function StoreListItem(props) {
   let [open, setOpen] = useState('O');
 
   useEffect(() => {
-    console.log('store.storeName:', store.storeName);
     let startEndTime = startEndTimeInfo(store);
     let openStatus = isOpenNow(startEndTime[0], startEndTime[1]);
     setOpen(openStatus);

@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { formToJSON } from 'axios';
 import { useState, useContext } from 'react';
 import { useUser } from './UserContext';
-import { isOpenNow, sendAxiosRequest } from '../utility/common';
+import { isOpenNow, sendAxiosRequest, isTokenExpired } from '../utility/common';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 
@@ -38,21 +38,16 @@ function LoginPage() {
         const accessToken = response.data.accessToken;
         const refreshToken = response.data.refreshToken;
 
-        console.log('accessToken: ', accessToken);
-        console.log('refreshToken: ', refreshToken);
+        if (!isTokenExpired(accessToken) && !isTokenExpired(refreshToken)) {
+          sessionStorage.setItem('accessToken', accessToken);
+          localStorage.setItem('refreshToken', refreshToken);
 
-        const decodedAccToken = jwtDecode(accessToken);
-        const decodedRefToken = jwtDecode(refreshToken);
-
-        console.log('decodedAccToken: ', decodedAccToken);
-        console.log('decodedRefToken: ', decodedRefToken);
-
-        sessionStorage.setItem('accessToken', accessToken);
-        localStorage.setItem('refreshToken', refreshToken);
-
-        alert("'" + decodedAccToken.username + "' 회원님 BLEU AUCTION에 오신 것을 환영합니다!");
-        navigate('/');
+          const decodedAccessToken = jwtDecode(accessToken);
+          alert("'" + decodedAccessToken.username + "' 회원님 BLEU AUCTION에 오신 것을 환영합니다!");
+          navigate('/');
+        }
       }
+
     }, error => console.log(error), 'application/json');
   };
 

@@ -3,6 +3,18 @@ import jwtDecode from 'jwt-decode';
 
 export const mainUrl = 'http://localhost:3000';
 
+/* 토큰 만료 체크 */
+export function isTokenExpired(token) {
+  if (!isNullUndefinedOrEmpty(token)) {
+    return true;
+  }
+  const expirationTime = jwtDecode(token).exp * 1000;
+  const currentDate = Date.now();
+  return currentDate > expirationTime; // 토큰 만료 true 반환
+}
+
+
+
 export function isNullUndefinedOrEmpty(value) {
   const valueStr = value + '';
   if (valueStr === 'null' || value === 'undefined' || /^\s*$/.test(valueStr)) {
@@ -35,7 +47,7 @@ export function accessTokenRefresh() {
         return;
       }
       sessionStorage.setItem('accessToken', newAccessToken);
-      console.log('accessToken 재발급 후 sessionStorage에 보관 =>', newAccessToken);
+      console.log('refreshToken으로 accessToken 재발급 완료! =>');
     })
     .catch(error => {
       refreshTokenInvalid();
