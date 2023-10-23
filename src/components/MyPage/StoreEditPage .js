@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { sendAxiosRequest, sendAxiosMultipartRequest } from '../utility/common';
-import { Form, Card, Button } from 'react-bootstrap';
-import axios, { formToJSON } from 'axios';
+import axios from 'axios';
 
 function StoreEditPage() {
   const defaultImage = '/images/rose.png';
@@ -27,24 +26,19 @@ function StoreEditPage() {
     }
   }, [loginUser]);
 
-  function updateStore() {
-    let storeForm = document.getElementById('storeForm');
-    const formData = new FormData(storeForm);
-
-    // JSON 데이터를 문자열로 변환하여 추가
-    const updateStoreRequest = JSON.stringify(formData);
-    const updateStoreBlob = new Blob([updateStoreRequest], { type: 'application/json' });
-    formData.append('updateStoreRequest', updateStoreBlob);
+  function updateStore(e) {
+    e.preventDefault();
+    let storeForm = new FormData(document.getElementById('storeForm'));
 
     // 이미지 파일 추가 (있는 경우)
     const fileInput = document.getElementById('imageInput');
     if (fileInput.files[0]) {
-      formData.append('profileImage', fileInput.files[0]);
+      storeForm.append('profileImage', fileInput.files[0]);
     }
 
-    console.log('formData: ', formData);
+    console.log('formData: ', storeForm);
     // Axios를 이용하여 멀티파트 폼 데이터를 서버로 전송합니다.
-    sendAxiosMultipartRequest('/api/store/update', formData, (response) => {
+    sendAxiosMultipartRequest('/api/store/update', storeForm, (response) => {
       console.log('가게 업데이트 성공');
       // 성공적으로 업데이트된 경우에 수행할 작업을 추가하세요
     }, (error) => {
@@ -53,23 +47,21 @@ function StoreEditPage() {
     });
   }
 
+  const handleImageChange = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      const reader = new FileReader();
 
+      reader.onload = (e) => {
+        setCurrentImage(e.target.result);
+      };
 
-    const handleImageChange = (event) => {
-      if (event.target.files && event.target.files[0]) {
-        const reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  };
 
-        reader.onload = (e) => {
-          setCurrentImage(e.target.result);
-        };
-
-        reader.readAsDataURL(event.target.files[0]);
-      }
-    };
-
-    const handleImageClick = () => {
-      document.getElementById('imageInput').click();
-    };
+  const handleImageClick = () => {
+    document.getElementById('imageInput').click();
+  };
 
   const styles = {
     container: {
@@ -117,7 +109,7 @@ function StoreEditPage() {
 
     return (
       <div style={styles.container}>
-        <form id='storeForm'>
+        <form id='storeForm' onSubmit={updateStore}>
           <img src={currentImage} alt={storeName} style={styles.profilePicture} onClick={handleImageClick} />
           <button type="button" style={styles.buttonStyle} onClick={() => { document.getElementById('imageInput').click() }}>사진 등록</button>
           <input
