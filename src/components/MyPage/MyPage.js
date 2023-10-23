@@ -1,29 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios, { formToJSON } from 'axios';
-import { isOpenNow, sendAxiosRequest } from '../utility/common';
+import { isOpenNow, sendAxiosRequest, isTokenExpired } from '../utility/common';
+import jwtDecode from 'jwt-decode';
 
 function MyPage() {
-  // 사용자 정보를 상태 혹은 API로부터 불러오기.
-  // 예시
-  // const user = {
-  //   name: 'Rose',
-  //   email: 'rose@example.com',
-  //   accountType: 'personal', // or 'business'
-  //   profilePicture: '/images/rose.png',
-  // };
-
   const defaultImage = '/images/rose.png';
 
-  const [member, setMember] = useState(null);
+  const accessToken = sessionStorage.getItem('accessToken');
+  const decodedAccToken = isTokenExpired(accessToken) ? null : jwtDecode(accessToken);
 
-  useEffect(() => {
-    sendAxiosRequest('/api/member/loginCheck', 'GET', null, response => {
-      let loginUser = response.data.loginUser;
-      setMember(loginUser);
-    }, error => console.log(error))
-  }
-    , []);
+
+  // const [member, setMember] = useState(null);
+  // useEffect(() => {
+  //   sendAxiosRequest('/api/member/loginCheck', 'GET', null, response => {
+  //     let loginUser = response.data.loginUser;
+  //     setMember(loginUser);
+  //   }, error => console.log(error))
+  // }
+  //   , []);
+
+
 
 
   const outerContainerStyle = {
@@ -132,35 +129,35 @@ function MyPage() {
     </>
   );
 
-  if (member === null) {
-    return <div>Loading...</div>; // 로딩 표시
-  } else {
-    return (
-      <div style={outerContainerStyle}>
-        <div style={styles.container}>
-          <div style={styles.profileSection}>
-            <img src={defaultImage} alt={member.memberName} style={styles.profilePicture} />
-            <div style={styles.userInfo}>
-              <h2>{member.memberName}</h2>
-              <p> {member.memberCategory === 'M' ? '개인' :
-                member.memberCategory === 'S' ? '비즈니스' :
-                  member.memberCategory === 'A' ? '관리자' : '기타'}
-                계정</p>
-              <p>{member.memberEmail}</p>
-            </div>
-          </div>
+  // if (member === null) {
+  return <div>Loading...</div>; // 로딩 표시
+  // } else {
+  //   return (
+  //     <div style={outerContainerStyle}>
+  //       <div style={styles.container}>
+  //         <div style={styles.profileSection}>
+  //           <img src={defaultImage} alt={member.memberName} style={styles.profilePicture} />
+  //           <div style={styles.userInfo}>
+  //             <h2>{member.memberName}</h2>
+  //             <p> {member.memberCategory === 'M' ? '개인' :
+  //               member.memberCategory === 'S' ? '비즈니스' :
+  //                 member.memberCategory === 'A' ? '관리자' : '기타'}
+  //               계정</p>
+  //             <p>{member.memberEmail}</p>
+  //           </div>
+  //         </div>
 
-          <div style={styles.linkSection}>
-            {/* member.memberCategory 값에 따라 링크 섹션을 조건부로 렌더링합니다. */}
-            {/* member.memberCategory 값에 따라 링크 섹션을 조건부로 렌더링합니다. */}
-            {member.memberCategory === 'M' ? personalLinks :
-              member.memberCategory === 'S' ? businessLinks :
-                member.memberCategory === 'A' ? adminLinks : undefined}
-          </div>
-        </div>
-      </div>
-    );
-  }
+  //         <div style={styles.linkSection}>
+  //           {/* member.memberCategory 값에 따라 링크 섹션을 조건부로 렌더링합니다. */}
+  //           {/* member.memberCategory 값에 따라 링크 섹션을 조건부로 렌더링합니다. */}
+  //           {member.memberCategory === 'M' ? personalLinks :
+  //             member.memberCategory === 'S' ? businessLinks :
+  //               member.memberCategory === 'A' ? adminLinks : undefined}
+  //         </div>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
 }
 export default MyPage;
