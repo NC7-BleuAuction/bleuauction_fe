@@ -45,7 +45,7 @@ function MenuRegisterationForm() {
     sendAxiosRequest('/api/menu/new', 'POST', formObj, response => {
       console.log('메뉴 응답값:', response.data);
       alert('메뉴등록에 성공하셨습니다!');
-      navigate('/');
+      navigate('/menuEdit');
     },
       error => {
         console.error('API 호출 중 에러 발생: ', error);
