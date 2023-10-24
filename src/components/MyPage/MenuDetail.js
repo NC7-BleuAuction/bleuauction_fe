@@ -4,9 +4,9 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { sendAxiosRequest } from '../utility/common';
 
-const accessToken = sessionStorage.getItem('accessToken');
 
 function MenuDetail() {
+  const accessToken = sessionStorage.getItem('accessToken');
   const { menuNo } = useParams();
   const [editedName, setEditedName] = useState('');
   const [editedSize, setEditedSize] = useState('');

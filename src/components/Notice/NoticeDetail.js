@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 function NoticeDetail() {
   const [notice, setNotice] = useState({});
@@ -13,23 +13,29 @@ function NoticeDetail() {
   }, [noticeNo]);
 
   return (
-    <div className="container">
-      <div className="top-controls"></div>
-      <div style={{ padding: "0 12px" }}>
-        <table className="board_list text-center">
+    <div className="container-fluid mt-5">
+      <div className="table-responsive">
+        <table className="table table-bordered table-hover text-center">
           <colgroup>
-            <col width="20%" />
-            <col width="80%" />
+            <col style={{ width: '20%' }} />
+            <col style={{ width: '80%' }} />
           </colgroup>
-          <thead>
-          <tr>
-          <th>제목</th>
-          <td className="text-left">{notice.noticeTitle}</td>
-          </tr>
-          <tr>
-          <th>내용</th>
-          <td>{notice.noticeContent}</td>
-          </tr>
+          <thead className="thead-dark">
+            <tr>
+              <th style={{ verticalAlign: 'middle' }}>제목</th>
+              <td style={{ textAlign: 'left', verticalAlign: 'middle' }}>{notice.noticeTitle}</td>
+            </tr>
+            <tr>
+              <th style={{ verticalAlign: 'middle' }}>내용</th>
+              <td style={{ textAlign: 'left', verticalAlign: 'middle' }}>
+                <textarea
+                  className="form-control"
+                  rows="10"
+                  value={notice.noticeContent}
+                  readOnly
+                ></textarea>
+              </td>
+            </tr>
           </thead>
         </table>
       </div>
