@@ -45,55 +45,44 @@ function AdminNoticeDetail() {
         alert('공지사항 수정 실패하셨습니다!');
       },
       null,
-      accessToken 
-    )
-
-
-    // axios.post(`/api/notice/update/${noticeNo}`, formData)
-    //   .then(response => {
-    //     console.log("Notice updated successfully");
-    //     alert('공지사항이 수정 되었습니다.');
-    //     navigate('/admin/notice/list');
-    //   })
-    //   .catch(error => console.error("Failed to update notice: ", error));
+      accessToken
+    );
   };
 
   if (notice === null) {
     return <div>Loading...</div>;
   } else {
     return (
-      <div className="container">
-        <div className="top-controls"></div>
-        <div style={{ padding: "0 12px" }}>
-          <table className="board_list text-center">
-            <colgroup>
-              <col width="20%" />
-              <col width="80%" />
-            </colgroup>
-            <thead>
-              <tr>
-                <th>제목</th>
-                <td>
-                  <input
-                    type="text"
-                    value={editedTitle}
-                    onChange={(e) => setEditedTitle(e.target.value)}
-                  />
-                </td>
-              </tr>
-              <tr>
-                <th>내용</th>
-                <td>
-                  <input
-                    type="text"
-                    value={editedContent}
-                    onChange={(e) => setEditedContent(e.target.value)}
-                  />
-                </td>
-              </tr>
-              <button onClick={handleUpdateNotice}>수정하기</button>
-            </thead>
-          </table>
+      <div className="container-fluid">
+        <div className="row justify-content-center align-items-center" style={{ height: '100vh' }}>
+          <div className="col-md-6">
+            <form onSubmit={handleUpdateNotice} className="p-4 bg-light rounded shadow-sm">
+              <h2>공지사항 수정</h2>
+              <div className="mb-3">
+                <label htmlFor="editedTitle" className="form-label">제목</label>
+                <input
+                  type="text"
+                  id="editedTitle"
+                  value={editedTitle}
+                  onChange={(e) => setEditedTitle(e.target.value)}
+                  className="form-control"
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="editedContent" className="form-label">내용</label>
+                <textarea
+                  id="editedContent"
+                  value={editedContent}
+                  onChange={(e) => setEditedContent(e.target.value)}
+                  className="form-control"
+                  rows="10"
+                ></textarea>
+              </div>
+              <button type="submit" className="btn btn-primary">
+                수정하기
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     );
