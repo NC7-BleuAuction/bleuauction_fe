@@ -79,7 +79,6 @@ function StoreIntro({storeInfo, store, coupons }) {
     <div style={outerContainer}>
     <div style={introContainer}>
 
-/* <img src={storeInfo.image} alt={storeInfo.name} style={imageStyle} />*/
       {store.storeAttaches && store.storeAttaches[0] ? (
                     <img style={imageStyle}
                       src={`https:kr.object.ncloudstorage.com/bleuauction-bucket/store/${store.storeAttaches[0].saveFilename}`}
