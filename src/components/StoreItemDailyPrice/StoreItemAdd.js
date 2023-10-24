@@ -118,84 +118,92 @@ function StroeItemAdd() {
 
 
   return (
-    <>
-      <p>품목 선택</p>
-      <div className="freezer_box">
-      {
-        Object.keys(fishs).map((name) => (
-          <div key={name}
-            className={fish === name ? 'selected' : 'not_selected'} 
-            onClick={() => {setFish(name); handleCode()}}>
-            <img src={`/images/fish${fishs[name]}.jpg`} alt={name} className='fish_image'/>
-            <p>{name}</p>
-          </div>
-        ))
-      }
-      </div>
+             <>
+               {/* 품목 선택 */}
+               <p>품목 선택</p>
+               <div className="freezer_box">
+                 {Object.keys(fishs).map((name) => (
+                   <div
+                     key={name}
+                     className={`fish_item ${fish === name ? 'selected' : ''}`}
+                     onClick={() => {
+                       setFish(name);
+                       handleCode();
+                     }}
+                   >
+                     <img src={`/images/fish${fishs[name]}.jpg`} alt={name} className="fish_image" />
+                     <p>{name}</p>
+                   </div>
+                 ))}
+               </div>
 
-      <div className='fish_size'>
-        <p>무게 입력 (kg)</p>
-        <div>
-          <input
-              type="number"
-              value={size}
-              onChange={handleSize}
-              placeholder="예) 2.5"
-            />
-        </div>
-      </div>
+               {/* 무게 입력 */}
+               <div className='fish_size'>
+                   <p>무게 입력 (kg)</p>
+                   <div>
+                       <input
+                           type='number'
+                           value={size}
+                           onChange={handleSize}
+                           placeholder='예) 2.5'
+                       />
+                   </div>
+               </div>
 
-      <div className='fish_size'>
-        <p>금일 판매 가격 (원)</p>
-        <div>
-          <input
-              type="number"
-              value={price}
-              onChange={handlePrice}
-              placeholder="예) 10000"
-            />
-        </div>
-      </div>
-      
-      <div className="fish_origin">
-        <p>원산지</p>
-        
-        <div className="origin_buttons">
-          <button className={origin === 'D' ? 'selected' : ''}
-            onClick={() => setOrigin('D')}>국내산</button>
-          <button className={origin === 'I' ? 'selected' : ''}
-            onClick={() => setOrigin('I')}>수입산</button>
-        </div>
+               <div className='fish_price'>
+                   <p>금일 판매 가격 (원)</p>
+                   <div>
+                       <input
+                           type='number'
+                           value={price}
+                           onChange={handlePrice}
+                           placeholder='예) 10000'
+                       />
+                   </div>
+               </div>
 
-      </div>
+               <div className='fish_origin'>
+                   <p>원산지</p>
+                   <div className='origin_buttons'>
+                       <button
+                           className={origin === 'D' ? 'selected' : ''}
+                           onClick={() => setOrigin('D')}
+                       >
+                           국내산
+                       </button>
+                       <button
+                           className={origin === 'I' ? 'selected' : ''}
+                           onClick={() => setOrigin('I')}
+                       >
+                           수입산
+                       </button>
+                   </div>
+               </div>
 
-      <div className='fish_place'>
-        
+               {/* 판매 장소 선택 */}
+               <div className="fish_place">
+                 <div className="filter_buttons">{hiddenButtons}</div>
+               </div>
 
-        <div className="filter_buttons">
-          {hiddenButtons}
-        </div>
-      </div>
+               {/* 자연산/양식 선택 */}
+               <div className="fish_origin">
+                 <p>자연산 / 양식</p>
+                 <div className="origin_buttons">
+                   <button className={wild === 'W' ? 'selected' : ''} onClick={() => setWild('W')}>
+                     자연산
+                   </button>
+                   <button className={wild === 'F' ? 'selected' : ''} onClick={() => setWild('F')}>
+                     양식
+                   </button>
+                 </div>
+               </div>
 
-      <div className='fish_origin'>
-        <p>자연산 / 양식</p>
-
-        <div className="origin_buttons">
-          <button className={wild === 'W' ? 'selected' : ''}
-            onClick={() => setWild('W')}>자연산</button>
-          <button className={wild === 'F' ? 'selected' : ''}
-            onClick={() => setWild('F')}>양식</button>
-        </div>
-
-      </div>
-
-      <div className='fish_origin'>
-        <div className="origin_buttons">
-        <button onClick={handleSubmit}>제출하기</button>
-        </div>
-      </div>
-    </>
-  )
-}
+               {/* 제출하기 버튼 */}
+               <div className="submit_button">
+                 <button onClick={handleSubmit}>제출하기</button>
+               </div>
+             </>
+           );
+         }
 
 export default StroeItemAdd;
