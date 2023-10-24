@@ -3,8 +3,14 @@ import React, { useState, useEffect } from 'react';
 import { Form, Card, Button } from 'react-bootstrap';
 import { json, useNavigate } from 'react-router-dom';
 import axios, { formToJSON } from 'axios';
-import { sendAxiosRequest, addEventToElements, removeEventToElements } from '../utility/common';
+import {
+  sendAxiosRequest,
+  addEventToElements,
+  removeEventToElements,
+  isTokenExpired, getAccessToken, isNullUndefinedOrEmpty, isNotNullOrNonEmpty
+} from '../utility/common';
 import { useUser } from '../Auth/UserContext';
+import jwtDecode from "jwt-decode";
 
 function formatNumber(number) {
   return number.toLocaleString();
@@ -78,33 +84,36 @@ function updateOriginStatus() {
 }
 
 
-function insertSidp() {
+function insertSidp(tokenMember) {
   let form = document.getElementById('sidpForm');
   let formData = new FormData(form);
   let jsonObj = formToJSON(formData);
   jsonObj.dailyPrice = formatNumber(jsonObj.dailyPrice).replaceAll(',', '');
   console.log('jsonObj: ', jsonObj);
   sendAxiosRequest('api/sidp/add', 'POST', jsonObj, response => {
-    let sidp = response.data
-    if (sidp) {
-      console.log('sidp: ', sidp);
+    if (isNotNullOrNonEmpty(response.data)) {
+      console.log('response.data: ', response.data);
       alert('품목 시세를 성공적으로 등록하였습니다.');
+      window.location.reload();
+    } else {
+      alert('품목 등록에 실패하였습니다. 잠시후 다시 시도해주세요!');
     }
-  }, erorr => console.log(console.log(erorr)));
+
+
+  }, erorr => console.log(console.log(erorr)), null, tokenMember);
 }
 
 
 
 
-function StoreItemRegister(props) {
-  const { user, login, logout } = useUser();
-  const [loginUser] = useState(props.loginUser);
+function StoreItemRegister() {
+  const [tokenMember] = useState(getAccessToken('a'));
   const [dailyPrice, setDailyPrice] = useState(''); // 사용자 입력을 저장할 상태
-  const [minPrice] = useState(1000); // 최소가격
+  const [minPrice] = useState(0); // 최소가격
   const [maxPrice] = useState(1000000); // 최대가격
   const [store] = useState(1);
 
-  console.log('user: ', user);
+  console.log('tokenMember: ', tokenMember);
 
   function handleDailyPriceChange(event) {
     let inputNumber = parseInt(event.target.value.replace(/,/g, ''), 10);
@@ -113,9 +122,9 @@ function StoreItemRegister(props) {
     if (isNaN(inputNumber) || inputNumber < minPrice) {
       inputNumber = minPrice;
     } else if (inputNumber > maxPrice) {
-      inputNumber = maxPrice;
+      alert('입력 가능한 최대 가격을 초과하였습니다!')
+      inputNumber = '';
     }
-
     setDailyPrice(formatNumber(inputNumber));
   }
   // useEffect 내에서 updateItemNames를 호출
@@ -228,7 +237,7 @@ function StoreItemRegister(props) {
             </tr>
           </tbody>
         </table>
-        <button type="button" className='ba-btn ba-margin-tb50' onClick={insertSidp}>품목시세 등록</button>
+        <button type="button" className='ba-btn ba-margin-tb50' onClick={() => insertSidp(tokenMember)}>품목시세 등록</button>
       </form>
     </div >
 

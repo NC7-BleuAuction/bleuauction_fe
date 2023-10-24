@@ -6,6 +6,7 @@ import Chat from '../Chat/Chat';
 import OS from '../OS/OS';
 
 function SideBar() {
+
     const [isRaysModalOpen, setIsRaysModalOpen] = useState(false);
     const [isChatModalOpen, setIsChatModalOpen] = useState(false);
     const [scrollPosition, setScrollPosition] = useState(window.pageYOffset);

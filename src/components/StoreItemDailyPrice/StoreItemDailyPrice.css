@@ -41,10 +41,6 @@
 }
 
 
-.price-list {
-  margin: 20px;
-}
-
 .price-list table {
   width: 100%;
   border-collapse: collapse;
@@ -83,6 +79,9 @@
 }
 
 */
+
+.ba-price-list-div {}
+
 
 .controlsQuickFilter {
   margin: 0;
