@@ -5,14 +5,16 @@ import OrderItem from './OrderItem';
 import { sendAxiosRequest } from '../utility/common';
 import Payment from '../Pay/Pay';
 import { formToJSON } from 'axios';
+import axios from 'axios';
 
 const OrderModal = ({ store, menus, isOpen, onClose, setMenuData }) => {
 
   
 const {user, login, logout} = useUser();
+const accessToken = sessionStorage.getItem('accessToken');
 
 const [order, setOrder] = useState({
-  orderType:'Q',
+  orderType: "Q",
   orderPrice:0,
   orderRequest:'',
   recipientPhone:'',
@@ -57,6 +59,12 @@ const [order, setOrder] = useState({
     }));
   };
 
+  const handleOrderPrice = (totalPrice) => {
+    setOrder({
+      ...order, orderPrice: totalPrice
+    })
+  }
+
 
   // order, orderMenu 생성 및 결제 진행
   const handleOrder = (event) => {
@@ -79,26 +87,34 @@ const [order, setOrder] = useState({
     
     setOrderMenus(totalOrders)
 
+    handleOrderPrice(totalPrice)
 
-
-    setOrder({
-      ...order, orderPrice: totalPrice
-    })
 
     // console.log(orderMenus)
     // console.log(typeof(orderMenus[0].menuNo))
 
 
     // 주문 생성
-    sendAxiosRequest('/api/order/new', 'POST', order, response => {
-      if (response.data && response.data.length > 0) {
-        console.log("주문 생성에 성공했습니다:", response.data);
-      }
-    }, error => {
-      console.error("주문 생성에 실패했습니다:", error);
-    });
+    console.log('order=>>>>>>>>>>>>>>>>>>>>>>', order);
+    // sendAxiosRequest('/api/order/new', 'POST', order, response => {
+    //   if (response.data && response.data.length > 0) {
+    //     console.log("주문 생성에 성공했습니다:", response.data);
+    //     console.log('order=> : ', order);
+    //     console.log(typeof(order.orderType))
 
-    
+    //   }
+    // }, error => {
+    //   console.error("주문 생성에 실패했습니다:", error);
+    // }, null, "UA");
+
+    axios.post('/api/order/new')
+      .then(response => console.log("주문 생성에 성공했습니다:", response.data))
+      .catch(error => console.log(error));
+        
+    handleOrderMenu()
+  }
+
+  const handleOrderMenu = () => {
     //주문 메뉴 추가 생성
     setTimeout(() => {
       orderMenus.map((orderMenu) => {
@@ -112,12 +128,9 @@ const [order, setOrder] = useState({
           }
         }, error => {
           console.error("주문메뉴 생성에 실패했습니다:", error);
-        });
+        }, null, accessToken);
       })
     }, 6000);
-
-    
-    
   }
 
 
@@ -168,8 +181,8 @@ const [order, setOrder] = useState({
                 <input
                   type="radio"
                   name="orderType"
-                  value='Q'
-                  checked={order.orderType === 'Q'}
+                  value="Q"
+                  checked={order.orderType === "Q"}
                   onChange={handleInputChange}
                 />
                 퀵배송
@@ -178,8 +191,8 @@ const [order, setOrder] = useState({
                 <input
                   type="radio"
                   name="orderType"
-                  value='T'
-                  checked={order.orderType === 'T'}
+                  value="T"
+                  checked={order.orderType === "T"}
                   onChange={handleInputChange}
                 />
                 포장

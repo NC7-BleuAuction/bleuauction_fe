@@ -145,7 +145,7 @@ export function sendAxiosRequest(url, method, data, successCallback, errorCallba
 }
 
 
-export function sendAxiosMultipartRequest(url, formData, successCallback, errorCallback) {
+export function sendAxiosMultipartRequest(url, formData, successCallback, errorCallback, jwtToken) {
   console.log('sendAxiosMultipartRequest의 요청 URL: ', url);
   console.log('sendAxiosMultipartRequest의 요청 데이터: ', formData);
   const axiosConfig = {
@@ -154,6 +154,23 @@ export function sendAxiosMultipartRequest(url, formData, successCallback, errorC
     method: 'POST',
     data: formData,
     headers: {
+      'Authorization': jwtToken !== 'UA' ? `Bearer ${jwtToken}` : 'UA',
+      'Content-Type': 'multipart/form-data',
+    }
+  };
+  axios(axiosConfig).then(successCallback).catch(errorCallback);
+}
+
+export function putsendAxiosMultipartRequest(url, formData, successCallback, errorCallback, jwtToken) {
+  console.log('sendAxiosMultipartRequest의 요청 URL: ', url);
+  console.log('sendAxiosMultipartRequest의 요청 데이터: ', formData);
+  const axiosConfig = {
+    timeout: 5000,
+    url: url,
+    method: 'PUT',
+    data: formData,
+    headers: {
+      'Authorization': jwtToken !== 'UA' ? `Bearer ${jwtToken}` : 'UA',
       'Content-Type': 'multipart/form-data',
     }
   };
