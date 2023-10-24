@@ -4,9 +4,9 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { sendAxiosRequest } from '../utility/common';
 
-const accessToken = sessionStorage.getItem('accessToken');
 
 function AdminNoticeDetail() {
+  const accessToken = sessionStorage.getItem('accessToken');
   const { noticeNo } = useParams();
   const [editedTitle, setEditedTitle] = useState('');
   const [editedContent, setEditedContent] = useState('');
@@ -38,15 +38,15 @@ function AdminNoticeDetail() {
     sendAxiosRequest(`/api/notice/update/${noticeNo}`, 'POST', formData, response => {
       console.log('응답값:', response.data);
       alert('공지사항이 수정 되었습니다.');
-      navigate('/admin/notice/list');
     },
-      error => {
-        console.error('API 호출 중 에러 발생: ', error);
-        alert('공지사항 수정 실패하셨습니다!');
-      },
-      null,
-      accessToken
+    error => {
+      console.error('API 호출 중 에러 발생: ', error);
+      alert('공지사항 수정 실패하셨습니다!');
+    },
+    null,
+    accessToken
     );
+    navigate('/admin/notice/list');
   };
 
   if (notice === null) {

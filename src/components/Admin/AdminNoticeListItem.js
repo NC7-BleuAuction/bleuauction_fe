@@ -5,9 +5,9 @@ import { Link } from 'react-router-dom';
 import { sendAxiosRequest } from '../utility/common';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const accessToken = sessionStorage.getItem('accessToken');
 
 function AdminNoticeListItem() {
+  const accessToken = sessionStorage.getItem('accessToken');
   const [notices, setNotices] = useState([]);
 
   useEffect(() => {

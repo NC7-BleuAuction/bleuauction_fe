@@ -33,8 +33,9 @@ function OrderItem({ key, menu, orderMenu, update }) {
     <div className='order-item-box'>
       
       <div style={{overflow:'hidden'}}>
-        <img src={`https:kr.object.ncloudstorage.com/bleuauction-bucket/menu/${menu.menuAttaches[0].saveFilename}`}
-              alt={menu.menuAttaches[0].originFilename}/>
+        {/* // <img src={`https:kr.object.ncloudstorage.com/bleuauction-bucket/menu/${menu.menuAttaches[0].saveFilename}`} */}
+        {/* alt={menu.menuAttaches[0].originFilename}/> */}
+        <img src='/images/fish1.jpg'/>
       </div>
 
       <div>
