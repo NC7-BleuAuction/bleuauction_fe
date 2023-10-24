@@ -2,13 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-// import { sendAxiosMultipartRequest, sendAxiosRequest } from '../utility/common';
-import { useLocation } from 'react-router-dom';
+import { sendAxiosRequest } from '../utility/common';
 
 
 function MenuDetail() {
-
-
+  const accessToken = sessionStorage.getItem('accessToken');
   const { menuNo } = useParams();
   const [editedName, setEditedName] = useState('');
   const [editedSize, setEditedSize] = useState('');
@@ -21,6 +19,11 @@ console.log('보내기 전 menuNo 확인:', menuNo);
 
 
   useEffect(() => {
+    if (!menuNo) {
+      console.error('menuNo가 정의되지 않았습니다. URL을 확인해주세요.');
+      // 필요한 경우 추가적인 오류 처리를 수행할 수 있습니다.
+      return;
+    }
       axios.get(`/api/menu/detail/${menuNo}`)
       .then(response => {
 
@@ -46,13 +49,18 @@ console.log('보내기 전 menuNo 확인:', menuNo);
     formData.append('menuContent', editedContent);
     formData.append('menuNo',menuNo);
 
-    axios.post(`/api/menu/update/${menuNo}`, formData)
-      .then(response => {
-        console.log("Menu updated successfully: ", response.data);
-        alert('메뉴가 수정 되었습니다.');
-        navigate('/menuEdit');
-      })
-      .catch(error => console.error("Failed to update notice: ", error));
+    sendAxiosRequest(`/api/menu/update/${menuNo}`,  'POST', formData, response => {
+      console.log('응답값:', response.data);
+      alert('메뉴가 수정 되었습니다.');
+      navigate('/menuEdit');
+    },
+      error => {
+        console.error('API 호출 중 에러 발생: ', error);
+        alert('메뉴 수정 실패하셨습니다!');
+      },
+      null,
+      accessToken 
+    )
   };
 
   if (menu === null) {

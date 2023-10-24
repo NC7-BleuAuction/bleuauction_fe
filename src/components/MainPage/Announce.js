@@ -19,11 +19,10 @@ function Announce() {
 
   const location = useLocation();
   const images = location.pathname !== '/store/list' ? [
-    "/images/11ad1.png",
-    "/images/11ad2.png",
-    "/images/11ad3.png",
-    "/images/11ad4.png",
-    "/images/11ad5.png",
+    "/images/11ad8.png",
+    "/images/11ad9.png",
+    "/images/11ad6.png",
+    "/images/11ad7.png",
     "https://www.youtube.com/watch?v=BTsODTH2SRk" // Add the video URL here
   ] : [
     "/images/login.png"

@@ -15,6 +15,8 @@ function MenuRegisterationForm() {
   });
 
   const [previewImage, setPreviewImage] = useState(null); // 이미지 미리보기 URL
+  const accessToken = sessionStorage.getItem('accessToken');
+
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -43,64 +45,24 @@ function MenuRegisterationForm() {
     e.preventDefault();
 
     let formData = new FormData(e.target);
-    let formObj = formToJSON(formData);
-    sendAxiosRequest('/api/menu/new', 'POST', formObj, response => {
+    // let formObj = formToJSON(formData);
+    sendAxiosRequest('/api/menu/new', 'POST', formData, response => {
       console.log('메뉴 응답값:', response.data);
       alert('메뉴등록에 성공하셨습니다!');
-      navigate('/');
+      navigate('/menuEdit');
     },
       error => {
         console.error('API 호출 중 에러 발생: ', error);
         alert('메뉴등록에 실패하셨습니다!');
-      }
+      },
+      null,
+      accessToken 
     )
   };
 
   return (
-    // <div className="container">
-    //   <form onSubmit={handleSubmit} className="form">
-    //   <h2>메뉴 등록</h2>
-    //     <div>
-    //       <label>메뉴 이미지:</label>
-    //       <input className="input" type="file" onChange={handleImageChange} />
-    //       {previewImage && (
-    //         <div>
-    //           <h3>이미지 미리보기:</h3>
-    //           <img src={previewImage} alt="미리보기" style={{ height: '100px' }} /> {/* 미리보기 이미지 크기는 조절 가능 */}
-    //         </div>
-    //       )}
-    //     </div>
-    //     <div>
-    //       <label>메뉴 이름:</label>
-    //       <input className="input" type="text" name="menuName" value={menu.menuName} onChange={handleChange} />
-    //     </div>
-    //     <div>
-    //       <label>메뉴 사이즈:</label>
-    //       <select 
-    //         name="menuSize" 
-    //         value={menu.menuSize} 
-    //         onChange={handleChange} 
-    //         className="input"
-    //       >
-    //         <option value="">-- 선택 --</option>
-    //         <option value="S">소 (S)</option>
-    //         <option value="M">중 (M)</option>
-    //         <option value="L">대 (L)</option>
-    //       </select>        
-    //       </div>
-    //     <div>
-    //       <label>메뉴 가격:</label>
-    //       <input className="input" type="number" name="menuPrice" value={menu.menuPrice} onChange={handleChange} />
-    //     </div>
-    //     <div>
-    //       <label>메뉴 설명:</label>
-    //       <textarea name="menuContent" value={menu.menuContent} onChange={handleChange} />
-    //     </div>
-    //     <button type="submit" className="submitButton">메뉴 등록</button>
-    //   </form>
-    // </div>
     <div class="container">
-    <form action="/submit-menu" method="post" enctype="multipart/form-data" class="form"> 
+    <form onSubmit={handleSubmit} method="post" enctype="multipart/form-data" class="form"> 
         <h2>메뉴 등록</h2>
         
         <div class="input-group">

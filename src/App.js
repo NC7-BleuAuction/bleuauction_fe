@@ -39,6 +39,7 @@ import OrderMenuList from './components/MyPage/OrderMenuList';
 import StoreOrder from './components/MyPage/StoreOrder';
 import MenuDetail from './components/MyPage/MenuDetail';
 import StoreEditPage from './components/MyPage/StoreEdit';
+import MyOrderContent from './components/MyPage/MyOrderContent';
 
 
 function App() {
@@ -115,7 +116,7 @@ function RoutingComponent() {
         <Route path="/StoreItemAdd" element={<StoreItemAdd />} />
         <Route path="/pay" element={<Payment />} />
         <Route path="/StoreInfoDetail" element={<StoreInfoDetail />} />
-        <Route path="/menuDetail" element={<MenuDetail />} />
+        <Route path="/menuDetail/:menuNo" element={<MenuDetail />} />
         <Route path="/admin/notice/register" element={<NoticeRegisterationForm />} />
         <Route path="/admin/notice/list" element={<AdminNoticeList />} />
         <Route path="/admin/notice/detail/:noticeNo" element={<AdminNoticeDetail />} />

@@ -2,39 +2,53 @@ import React, { useState } from 'react';
 // import { Form, Card, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import axios, { formToJSON } from 'axios';
-
+import { sendAxiosRequest } from '../utility/common';
 
 
 function StoreRegisterPage() {
 
+  const accessToken = sessionStorage.getItem('accessToken');
+
 
   const navigate = useNavigate();
-  const handleSubmit = async (e) => {
+  const handleSubmit =  (e) => {
     e.preventDefault();
     console.log(e.target);
     let formData = new FormData(e.target);
 
-    let jsonObj = formToJSON(formData);
+    // let jsonObj = formToJSON(formData);
 
-    console.log(jsonObj);
+    // console.log(jsonObj);
 
     // POST 요청 생성
-    axios.post('/api/store/signup', jsonObj, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(response => {
-        // 성공적으로 서버에서 응답을 받은 경우의 처리
-        console.log('등록된 가게 정보:', response.data);
-        alert('가게 등록 성공!')
-        navigate('/mypage');
+    // axios.post('/api/store/signup', jsonObj, {
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   }
+    // })
+    //   .then(response => {
+    //     // 성공적으로 서버에서 응답을 받은 경우의 처리
+    //     console.log('등록된 가게 정보:', response.data);
+    //     alert('가게 등록 성공!')
+    //     navigate('/mypage');
 
-      })
-      .catch(error => {
-        // 오류가 발생한 경우의 처리
-        console.error('에러 발생:', error);
-      });
+    //   })
+    //   .catch(error => {
+    //     // 오류가 발생한 경우의 처리
+    //     console.error('에러 발생:', error);
+    //   });
+    sendAxiosRequest(`/api/store/signup`, 'POST', formData, response => {
+      console.log('메뉴 응답값:', response.data);
+      alert('가게등록에 성공하셨습니다!');
+      navigate('/mypage');
+    },
+      error => {
+        console.error('API 호출 중 에러 발생: ', error);
+        alert('가게등록에 실패하셨습니다!');
+      },
+      null,
+      accessToken 
+    )
 
   };
 
