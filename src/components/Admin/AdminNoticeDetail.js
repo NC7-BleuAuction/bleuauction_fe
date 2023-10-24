@@ -12,6 +12,9 @@ function AdminNoticeDetail() {
   const [editedContent, setEditedContent] = useState('');
   const [notice, setNotice] = useState(null);
 
+  console.log('보내기 전 noticeNo 확인:', noticeNo);
+
+
   useEffect(() => {
     axios.get(`/api/notice/detail/${noticeNo}`)
       .then(response => {
@@ -22,6 +25,7 @@ function AdminNoticeDetail() {
       .catch(error => console.log(error));
   }, [noticeNo]);
 
+
   const navigate = useNavigate();
 
   const handleUpdateNotice = () => {
@@ -30,18 +34,15 @@ function AdminNoticeDetail() {
     formData.append('noticeContent', editedContent);
     formData.append('noticeNo', noticeNo);
 
-    sendAxiosRequest(
-      `/api/notice/update/${noticeNo}`,
-      'POST',
-      formData,
-      (response) => {
-        console.log('응답값:', response.data);
-        alert('공지사항이 수정 되었습니다.');
-        navigate('/admin/notice/list');
-      },
-      (error) => {
+
+    sendAxiosRequest(`/api/notice/update/${noticeNo}`, 'POST', formData, response => {
+      console.log('응답값:', response.data);
+      alert('공지사항이 수정 되었습니다.');
+      navigate('/admin/notice/list');
+    },
+      error => {
         console.error('API 호출 중 에러 발생: ', error);
-        alert('공지사항 수정에 실패하셨습니다!');
+        alert('공지사항 수정 실패하셨습니다!');
       },
       null,
       accessToken

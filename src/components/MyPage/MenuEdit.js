@@ -55,24 +55,14 @@ function MenuEdit() {
   }, []); // 의존성 배열이 비어 있으므로 컴포넌트가 마운트될 때 한 번만 실행됩니다.
 
 
-  // const handleDeleteMenu = (menuNo) => {
-  //   axios.post(`/api/menu/delete/${menuNo}`,)
-  //     .then(() => {
-  //       alert('메뉴가 삭제 되었습니다.');
-  //       console.log("menuData:",menuData);
-  //       setMenuData(menuData.filter(menu => menu.menuNo !== menuNo)); // 삭제 후 상태 업데이트
-  //     })
-  //     .catch(error => {
-  //       console.error("Error deleting menu: ", error);
-  //     });
-  // };
-
   const handleDeleteMenu = (menuNo) => {
-    sendAxiosRequest(`/api/menu/delete/${menuNo}`, 'GET', null, response => {
+    sendAxiosRequest(`/api/menu/delete/${menuNo}`, 'POST', null, response => {
       console.log('Data fetched successfully:', response.data);
+      alert('메뉴가 삭제 되었습니다.');
       setMenuData(menuData.filter(menu => menu.menuNo !== menuNo));
     }, error => {
       console.error("Error deleting user's menus:", error);
+      alert('메뉴 삭제에 실패하였습니다.');
     }, null, accessToken);
 
   };
@@ -98,14 +88,19 @@ const renderMenus = menuData.map((menu, index)  => (
     <p className="menu-detail">내용: {menu.menuContent}</p>
     <div  className="menu-actions">
       <button  className="delete-button" onClick={() => handleDeleteMenu(menu.menuNo)}>삭제</button>
-      <Link 
+      {/* <Link 
         to={{
           pathname: "/MenuDetail", // 수정할 메뉴의 상세 정보 페이지 경로
           state: { detailMenu: menu } // 현재 메뉴의 데이터
         }}
       >      
       <button className="edit-button">수정하기</button>
-    </Link>
+    </Link> */}
+
+<Link className="text-ellipsis" to={`/menuDetail/${menu && menu.menuNo}`} style={{ color: '#909090' }}>
+                {menu && menu.menuName}
+                </Link>
+
       {/* 추가적인 액션 버튼들이 위치할 수 있습니다. */}
     </div>
   </div>
