@@ -4,16 +4,19 @@ import MenuList from '../Menu/MenuList';
 import StoreInfoDetail from './StoreInfoDetail';
 import Button from '../MainPage/Button';
 import StoreInfo from './StoreInfo';
-import ReviewSection from '../Review/ReviewSection';
+import ReviewForm from '../Review/ReviewForm';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { sendAxiosRequest } from '../utility/common';
+import {getAccessToken, sendAxiosRequest} from '../utility/common';
 import { MenuItem } from '@mui/material';
 import OrderModal from './OrderModal';
 import { useUser } from '../Auth/UserContext';
+import jwtDecode from "jwt-decode";
 
 
 function MarketDetailPage() {
+  let acc = sessionStorage.getItem('accessToken');
+  jwtDecode(acc);
 
   const [activeTab, setActiveTab] = useState('info');
   const [modal, setModal] = useState(false);
@@ -76,7 +79,6 @@ function MarketDetailPage() {
     setModal(false);
   };
 
-
   return (
     <div>
       <div style={infoContainerStyle}>
@@ -89,7 +91,7 @@ function MarketDetailPage() {
       </div>
       {activeTab === 'info' && <StoreInfoDetail storeDetail={storeDetail}/>}
       {activeTab === 'menu' && <MenuList menus={menuData}/>}
-      {activeTab === 'review' && <ReviewSection />}
+      {activeTab === 'review' && <ReviewForm  store={store}/>}
     </div>
 
   );

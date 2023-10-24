@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import './StoreItemDailyPrice.css';
-import { sendAxiosRequest, accessTokenRefresh, refreshTokenInvalid, isTokenExpired, getAccessToken, isNullUndefinedOrEmpty } from '../utility/common';
+import { sendAxiosRequest, accessTokenRefresh, redirectLogin, isTokenExpired, getAccessToken, isNullUndefinedOrEmpty } from '../utility/common';
 
 // handsontable라이브러리 관련 import
 import 'handsontable/dist/handsontable.full.min.css';
@@ -82,7 +82,7 @@ function StoreItemDailyPrice() {
 
 
   useEffect(() => {
-    if (!isTokenExpired(accessToken)) {   // AccessToken이 있을 때만 요청 
+    if (!isTokenExpired(accessToken)) {   // AccessToken이 있을 때만 요청
       sendAxiosRequest('/api/sidp/list', 'GET', null, response => {
         if (response.data) {
           let sidpList = response.data;
@@ -102,7 +102,7 @@ function StoreItemDailyPrice() {
           if (errorData === 'E') { // 토큰이 있으나 만료
             accessTokenRefresh();
           } else if (errorData === 'I') { // 토큰이 아예없거나 유효하지 않은 토큰
-            refreshTokenInvalid();
+            redirectLogin();
           }
         }
       }, null, accessToken);
