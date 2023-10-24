@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Carousel } from 'react-bootstrap';
 import { useLocation } from 'react-router-dom';
+import ReactPlayer from 'react-player';
 
 function Announce() {
   const carouselContainer = {
@@ -13,50 +14,36 @@ function Announce() {
     margin: '0 auto',
     borderRadius: '30px',
     overflow: 'hidden',
-    boxShadow: '0px 0px 5px 20px #0067A3', // 푸른색 그림자 효과
-    backgroundColor: '#0067A3', // 파란색 배경
+    boxShadow: '0px 0px 5px 20px #0067A3',
+    backgroundColor: '#0067A3',
   };
 
   const location = useLocation();
-  const content = location.pathname !== '/store/list' ? (
-    <img src="/images/storeimage.png" alt="슬라이드 1" />
-  ) : (
-    <img src="/images/login.png" />
-  );
+  const images = location.pathname !== '/store/list' ? [
+    "/images/11ad1.png",
+    "/images/11ad2.png",
+    "/images/11ad3.png",
+    "/images/11ad4.png",
+    "/images/11ad5.png",
+    "https://www.youtube.com/watch?v=BTsODTH2SRk" // Add the video URL here
+  ] : [
+    "/images/login.png"
+  ];
 
   return (
     <div style={carouselContainer}>
       <Carousel>
-        {/* 슬라이드 이미지 */}
-        <Carousel.Item id={styles.carousel}>
-          {content}
-
-          <Carousel.Caption>
-            <h3>꽃소녀</h3>
-            <p>김철수 作</p>
-          </Carousel.Caption>
-        </Carousel.Item>
-        <Carousel.Item id={styles.carousel}>
-          {content}
-          <Carousel.Caption>
-            <h3>형형색색</h3>
-            <p>이숙자 作</p>
-          </Carousel.Caption>
-        </Carousel.Item>
-        <Carousel.Item id={styles.carousel}>
-          {content}
-          <Carousel.Caption>
-            <h3>분홍</h3>
-            <p>Robert Park 作</p>
-          </Carousel.Caption>
-        </Carousel.Item>
-        <Carousel.Item id={styles.carousel}>
-          {content}
-          <Carousel.Caption>
-            <h3>두꺼운 터치</h3>
-            <p>Thomas Lee 作</p>
-          </Carousel.Caption>
-        </Carousel.Item>
+        {images.map((image, index) => (
+          <Carousel.Item key={index} id={styles.carousel}>
+            {index === images.length - 1 ? (
+              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+                <ReactPlayer url={image} playing style={{ margin: 'auto' }} />
+              </div>
+            ) : (
+              <img src={image} alt={`슬라이드 ${index + 1}`} />
+            )}
+          </Carousel.Item>
+        ))}
       </Carousel>
       <div>쿠폰div</div>
     </div>
