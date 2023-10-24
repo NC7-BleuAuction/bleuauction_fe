@@ -1,5 +1,6 @@
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
+import { isValidDateValue } from "@testing-library/user-event/dist/utils";
 
 export const mainUrl = 'http://localhost:3000';
 
@@ -14,7 +15,6 @@ export function isTokenExpired(token) {
 }
 
 
-
 export function isNullUndefinedOrEmpty(value) {
   const valueStr = value + '';
   if (valueStr === 'null' || value === 'undefined' || /^\s*$/.test(valueStr)) {
@@ -24,7 +24,7 @@ export function isNullUndefinedOrEmpty(value) {
 }
 
 
-export function refreshTokenInvalid() {
+export function redirectLogin() {
   alert('세션이 만료되어 재로그인이 필요합니다!');
   window.location.href = '/login';
 }
@@ -34,7 +34,7 @@ export function accessTokenRefresh() {
   console.log('accessTokenRefresh() => refreshToken:', refreshToken);
 
   if (!isNullUndefinedOrEmpty(refreshToken)) {
-    refreshTokenInvalid();
+    redirectLogin();
   }
 
   // 서버로 리프레시 토큰을 사용하여 새 액세스 토큰을 요청
@@ -43,14 +43,14 @@ export function accessTokenRefresh() {
       console.log('/api/member/accTokRefresh => response: ', response);
       const newAccessToken = response.data.accessToken;
       if (!isNullUndefinedOrEmpty(newAccessToken)) {
-        refreshTokenInvalid();
+        redirectLogin();
         return;
       }
       sessionStorage.setItem('accessToken', newAccessToken);
       console.log('refreshToken으로 accessToken 재발급 완료! =>');
     })
     .catch(error => {
-      refreshTokenInvalid();
+      redirectLogin();
     });
 }
 

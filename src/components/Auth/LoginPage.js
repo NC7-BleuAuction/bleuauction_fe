@@ -22,6 +22,7 @@ const defaultTheme = createTheme();
 
 function LoginPage() {
   const navigate = useNavigate();
+  const {user, login} = useUser();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -33,11 +34,14 @@ function LoginPage() {
     };
 
     sendAxiosRequest('/api/member/login', 'POST', loginRequest, response => {
-      const tokenList = response.data;
-      if (tokenList) {
+      const repDataList = response.data;
+      console.log('repDataList',repDataList);
+
+      if (repDataList) {
         const accessToken = response.data.accessToken;
         const refreshToken = response.data.refreshToken;
-
+        const loginUser = response.data.loginUser;
+        login(loginUser);
         if (!isTokenExpired(accessToken) && !isTokenExpired(refreshToken)) {
           sessionStorage.setItem('accessToken', accessToken);
           localStorage.setItem('refreshToken', refreshToken);

@@ -5,11 +5,19 @@ import { isOpenNow, sendAxiosRequest, isTokenExpired } from '../utility/common';
 import jwtDecode from 'jwt-decode';
 
 function MyPage() {
+  // 사용자 정보를 상태 혹은 API로부터 불러오기.
+  // 예시
+  // const user = {
+  //   name: 'Rose',
+  //   email: 'rose@example.com',
+  //   accountType: 'personal', // or 'business'
+  //   profilePicture: '/images/rose.png',
+  // };
+
   const defaultImage = '/images/rose.png';
 
   const accessToken = sessionStorage.getItem('accessToken');
   const tokenMember = isTokenExpired(accessToken) ? null : jwtDecode(accessToken);
-
 
   const outerContainerStyle = {
     display: 'flex',
@@ -96,7 +104,15 @@ function MyPage() {
         <Link to="/useredit" style={styles.link}>회원정보 수정</Link>
       </div>
       <div style={styles.linkContainer}>
-        <Link to="/storeItemRegister" style={styles.link}>등록상품관리</Link>
+          <Link
+            to= "/menuEdit"
+            style={styles.link}
+          >
+            메뉴 관리
+      </Link>
+      </div>
+        <div style={styles.linkContainer}>
+            <Link to="/" style={styles.link}>품목 관리</Link>
       </div>
       <div style={styles.linkContainer}>
         <Link to="/order-confirmation" style={styles.link}>주문확인</Link>
@@ -117,34 +133,35 @@ function MyPage() {
     </>
   );
 
-  if (tokenMember === null) {
-  return <div>권한없음...</div>; // 로딩 표시
+  if (member === null) {
+    return <div>Loading...</div>; // 로딩 표시
   } else {
     return (
       <div style={outerContainerStyle}>
         <div style={styles.container}>
           <div style={styles.profileSection}>
-            <img src={defaultImage} alt={tokenMember.memberName} style={styles.profilePicture} />
+            <img src={defaultImage} alt={member.memberName} style={styles.profilePicture} />
             <div style={styles.userInfo}>
-              <h2>{tokenMember.memberName}</h2>
-              <p> {tokenMember.memberCategory === 'M' ? '개인' :
-                  tokenMember.memberCategory === 'S' ? '비즈니스' :
-                      tokenMember.memberCategory === 'A' ? '관리자' : '기타'}
+              <h2>{member.memberName}</h2>
+              <p> {member.memberCategory === 'M' ? '개인' :
+                member.memberCategory === 'S' ? '비즈니스' :
+                  member.memberCategory === 'A' ? '관리자' : '기타'}
                 계정</p>
-              <p>{tokenMember.memberEmail}</p>
+              <p>{member.memberEmail}</p>
             </div>
           </div>
 
           <div style={styles.linkSection}>
             {/* member.memberCategory 값에 따라 링크 섹션을 조건부로 렌더링합니다. */}
             {/* member.memberCategory 값에 따라 링크 섹션을 조건부로 렌더링합니다. */}
-            {tokenMember.memberCategory === 'M' ? personalLinks :
-                tokenMember.memberCategory === 'S' ? businessLinks :
-                    tokenMember.memberCategory === 'A' ? adminLinks : undefined}
+            {member.memberCategory === 'M' ? personalLinks :
+              member.memberCategory === 'S' ? businessLinks :
+                member.memberCategory === 'A' ? adminLinks : undefined}
           </div>
         </div>
       </div>
     );
   }
+
 }
 export default MyPage;

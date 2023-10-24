@@ -4,7 +4,7 @@ import Announce from '../components/MainPage/Announce';
 import StoreListItem from '../components/Market/StoreListItem';
 import StoreHome from '../components/StoreHome';
 import { Routes, Route } from 'react-router-dom';
-import { accessTokenRefresh, refreshTokenInvalid, isNullUndefinedOrEmpty, sendAxiosRequest } from '../components/utility/common';
+import { accessTokenRefresh, redirectLogin, isNullUndefinedOrEmpty, sendAxiosRequest } from '../components/utility/common';
 import { accordionSummaryClasses } from '@mui/material';
 
 function Home() {
@@ -38,7 +38,7 @@ function Home() {
   //           console.log('여기야');
   //           accessTokenRefresh();
   //         } else if (errorData === 'I') { // 토큰이 아예없거나 유효하지 않은 토큰
-  //           refreshTokenInvalid();
+  //           redirectLogin();
   //         }
   //       });
   //   }
