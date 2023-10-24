@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { sendAxiosRequest, sendAxiosMultipartRequest, getAccessToken } from '../utility/common';
+import { sendAxiosRequest, putsendAxiosMultipartRequest, getAccessToken, isTokenExpired } from '../utility/common';
 import axios from 'axios';
 import { formToJSON } from 'axios';
 import { useUser } from '../Auth/UserContext';
 import jwtDecode from 'jwt-decode';
-
 // 
 function StoreEditPage() {
   const defaultImage = '/images/rose.png';
@@ -12,57 +11,89 @@ function StoreEditPage() {
   const [currentImage, setCurrentImage] = useState(defaultImage);
   const [loginUser, setLoginUser] = useState(null);
   const accessToken = sessionStorage.getItem('accessToken');
-  const tokenMember = jwtDecode(accessToken);
- console.log("토큰멤버",tokenMember);
- 
 
-  // 메뉴 확인 테스트용
+ 
+  // useEffect(()=> {
+  //   const member = isTokenExpired(accessToken) ? null : jwtDecode(accessToken);
+  //   setLoginUser(member)
+  // }, [])
+  // console.log('토큰멤버번호: ',jwtDecode(accessToken).sub);
+  
+  
   useEffect(() => {
-    sendAxiosRequest('/api/menu/store', 'GET', tokenMember, (response) => {
+    sendAxiosRequest(`/api/member/${jwtDecode(accessToken).sub}`, 'GET', null, (response) => {
       console.log("응답 성공",response.data)
+      setLoginUser(response.data)
     }, (error) => {
       console.log("응답 실패",error);
     }, null, accessToken);
   }, []);
+  console.log('로그인유저: ',loginUser)
 
-  // useEffect(() => {
-  //   sendAxiosRequest('/api/store/loginCheck', 'GET', null, (response) => {
-  //     setLoginUser(response.data.loginUser);
-  //   }, (error) => {
-  //     console.log(error);
-  //   });
-  // }, []);
-
-  // useEffect(() => {
-  //   if (loginUser) {
-  //     sendAxiosRequest(`/api/store/detailByMember?member=${loginUser?.memberNo}`, 'GET', null, (res) => {
-  //       setStore(res.data);
-  //     }, (err) => {
-  //       console.error('Failed to fetch store details', err);
-  //     });
-  //   }
-  // }, [loginUser]);
+  useEffect(() => {
+    if (loginUser) {
+      sendAxiosRequest(`/api/store/detailByMember?member=${loginUser?.memberNo}`, 'GET', null, (res) => {
+        setStore(res.data);
+      }, (err) => {
+        console.error('Failed to fetch store details', err);
+      }, null, accessToken);
+    }
+  }, [loginUser]);
 
   function updateStore(e) {
     e.preventDefault();
-    let storeForm = new FormData(document.getElementById('storeForm'));
-
+    const data = new FormData();
+    let updateStoreRequest = new FormData(document.getElementById('storeForm'));
+    console.log('updateStoreRequest',formToJSON(updateStoreRequest))
     // 이미지 파일 추가 (있는 경우)
     const fileInput = document.getElementById('imageInput');
-    if (fileInput.files[0]) {
-      storeForm.append('profileImage', fileInput.files[0]);
-    }
+    // if (fileInput.files[0]) {
+    const profileImage = fileInput.files[0]
+    // updateStoreRequest.append('profileImage', profileImage)
+    // console.log(jwtDecode(accessToken).memberName)
+    updateStoreRequest.append('memberNo', loginUser.memberNo)
+    updateStoreRequest.append('memberName', loginUser.memberName)
+    updateStoreRequest.append('memberZipcode', loginUser.memberZipcode)
+    updateStoreRequest.append('memberAddr', loginUser.memberAddr)
+    updateStoreRequest.append('memberDetailAddr', loginUser.memberDetailAddr)
+    updateStoreRequest.append('memberPhone', loginUser.memberPhone)
+    updateStoreRequest.append('storeNo', store.storeNo)
 
-    console.log('formData: ', storeForm);
+    const jsonObject = {};
+    updateStoreRequest.forEach((value, key) => {
+      jsonObject[key] = value;
+    });
+    const jsonData = JSON.stringify(jsonObject);
+
+    data.append('updateStoreRequest', new Blob([jsonData], { type: 'application/json' }));
+    data.append('profileImage', profileImage);
+    // data.push(profileImage);
+    // data.push(formToJSON(updateStoreRequest));
+    console.log('보낼 데이터: ',formToJSON(data))
+    // }
+    // data.push(formToJSON(updateStoreRequest));
+
+    // sendAxiosRequest('/api/order/new', 'POST', order, response => {
+    //   if (response.data && response.data.length > 0) {
+    //     console.log("주문 생성에 성공했습니다:", response.data);
+    //     console.log('order=> : ', order);
+    //     console.log(typeof(order.orderType))
+
+    //   }
+    // }, error => {
+    //   console.error("주문 생성에 실패했습니다:", error);
+    // }, null, accessToken);
+
+    // console.log('formData: ', data);
     // Axios를 이용하여 멀티파트 폼 데이터를 서버로 전송합니다.
-    sendAxiosMultipartRequest('/api/store/update', formToJSON(storeForm), (response) => {
-      console.log("수정한 정보", formToJSON(storeForm))
-      console.log(response.data);
+    putsendAxiosMultipartRequest('/api/store/update', data, (response) => {
+      console.log("수정한 정보", formToJSON(updateStoreRequest))
+      // console.log(formToJSON(updateStoreRequest));
       // 성공적으로 업데이트된 경우에 수행할 작업을 추가하세요
     }, (error) => {
       console.error('가게 업데이트 중에 오류가 발생했습니다', error);
       // 오류 발생 시 처리를 추가하세요
-    }, null, accessToken);
+    }, accessToken);
   }
 
   const handleImageChange = (event) => {
