@@ -7,23 +7,26 @@ import { Carousel } from 'react-bootstrap';
 import { useLocation } from 'react-router-dom';
 
 function Announce() {
-  const carousel = {
+  const carouselContainer = {
     height: '400px',
     width: '60%',
     margin: '0 auto',
     borderRadius: '30px',
-    overflow: 'hidden'
-  }
+    overflow: 'hidden',
+    boxShadow: '0px 0px 5px 20px #0067A3', // 푸른색 그림자 효과
+    backgroundColor: '#0067A3', // 파란색 배경
+  };
 
   const location = useLocation();
-  const content = (location.pathname !== "/store/list") ? <img
-    src="/images/storeimage.png"
-    alt="슬라이드 1"
-  /> : <img src='/images/login.png' />;
+  const content = location.pathname !== '/store/list' ? (
+    <img src="/images/storeimage.png" alt="슬라이드 1" />
+  ) : (
+    <img src="/images/login.png" />
+  );
 
   return (
-    <div style={carousel}>
-      <Carousel >
+    <div style={carouselContainer}>
+      <Carousel>
         {/* 슬라이드 이미지 */}
         <Carousel.Item id={styles.carousel}>
           {content}
@@ -55,9 +58,7 @@ function Announce() {
           </Carousel.Caption>
         </Carousel.Item>
       </Carousel>
-      <div>
-        쿠폰div
-      </div>
+      <div>쿠폰div</div>
     </div>
   );
 }
