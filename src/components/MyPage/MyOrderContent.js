@@ -3,18 +3,27 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import styles from './MyOrderContent.module.css';
 import OrderMenuList from './OrderMenuList';
+import { sendAxiosRequest } from '../utility/common';
 
 
 function MyOrderContent() {
 
+  const accessToken = sessionStorage.getItem('accessToken');
   const [orders, setOrders] = useState([]);
 
-  useEffect(()=>{
-    axios.get('/api/order')
-    .then(response => setOrders(response.data))
-      .catch(error => console.log(error));
-    console.log(orders);
-  }, [])
+  useEffect(() => {
+    const successCallback = (response) => {
+      console.log('응답 데이터:', response.data);
+      setOrders(response.data);
+    };
+
+    const errorCallback = (error) => {
+      console.error('주문 정보를 가져오는 데 실패했습니다.', error);
+    };
+
+    // sendAxiosRequest 함수 호출
+    sendAxiosRequest('/api/order', 'GET', null, successCallback, errorCallback, null, accessToken);
+  }, []);
 
   // function onClick() {
   //   console.log(orders);
