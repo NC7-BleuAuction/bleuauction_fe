@@ -87,7 +87,7 @@ export function getAccessToken(encodingOrDecodingType) {
 
   const accessToken = sessionStorage.getItem('accessToken');
 
-  if (!isTokenExpired(accessToken)) { // 엑세스 토큰이 유효하면
+  if (isNullUndefinedOrEmpty(accessToken)) {
     if (encodingOrDecodingType === 'a') {
       return accessToken;
     } else if (encodingOrDecodingType === 'd') {
@@ -115,8 +115,6 @@ export function sendAxiosRequest(url, method, data, successCallback, errorCallba
     url: url,
     method: method,
   };
-
-  console.log('요청시 보내는 jwtToken 정보: ', isNullUndefinedOrEmpty(jwtToken));
 
   if (data) {
     if (contentType === 'application/json') {

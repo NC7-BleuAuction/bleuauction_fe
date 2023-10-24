@@ -3,17 +3,23 @@
   width: 100px;
   height: 300px;
   top: 20%;
-  right: 3%;
-  background-color: lightgray;
+  right: 5%;
+  background-color: #0067A3;
   display: grid;
   grid-template-rows: 1fr 1fr 1fr;
   place-items: center;
   border-radius: 20px;
+  opacity: 0.4;
 
+  transition: opacity 0.3s ease;
+}
+
+.sideBarBox:hover {
+  opacity: 1;
 }
 
 .sideBarBox a {
-  color: black;
+  color: white;
   font-size: 20px;
   font-weight: 550;
   text-decoration: none;
@@ -23,4 +29,5 @@
 
 .sideBarBox a:hover {
   transform: scale(1.1);
+  color: teal;
 }
