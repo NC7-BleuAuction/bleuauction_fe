@@ -15,8 +15,8 @@ import jwtDecode from "jwt-decode";
 
 
 function MarketDetailPage() {
-  let acc = sessionStorage.getItem('accessToken');
-  jwtDecode(acc);
+  const accessToken = sessionStorage.getItem('accessToken');
+  jwtDecode(accessToken);
 
   const [activeTab, setActiveTab] = useState('info');
   const [modal, setModal] = useState(false);
