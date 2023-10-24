@@ -1,23 +1,23 @@
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
-import {isValidDateValue} from "@testing-library/user-event/dist/utils";
+import { isValidDateValue } from "@testing-library/user-event/dist/utils";
 
 export const mainUrl = 'http://localhost:3000';
 
 export function isNotNullOrNonEmpty(value) {
-    if (value === null) {
-        return false;
-    }
+  if (value === null) {
+    return false;
+  }
 
-    if (Array.isArray(value)) {
-        return value.length > 0;
-    }
+  if (Array.isArray(value)) {
+    return value.length > 0;
+  }
 
-    if (typeof value === 'object') {
-        return Object.keys(value).length > 0;
-    }
+  if (typeof value === 'object') {
+    return Object.keys(value).length > 0;
+  }
 
-    return true;
+  return true;
 }
 
 /* 토큰 만료 체크 */
@@ -41,7 +41,7 @@ export function isNullUndefinedOrEmpty(value) {
 }
 
 
-export function refreshTokenInvalid() {
+export function redirectLogin() {
   alert('세션이 만료되어 재로그인이 필요합니다!');
   window.location.href = '/login';
 }
@@ -51,7 +51,7 @@ export function accessTokenRefresh() {
   console.log('accessTokenRefresh() => refreshToken:', refreshToken);
 
   if (!isNullUndefinedOrEmpty(refreshToken)) {
-    refreshTokenInvalid();
+    redirectLogin();
   }
 
   // 서버로 리프레시 토큰을 사용하여 새 액세스 토큰을 요청
@@ -60,14 +60,14 @@ export function accessTokenRefresh() {
       console.log('/api/member/accTokRefresh => response: ', response);
       const newAccessToken = response.data.accessToken;
       if (!isNullUndefinedOrEmpty(newAccessToken)) {
-        refreshTokenInvalid();
+        redirectLogin();
         return;
       }
       sessionStorage.setItem('accessToken', newAccessToken);
       console.log('refreshToken으로 accessToken 재발급 완료! =>');
     })
     .catch(error => {
-      refreshTokenInvalid();
+      redirectLogin();
     });
 }
 
@@ -75,12 +75,12 @@ export function accessTokenRefresh() {
 export function logout() {
   const isConfirmed = window.confirm('정말로 로그아웃 하시겠습니까?');
 
-    if (isConfirmed) {
-        sessionStorage.clear();
-        localStorage.clear();
-        alert('정상적으로 로그아웃 되었습니다!');
-        window.location.reload();
-    }
+  if (isConfirmed) {
+    sessionStorage.clear();
+    localStorage.clear();
+    alert('정상적으로 로그아웃 되었습니다!');
+    window.location.reload();
+  }
 }
 
 export function getAccessToken(encodingOrDecodingType) {
@@ -88,57 +88,57 @@ export function getAccessToken(encodingOrDecodingType) {
 
   const accessToken = sessionStorage.getItem('accessToken');
 
-    if (!isTokenExpired(accessToken)) { // 엑세스 토큰이 유효하면
-        if (encodingOrDecodingType === 'a') {
-            return accessToken;
-        } else if (encodingOrDecodingType === 'd') {
-            return jwtDecode(accessToken);
-        }
+  if (!isTokenExpired(accessToken)) { // 엑세스 토큰이 유효하면
+    if (encodingOrDecodingType === 'a') {
+      return accessToken;
+    } else if (encodingOrDecodingType === 'd') {
+      return jwtDecode(accessToken);
     }
+  }
 
-    return null;
+  return null;
 }
 
 export function getLoginUserInfo(decodedToken) {
-    if (decodedToken != null) {
-        const {sub, memberName, memberEmail} = decodedToken;
-        return {sub, memberName, memberEmail};
-    }
-    return null;
+  if (decodedToken != null) {
+    const { sub, memberName, memberEmail } = decodedToken;
+    return { sub, memberName, memberEmail };
+  }
+  return null;
 }
 
 export function sendAxiosRequest(url, method, data, successCallback, errorCallback, contentType, jwtToken) {
-    console.log('sendAxiosRequest의 요청 URL: ', url);
-    console.log('sendAxiosRequest의 요청 데이터: ', data);
+  console.log('sendAxiosRequest의 요청 URL: ', url);
+  console.log('sendAxiosRequest의 요청 데이터: ', data);
 
-    const axiosConfig = {
-        timeout: 5000,
-        url: url,
-        method: method,
-    };
+  const axiosConfig = {
+    timeout: 5000,
+    url: url,
+    method: method,
+  };
 
-    console.log('요청시 보내는 jwtToken 정보: ', isNullUndefinedOrEmpty(jwtToken));
+  console.log('요청시 보내는 jwtToken 정보: ', isNullUndefinedOrEmpty(jwtToken));
 
-    if (data) {
-        if (contentType === 'application/json') {
-            axiosConfig.headers = {
-                'Content-Type': contentType,
-                'Authorization': jwtToken !== 'UA' ? `Bearer ${jwtToken}` : 'UA',
-            };
-            // JSON 객체일시 문자열로 변환
-            axiosConfig.data = JSON.stringify(data);
-        } else {
-            axiosConfig.data = data;
-            axiosConfig.headers = {
-                'Authorization': jwtToken !== 'UA' ? `Bearer ${jwtToken}` : 'UA',
-            };
-        }
+  if (data) {
+    if (contentType === 'application/json') {
+      axiosConfig.headers = {
+        'Content-Type': contentType,
+        'Authorization': jwtToken !== 'UA' ? `Bearer ${jwtToken}` : 'UA',
+      };
+      // JSON 객체일시 문자열로 변환
+      axiosConfig.data = JSON.stringify(data);
     } else {
-        // 데이터가 없는 경우
-        axiosConfig.headers = {
-            'Authorization': jwtToken !== 'UA' ? `Bearer ${jwtToken}` : 'UA',
-        };
+      axiosConfig.data = data;
+      axiosConfig.headers = {
+        'Authorization': jwtToken !== 'UA' ? `Bearer ${jwtToken}` : 'UA',
+      };
     }
+  } else {
+    // 데이터가 없는 경우
+    axiosConfig.headers = {
+      'Authorization': jwtToken !== 'UA' ? `Bearer ${jwtToken}` : 'UA',
+    };
+  }
 
   console.log('sendAxiosRequest().axiosConfig: ', axiosConfig);
 
