@@ -10,6 +10,7 @@ function AdminNoticeList() {
 
   const [data, setData] = useState([]);
 
+
   useEffect(() => {
     axios.get('/api/notice')
       .then(response => setData(response.data))
