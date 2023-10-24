@@ -40,13 +40,13 @@ function MenuEdit() {
   
     // 토큰 디코딩
 
-        const tokenMember = jwt_decode(accessToken);
-        console.log("디코드된 토큰 정보 출력",tokenMember); // 디코드된 토큰 정보 출력
+        // const tokenMember = jwt_decode(accessToken);
+        // console.log("디코드된 토큰 정보 출력",tokenMember); // 디코드된 토큰 정보 출력
 
   
 
   useEffect(() => {
-    sendAxiosRequest(`/api/menu/store`, 'GET', tokenMember, response => {
+    sendAxiosRequest(`/api/menu/store`, 'GET', null, response => {
       console.log('응답 data:', response.data);
       setMenuData(response.data);
     }, error => {
