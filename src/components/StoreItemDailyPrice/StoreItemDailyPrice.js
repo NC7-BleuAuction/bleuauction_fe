@@ -82,7 +82,7 @@ function StoreItemDailyPrice() {
 
 
   useEffect(() => {
-    if (!isTokenExpired(accessToken)) {   // AccessToken이 있을 때만 요청 
+    if (!isTokenExpired(accessToken)) {   // AccessToken이 있을 때만 요청
       sendAxiosRequest('/api/sidp/list', 'GET', null, response => {
         if (response.data) {
           let sidpList = response.data;
