@@ -13,7 +13,7 @@ function Header() {
   const decodedAccToken = isTokenExpired(accessToken) ? null : jwtDecode(accessToken);
   const decodedRefToken = isTokenExpired(refreshToken) ? null : jwtDecode(refreshToken);
   const currentURL = window.location.href;
-  const [tokenMember, setTokenMember] = useState(null);
+  const [tokenMember, setTokenMember] = useState(accessToken);
 
   // console.log('Header.js => accessToken 디코딩값 : ', decodedAccToken);
   // console.log('Header.js => refreshToken 디코딩값 : ', decodedRefToken);
