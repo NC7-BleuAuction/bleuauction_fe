@@ -4,8 +4,6 @@ import axios, { formToJSON } from 'axios';
 import { sendAxiosRequest } from '../utility/common';
 import './MenuRegistrationForm.css';
 
-const accessToken = sessionStorage.getItem('accessToken');
-
 
 function MenuRegisterationForm() {
   const [menu, setMenu] = useState({
