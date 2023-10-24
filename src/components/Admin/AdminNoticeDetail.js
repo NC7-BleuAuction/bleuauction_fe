@@ -12,6 +12,8 @@ function AdminNoticeDetail() {
   const [editedContent, setEditedContent] = useState('');
   const [notice, setNotice] = useState(null);
 
+  console.log('보내기 전 noticeNo 확인:', noticeNo);
+
 
   useEffect(() => {
     axios.get(`/api/notice/detail/${noticeNo}`)
