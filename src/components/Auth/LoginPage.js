@@ -85,7 +85,7 @@ function LoginPage() {
           >
 
             <Typography component="h1" variant="h5">
-              안녕!
+              안녕하세요 블루옥션입니다.
             </Typography>
             <Box component="form" sx={{ mt: 1 }} noValidate onSubmit={handleSubmit}>
               <TextField
@@ -127,24 +127,30 @@ function LoginPage() {
                 sx={{
                   mt: 3,
                   mb: 2,
+                  height: '40px', // 원하는 높이로 설정
+                  width: '100%', // LOGIN 버튼과 동일한 너비로 설정
                   borderRadius: '30px',
-                  backgroundColor: '#FFEB00',  // 카카오 노란색
+                  backgroundColor: '#FFEB00', // 카카오 노란색
                   '&:hover': {
                     backgroundColor: '#FFD600', // 노란색의 어두운 톤으로 hover 효과 추가
-                  }
+                  },
                 }}
               >
-                KAKAO Login
-              </Button>
-              <Grid container>
-                <Grid item>
-                  <Link href="/register" variant="body2">
-                    {"회원가입"}
-                  </Link>
-                </Grid>
-              </Grid>
-            </Box>
-          </Box>
+                <img
+                  src="/images/kakao_login_medium_wide.png" // 이미지 경로 수정
+                  alt="kakao-login"
+                  style={{ height: '150%', width: '150%', objectFit: 'contain' }} // objectFit 속성 추가
+                />
+               </Button>
+                  <Grid container sx={{ mt: 2, justifyContent: 'flex-end' }}>
+                    <Grid item xs={6}>
+                      <Link href="/register" variant="body2">
+                        {"회원가입"}
+                      </Link>
+                    </Grid>
+                  </Grid>
+                </Box>
+              </Box>
         </Grid>
       </Grid>
     </ThemeProvider>

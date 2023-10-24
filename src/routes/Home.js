@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Announce from '../components/MainPage/Announce';
-import Category from '../components/MainPage/Category';
 import StoreListItem from '../components/Market/StoreListItem';
 import StoreHome from '../components/StoreHome';
 import { Routes, Route } from 'react-router-dom';
@@ -52,17 +51,17 @@ function Home() {
         setStores(response.data);
       }
     }, error => console.log(error), null, 'UA');
+
   }, []);
 
 
   return (
     <>
       <Announce />
-      <Category />
       {stores && (
         <>
           <StoreHome stores={stores} />
-          <button onClick={() => { console.log(stores); window.sessionStorage.getItem("memberNo") }}>Click Me</button>
+          <button onClick={() => { console.log(stores); window.sessionStorage.getItem("memberNo") }}>더보기-></button>
         </>
       )}
     </>

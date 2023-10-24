@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import axios, { formToJSON } from 'axios';
 import { sendAxiosRequest } from '../utility/common';
 
+
+const accessToken = sessionStorage.getItem('accessToken');
+
 function NoticeRegisterationForm() {
   const [notice, setNotice] = useState({
     noticeTitle: 'title',
@@ -17,12 +20,13 @@ function NoticeRegisterationForm() {
 
   const navigate = useNavigate();
 
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
     let formData = new FormData(e.target);
-    let formObj = formToJSON(formData);
-    sendAxiosRequest('/api/notice/new', 'POST', formObj, response => {
+    // let formObj = formToJSON(formData);
+    sendAxiosRequest(`/api/notice/new`, 'POST', formData, response => {
       console.log('응답값:', response.data);
       alert('공지사항이 등록 되었습니다.');
       navigate('/admin/notice/list');
@@ -30,7 +34,9 @@ function NoticeRegisterationForm() {
       error => {
         console.error('API 호출 중 에러 발생: ', error);
         alert('공지사항 등록에 실패하셨습니다!');
-      }
+      },
+      null,
+      accessToken 
     )
   };
 

@@ -2,6 +2,11 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { sendAxiosRequest } from '../utility/common';
+
+
+const accessToken = sessionStorage.getItem('accessToken');
+
 
 function AdminNoticeListItem() {
   const [notices, setNotices] = useState([]);
@@ -16,13 +21,22 @@ function AdminNoticeListItem() {
   const navigate = useNavigate();
 
   const handleDeleteNotice = (noticeNo) => {
-    axios.post(`/api/notice/delete/${noticeNo}`)
-      .then(response => {
-        console.log("Notice deleted successfully");
+    sendAxiosRequest(
+      `/api/notice/delete/${noticeNo}`, 
+      'POST', 
+      null, 
+      (response) => { 
+        console.log("응답 데이터:", response.data);
         alert('공지사항이 삭제 되었습니다.');
-        navigate('/admin/notice/list');
-      })
-      .catch(error => console.error("Failed to delete notice: ", error));
+        navigate('/admin/notice/list'); // 성공적으로 삭제된 후에 목록 페이지로 다시 이동
+      },
+      (error) => { // 에러 콜백
+        console.error("공지사항 삭제 중 에러 발생:", error);
+        alert('공지사항 삭제에 실패하였습니다.');
+      },
+      null, // 이 요청에는 별도의 컨텐트 타입 헤더 설정이 필요하지 않습니다.
+      accessToken // JWT 토큰
+    );
   };
 
 
