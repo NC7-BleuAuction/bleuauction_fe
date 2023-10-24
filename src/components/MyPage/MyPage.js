@@ -10,6 +10,7 @@ function MyPage() {
   const accessToken = sessionStorage.getItem('accessToken');
   const tokenMember = isTokenExpired(accessToken) ? null : jwtDecode(accessToken);
 
+
   const outerContainerStyle = {
     display: 'flex',
     justifyContent: 'center',
@@ -145,6 +146,5 @@ function MyPage() {
       </div>
     );
   }
-
 }
 export default MyPage;

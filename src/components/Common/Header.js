@@ -15,8 +15,8 @@ function Header() {
   const currentURL = window.location.href;
   const [tokenMember, setTokenMember] = useState(accessToken);
 
-  console.log('Header.js => accessToken 디코딩값 : ', decodedAccToken);
-  console.log('Header.js => refreshToken 디코딩값 : ', decodedRefToken);
+  // console.log('Header.js => accessToken 디코딩값 : ', decodedAccToken);
+  // console.log('Header.js => refreshToken 디코딩값 : ', decodedRefToken);
   // console.log('(currentURL.replace(mainUrl)', currentURL.replace(mainUrl, ''));
 
   let loginInit
