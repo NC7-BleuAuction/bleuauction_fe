@@ -1,7 +1,24 @@
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
+import { isValidDateValue } from "@testing-library/user-event/dist/utils";
 
 export const mainUrl = 'http://localhost:3000';
+
+export function isNotNullOrNonEmpty(value) {
+  if (value === null) {
+    return false;
+  }
+
+  if (Array.isArray(value)) {
+    return value.length > 0;
+  }
+
+  if (typeof value === 'object') {
+    return Object.keys(value).length > 0;
+  }
+
+  return true;
+}
 
 /* 토큰 만료 체크 */
 export function isTokenExpired(token) {
@@ -13,11 +30,6 @@ export function isTokenExpired(token) {
   return currentDate > expirationTime; // 토큰 만료 true 반환
 }
 
-export function tokenMember() {
-  const accessToken = sessionStorage.getItem('accessToken');
-  const tokenMember = jwtDecode(accessToken);
-  return tokenMember;
-}
 
 export function isNullUndefinedOrEmpty(value) {
   const valueStr = value + '';
@@ -28,7 +40,7 @@ export function isNullUndefinedOrEmpty(value) {
 }
 
 
-export function refreshTokenInvalid() {
+export function redirectLogin() {
   alert('세션이 만료되어 재로그인이 필요합니다!');
   window.location.href = '/login';
 }
@@ -38,7 +50,7 @@ export function accessTokenRefresh() {
   console.log('accessTokenRefresh() => refreshToken:', refreshToken);
 
   if (!isNullUndefinedOrEmpty(refreshToken)) {
-    refreshTokenInvalid();
+    redirectLogin();
   }
 
   // 서버로 리프레시 토큰을 사용하여 새 액세스 토큰을 요청
@@ -47,14 +59,14 @@ export function accessTokenRefresh() {
       console.log('/api/member/accTokRefresh => response: ', response);
       const newAccessToken = response.data.accessToken;
       if (!isNullUndefinedOrEmpty(newAccessToken)) {
-        refreshTokenInvalid();
+        redirectLogin();
         return;
       }
       sessionStorage.setItem('accessToken', newAccessToken);
       console.log('refreshToken으로 accessToken 재발급 완료! =>');
     })
     .catch(error => {
-      refreshTokenInvalid();
+      redirectLogin();
     });
 }
 
@@ -75,7 +87,7 @@ export function getAccessToken(encodingOrDecodingType) {
 
   const accessToken = sessionStorage.getItem('accessToken');
 
-  if (isNullUndefinedOrEmpty(accessToken)) {
+  if (!isTokenExpired(accessToken)) { // 엑세스 토큰이 유효하면
     if (encodingOrDecodingType === 'a') {
       return accessToken;
     } else if (encodingOrDecodingType === 'd') {
@@ -103,6 +115,8 @@ export function sendAxiosRequest(url, method, data, successCallback, errorCallba
     url: url,
     method: method,
   };
+
+  console.log('요청시 보내는 jwtToken 정보: ', isNullUndefinedOrEmpty(jwtToken));
 
   if (data) {
     if (contentType === 'application/json') {

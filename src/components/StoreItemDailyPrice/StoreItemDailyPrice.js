@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import './StoreItemDailyPrice.css';
-import { sendAxiosRequest, accessTokenRefresh, refreshTokenInvalid } from '../utility/common';
+import { sendAxiosRequest, accessTokenRefresh, redirectLogin, isTokenExpired, getAccessToken, isNullUndefinedOrEmpty } from '../utility/common';
 
 // handsontable라이브러리 관련 import
 import 'handsontable/dist/handsontable.full.min.css';
@@ -74,82 +74,38 @@ function firstRowRenderer(instance, td, row, col, prop, value, cellProperties) {
 }
 
 
-
 function StoreItemDailyPrice() {
-  const [summaryData, setSummaryData] = useState([]);
-  const [averagePrice, setAveragePrice] = useState(null);
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const [selectedOrigin, setSelectedOrigin] = useState(null);
+  const [totalDailyPrice, setTotalDailyPrice] = useState(0);
+  const [averageDailyPrice, setAverageDailyPrice] = useState(0);
   const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(true); // 임시 false
   const accessToken = sessionStorage.getItem('accessToken');
-
-  const handsontableInstance = useRef(null);
-
-  function calculateAverage(arr) {
-    if (arr.length === 0) {
-      return 0; // 빈 배열의 경우 평균은 0
-    }
-
-    const sum = arr.reduce((total, current) => total + current, 0);
-    return sum / arr.length;
-  }
 
 
   useEffect(() => {
+    if (!isTokenExpired(accessToken)) {   // AccessToken이 있을 때만 요청
+      sendAxiosRequest('/api/sidp/list', 'GET', null, response => {
+        if (response.data) {
+          let sidpList = response.data;
+          const columnData = sidpList.map((sidp) => sidp.dailyPrice);
+          const total = columnData.reduce((acc, current) => acc + current, 0);
+          const avg = total / (sidpList.length || 1); // 0으로 나누는 것을 방지
 
-    if (accessToken) {   // AccessToken이 있을 때만 요청 
-
-      // 요청 헤더에 엑세스 토큰 추가
-      const config = {
-        headers: {
-          'Authorization': `Bearer ${accessToken}`
+          // 상태 업데이트
+          setTotalDailyPrice(total);
+          setAverageDailyPrice(avg);
+          setItems(sidpList);
         }
-      };
-
-      console.log('StoreItemDailyPrice.js headers: ', config);
-
-      axios.get('/api/sidp/list', config)
-        .then(response => {
-          if (response.data) {
-            let sidpList = response.data;
-            // 추가할 빈 로우 생성
-            const emptyRow = {
-              'daliyPriceDate': '',
-              'itemCode': '',
-              'itemName': '',
-              'itemSize': '',
-              'wildFarmStatus': '',
-              'originStatus': '',
-              'originPlaceStatus': '',
-              'dailyPrice': '',
-
-            };
-
-            // 초기 데이터에 빈 로우 추가
-            sidpList.push(emptyRow);
-
-            // 평균 가격 계산
-            const columnData = sidpList.map((sidp) => sidp.dailyPrice);
-            const avg = calculateAverage(columnData);
-            const formattedAvg = avg.toFixed(2);
-            setAveragePrice(formattedAvg.toLocaleString());
-
-            setItems(sidpList);
-            setTimeout(() => {
-              setLoading(false);
-            }, 10);
-          }
-        }).catch(error => {
+      }, error => {
+        if (error.response.data) {
           const errorData = error.response.data;
           console.log('errorData: ', errorData);
           if (errorData === 'E') { // 토큰이 있으나 만료
             accessTokenRefresh();
           } else if (errorData === 'I') { // 토큰이 아예없거나 유효하지 않은 토큰
-            refreshTokenInvalid();
+            redirectLogin();
           }
-          setLoading(false);
-        });
+        }
+      }, null, accessToken);
     }
   }, [accessToken]); // accessToken이 변경될 때만 실행
 
@@ -165,225 +121,174 @@ function StoreItemDailyPrice() {
       'dailyPrice': item.dailyPrice,
     };
   });
-  console.log('transformedData: ', transformedData);
 
+  // items 배열이 비어있을 때, 빈 행 추가
+  if (items.length === 0) {
+    transformedData.push({
+      'daliyPriceDate': '품목에 대한 시세 데이터가 존재하지 않습니다!',
+      'itemCode': '',
+      'itemName': '',
+      'itemSize': '',
+      'wildFarmStatus': '',
+      'originStatus': '',
+      'originPlaceStatus': '',
+      'dailyPrice': '',
+    });
+  }
+
+  console.log(items.length);
+  const mergeCells = items.length === 0 ? [
+    {
+      row: 0,
+      col: 0,
+      rowspan: 1,
+      colspan: 8,
+    }
+  ] : [];
+  console.log('transformedData: ', transformedData);
 
   return (
     <div className="daily-box">
-      <div className="filter-buttons">
-        <p>품목 카테고리 선택:</p>
-        {Object.keys(categoryOptions).map((code) => (
-          <button
-            key={code}
-            className={selectedCategory === code ? 'selected' : ''}
-            onClick={() => setSelectedCategory(code)}
-          >
-            {categoryOptions[code]}
-          </button>
-        ))}
-      </div>
-      <div className="origin-buttons">
-        <p>원산지 선택:</p>
-        {Object.keys(originOptions).map((code) => (
-          <button
-            key={code}
-            className={selectedOrigin === code ? 'selected' : ''}
-            onClick={() => setSelectedOrigin(code)}
-          >
-            {originOptions[code]}
-          </button>
-        ))}
-      </div>
-      <div className="carousel">
-        <h2>추천하는 오늘의 생선</h2>
-        {/* <Carousel showArrows={true}>
-          {recommendationItems.map((item) => (
-            <div key={item.id}>
-              <img src={item.image} alt={item.name} />
-              <p className="legend">{item.name}</p>
-            </div>
-          ))}
-        </Carousel> */}
-      </div>
       <h1>오늘의 시세</h1>
-      <div class="controlsQuickFilter">
-        <label htmlFor="columns" class="selectColumn">선택항목 :</label>
-        <select name="columns" id="columns">
-          <option value="0">기준날짜</option>
-          <option value="1">품목구분</option>
-          <option value="2">품목명</option>
-          <option value="3">품목크기</option>
-          <option value="4">자연/양식</option>
-          <option value="5">국산/수입</option>
-          <option value="6">원산지</option>
-          <option value="7">품목가격(원)</option>
-        </select>
-      </div>
-      <div class="controlsQuickFilter">
-        <input id="filterField" type="text" placeholder="Filter" />
-      </div>
       <br />
-      <div id="exampleQuickFilter"></div>
-      <div className="price-list">
-        {loading ? (
-          <p>로딩 중...</p>
-        ) :
-          (<div>
-            <HotTable
-              licenseKey="non-commercial-and-evaluation"
-              colHeaders={['기준날짜', '품목구분', '품목명', '품목크기', '자연/양식', '국산/수입', '원산지', '품목가격(원)',]}
-              data={transformedData}
-              formattedAvg={'0,0,0'}
-              rowHeaders={true}
-              colWidths={[250, 200, 200, 300, 200, 250, 200, 250]}
-              columnHeaderHeight={50}
-              filters={true}
-              dropdownMenu={true}
-              customBorders={true}
-              settings={{
-                columnSorting: {
-                  headerAction: true,
-                  multiColumnSorting: true,
-                  sortEmptyCells: false, // 빈 셀 정렬제외
-                  indicator: true, // 정렬순서 표시
-
-                  // 초기 정렬
-                  initialConfig: {
-                    column: 1,
-                    sortOrder: 'desc',
-                  },
+      <div className="ba-price-list-div">
+        <div>
+          <HotTable
+            mergeCells={mergeCells}
+            licenseKey="non-commercial-and-evaluation"
+            colHeaders={['기준날짜', '품목구분', '품목명', '품목크기', '자연/양식', '국산/수입', '원산지', '품목가격(원)',]}
+            data={transformedData}
+            formattedAvg={'0,0,0'}
+            rowHeaders={true}
+            colWidths={[250, 200, 200, 300, 200, 250, 200, 250]}
+            columnHeaderHeight={50}
+            filters={true}
+            dropdownMenu={true}
+            customBorders={true}
+            settings={{
+              columnSorting: {
+                headerAction: true,
+                multiColumnSorting: true,
+                sortEmptyCells: false, // 빈 셀 정렬제외
+                indicator: true, // 정렬순서 표시
+                initialConfig: {
+                  column: 1,
+                  sortOrder: 'desc',
                 },
-                className: 'customFilterButtonExample1',
-                width: 'auto',
-                height: 'auto',
-                rowHeights: 60,
-                readOnly: true,
-                afterGetColHeader: function (col, th) {
-                  var cellWidth = this.getColWidth(col); // 각 열 헤더의 배경색을 셀 넓이만큼 설정
-                  th.style.backgroundColor = '#0056b3'; // 배경색을 변경하려면 원하는 색상으로 수정
-                  th.style.color = 'white';
-                  th.style.fontWeight = 'bold';
-                  th.className = 'htMiddle';
+              },
+              className: 'customFilterButtonExample1',
+              width: 'auto',
+              height: 'auto',
+              rowHeights: 60,
+              readOnly: true,
+              afterGetColHeader: function (col, th) {
+                var cellWidth = this.getColWidth(col); // 각 열 헤더의 배경색을 셀 넓이만큼 설정
+                th.style.backgroundColor = '#0056b3'; // 배경색을 변경하려면 원하는 색상으로 수정
+                th.style.color = 'white';
+                th.style.fontWeight = 'bold';
+                th.className = 'htMiddle';
+              },
+              afterGetRowHeader: function (row, th) {
+                th.style.backgroundColor = '#0056b3';
+                th.style.color = 'white';
+                th.style.fontWeight = 'bold';
+                th.style.fontSize = '20px';
+                th.className = 'htMiddle';
+              },
+              columns: [
+                {
+                  title: '기준날짜',
+                  type: 'date',
+                  className: 'htMiddle',
+                  dateFormat: 'YYYY-MM-DD',
+                  data: 'daliyPriceDate',
                 },
-                afterGetRowHeader: function (row, th) {
-                  th.style.backgroundColor = '#0056b3';
-                  th.style.color = 'white';
-                  th.style.fontWeight = 'bold';
-                  th.style.fontSize = '20px';
-                  th.className = 'htMiddle';
+                {
+                  title: '품목구분',
+                  type: 'text',
+                  className: 'htLeft htMiddle',
+                  data: 'itemCode',
                 },
-                columnSummary: [
-                  {
-                    reversedRowCoords: true,
-                    sourceColumn: 7,
-                    type: 'average',
-                    destinationRow: 0,
-                    destinationColumn: 7,
-                    forceNumeric: true,
-                    className: 'htMiddle',
+                {
+                  title: '품목명',
+                  type: 'text',
+                  className: 'htLeft htMiddle',
+                  data: 'itemName',
+                },
+                {
+                  title: '품목크기',
+                  type: 'text',
+                  className: 'htLeft htMiddle',
+                  data: 'itemSize',
+                },
+                {
+                  title: '자연/양식',
+                  type: 'text',
+                  className: 'htLeft htMiddle',
+                  data: 'wildFarmStatus',
+                },
+                {
+                  title: '국내산/수입산',
+                  type: 'text',
+                  className: 'htLeft htMiddle',
+                  data: 'originStatus',
+                },
+                {
+                  title: '원산지',
+                  type: 'text',
+                  data: 'originPlaceStatus',
+                  className: 'htLeft htMiddle',
+                },
+                {
+                  title: '품목가격(원)',
+                  type: 'numeric',
+                  data: 'dailyPrice',
+                  className: 'htRight htMiddle',
+                  numericFormat: {
+                    pattern: '0,0'
                   }
-                ],
-                columns: [
-                  {
-                    title: '기준날짜',
-                    type: 'date',
-                    className: 'htMiddle',
-                    dateFormat: 'YYYY-MM-DD',
-                    data: 'daliyPriceDate',
-                  },
-                  {
-                    title: '품목구분',
-                    type: 'text',
-                    className: 'htLeft htMiddle',
-                    data: 'itemCode',
-                  },
-                  {
-                    title: '품목명',
-                    type: 'text',
-                    className: 'htLeft htMiddle',
-                    data: 'itemName',
-                  },
-                  {
-                    title: '품목크기',
-                    type: 'text',
-                    className: 'htLeft htMiddle',
-                    data: 'itemSize',
-                  },
-                  {
-                    title: '자연/양식',
-                    type: 'text',
-                    className: 'htLeft htMiddle',
-                    data: 'wildFarmStatus',
-                  },
-                  {
-                    title: '국내산/수입산',
-                    type: 'text',
-                    className: 'htLeft htMiddle',
-                    data: 'originStatus',
-                  },
-                  {
-                    title: '원산지',
-                    type: 'text',
-                    data: 'originPlaceStatus',
-                    className: 'htLeft htMiddle',
-                  },
-                  {
-                    title: '품목가격(원)',
-                    type: 'numeric',
-                    data: 'dailyPrice',
-                    className: 'htRight htMiddle',
-                    numericFormat: {
-                      pattern: '0,0.00'
-                    }
-                  },
-                ],
-
-                // className: 'exampleQuickFilter',
-                afterFilter() {
-                  const handsontableInstance = this;
-                  // get the `Filters` plugin, so you can use its API
-                  const filters = handsontableInstance.getPlugin('Filters');
-                  console.log('filters: ', filters.filtersRowsMap.indexedValues);
-
-                  let filteredList = filters.filtersRowsMap.indexedValues;
-
-
-                  let total = 0;
-                  let avg = 0;
-                  let totalCnt = 0;
-                  for (let i = 0; i < filteredList.length - 1; i++) {
-                    if (!filteredList[i]) {
-                      total += transformedData[i].dailyPrice;
-                      totalCnt++;
-                    }
-                  }
-
-                  avg = total / (totalCnt == 0 ? 1 : totalCnt);
-                  console.log('total(합계): ', total);
-                  console.log('avg(평균): ', avg);
-
-                  transformedData[transformedData.length - 1].dailyPrice = Math.floor(avg).toLocaleString() + ' (원)';
-
-                  document.getElementById('inputAvg').innerHTML = '<strong>평균</strong> : ' + Math.floor(avg).toLocaleString() + ' (원)';
-                  document.getElementById('inputSum').innerHTML = '<strong>합계</strong> : ' + total.toLocaleString() + ' (원)';
-                  this.render();
-
                 },
-              }}
+              ],
+              afterFilter() {
+                const handsontableInstance = this;
+                const filters = handsontableInstance.getPlugin('Filters');
+                console.log('filters: ', filters.filtersRowsMap.indexedValues);
 
-              cells={(row, col) => {
-                const cellProperties = {};
-                cellProperties.renderer = firstRowRenderer; // 사용자 정의 렌더러 함수를 셀에 적용
-                return cellProperties;
-              }}
+                let filteredList = filters.filtersRowsMap.indexedValues;
 
-            />
-            <div className='ba-span-div'>
-              <span id='inputAvg'><strong>평균</strong> : 0 (원)</span>
-              <span id='inputSum'><strong>합계</strong> : 0 (원)</span>
-            </div>
+
+                let total = 0;
+                let avg = 0;
+                let totalCnt = 0;
+                for (let i = 0; i < filteredList.length - 1; i++) {
+                  if (!filteredList[i]) {
+                    total += transformedData[i].dailyPrice;
+                    totalCnt++;
+                  }
+                }
+
+                avg = total / (totalCnt == 0 ? 1 : totalCnt);
+                console.log('total(합계): ', total);
+                console.log('avg(평균): ', avg);
+
+                setTotalDailyPrice(total);
+                setAverageDailyPrice(avg);
+              },
+            }}
+
+            cells={(row, col) => {
+              const cellProperties = {};
+              cellProperties.renderer = firstRowRenderer; // 사용자 정의 렌더러 함수를 셀에 적용
+              return cellProperties;
+            }}
+
+          />
+          <div className="ba-span-div">
+            <span><strong>합계:</strong> {totalDailyPrice.toLocaleString()} (원)</span>
+            <span><strong>평균:</strong> {Math.floor(averageDailyPrice).toLocaleString()} (원)</span>
           </div>
-          )}
+        </div>
+
       </div>
     </div>
   );

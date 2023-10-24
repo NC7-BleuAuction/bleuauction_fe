@@ -74,19 +74,17 @@ import Coupon from '../Coupon/Coupon';
 function StoreIntro({storeInfo, store, coupons }) {
 
   console.log('storeInfo,',storeInfo);
-  console.log('store,',store);
-  // console.log(storeInfo);
 
   return (
     <div style={outerContainer}>
     <div style={introContainer}>
       <img src={storeInfo.image} alt={storeInfo.name} style={imageStyle} />
      <div style={storeInfoContainer}>
-      <h2>{store.storeName}</h2>
+      <h2>{storeInfo.name}</h2>
       <ul style={infoList}>
-        <li>{store.storeDetailAddr}</li>
-        <li>{store.weekdayStartTime} ~ {store.weekdayEndTime}</li>
-        <li>{store.store}</li>
+        <li>{storeInfo.storeDetailAddr}</li>
+        <li>{storeInfo.weekdayStartTime} ~ {storeInfo.weekdayEndTime}</li>
+        <li>{storeInfo.store}</li>
       </ul>
       </div>
       {/* <div style={couponContainer}>
