@@ -112,7 +112,7 @@ function MyPage() {
       </Link>
       </div>
         <div style={styles.linkContainer}>
-            <Link to="/" style={styles.link}>품목 관리</Link>
+            <Link to="/mypage/store/edit" style={styles.link}>가게수정</Link>
       </div>
       <div style={styles.linkContainer}>
         <Link to="/order-confirmation" style={styles.link}>주문확인</Link>
