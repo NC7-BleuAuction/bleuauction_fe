@@ -1,4 +1,6 @@
 import { createContext, useContext, useState } from "react";
+import { getAccessToken } from "../utility/common";
+import jwtDecode from 'jwt-decode';
 
 const UserContext = createContext();
 
@@ -8,19 +10,24 @@ export const useUser = () => {
 
 export default function UserProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [tokenMember ,setTokenMember] = useState(null);
+  // const accessToken = sessionStorage.getItem('accessToken');
 
   const login = (userData) => {
     // 로그인 로직을 구현
-    setUser(userData);
+    setUser(userData.loginUser);
+    setTokenMember(jwtDecode(userData.accessToken));
   };
 
   const logout = () => {
     // 로그아웃 로직을 구현
     setUser(null);
+    setTokenMember(null);
   };
 
+
   return (
-    <UserContext.Provider value={{ user, login, logout }}>
+    <UserContext.Provider value={{ user, login, logout, tokenMember }}>
       {children}
     </UserContext.Provider>
   );

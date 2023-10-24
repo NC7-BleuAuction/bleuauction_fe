@@ -1,10 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import './OrderModal.css';
 import { useUser } from '../Auth/UserContext';
+import axios from 'axios';
 
 function OrderItem({ key, menu, orderMenu, update }) {
   // console.log(menu)
   const [localItem, setLocalItem] = useState(menu);
+
+
+
+  useEffect(()=> {
+    const imgs = axios.get(`/api/menu/detail/${menu.menuNo}`);
+    setLocalItem({
+      ...localItem,
+      menuImg: imgs
+    })
+  }, [])
 
   const handleNameChange = (e) => {
     if (e.target.value >= 0) {
@@ -22,7 +33,8 @@ function OrderItem({ key, menu, orderMenu, update }) {
     <div className='order-item-box'>
       
       <div style={{overflow:'hidden'}}>
-        <img src='/images/fish1.jpg'/>
+        <img src={`https:kr.object.ncloudstorage.com/bleuauction-bucket/menu/${menu.menuAttaches[0].saveFilename}`}
+              alt={menu.menuAttaches[0].originFilename}/>
       </div>
 
       <div>

@@ -13,7 +13,11 @@ export function isTokenExpired(token) {
   return currentDate > expirationTime; // 토큰 만료 true 반환
 }
 
-
+export function tokenMember() {
+  const accessToken = sessionStorage.getItem('accessToken');
+  const tokenMember = jwtDecode(accessToken);
+  return tokenMember;
+}
 
 export function isNullUndefinedOrEmpty(value) {
   const valueStr = value + '';

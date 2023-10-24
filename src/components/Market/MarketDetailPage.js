@@ -14,9 +14,12 @@ import { useUser } from '../Auth/UserContext';
 
 function MarketDetailPage() {
 
+  
   const [activeTab, setActiveTab] = useState('info');
   const [modal, setModal] = useState(false);
   const [menuData, setMenuData] = useState([]); // 메뉴 데이터를 저장할 상태
+  const accessToken = sessionStorage.getItem('accessToken');
+  const {tokenMember} = useUser
 
   const location = useLocation(); // 추가된 부분
   const store = location.state; // 추가된 부분
@@ -35,7 +38,7 @@ function MarketDetailPage() {
   useEffect(() => {
     if (store && store.storeNo) {
       // 상점 번호가 있는 경우에만 요청을 실행합니다.
-      sendAxiosRequest(`/api/menu/${store.storeNo}`, 'GET', null, response => {
+      sendAxiosRequest(`/api/menu/${store.storeNo}`, 'GET', tokenMember, response => {
         if (response.data && response.data.length > 0) {
           console.log(response.data);
           setMenuData(response.data.map((menu) => ({
@@ -46,7 +49,7 @@ function MarketDetailPage() {
         }
       }, error => {
         console.error("An error occurred while fetching the menus:", error);
-      });
+      }, null, accessToken);
     }
   }, [])
 

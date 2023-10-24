@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { formToJSON } from 'axios';
 import { useState, useContext } from 'react';
 import { useUser } from './UserContext';
-import { isOpenNow, sendAxiosRequest, isTokenExpired } from '../utility/common';
+import { isOpenNow, sendAxiosRequest, isTokenExpired, getAccessToken } from '../utility/common';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 
@@ -21,36 +21,39 @@ import jwtDecode from 'jwt-decode';
 const defaultTheme = createTheme();
 
 function LoginPage() {
+  const {login}  = useUser();
   const navigate = useNavigate();
-
+  
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-
+    
     const loginRequest = {
       memberEmail: data.get('memberEmail'),
       memberPwd: data.get('memberPwd')
     };
-
+    
     sendAxiosRequest('/api/member/login', 'POST', loginRequest, response => {
       const tokenList = response.data;
       if (tokenList) {
         const accessToken = response.data.accessToken;
         const refreshToken = response.data.refreshToken;
-
+        login(response.data);
         if (!isTokenExpired(accessToken) && !isTokenExpired(refreshToken)) {
           sessionStorage.setItem('accessToken', accessToken);
           localStorage.setItem('refreshToken', refreshToken);
-
           const decodedAccessToken = jwtDecode(accessToken);
-          alert("'" + decodedAccessToken.username + "' 회원님 BLEU AUCTION에 오신 것을 환영합니다!");
+          
+          console.log(typeof(decodedAccessToken));
+          console.log(decodedAccessToken);
+          alert(decodedAccessToken.memberName+ " 회원님 BLEU AUCTION에 오신 것을 환영합니다!");
           navigate('/');
         }
       }
-
+      
     }, error => console.log(error), 'application/json');
   };
-
+  
   return (
     <ThemeProvider theme={defaultTheme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
