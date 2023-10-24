@@ -4,6 +4,22 @@ import { isValidDateValue } from "@testing-library/user-event/dist/utils";
 
 export const mainUrl = 'http://localhost:3000';
 
+export function isNotNullOrNonEmpty(value) {
+  if (value === null) {
+    return false;
+  }
+
+  if (Array.isArray(value)) {
+    return value.length > 0;
+  }
+
+  if (typeof value === 'object') {
+    return Object.keys(value).length > 0;
+  }
+
+  return true;
+}
+
 /* 토큰 만료 체크 */
 export function isTokenExpired(token) {
   if (!isNullUndefinedOrEmpty(token)) {
