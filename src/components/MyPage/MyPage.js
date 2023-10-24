@@ -17,7 +17,7 @@ function MyPage() {
   const defaultImage = '/images/rose.png';
 
   const accessToken = sessionStorage.getItem('accessToken');
-  const tokenMember = isTokenExpired(accessToken) ? null : jwtDecode(accessToken);
+  const member = isTokenExpired(accessToken) ? null : jwtDecode(accessToken);
 
   const outerContainerStyle = {
     display: 'flex',
