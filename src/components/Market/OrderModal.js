@@ -96,20 +96,20 @@ const [order, setOrder] = useState({
 
     // 주문 생성
     console.log('order=>>>>>>>>>>>>>>>>>>>>>>', order);
-    // sendAxiosRequest('/api/order/new', 'POST', order, response => {
-    //   if (response.data && response.data.length > 0) {
-    //     console.log("주문 생성에 성공했습니다:", response.data);
-    //     console.log('order=> : ', order);
-    //     console.log(typeof(order.orderType))
+    sendAxiosRequest('/api/order/new', 'POST', order, response => {
+      if (response.data && response.data.length > 0) {
+        console.log("주문 생성에 성공했습니다:", response.data);
+        console.log('order=> : ', order);
+        console.log(typeof(order.orderType))
 
-    //   }
-    // }, error => {
-    //   console.error("주문 생성에 실패했습니다:", error);
-    // }, null, "UA");
+      }
+    }, error => {
+      console.error("주문 생성에 실패했습니다:", error);
+    }, 'multipart/form-data', "UA");
 
-    axios.post('/api/order/new')
-      .then(response => console.log("주문 생성에 성공했습니다:", response.data))
-      .catch(error => console.log(error));
+    // axios.post('/api/order/new')
+    //   .then(response => console.log("주문 생성에 성공했습니다:", response.data))
+    //   .catch(error => console.log(error));
         
     handleOrderMenu()
   }
