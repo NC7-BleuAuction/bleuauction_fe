@@ -25,7 +25,7 @@ function NoticeRegisterationForm() {
     sendAxiosRequest('/api/notice/new', 'POST', formObj, response => {
       console.log('응답값:', response.data);
       alert('공지사항이 등록 되었습니다.');
-      navigate('/main');
+      navigate('/admin/notice/list');
     },
       error => {
         console.error('API 호출 중 에러 발생: ', error);

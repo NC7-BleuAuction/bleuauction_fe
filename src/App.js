@@ -14,6 +14,7 @@ import MenuList from './components/Menu/MenuList';
 import MenuRegisterationForm from './components/Menu/MenuRegisterationForm';
 import StoreList from './components/Market/StoreList';
 import MarketDetailPage from './components/Market/MarketDetailPage';
+import StoreInfoDetail from './components/Market/StoreInfoDetail';
 import ReviewForm from './components/Review/ReviewForm';
 import MyPage from './components/MyPage/MyPage';
 import UserEditPage from './components/MyPage/UserEditPage';
@@ -23,6 +24,8 @@ import UserProvider from './components/Auth/UserContext';
 import StoreItemRegister from './components/MyPage/StoreItemRegister'
 import Payment from './components/Pay/Pay';
 import StoreRegisterPage from './components/MyPage/StoreRegisterPage';
+// import AdminPage from './components/MyPage/AdminPage';
+import MenuEdit from './components/MyPage/MenuEdit';
 import NoticeList from './components/Notice/NoticeList';
 import NoticeDetail from './components/Notice/NoticeDetail';
 import { useUser } from './components/Auth/UserContext';
@@ -34,7 +37,7 @@ import AdminNoticeList from './components/Admin/AdminNoticeList';
 import AdminNoticeDetail from './components/Admin/AdminNoticeDetail';
 import OrderMenuList from './components/MyPage/OrderMenuList';
 import StoreOrder from './components/MyPage/StoreOrder';
-
+import MenuDetail from './components/MyPage/MenuDetail';
 
 function App() {
 
@@ -98,6 +101,7 @@ function RoutingComponent() {
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/storeRegister" element={<StoreRegisterPage />} />
         <Route path="/useredit" element={<UserEditPage />} />
+        <Route path="/menuEdit" element={<MenuEdit />} />
         <Route path="/my-orders" element={<MyOrder />} />
         <Route path="/StoreItemDailyPrice" element={<StoreItemDailyPrice />} />
         <Route path="/MenuRegisterationForm" element={<MenuRegisterationForm />} />
@@ -107,6 +111,8 @@ function RoutingComponent() {
         <Route path="/storeItemRegister" element={<StoreItemRegister />} />
         <Route path="/StoreItemAdd" element={<StoreItemAdd />} />
         <Route path="/pay" element={<Payment />} />
+        <Route path="/StoreInfoDetail" element={<StoreInfoDetail />} />
+        <Route path="/menuDetail" element={<MenuDetail />} />
         <Route path="/admin/notice/register" element={<NoticeRegisterationForm />} />
         <Route path="/admin/notice/list" element={<AdminNoticeList />} />
         <Route path="/admin/notice/detail/:noticeNo" element={<AdminNoticeDetail />} />
