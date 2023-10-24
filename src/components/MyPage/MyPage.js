@@ -8,19 +8,7 @@ function MyPage() {
   const defaultImage = '/images/rose.png';
 
   const accessToken = sessionStorage.getItem('accessToken');
-  const decodedAccToken = isTokenExpired(accessToken) ? null : jwtDecode(accessToken);
-
-
-  // const [member, setMember] = useState(null);
-  // useEffect(() => {
-  //   sendAxiosRequest('/api/member/loginCheck', 'GET', null, response => {
-  //     let loginUser = response.data.loginUser;
-  //     setMember(loginUser);
-  //   }, error => console.log(error))
-  // }
-  //   , []);
-
-
+  const tokenMember = isTokenExpired(accessToken) ? null : jwtDecode(accessToken);
 
 
   const outerContainerStyle = {
