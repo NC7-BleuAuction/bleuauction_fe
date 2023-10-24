@@ -96,7 +96,6 @@ function MyPage() {
         <Link to="/useredit" style={styles.link}>회원정보 수정</Link>
       </div>
       <div style={styles.linkContainer}>
-        <Link to="/storeItemRegister" style={styles.link}>등록상품관리</Link>
           <Link
             to= "/menuEdit"
             style={styles.link}
@@ -104,7 +103,7 @@ function MyPage() {
             메뉴 관리
       </Link>
       </div>
-          <div style={styles.linkContainer}>
+        <div style={styles.linkContainer}>
             <Link to="/" style={styles.link}>품목 관리</Link>
       </div>
       <div style={styles.linkContainer}>

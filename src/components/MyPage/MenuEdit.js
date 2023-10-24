@@ -6,70 +6,75 @@ import axios, { formToJSON } from 'axios';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom'; // 만약 react-router-dom을 사용한다면 이 부분을 추가합니다.
 import  './MenuEdit.css'
+import jwt_decode from 'jwt-decode'; // jwt-decode 라이브러리를 import 합니다.
+
 
 
 function MenuEdit() {
-  const [menuData, setMenuData] = useState([]); // 메뉴 데이터를 저장할 상태
+  let [menuData, setMenuData] = useState([]); // 메뉴 데이터를 저장할 상태
   const { menuNo } = useParams(); // 현재 URL의 매개변수를 가져옵니다.
   const navigate = useNavigate();
   const location = useLocation(); // 추가된 부분
   const store = location.state; // 추가된 부분
   console.log(store);
+  const accessToken = sessionStorage.getItem('accessToken');
 
 
-  // useEffect(() => {
-  //   axios.get(`/api/menu/${storeNo}`)
-  //     .then(response => {
-  //       setMenus(response.data);
-  //     })
-  //     .catch(error => {
-  //       console.error('Error fetching data: ', error);
-  //     });
-  // }, [storeNo]);
 
   // useEffect(() => {
-  //   if (store && store.storeNo) {
-  //     // 상점 번호가 있는 경우에만 요청을 실행합니다.
-  //     sendAxiosRequest(`/api/menu/${store.storeNo}`, 'GET', null, response => {
-  //       if (response.data && response.data.length > 0) {
+  //   // 상점 번호가 설정되어 있는 경우에만 메뉴 데이터를 요청합니다.
+  //   const fetchMenus = async () => {
+  //     try {
+  //       const response = await axios.get('/api/menu/store'); // 세션을 기반으로 한 요청
+  //       if (response.data) {
   //         console.log(response.data);
-  //         setMenuData(response.data); // 받아온 데이터로 상태를 업데이트합니다.
+  //         setMenuData(response.data);
   //       }
-  //     }, error => {
-  //       console.error("An error occurred while fetching the menus:", error);
-  //     });
-  //   }
-  // }, [store])
+  //     } catch (error) {
+  //       console.error("Error fetching user's menus:", error);
+  //     }
+  //   };
+  
+  //   fetchMenus();
+  // }, []); 
+  
+    // 토큰 디코딩
+
+        const tokenMember = jwt_decode(accessToken);
+        console.log("디코드된 토큰 정보 출력",tokenMember); // 디코드된 토큰 정보 출력
+
+  
 
   useEffect(() => {
-    // 상점 번호가 설정되어 있는 경우에만 메뉴 데이터를 요청합니다.
-    const fetchMenus = async () => {
-      try {
-        const response = await axios.get('/api/menu/my-menus'); // 세션을 기반으로 한 요청
-        if (response.data) {
-          console.log(response.data);
-          setMenuData(response.data);
-        }
-      } catch (error) {
-        console.error("Error fetching user's menus:", error);
-      }
-    };
-  
-    fetchMenus();
-  }, []); 
-  
+    sendAxiosRequest(`/api/menu/store`, 'GET', tokenMember, response => {
+      console.log('응답 data:', response.data);
+      setMenuData(response.data);
+    }, error => {
+      console.error("메뉴 가져오기 실패:", error);
+    }, null, accessToken);
+  }, []); // 의존성 배열이 비어 있으므로 컴포넌트가 마운트될 때 한 번만 실행됩니다.
 
+
+  // const handleDeleteMenu = (menuNo) => {
+  //   axios.post(`/api/menu/delete/${menuNo}`,)
+  //     .then(() => {
+  //       alert('메뉴가 삭제 되었습니다.');
+  //       console.log("menuData:",menuData);
+  //       setMenuData(menuData.filter(menu => menu.menuNo !== menuNo)); // 삭제 후 상태 업데이트
+  //     })
+  //     .catch(error => {
+  //       console.error("Error deleting menu: ", error);
+  //     });
+  // };
 
   const handleDeleteMenu = (menuNo) => {
-    axios.post(`/api/menu/delete/${menuNo}`,)
-      .then(() => {
-        alert('메뉴가 삭제 되었습니다.');
-        console.log("menuData:",menuData);
-        setMenuData(menuData.filter(menu => menu.menuNo !== menuNo)); // 삭제 후 상태 업데이트
-      })
-      .catch(error => {
-        console.error("Error deleting menu: ", error);
-      });
+    sendAxiosRequest(`/api/menu/delete/${menuNo}`, 'GET', null, response => {
+      console.log('Data fetched successfully:', response.data);
+      setMenuData(menuData.filter(menu => menu.menuNo !== menuNo));
+    }, error => {
+      console.error("Error deleting user's menus:", error);
+    }, null, accessToken);
+
   };
 
 
