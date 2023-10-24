@@ -52,7 +52,6 @@ function Home() {
         setStores(response.data);
       }
     }, error => console.log(error), null, 'UA');
-
   }, []);
 
 

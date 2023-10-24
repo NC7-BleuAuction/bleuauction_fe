@@ -3,6 +3,22 @@ import jwtDecode from 'jwt-decode';
 
 export const mainUrl = 'http://localhost:3000';
 
+export function isNotNullOrNonEmpty(value) {
+  if (value === null) {
+    return false;
+  }
+
+  if (Array.isArray(value)) {
+    return value.length > 0;
+  }
+
+  if (typeof value === 'object') {
+    return Object.keys(value).length > 0;
+  }
+
+  return true;
+}
+
 /* 토큰 만료 체크 */
 export function isTokenExpired(token) {
   if (!isNullUndefinedOrEmpty(token)) {
@@ -63,7 +79,6 @@ export function logout() {
     localStorage.clear();
     alert('정상적으로 로그아웃 되었습니다!');
     window.location.reload();
-
   }
 }
 
@@ -72,7 +87,7 @@ export function getAccessToken(encodingOrDecodingType) {
 
   const accessToken = sessionStorage.getItem('accessToken');
 
-  if (isNullUndefinedOrEmpty(accessToken)) {
+  if (!isTokenExpired(accessToken)) { // 엑세스 토큰이 유효하면
     if (encodingOrDecodingType === 'a') {
       return accessToken;
     } else if (encodingOrDecodingType === 'd') {
@@ -85,8 +100,8 @@ export function getAccessToken(encodingOrDecodingType) {
 
 export function getLoginUserInfo(decodedToken) {
   if (decodedToken != null) {
-    const { username, email } = decodedToken;
-    return { username, email };
+    const { sub, memberName, memberEmail } = decodedToken;
+    return { sub, memberName, memberEmail };
   }
   return null;
 }
@@ -100,6 +115,8 @@ export function sendAxiosRequest(url, method, data, successCallback, errorCallba
     url: url,
     method: method,
   };
+
+  console.log('요청시 보내는 jwtToken 정보: ', isNullUndefinedOrEmpty(jwtToken));
 
   if (data) {
     if (contentType === 'application/json') {
