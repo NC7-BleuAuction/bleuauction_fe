@@ -40,13 +40,13 @@ function MenuEdit() {
   
     // 토큰 디코딩
 
-        const tokenMember = jwt_decode(accessToken);
-        console.log("디코드된 토큰 정보 출력",tokenMember); // 디코드된 토큰 정보 출력
+        // const tokenMember = jwt_decode(accessToken);
+        // console.log("디코드된 토큰 정보 출력",tokenMember); // 디코드된 토큰 정보 출력
 
   
 
   useEffect(() => {
-    sendAxiosRequest(`/api/menu/store`, 'GET', tokenMember, response => {
+    sendAxiosRequest(`/api/menu/store`, 'GET', null, response => {
       console.log('응답 data:', response.data);
       setMenuData(response.data);
     }, error => {
@@ -78,10 +78,21 @@ function MenuEdit() {
   };
 
 
-const renderMenus = menuData.map(menu => (
+const renderMenus = menuData.map((menu, index)  => (
   <div key={menu.menuNo} className="menu-item">
     <h2 className="menu-title">{menu.menuName}</h2>
 
+    {/* 이미지가 있는지 확인하고 이미지를 렌더링하거나 기본 이미지를 보여줍니다. */}
+    {menu.menuAttaches && menu.menuAttaches.length > 0 ? (
+      <img
+        src={`https://kr.object.ncloudstorage.com/bleuauction-bucket/menu/${menu.menuAttaches[0].saveFilename}`}
+        alt={menu.menuAttaches[0].originFilename}
+        style={{ width: '100px', height: '100px' }} // 이 부분이 이미지 크기를 고정합니다.
+      />
+    ) : (
+      <img src="/images/fresh.png" alt="menu" style={{ width: '100px', height: '100px' }}/>
+    )}
+    
     <p className="menu-detail">사이즈: {menu.menuSize}</p>
     <p className="menu-detail">가격: {menu.menuPrice}</p>
     <p className="menu-detail">내용: {menu.menuContent}</p>
