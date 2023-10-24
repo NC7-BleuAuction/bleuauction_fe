@@ -10,24 +10,20 @@ export const useUser = () => {
 
 export default function UserProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [tokenMember ,setTokenMember] = useState(null);
-  // const accessToken = sessionStorage.getItem('accessToken');
 
   const login = (userData) => {
     // 로그인 로직을 구현
-    setUser(userData.loginUser);
-    setTokenMember(jwtDecode(userData.accessToken));
+    setUser(userData);
   };
 
   const logout = () => {
     // 로그아웃 로직을 구현
     setUser(null);
-    setTokenMember(null);
   };
 
 
   return (
-    <UserContext.Provider value={{ user, login, logout, tokenMember }}>
+    <UserContext.Provider value={{ user, login, logout }}>
       {children}
     </UserContext.Provider>
   );
