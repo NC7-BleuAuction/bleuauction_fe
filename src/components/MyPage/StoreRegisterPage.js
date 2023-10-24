@@ -11,7 +11,7 @@ function StoreRegisterPage() {
 
 
   const navigate = useNavigate();
-  const handleSubmit = async (e) => {
+  const handleSubmit =  (e) => {
     e.preventDefault();
     console.log(e.target);
     let formData = new FormData(e.target);
@@ -37,7 +37,7 @@ function StoreRegisterPage() {
     //     // 오류가 발생한 경우의 처리
     //     console.error('에러 발생:', error);
     //   });
-    sendAxiosRequest('/api/store/signup', 'POST', formData, response => {
+    sendAxiosRequest(`/api/store/signup`, 'POST', formData, response => {
       console.log('메뉴 응답값:', response.data);
       alert('가게등록에 성공하셨습니다!');
       navigate('/mypage');
