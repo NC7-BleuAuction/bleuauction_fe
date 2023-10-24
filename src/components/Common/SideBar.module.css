@@ -3,7 +3,7 @@
   width: 100px;
   height: 300px;
   top: 20%;
-  right: 5%;
+  right: 3%;
   background-color: lightgray;
   display: grid;
   grid-template-rows: 1fr 1fr 1fr;

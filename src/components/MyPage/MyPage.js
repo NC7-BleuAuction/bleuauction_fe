@@ -1,47 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
 import axios, { formToJSON } from 'axios';
 import { isOpenNow, sendAxiosRequest, isTokenExpired } from '../utility/common';
 import jwtDecode from 'jwt-decode';
 
 function MyPage() {
-
   const defaultImage = '/images/rose.png';
 
-  let [memberNo, setMemberNo] = useState([]);
-  const tokenMember = jwtDecode(sessionStorage.getItem('accessToken'));
   const accessToken = sessionStorage.getItem('accessToken');
-  const decodedAccToken = isTokenExpired(accessToken) ? null : jwtDecode(accessToken);
-
-
-
-// const [member, setMember] = useState(null);
-//  const [menuData, setMenuData] = useState([]); // 메뉴 데이터를 저장할 상태
-//
-//  const location = useLocation(); // 추가된 부분
-//  const store = location.state; // 추가된 부분
-//  console.log(store);
-
-  // const [member, setMember] = useState(null);
-  // useEffect(() => {
-  //   sendAxiosRequest('/api/member/loginCheck', 'GET', null, response => {
-  //     let loginUser = response.data.loginUser;
-  //     setMember(loginUser);
-  //   }, error => console.log(error))
-  // }
-  //   , []);
-
-
-  // 이런식으로 하는건가?
-  useEffect(() => {
-    sendAxiosRequest(`/api/member/${memberNo}`, 'GET', null, response => {
-      console.log('/api/member/${memberNo}의 응답값 => ', response.data);
-      setMemberNo(response.data);
-    }, error => console.log(error), null, accessToken);
-  }, []);
-
-
+  const tokenMember = isTokenExpired(accessToken) ? null : jwtDecode(accessToken);
 
 
   const outerContainerStyle = {
@@ -101,7 +68,7 @@ function MyPage() {
       display: 'inline-block',
       padding: '10px 20px',
       margin: '5px 0',
-      backgroundColor: '#4CAF50', 
+      backgroundColor: '#4CAF50',
       color: 'white',
       textDecoration: 'none',
       textAlign: 'center',
@@ -160,7 +127,7 @@ function MyPage() {
   );
 
   if (tokenMember === null) {
-  return <div>Loading...</div>; // 로딩 표시
+  return <div>권한없음...</div>; // 로딩 표시
   } else {
     return (
       <div style={outerContainerStyle}>
@@ -170,8 +137,8 @@ function MyPage() {
             <div style={styles.userInfo}>
               <h2>{tokenMember.memberName}</h2>
               <p> {tokenMember.memberCategory === 'M' ? '개인' :
-                tokenMember.memberCategory === 'S' ? '비즈니스' :
-                tokenMember.memberCategory === 'A' ? '관리자' : '기타'}
+                  tokenMember.memberCategory === 'S' ? '비즈니스' :
+                      tokenMember.memberCategory === 'A' ? '관리자' : '기타'}
                 계정</p>
               <p>{tokenMember.memberEmail}</p>
             </div>
@@ -181,13 +148,12 @@ function MyPage() {
             {/* member.memberCategory 값에 따라 링크 섹션을 조건부로 렌더링합니다. */}
             {/* member.memberCategory 값에 따라 링크 섹션을 조건부로 렌더링합니다. */}
             {tokenMember.memberCategory === 'M' ? personalLinks :
-              tokenMember.memberCategory === 'S' ? businessLinks :
-              tokenMember.memberCategory === 'A' ? adminLinks : undefined}
+                tokenMember.memberCategory === 'S' ? businessLinks :
+                    tokenMember.memberCategory === 'A' ? adminLinks : undefined}
           </div>
         </div>
       </div>
     );
   }
-
 }
 export default MyPage;
