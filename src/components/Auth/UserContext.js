@@ -1,4 +1,6 @@
 import { createContext, useContext, useState } from "react";
+import { getAccessToken } from "../utility/common";
+import jwtDecode from 'jwt-decode';
 
 const UserContext = createContext();
 
@@ -18,6 +20,7 @@ export default function UserProvider({ children }) {
     // 로그아웃 로직을 구현
     setUser(null);
   };
+
 
   return (
     <UserContext.Provider value={{ user, login, logout }}>

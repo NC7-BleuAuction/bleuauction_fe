@@ -31,13 +31,15 @@ import NoticeDetail from './components/Notice/NoticeDetail';
 import { useUser } from './components/Auth/UserContext';
 import StoreMyPage from './components/MyPage/StoreItemRegister'; // StoreMyPage 컴포넌트 파일의 경로에 따라 수정
 import { sendAxiosRequest } from './components/utility/common';
-import StoreItemAdd from './components/StoreItemDailyPrice/StoreItemAdd';
-import NoticeRegisterationForm from './components/Admin/NoticeRegisterationForm';
-import AdminNoticeList from './components/Admin/AdminNoticeList';
-import AdminNoticeDetail from './components/Admin/AdminNoticeDetail';
+import StoreItemAdd from  './components/StoreItemDailyPrice/StoreItemAdd';
+import NoticeRegisterationForm from  './components/Admin/NoticeRegisterationForm';
+import AdminNoticeList from  './components/Admin/AdminNoticeList';
+import AdminNoticeDetail from  './components/Admin/AdminNoticeDetail';
 import OrderMenuList from './components/MyPage/OrderMenuList';
 import StoreOrder from './components/MyPage/StoreOrder';
 import MenuDetail from './components/MyPage/MenuDetail';
+import StoreEditPage from './components/MyPage/StoreEdit';
+
 
 function App() {
 
@@ -99,6 +101,7 @@ function RoutingComponent() {
         <Route path="/reviewregister" element={<ReviewForm />} />
         <Route path="/market/detail" element={<MarketDetailPage />} />
         <Route path="/mypage" element={<MyPage />} />
+        <Route path="/mypage/store/edit" element={<StoreEditPage />} />
         <Route path="/storeRegister" element={<StoreRegisterPage />} />
         <Route path="/useredit" element={<UserEditPage />} />
         <Route path="/menuEdit" element={<MenuEdit />} />

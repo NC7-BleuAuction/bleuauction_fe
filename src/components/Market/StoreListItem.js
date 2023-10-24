@@ -3,6 +3,7 @@ import axios from 'axios';
 import styles from './StoreListItem.module.css';
 import { Link } from 'react-router-dom';
 import { isOpenNow, sendAxiosRequest, startEndTimeInfo } from '../utility/common';
+import { useUser } from '../Auth/UserContext';
 
 function StoreListItem(props) {
   let [store, setStore] = useState(props.data);
@@ -32,7 +33,7 @@ function StoreListItem(props) {
           {open == 'O' ? '영업중' : '영업종료'}
         </p>
         <div className={styles.storeListItemDetailBoxMore}>
-          <Link to="/market/detail">더보기&gt;</Link>
+          <Link to="/market/detail" state={store}>더보기&gt;</Link>
         </div>
       </div>
 

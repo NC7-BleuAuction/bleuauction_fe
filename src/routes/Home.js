@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Announce from '../components/MainPage/Announce';
-import Category from '../components/MainPage/Category';
 import StoreListItem from '../components/Market/StoreListItem';
 import StoreHome from '../components/StoreHome';
 import { Routes, Route } from 'react-router-dom';
-import { accessTokenRefresh, refreshTokenInvalid, isNullUndefinedOrEmpty, sendAxiosRequest } from '../components/utility/common';
+import { accessTokenRefresh, redirectLogin, isNullUndefinedOrEmpty, sendAxiosRequest } from '../components/utility/common';
 import { accordionSummaryClasses } from '@mui/material';
 
 function Home() {
@@ -39,7 +38,7 @@ function Home() {
   //           console.log('여기야');
   //           accessTokenRefresh();
   //         } else if (errorData === 'I') { // 토큰이 아예없거나 유효하지 않은 토큰
-  //           refreshTokenInvalid();
+  //           redirectLogin();
   //         }
   //       });
   //   }
@@ -52,17 +51,17 @@ function Home() {
         setStores(response.data);
       }
     }, error => console.log(error), null, 'UA');
+
   }, []);
 
 
   return (
     <>
       <Announce />
-      <Category />
       {stores && (
         <>
           <StoreHome stores={stores} />
-          <button onClick={() => { console.log(stores); window.sessionStorage.getItem("memberNo") }}>Click Me</button>
+          <button onClick={() => { console.log(stores); window.sessionStorage.getItem("memberNo") }}>더보기-></button>
         </>
       )}
     </>
