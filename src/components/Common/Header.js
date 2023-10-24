@@ -21,10 +21,10 @@ function Header() {
 
   let loginInit
 
-
   useEffect(() => {
+    
     if (isNullUndefinedOrEmpty(accessToken)) { // 로그인 중이면
-
+  console.log('Header.js => isUserLoggedIn: ', isTokenExpired(getAccessToken('a')));
       if (!decodedAccToken && decodedRefToken) { // accessToken은 유효하지 않으면서 refreshToken이 유효한 경우
         console.log('Header.js => 엑세스 토큰 만료에 따른 재발급!');
         if (currentURL.replace(mainUrl, '') !== '/') {
