@@ -14,8 +14,7 @@ function Announce() {
     margin: '0 auto',
     borderRadius: '30px',
     overflow: 'hidden',
-    boxShadow: '0px 0px 5px 20px #0067A3',
-    backgroundColor: '#0067A3',
+    boxShadow: '0px 0px 5px 20px #1565c0', /* 옅은 파랑색 */
   };
 
   const location = useLocation();
