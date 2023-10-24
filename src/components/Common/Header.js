@@ -33,13 +33,16 @@ function Header() {
     // }
   } else { // 둘다 유효하거나 accessToken만 유효한 경우
     console.log('Header.js => accessToken만 유효 OR accessToken과 refreshToken 모두 유효');
-    loginInit = isNullUndefinedOrEmpty(getAccessToken('d')) ? getLoginUserInfo(getAccessToken('d')) : null;
+    loginInit = isNullUndefinedOrEmpty(getAccessToken('d')) ? getAccessToken('d') : null;
   }
 
+console.log(getAccessToken('d'));
+console.log('dsfsdfdsfdsfdsfdsfsdf', isNullUndefinedOrEmpty(getAccessToken('d')))
+console.log('dsfsdfdsfdsfdsfdsfsdf', loginInit)
 
   const isUserLoggedIn = isNullUndefinedOrEmpty(loginInit);
 
-  console.log('Header.js => isUserLoggedIn: ', isUserLoggedIn);
+  console.log('Header.js => isUserLoggedIn: ', isTokenExpired(getAccessToken('a')));
 
   return (
     <>
@@ -52,7 +55,7 @@ function Header() {
           </form>
           {isUserLoggedIn ? (
             <>
-              <Link to='/mypage'>{loginInit.username}님 환영합니다!</Link>
+              <Link to='/mypage'>{loginInit.memberName}님 환영합니다!</Link>
               <Link onClick={logout}>로그아웃</Link>
             </>
           ) : (
