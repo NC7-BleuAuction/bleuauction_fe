@@ -17,7 +17,7 @@ function StoreListItem(props) {
 
   return (
     <div className={styles.storeListItemBox}>
-     /* <img src='/images/boss.png' className={styles.storeListItemBoss} /> */
+
 
     {store.storeAttaches && store.storeAttaches[0] ? (
                   <img  className={styles.storeListItemBoss}
