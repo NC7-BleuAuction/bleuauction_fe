@@ -5,6 +5,7 @@ import { sendAxiosRequest } from '../utility/common';
 import axios, { formToJSON } from 'axios';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom'; // 만약 react-router-dom을 사용한다면 이 부분을 추가합니다.
+import  './MenuEdit.css'
 
 
 function MenuEdit() {
@@ -73,21 +74,21 @@ function MenuEdit() {
 
 
 const renderMenus = menuData.map(menu => (
-  <div key={menu.menuNo} style={menuItemStyle}>
-    <h2 style={menuItemTitle}>{menu.menuName}</h2>
+  <div key={menu.menuNo} className="menu-item">
+    <h2 className="menu-title">{menu.menuName}</h2>
 
-    <p>사이즈: {menu.menuSize}</p>
-    <p>가격: {menu.menuPrice}</p>
-    <p>내용: {menu.menuContent}</p>
-    <div style={menuActions}>
-      <button onClick={() => handleDeleteMenu(menu.menuNo)}>삭제</button>
+    <p className="menu-detail">사이즈: {menu.menuSize}</p>
+    <p className="menu-detail">가격: {menu.menuPrice}</p>
+    <p className="menu-detail">내용: {menu.menuContent}</p>
+    <div  className="menu-actions">
+      <button  className="delete-button" onClick={() => handleDeleteMenu(menu.menuNo)}>삭제</button>
       <Link 
         to={{
           pathname: "/MenuDetail", // 수정할 메뉴의 상세 정보 페이지 경로
           state: { detailMenu: menu } // 현재 메뉴의 데이터
         }}
       >      
-      <button>수정하기</button>
+      <button className="edit-button">수정하기</button>
     </Link>
       {/* 추가적인 액션 버튼들이 위치할 수 있습니다. */}
     </div>

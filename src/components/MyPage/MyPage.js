@@ -9,8 +9,13 @@ function MyPage() {
 
   const defaultImage = '/images/rose.png';
 
+  let [memberNo, setMemberNo] = useState([]);
+  const tokenMember = jwtDecode(sessionStorage.getItem('accessToken'));
   const accessToken = sessionStorage.getItem('accessToken');
   const decodedAccToken = isTokenExpired(accessToken) ? null : jwtDecode(accessToken);
+
+
+
 // const [member, setMember] = useState(null);
 //  const [menuData, setMenuData] = useState([]); // 메뉴 데이터를 저장할 상태
 //
@@ -26,6 +31,15 @@ function MyPage() {
   //   }, error => console.log(error))
   // }
   //   , []);
+
+
+  // 이런식으로 하는건가?
+  useEffect(() => {
+    sendAxiosRequest(`/api/member/${memberNo}`, 'GET', null, response => {
+      console.log('/api/member/${memberNo}의 응답값 => ', response.data);
+      setMemberNo(response.data);
+    }, error => console.log(error), null, accessToken);
+  }, []);
 
 
 
@@ -145,35 +159,35 @@ function MyPage() {
     </>
   );
 
-  // if (member === null) {
+  if (tokenMember === null) {
   return <div>Loading...</div>; // 로딩 표시
-  // } else {
-  //   return (
-  //     <div style={outerContainerStyle}>
-  //       <div style={styles.container}>
-  //         <div style={styles.profileSection}>
-  //           <img src={defaultImage} alt={member.memberName} style={styles.profilePicture} />
-  //           <div style={styles.userInfo}>
-  //             <h2>{member.memberName}</h2>
-  //             <p> {member.memberCategory === 'M' ? '개인' :
-  //               member.memberCategory === 'S' ? '비즈니스' :
-  //                 member.memberCategory === 'A' ? '관리자' : '기타'}
-  //               계정</p>
-  //             <p>{member.memberEmail}</p>
-  //           </div>
-  //         </div>
+  } else {
+    return (
+      <div style={outerContainerStyle}>
+        <div style={styles.container}>
+          <div style={styles.profileSection}>
+            <img src={defaultImage} alt={tokenMember.memberName} style={styles.profilePicture} />
+            <div style={styles.userInfo}>
+              <h2>{tokenMember.memberName}</h2>
+              <p> {tokenMember.memberCategory === 'M' ? '개인' :
+                tokenMember.memberCategory === 'S' ? '비즈니스' :
+                tokenMember.memberCategory === 'A' ? '관리자' : '기타'}
+                계정</p>
+              <p>{tokenMember.memberEmail}</p>
+            </div>
+          </div>
 
-  //         <div style={styles.linkSection}>
-  //           {/* member.memberCategory 값에 따라 링크 섹션을 조건부로 렌더링합니다. */}
-  //           {/* member.memberCategory 값에 따라 링크 섹션을 조건부로 렌더링합니다. */}
-  //           {member.memberCategory === 'M' ? personalLinks :
-  //             member.memberCategory === 'S' ? businessLinks :
-  //               member.memberCategory === 'A' ? adminLinks : undefined}
-  //         </div>
-  //       </div>
-  //     </div>
-  //   );
-  // }
+          <div style={styles.linkSection}>
+            {/* member.memberCategory 값에 따라 링크 섹션을 조건부로 렌더링합니다. */}
+            {/* member.memberCategory 값에 따라 링크 섹션을 조건부로 렌더링합니다. */}
+            {tokenMember.memberCategory === 'M' ? personalLinks :
+              tokenMember.memberCategory === 'S' ? businessLinks :
+              tokenMember.memberCategory === 'A' ? adminLinks : undefined}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
 }
 export default MyPage;

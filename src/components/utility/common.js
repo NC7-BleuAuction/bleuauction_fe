@@ -14,7 +14,6 @@ export function isTokenExpired(token) {
 }
 
 
-
 export function isNullUndefinedOrEmpty(value) {
   const valueStr = value + '';
   if (valueStr === 'null' || value === 'undefined' || /^\s*$/.test(valueStr)) {
