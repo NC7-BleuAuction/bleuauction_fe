@@ -90,6 +90,11 @@ function StoreEditPage() {
       console.log("수정한 정보", formToJSON(updateStoreRequest))
       // console.log(formToJSON(updateStoreRequest));
       // 성공적으로 업데이트된 경우에 수행할 작업을 추가하세요
+      sendAxiosRequest(`/api/store/detailByMember?member=${loginUser?.memberNo}`, 'GET', null, (res) => {
+        setStore(res.data);
+      }, (err) => {
+        console.error('Failed to fetch store details', err);
+      }, null, accessToken);
     }, (error) => {
       console.error('가게 업데이트 중에 오류가 발생했습니다', error);
       // 오류 발생 시 처리를 추가하세요
