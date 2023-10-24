@@ -1,4 +1,4 @@
-import '../utility/Common.css';
+import '../utility/common.css';
 import React, {useState, useEffect} from 'react';
 import {formToJSON} from 'axios';
 import {useUser} from '../Auth/UserContext';
@@ -90,7 +90,7 @@ function ReviewWriteForm(props) {
                         }
 
                         console.log('여기다.');
-                        console.log('formToJSON', JSON.stringify(formData));
+                        console.log('formToJSON', formToJSON(formData));
                         sendAxiosMultipartRequest('/api/review/add', formData,
                             response => {
                                 console.log('/api/review/add =======> ', response.data);
@@ -126,7 +126,7 @@ function ReviewWriteForm(props) {
 function ReviewListDiv(props) {
     const pageRowCnt = 4;
     let [store, setStore] = useState(props.store);
-    let [accessToken, setAccessToekn] = useState(getAccessToken('a'));
+    let [accessToken, setAccessToekn] = useState(props.accessToken);
     let [loginUser, setLoginUser] = useState(props.loginUser);
     let [startPageNo, setStartPageNo] = useState(0);
     let [reviewList, setReviewList] = useState([]);
@@ -277,7 +277,7 @@ function ReviewListDiv(props) {
                                                         error => {
                                                             console.log(error);
                                                         }
-                                                    );
+                                                    , null, accessToken);
                                                 }}>[삭제]</p>
                                             </div>
                                         ))}
@@ -285,14 +285,14 @@ function ReviewListDiv(props) {
 
                                     <button type='button' className='ba-btn ba-margin-right20'
                                             onClick={() => {
-                                                let jsonObj = formToJSON(new FormData(document.getElementById('reviewUpdateForm' + index)));
-                                                console.log(jsonObj);
-                                                sendAxiosRequest('/api/review/update', 'POST', jsonObj, response => {
+                                                let obj = new FormData(document.getElementById('reviewUpdateForm' + index));
+                                                console.log(obj);
+                                                sendAxiosRequest('/api/review/update', 'POST', obj, response => {
                                                     console.log(response.data);
                                                     console.log('리뷰변경 성공!');
                                                     window.location.reload();
                                                     alert('리뷰를 성공적으로 변경하였습니다!');
-                                                }, error => console.log(error));
+                                                }, error => console.log(error), null, accessToken);
                                             }}>리뷰수정
                                     </button>
                                     <button type='button' className='ba-btn ba-margin-right10'
@@ -304,7 +304,7 @@ function ReviewListDiv(props) {
                                                         alert('리뷰가 성공적으로 삭제되었습니다!');
                                                     }, error => {
                                                         console.log(error);
-                                                    });
+                                                    }, null, accessToken);
                                                 }}>리뷰삭제
                                     </button>
                                 </div>) : (<div></div>)
@@ -320,7 +320,7 @@ function ReviewListDiv(props) {
 
                         {
                             selectedReviewNo == review.reviewNo && (
-                                <AnswerForm reviewNo={review.reviewNo} loginUser={loginUser}/>
+                                <AnswerForm accessToken={accessToken} reviewNo={review.reviewNo} loginUser={loginUser}/>
                             )
                         }
                     </div>
@@ -346,8 +346,8 @@ function AnswerForm(props) {
             <div id="answerWriteFormDiv">
                 <h4 className='ba-font-title'>답글작성</h4>
                 <form id="answerWriteForm">
-                    <input name='reviewNo' hidden value={props.reviewNo}></input>
-                    <input name='memberNo' hidden value={1}></input>
+                    <input name='reviewNo'  hidden value={props.reviewNo}></input>
+                    <input name='memberNo'  hidden value={props.loginUser.sub}></input>
                     <button type='button' className='ba-close-btn' onClick={
                         () => {
                             document.getElementById('answerWriteFormDiv').style.display = 'none';
@@ -356,20 +356,20 @@ function AnswerForm(props) {
                     }>x
                     </button>
                     <div>
-                        <textarea name='answerContent' className='ba-small-textarea'></textarea>
+                        <textarea id='answerContent' name='answerContent' className='ba-small-textarea'></textarea>
                     </div>
                     <div className='ba-btn-div'>
                         <button type='button' className='ba-btn ba-margin-right40' onClick={() => {
-                            let jsonObj = formToJSON(document.getElementById('answerWriteForm'));
-                            console.log(jsonObj);
-                            if (jsonObj.answerContent.trim().length < 1) {
+                            let obj = document.getElementById('answerWriteForm');
+                            let answerContentValue = document.getElementById('answerContent').value;
+                            if (answerContentValue.trim().length < 1) {
                                 alert('작성하실 답급 내용을 입력해주세요!');
                                 return;
                             }
-                            sendAxiosRequest('/api/answer/add', 'POST', jsonObj,
+                            sendAxiosRequest('/api/answer/add', 'POST', obj,
                                 response => {
-                                    window.location.reload();
                                     alert('답글을 성공적으로 작성하였습니다!');
+                                    // window.location.reload();
                                     console.log(response.data);
                                 }, error => console.log(error), null, accessToken);
                         }}>작성하기
@@ -377,7 +377,7 @@ function AnswerForm(props) {
                     </div>
                 </form>
             </div>
-            <AnswerListDiv reviewNo={props.reviewNo} loginUser={props.loginUser}></AnswerListDiv>
+            <AnswerListDiv accessToken={accessToken} reviewNo={props.reviewNo} loginUser={props.loginUser}></AnswerListDiv>
         </div>
     );
 }
@@ -386,7 +386,6 @@ function AnswerListDiv(props) {
     const pageRowCnt = 2;
     let [answerList, setAnswerList] = useState([]);
     let [startPageNo, setStartPageNo] = useState(0);
-
 
     useEffect(() => {
         sendAxiosRequest(`/api/answer/list?reviewNo=${props.reviewNo}`, "GET", null,
@@ -404,7 +403,7 @@ function AnswerListDiv(props) {
                 }
                 setAnswerList(response.data.answerList);
                 setStartPageNo(response.data.answerList.length / 2);
-            }, error => console.log(error));
+            }, error => console.log(error), null, props.accessToken);
 
         return () => {
         }
@@ -444,26 +443,26 @@ function AnswerListDiv(props) {
                                         <button type='button' className='ba-btn ba-margin-right20'
                                                 onClick={
                                                     () => {
-                                                        let jsonObj = formToJSON(new FormData(document.getElementById('answerUpdateForm' + index)));
-                                                        console.log(jsonObj);
-                                                        sendAxiosRequest(`/api/answer/update?`, 'POST', jsonObj, response => {
+                                                        let obj = new FormData(document.getElementById('answerUpdateForm' + index));
+                                                        console.log(obj);
+                                                        sendAxiosRequest(`/api/answer/update?`, 'POST', obj, response => {
                                                             window.location.reload();
                                                             alert('답글이 성공적으로 변경되었습니다!');
                                                         }, error => {
                                                             console.log(error);
-                                                        });
+                                                        }, null, props.accessToken);
                                                     }
                                                 }>답글수정
                                         </button>
                                         <button type='button' className='ba-btn ba-margin-right80'
                                                 onClick={
                                                     () => {
-                                                        sendAxiosRequest(`/api/answer/delete?answerNo=${answer.answerNo}`, 'GET', null, response => {
+                                                        sendAxiosRequest(`/api/answer/delete?answerNo=${answer.answerNo}&memberNo=${answer.member.memberNo}`, 'GET', null, response => {
                                                             window.location.reload();
                                                             alert('답글이 성공적으로 삭제되었습니다!');
                                                         }, error => {
                                                             console.log(error);
-                                                        });
+                                                        }, null, props.accessToken);
                                                     }
                                                 }>답글삭제
                                         </button>
@@ -491,7 +490,7 @@ function AnswerListDiv(props) {
 
                         }, error => {
                             console.log(error);
-                        })
+                        }, null, props.accessToken)
                 }}>더 보기
                 </button>
             </div>

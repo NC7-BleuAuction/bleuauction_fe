@@ -29,42 +29,43 @@ function OrderItem({ key, menu, orderMenu, update }) {
 
 
   return (
-    <>
-    <div className='order-item-box'>
-      
-      <div style={{overflow:'hidden'}}>
-        <img src={`https:kr.object.ncloudstorage.com/bleuauction-bucket/menu/${menu.menuAttaches[0].saveFilename}`}
-              alt={menu.menuAttaches[0].originFilename}/>
-      </div>
+      <>
+        <div className='order-item-box'>
 
-      <div>
-        <p>{menu.menuName}</p>
-      </div>
+          <div style={{overflow:'hidden'}}>
+            {/* // <img src={`https:kr.object.ncloudstorage.com/bleuauction-bucket/menu/${menu.menuAttaches[0].saveFilename}`} */}
+            {/* alt={menu.menuAttaches[0].originFilename}/> */}
+            <img src='/images/fish1.jpg'/>
+          </div>
 
-      <div>
-        <p>{menu.menuSize}</p>
-      </div>
+          <div>
+            <p>{menu.menuName}</p>
+          </div>
 
-      <div>
-       <p>{menu.menuPrice}</p>
-      </div>
+          <div>
+            <p>{menu.menuSize}</p>
+          </div>
 
-      <div>
-        {/* <button onClick={()=>setCount(count + 1)}>+</button> */}
-        <input
-              type="number"
-              name='count'
-              value={localItem.count}
-              onChange={handleNameChange}
+          <div>
+            <p>{menu.menuPrice}</p>
+          </div>
+
+          <div>
+            {/* <button onClick={()=>setCount(count + 1)}>+</button> */}
+            <input
+                type="number"
+                name='count'
+                value={localItem.count}
+                onChange={handleNameChange}
             />
-        {/* <button onClick={()=>setCount(count + 1)}>-</button> */}
-      </div>
-      
-    </div>
-    </>
+            {/* <button onClick={()=>setCount(count + 1)}>-</button> */}
+          </div>
+
+        </div>
+      </>
   );
 }
 
-          
+
 
 export default OrderItem;
