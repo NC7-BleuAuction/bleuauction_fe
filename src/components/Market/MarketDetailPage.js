@@ -36,20 +36,27 @@ function MarketDetailPage() {
     phone: '02-1234-5678',
   };
 
+
+
   useEffect(() => {
     if (store && store.storeNo) {
       // 상점 번호가 있는 경우에만 요청을 실행합니다.
       sendAxiosRequest(`/api/menu/${store.storeNo}`, 'GET', null, response => {
         if (response.data && response.data.length > 0) {
           console.log(response.data);
-          setMenuData(response.data); // 받아온 데이터로 상태를 업데이트합니다.
+          setMenuData(response.data.map((menu) => ({
+            ...menu,
+            count: 0
+          }))); // 받아온 데이터로 상태를 업데이트합니다.
           console.log(menuData);
         }
       }, error => {
         console.error("An error occurred while fetching the menus:", error);
-      });
+      }, null, accessToken);
     }
-  }, [store])
+  }, [])
+
+
 
 
   // 가게 정보 및 메뉴 정보를 불러오는 부분
@@ -87,7 +94,7 @@ function MarketDetailPage() {
       <div style={tabContainerStyle}>
         <TabBar activeTab={activeTab} onTabClick={setActiveTab} />
         {activeTab === 'menu' && <Button onClick={handleOrderClick} buttonText="주문하기" />}
-        <OrderModal menus={menuData} isOpen={modal} onClose={closeModal}/>
+        <OrderModal store={store} menus={menuData} isOpen={modal} onClose={closeModal} setMenuData={setMenuData} />
       </div>
       {activeTab === 'info' && <StoreInfoDetail storeDetail={storeDetail}/>}
       {activeTab === 'menu' && <MenuList menus={menuData}/>}

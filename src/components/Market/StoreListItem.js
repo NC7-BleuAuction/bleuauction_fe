@@ -6,7 +6,6 @@ import { isOpenNow, sendAxiosRequest, startEndTimeInfo } from '../utility/common
 import { useUser } from '../Auth/UserContext';
 
 function StoreListItem(props) {
-  // const {user, login} = useUser();
   let [store, setStore] = useState(props.data);
   let [open, setOpen] = useState('O');
 

@@ -38,6 +38,8 @@ import AdminNoticeDetail from  './components/Admin/AdminNoticeDetail';
 import OrderMenuList from './components/MyPage/OrderMenuList';
 import StoreOrder from './components/MyPage/StoreOrder';
 import MenuDetail from './components/MyPage/MenuDetail';
+import StoreEditPage from './components/MyPage/StoreEdit';
+
 
 function App() {
 
@@ -99,6 +101,7 @@ function RoutingComponent() {
         <Route path="/reviewregister" element={<ReviewForm />} />
         <Route path="/market/detail" element={<MarketDetailPage />} />
         <Route path="/mypage" element={<MyPage />} />
+        <Route path="/mypage/store/edit" element={<StoreEditPage />} />
         <Route path="/storeRegister" element={<StoreRegisterPage />} />
         <Route path="/useredit" element={<UserEditPage />} />
         <Route path="/menuEdit" element={<MenuEdit />} />
