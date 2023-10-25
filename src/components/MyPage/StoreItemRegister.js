@@ -1,4 +1,4 @@
-import '../utility/Common.css';
+import '../utility/common.css';
 import React, { useState, useEffect } from 'react';
 import { Form, Card, Button } from 'react-bootstrap';
 import { json, useNavigate } from 'react-router-dom';

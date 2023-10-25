@@ -4,15 +4,13 @@ import StoreHomeItem from './StoreHomeItem';
 
 function StoreHome({ stores }) {
   return (
-    <div className={styles.storeBox}>
-      {stores
-        .filter((item) => item.storeNo < 7)
-        .map((item, index) => (
-          <div key={index} className={styles.frame}>
-            <StoreHomeItem store={item} />
-          </div>
+      <div className={styles.storeBox}>
+        {stores.map((store, index) => (
+            <div key={index} className={styles.frame}>
+              <StoreHomeItem store={store} />
+            </div>
         ))}
-    </div>
+      </div>
   );
 }
 

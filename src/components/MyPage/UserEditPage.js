@@ -3,28 +3,42 @@ import InputField from './InputField';
 import { sendAxiosMultipartRequest, sendAxiosRequest } from '../utility/common';
 import axios, { formToJSON } from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
+import jwtDecode from 'jwt-decode';
 
 function UserEditPage() {
   const [currentImage, setCurrentImage] = useState('http://fvhsczepiibf19983519.cdn.ntruss.com/member/defaultProfile.jpg?type=f&w=50&h=50&ttype=jpg');
   const [member, setMember] = useState(null);
-
-
+  const [loginUser, setLoginUser] = useState(null);
+  const accessToken = sessionStorage.getItem('accessToken');
+  
   useEffect(() => {
-    sendAxiosRequest('api/member/loginCheck', 'GET', null, response => {
-      let loginUser = response.data.loginUser;
-      console.log(loginUser);
-      setMember(loginUser);
+    sendAxiosRequest(`/api/member/${jwtDecode(accessToken).sub}`, 'GET', null, (response) => {
+      console.log("응답 성공",response.data)
+      setMember(response.data)
       setCurrentImage('http://kr.object.ncloudstorage.com/bleuauction-bucket/' + loginUser.memberAttaches[0].filePath + loginUser.memberAttaches[0].saveFilename);
-    }, error => console.log(error))
+    }, (error) => {
+      console.log("응답 실패",error);
+    }, null, accessToken);
   }, []);
+  console.log('로그인유저: ',member)
+
+  // useEffect(() => {
+  //   sendAxiosRequest('api/member/loginCheck', 'GET', null, response => {
+  //     let loginUser = response.data.loginUser;
+  //     console.log(loginUser);
+  //     setMember(loginUser);
+  //     setCurrentImage('http://kr.object.ncloudstorage.com/bleuauction-bucket/' + loginUser.memberAttaches[0].filePath + loginUser.memberAttaches[0].saveFilename);
+  //   }, error => console.log(error))
+  // }, []);
 
 
   function memberUpdate() {
     let memberForm = document.getElementById('memberForm');
-    const formData = new FormData(memberForm);
+    // const formData = new FormData(memberForm);
+    const formData = new FormData();
     const updateMemberRequest = JSON.stringify(formData);
 
-    const updateMemberBlob = new Blob([updateMemberRequest], { type: 'application/json' });
+    const updateMemberBlob = new Blob([member], { type: 'application/json' });
     formData.append('updateMemberRequest', updateMemberBlob);
 
     const fileInput = document.getElementById('imageInput');
@@ -36,17 +50,30 @@ function UserEditPage() {
 
     console.log('formData: ', formData);
     console.log('formData: ', formToJSON(formData));
-    axios.post('/api/member/update', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    })
-      .then(response => {
+    // axios.post('/api/member/update', formData, {
+    //   headers: {
+    //     'Content-Type': 'multipart/form-data',
+    //     'Authorization': `Bearer ${accessToken}`
+    //   },
+    // })
+    //   .then(response => {
+    //     console.log('서버 응답:', response.data);
+    //   })
+    //   .catch(error => {
+    //     console.error('에러 발생:', error);
+    //   });
+
+      sendAxiosMultipartRequest('/api/member/update', formData, (response) => {
+        console.log("수정한 정보", formToJSON(formData))
         console.log('서버 응답:', response.data);
-      })
-      .catch(error => {
-        console.error('에러 발생:', error);
-      });
+
+        // console.log(formToJSON(updateStoreRequest));
+        // 성공적으로 업데이트된 경우에 수행할 작업을 추가하세요
+  
+      }, (error) => {
+        console.error('가게 업데이트 중에 오류가 발생했습니다', error);
+        // 오류 발생 시 처리를 추가하세요
+      }, accessToken);
   }
 
 
@@ -82,7 +109,7 @@ function UserEditPage() {
             <h1 style={styles.title}>일반 회원 정보 수정</h1>
             <InputField type="text" name="memberName" value={member.memberName} onChange={e => setMember({ ...member, memberName: e.target.value })} placeholder="Name" />
             <InputField type="email" name="memberEmail" value={member.memberEmail} onChange={e => setMember({ ...member, memberEmail: e.target.value })} placeholder="Email" />
-            <InputField type="password" name="memberPwd" value={member.memberPwd} onChange={e => setMember({ ...member, memberPwd: e.target.value })} placeholder="Password" />
+            <InputField type="text" name="memberPwd" value={member.memberPwd} onChange={e => setMember({ ...member, memberPwd: e.target.value })} placeholder="Password" />
             <InputField type="text" name="memberPhone" value={member.memberPhone} onChange={e => setMember({ ...member, memberPhone: e.target.value })} placeholder="Phone Number" />
             <InputField type="text" name="memberZipcode" value={member.memberZipcode} onChange={e => setMember({ ...member, memberZipcode: e.target.value })} placeholder="Postal Code" />
             <InputField type="text" name="memberAddr" value={member.memberAddr} onChange={e => setMember({ ...member, memberAddr: e.target.value })} placeholder="Primary Address" />

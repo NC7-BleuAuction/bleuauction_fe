@@ -3,6 +3,7 @@ import axios from 'axios';
 // import swal from 'sweetalert';
 // import { response } from 'express';
 // import { error } from 'console';
+import {getAccessToken, sendAxiosRequest} from '../utility/common';
 
 const Payment = () => {
   useEffect(() => {
@@ -18,49 +19,41 @@ const Payment = () => {
     };
   }, []);
 
-  function sendAxiosRequest(url, method, params, successCallback, errorCallback) {
-    console.log(url);
-    const axiosConfig = {
-      timeout: 5000,
-      url: url,
-      method: method,
-    };
-    if (params != null)
-      axiosConfig.params = params;
-    axios(axiosConfig).then(successCallback).catch(errorCallback);
-  }
+  const [accessToken, setAccessToken] = useState(getAccessToken('a'));
 
-  const memberNo = 1;
-  const payNo = 1;
-  const orderNo = 1;
+  // const memberNo = 1;
+  // const payNo = 1;
+  // const orderNo = 1;
   const [member, setMember] = useState(null);
   const [pay, setPay] = useState(null);
   const [order, setOrder] = useState(null);
 
   useEffect(() => {
     // Fetch member data
-    sendAxiosRequest(`/api/member/${memberNo}`, 'GET', null,
-      response => {
-
-        console.log('Member data:', response.data);
-        setMember(response.data); // Update member state
-      },
-      error => {
-        console.error('Error fetching member data:', error);
-      }
-    );
+    // sendAxiosRequest(`/api/member/${memberNo}`, 'GET', null,
+    //   response => {
+    //
+    //     console.log('Member data:', response.data);
+    //     setMember(response.data); // Update member state
+    //   },
+    //   error => {
+    //     console.error('Error fetching member data:', error);
+    //   }
+    // );
 
     // Fetch order data
-    sendAxiosRequest(`/api/order/detail/${orderNo}`, 'GET', null,
-      response => {
-        console.log('Order data:', response.data);
-        setOrder(response.data); // Update order state
-      },
-      error => {
-        console.error('Error fetching order data:', error);
-      }
-    );
-  }, []); // Empty dependency array to ensure this effect runs only once
+    // sendAxiosRequest(`/api/order/detail/${orderNo}`, 'GET', null,
+    //   response => {
+    //     console.log('Order data:', response.data);
+    //     setOrder(response.data); // Update order state
+    //   },
+    //   error => {
+    //     console.error('Error fetching order data:', error);
+    //   }
+    // );
+
+
+  }, []);
 
   const requestPay = () => {
     console.log('memberState', member);

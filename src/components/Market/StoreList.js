@@ -60,7 +60,7 @@ function StoreList() {
 
   return (
     <>
-      <Announce />
+      <Announce storeList={storeList}/>
       <div className={styles.storeListBox}>
         {storeList.map((store, index) => (
           <StoreListItem key={index} data={store} />
