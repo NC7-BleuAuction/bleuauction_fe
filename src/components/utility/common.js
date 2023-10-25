@@ -224,6 +224,14 @@ export function scrollMoveTop() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+export function getCurrentDay() {
+  const currentDate = new Date();
+  const dayOfWeek = currentDate.getDay(); // 0 (일요일)부터 6 (토요일)까지
+
+  return dayOfWeek;
+}
+
+
 // 현재 일 기준 가게 시작, 종료 시간
 export function startEndTimeInfo(store) {
   const currentDate = new Date();
@@ -255,6 +263,19 @@ export function isOpenNow(startTime, endTime) {
 
   // O: 마감 C: 영업중
   return currentTimeMinutes >= startTimeMinutes && currentTimeMinutes <= endTimeMinutes ? 'O' : 'C';
+}
+
+
+export function isStoreOpen(startTime, endTime, currentDay) {
+  const currentTime = new Date();
+  const openTime = new Date(currentTime.toDateString() + ' ' + startTime);
+  const closeTime = new Date(currentTime.toDateString() + ' ' + endTime);
+
+  if (currentTime >= openTime && currentTime <= closeTime) {
+    return <span style={{ color: 'blue' }}> (영업중)</span>;
+  } else {
+    return <span style={{ color: 'red' }}> (영업종료)</span>;
+  }
 }
 
 

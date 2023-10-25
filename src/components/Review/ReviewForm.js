@@ -339,8 +339,8 @@ function AnswerForm(props) {
             <div id="answerWriteFormDiv">
                 <h4 className='ba-font-title'>답글작성</h4>
                 <form id="answerWriteForm">
-                    <input name='reviewNo'  hidden value={props.reviewNo}></input>
-                    <input name='memberNo'   value={tokenMember.sub}></input>
+                    <input name='reviewNo' hidden value={props.reviewNo}></input>
+                    <input name='memberNo' hidden value={tokenMember.sub}></input>
                     <button type='button' className='ba-close-btn' onClick={
                         () => {
                             document.getElementById('answerWriteFormDiv').style.display = 'none';
