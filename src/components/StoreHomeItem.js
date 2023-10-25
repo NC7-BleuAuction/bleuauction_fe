@@ -49,16 +49,17 @@ function StoreHomeItem({store}) {
             {store.storeAttaches && store.storeAttaches[0] ? (
               <img
                 src={`https:kr.object.ncloudstorage.com/bleuauction-bucket/store/${store.storeAttaches[0].saveFilename}`}
-                alt={store.storeAttaches[0].originFilename}
+                alt={store.storeAttaches[0].originFilename }
+                className={styles.storeHomeItemBoss}
               />
             ) : (
-              <img src="/images/boss.png" alt="store" />
+              <img src="/images/boss.png" alt="store" className={styles.storeHomeItemBoss}/>
             )}
             {/* 가게 정보의 나머지 부분도 표시 */}
         <div className={styles.storeHomeItemHeader}>
           <p className={styles.storeHomeItemTitle}>{store.storeName}</p>
           <p className={styles.storeHomeItemBoxReview}>
-            <img className={styles.storeHomeItemFresh}src="/images/fresh.png"/>5.0
+            {/* <img className={styles.storeHomeItemFresh}src="/images/fresh.png"/>5.0 */}
           </p>
         </div>
         <div>

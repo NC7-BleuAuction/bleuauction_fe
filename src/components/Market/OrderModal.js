@@ -95,21 +95,44 @@ const [order, setOrder] = useState({
 
 
     // 주문 생성
-    console.log('order=>>>>>>>>>>>>>>>>>>>>>>', order);
-    sendAxiosRequest('/api/order/new', 'POST', order, response => {
-      if (response.data && response.data.length > 0) {
-        console.log("주문 생성에 성공했습니다:", response.data);
-        console.log('order=> : ', order);
-        console.log(typeof(order.orderType))
+    // console.log('order=>>>>>>>>>>>>>>>>>>>>>>', order);
+    // sendAxiosRequest('/api/order/new', 'POST', order, response => {
+    //     console.log("주문 생성에 성공했습니다:", response.data);
+    //     console.log('order=> : ', order);
+    // }, error => {
+    //   console.error("주문 생성에 실패했습니다:", error);
+    // }, null, accessToken);
+    // {
+    //   orderType: order.orderType,
+    //   orderPrice:order.orderPrice,
+    //   orderRequest:order.orderRequest,
+    //   recipientPhone:order.recipientPhone,
+    //   recipientName:order.recipientName,
+    //   recipientZipcode:order.recipientZipcode,
+    //   recipientAddr:order.recipientAddr,
+    //   recipientDetailAddr:order.recipientDetailAddr,
+    //   orderStatus:'',
+    // }
+    const data = new FormData();
+    data.append('orderType', order.orderType)
+    data.append('orderPrice', order.orderPrice)
+    data.append('orderRequest', order.orderRequest)
+    data.append('recipientPhone', order.recipientPhone)
+    data.append('recipientName', order.recipientName)
+    data.append('recipientZipcode', order.recipientZipcode)
+    data.append('recipientAddr', order.recipientAddr)
+    data.append('recipientDetailAddr', order.recipientDetailAddr)
+    data.append('orderStatus', order.orderStatus)
+ 
 
+
+    axios.post('/api/order/new', data, {
+      headers: {
+        'Content-Type': 'multipart/form-data', // JSON 형식으로 요청
       }
-    }, error => {
-      console.error("주문 생성에 실패했습니다:", error);
-    }, 'multipart/form-data', "UA");
-
-    // axios.post('/api/order/new')
-    //   .then(response => console.log("주문 생성에 성공했습니다:", response.data))
-    //   .catch(error => console.log(error));
+    })
+      .then(response => console.log("주문 생성에 성공했습니다:", response.data), console.log('order=> : ', order))
+      .catch(error => console.log(error));
         
     handleOrderMenu()
   }
