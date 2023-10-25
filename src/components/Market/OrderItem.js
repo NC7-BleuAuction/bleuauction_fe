@@ -31,11 +31,21 @@ function OrderItem({ key, menu, orderMenu, update }) {
   return (
     <>
     <div className='order-item-box'>
+      <div style={{overflow:'hidden', width: '70%', height: '80%'}}>
+
+    {menu.menuAttaches && menu.menuAttaches[0] ? (
+      <img 
+          src={`https:kr.object.ncloudstorage.com/bleuauction-bucket/menu/${menu.menuAttaches[0].saveFilename}`}
+          alt={menu.menuAttaches[0].originFilename}
+        />
+      ) : (
+        <img src="/images/boss.png" alt="store" />
+      )}
       
-      <div style={{overflow:'hidden'}}>
         {/* // <img src={`https:kr.object.ncloudstorage.com/bleuauction-bucket/menu/${menu.menuAttaches[0].saveFilename}`} */}
         {/* alt={menu.menuAttaches[0].originFilename}/> */}
-        <img src='/images/fish1.jpg'/>
+        {/* <img src='/images/fish1.jpg'/> */}
+
       </div>
 
           <div>
