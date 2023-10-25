@@ -2,7 +2,7 @@
   /* background-color: yellow; */
   width: 700px;
   height: 330px;
-  margin: 0 auto;
+  margin: 5% auto;
   display: grid;
   place-items: center;
   grid-template-columns: 1fr 1fr;
@@ -14,7 +14,8 @@
 
 .storeHomeItemBoss {
   border-radius: 10px;
-  width: 100%;
+  width: 280px;
+  height: 280px;
   margin: auto;
 }
 
@@ -51,7 +52,7 @@
   font-size: 30px;
   font-weight: 900;
   position: relative;
-  left: 5%;
+  /* left: 5%; */
   width: 50%;
 }
 

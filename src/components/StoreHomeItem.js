@@ -34,6 +34,7 @@ function StoreHomeItem({store}) {
 
 
   const isWorking = isCurrentTimeInRange(startTime, endTime) ? '영업중' : '영업 종료';
+  const isWorkingIcon = isCurrentTimeInRange(startTime, endTime) ? '/images/heart.png' : '/images/closed.jpg';
 
   // console.log(store);
 
@@ -57,15 +58,16 @@ function StoreHomeItem({store}) {
             )}
             {/* 가게 정보의 나머지 부분도 표시 */}
         <div className={styles.storeHomeItemHeader}>
-          <p className={styles.storeHomeItemTitle}>{store.storeName}</p>.\
+          <p className={styles.storeHomeItemTitle}>{store.storeName}</p>
+          {/* <p className={styles.storeHomeItemTitle}>{store.marketName}</p> */}
 
-          <p className={styles.storeHomeItemBoxReview}>
-            {/* <img className={styles.storeHomeItemFresh}src="/images/fresh.png"/>5.0 */}
-          </p>
+          {/* <p className={styles.storeHomeItemBoxReview}>
+            <img className={styles.storeHomeItemFresh}src="/images/fresh.png"/>5.0
+          </p> */}
         </div>
         <div>
         <p className={styles.storeHomeItemBoxReview}>
-        <img className={styles.storeHomeItemStateIcon} src="/images/heart.png"/>{isWorking}</p>
+        <img className={styles.storeHomeItemStateIcon} src={ isWorkingIcon }/>{isWorking}</p>
         </div>
         {/* <Button className={styles.storeHomeItemDetailBoxMore}>
           <Link to="/" variant="primary">더보기</Link>
