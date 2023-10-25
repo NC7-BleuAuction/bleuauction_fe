@@ -6,6 +6,7 @@ import { isOpenNow, sendAxiosRequest, startEndTimeInfo } from '../utility/common
 import { useUser } from '../Auth/UserContext';
 
 function StoreListItem(props) {
+  // const {user, login} = useUser();
   let [store, setStore] = useState(props.data);
   let [open, setOpen] = useState('O');
 
@@ -14,7 +15,6 @@ function StoreListItem(props) {
     let openStatus = isOpenNow(startEndTime[0], startEndTime[1]);
     setOpen(openStatus);
   }, []);
-
   return (
     <div className={styles.storeListItemBox}>
 

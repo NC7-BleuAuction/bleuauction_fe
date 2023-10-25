@@ -169,8 +169,8 @@ function StoreItemDailyPrice() {
               columnSorting: {
                 headerAction: true,
                 multiColumnSorting: true,
-                sortEmptyCells: false, // 빈 셀 정렬제외
-                indicator: true, // 정렬순서 표시
+                sortEmptyCells: false,
+                indicator: true,
                 initialConfig: {
                   column: 1,
                   sortOrder: 'desc',
@@ -182,8 +182,8 @@ function StoreItemDailyPrice() {
               rowHeights: 60,
               readOnly: true,
               afterGetColHeader: function (col, th) {
-                var cellWidth = this.getColWidth(col); // 각 열 헤더의 배경색을 셀 넓이만큼 설정
-                th.style.backgroundColor = '#0056b3'; // 배경색을 변경하려면 원하는 색상으로 수정
+                var cellWidth = this.getColWidth(col);
+                th.style.backgroundColor = '#0056b3';
                 th.style.color = 'white';
                 th.style.fontWeight = 'bold';
                 th.className = 'htMiddle';
@@ -284,8 +284,8 @@ function StoreItemDailyPrice() {
 
           />
           <div className="ba-span-div">
-            <span><strong>합계:</strong> {totalDailyPrice.toLocaleString()} (원)</span>
             <span><strong>평균:</strong> {Math.floor(averageDailyPrice).toLocaleString()} (원)</span>
+            <span><strong>합계:</strong> {totalDailyPrice.toLocaleString()} (원)</span>
           </div>
         </div>
 

@@ -11,7 +11,7 @@ function SideBar() {
     const [isChatModalOpen, setIsChatModalOpen] = useState(false);
     const [scrollPosition, setScrollPosition] = useState(window.pageYOffset);
 
-    const openRaysModal = () => {
+    const  openRaysModal = () => {
         setIsRaysModalOpen(true);
     };
 

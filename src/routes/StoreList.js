@@ -13,24 +13,21 @@ import styles from './StoreList.module.css'
 function StoreList() {
 
   const [data, setData] = useState([]);
-
   useEffect(() => {
     axios.get('/api/store/list')
-      .then(response => setData(response.data))
+      .then(response => {setData(response.data)})
       .catch(error => console.log(error));
-      // console.log(data);
+      console.log('너누구야 후아유?!', data);
   }, []);
 
   return (
     <>
     <Announce/>
     <button onClick={()=>{
-      console.log(data);
       }}>
       {data.length > 0 ? data[0].reviewContent : ''}
     </button>
     <div className={styles.storeListBox}>
-      {/* <Coupon/> */}
       <StoreListItem data={data}/>
     </div>
     </>

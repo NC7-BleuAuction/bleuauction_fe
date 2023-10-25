@@ -39,10 +39,9 @@ export function isNullUndefinedOrEmpty(value) {
   return value;
 }
 
-
 export function redirectLogin() {
-  alert('세션이 만료되어 재로그인이 필요합니다!');
   window.location.href = '/login';
+  alert('인증이 만료되어 재로그인이 필요합니다!');
 }
 
 export function accessTokenRefresh() {
@@ -87,12 +86,15 @@ export function getAccessToken(encodingOrDecodingType) {
 
   const accessToken = sessionStorage.getItem('accessToken');
 
-  if (isNullUndefinedOrEmpty(accessToken)) {
-    if (encodingOrDecodingType === 'a') {
-      return accessToken;
-    } else if (encodingOrDecodingType === 'd') {
-      return jwtDecode(accessToken);
-    }
+  if (isTokenExpired(accessToken)) {
+    redirectLogin();
+    return;
+  }
+
+  if (encodingOrDecodingType === 'a') {
+    return accessToken;
+  } else if (encodingOrDecodingType === 'd') {
+    return jwtDecode(accessToken);
   }
 
   return null;

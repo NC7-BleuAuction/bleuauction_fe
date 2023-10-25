@@ -2,8 +2,17 @@
   text-align: center;
 }
 
+.ba-important-text {
+  font-weight: bold;
+  color:red;
+}
+
 .ba-main-content-div {
   padding: 20px;
+}
+
+.ba-margin-bottom150 {
+ margin-bottom: 150px;
 }
 
 .ba-margin-tb50 {
