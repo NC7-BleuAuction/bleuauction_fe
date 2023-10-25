@@ -1,11 +1,40 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import jwtDecode from 'jwt-decode';
 // import swal from 'sweetalert';
 // import { response } from 'express';
 // import { error } from 'console';
-import {getAccessToken, sendAxiosRequest} from '../utility/common';
 
-const Payment = () => {
+const Payment = (props) => {
+  console.log('Payment입니다', props)
+  const [member, setMember] = useState(null);
+  const [pay, setPay] = useState(null);
+  const [order, setOrder] = useState(props.order);
+  const accessToken = sessionStorage.getItem('accessToken'); 
+  const orderHandler = props.saveOrder;
+  
+  
+  useEffect(() => {
+    sendAxiosRequest(`/api/member/${jwtDecode(accessToken).sub}`, 'GET', null, (response) => {
+      console.log("응답 성공",response.data)
+      setMember(response.data)
+    }, (error) => {
+      console.log("응답 실패",error);
+    }, null, accessToken);
+  }, []);
+
+  // useEffect(() => {
+  //   sendAxiosRequest('/api/order', 'GET', null, (response) => {
+  //     console.log("응답 성공",response.data)
+  //     setOrder(response.data)
+  //   }, (error) => {
+  //     console.log("응답 실패",error);
+  //   }, null, accessToken);
+  // }, []);
+
+  console.log('로그인유저: ',member)
+  console.log('오더: ',order)
+
   useEffect(() => {
     const jquery = document.createElement("script");
     jquery.src = "http://code.jquery.com/jquery-1.12.4.min.js";
@@ -19,57 +48,41 @@ const Payment = () => {
     };
   }, []);
 
-  const [accessToken, setAccessToken] = useState(getAccessToken('a'));
+  function sendAxiosRequest(url, method, params, successCallback, errorCallback) {
+    console.log(url);
+    const axiosConfig = {
+      timeout: 5000,
+      url: url,
+      method: method,
+    };
+    if (params != null)
+      axiosConfig.params = params;
+    axios(axiosConfig).then(successCallback).catch(errorCallback);
+  }
 
-  // const memberNo = 1;
+  // const memberNo = loginUser.memberNo;
   // const payNo = 1;
   // const orderNo = 1;
-  const [member, setMember] = useState(null);
-  const [pay, setPay] = useState(null);
-  const [order, setOrder] = useState(null);
-
-  useEffect(() => {
-    // Fetch member data
-    // sendAxiosRequest(`/api/member/${memberNo}`, 'GET', null,
-    //   response => {
-    //
-    //     console.log('Member data:', response.data);
-    //     setMember(response.data); // Update member state
-    //   },
-    //   error => {
-    //     console.error('Error fetching member data:', error);
-    //   }
-    // );
-
-    // Fetch order data
-    // sendAxiosRequest(`/api/order/detail/${orderNo}`, 'GET', null,
-    //   response => {
-    //     console.log('Order data:', response.data);
-    //     setOrder(response.data); // Update order state
-    //   },
-    //   error => {
-    //     console.error('Error fetching order data:', error);
-    //   }
-    // );
 
 
-  }, []);
+  const requestPay = (e) => {
+    e.preventDefault();
+    orderHandler()
 
-  const requestPay = () => {
     console.log('memberState', member);
     console.log('orderState', order);
 
-    const { IMP } = window;
-    const buyerEmail = member ? member.memberEmail : '';
-    const buyerName = member ? member.memberName : '';
-    const buyerTel = member ? member.memberPhone : '';
-    const name = order ? order.orderNo : '';
-    const buyerAddr = order ? order.resipientAddr : '';
-    const buyerPostcode = order ? order.resipientZipcode : '';
-    const amount = order.orderPrice;
+    // const { IMP } = window;
+    // const buyerEmail = member ? member.memberEmail : '';
+    // const buyerName = member ? member.memberName : '';
+    // const buyerTel = member ? member.memberPhone : '';
+    // const name = order ? order.orderNo : '';
+    // const buyerAddr = order ? order.resipientAddr : '';
+    // const buyerPostcode = order ? order.resipientZipcode : '';
+    // const amount = order.orderPrice;
 
-    IMP.init('imp11340204');
-
+    //IMP.init('imp11340204');
+    /*
     IMP.request_pay({
       pg: 'kakaopay.TC0ONETIME',
       pay_method: 'card',
@@ -123,6 +136,7 @@ const Payment = () => {
         alert('결제 실패');
       }
     });
+    */
   };
 
   return (
