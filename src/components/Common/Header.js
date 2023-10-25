@@ -46,7 +46,10 @@ function Header() {
     <>
       <div className={styles.headerBox}>
         <div className={styles.headerTop}>
-          <Link to="/" id={styles.headerTitle}>BLEU AUCTION</Link>
+          <div>
+            <Link to="/" id={styles.headerTitle}>BLEU AUCTION</Link>
+            <img src='/images/cuteLogo.jpg' alt='cute'/>
+          </div>
           {/* <form className={styles.headerSearchForm}>
             <input className={styles.headerSearchBox} type='text'
               placeholder='검색어를 입력하세요.'></input>
