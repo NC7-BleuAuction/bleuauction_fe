@@ -96,6 +96,7 @@ export function getAccessToken(encodingOrDecodingType) {
   } else if (encodingOrDecodingType === 'd') {
     return jwtDecode(accessToken);
   }
+
   return null;
 }
 
@@ -121,7 +122,7 @@ export function sendAxiosRequest(url, method, data, successCallback, errorCallba
     if (contentType === 'application/json') {
       axiosConfig.headers = {
         'Content-Type': contentType,
-        // 'Authorization': jwtToken !== 'UA' ? `Bearer ${jwtToken}` : 'UA',
+        'Authorization': jwtToken !== 'UA' ? `Bearer ${jwtToken}` : 'UA',
       };
       // JSON 객체일시 문자열로 변환
       axiosConfig.data = JSON.stringify(data);
@@ -146,7 +147,7 @@ export function sendAxiosRequest(url, method, data, successCallback, errorCallba
 }
 
 
-export function sendAxiosMultipartRequest(url, formData, successCallback, errorCallback,  jwtToken) {
+export function sendAxiosMultipartRequest(url, formData, successCallback, errorCallback, jwtToken) {
   console.log('sendAxiosMultipartRequest의 요청 URL: ', url);
   console.log('sendAxiosMultipartRequest의 요청 데이터: ', formData);
   const axiosConfig = {
@@ -155,8 +156,24 @@ export function sendAxiosMultipartRequest(url, formData, successCallback, errorC
     method: 'POST',
     data: formData,
     headers: {
-      'Content-Type': 'multipart/form-data',
       'Authorization': jwtToken !== 'UA' ? `Bearer ${jwtToken}` : 'UA',
+      'Content-Type': 'multipart/form-data',
+    }
+  };
+  axios(axiosConfig).then(successCallback).catch(errorCallback);
+}
+
+export function putsendAxiosMultipartRequest(url, formData, successCallback, errorCallback, jwtToken) {
+  console.log('sendAxiosMultipartRequest의 요청 URL: ', url);
+  console.log('sendAxiosMultipartRequest의 요청 데이터: ', formData);
+  const axiosConfig = {
+    timeout: 5000,
+    url: url,
+    method: 'PUT',
+    data: formData,
+    headers: {
+      'Authorization': jwtToken !== 'UA' ? `Bearer ${jwtToken}` : 'UA',
+      'Content-Type': 'multipart/form-data',
     }
   };
   axios(axiosConfig).then(successCallback).catch(errorCallback);

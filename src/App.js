@@ -39,6 +39,7 @@ import OrderMenuList from './components/MyPage/OrderMenuList';
 import StoreOrder from './components/MyPage/StoreOrder';
 import MenuDetail from './components/MyPage/MenuDetail';
 import StoreEditPage from './components/MyPage/StoreEdit';
+import MyOrderContent from './components/MyPage/MyOrderContent';
 
 
 function App() {

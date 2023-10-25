@@ -4,9 +4,9 @@ import axios, { formToJSON } from 'axios';
 import { sendAxiosRequest } from '../utility/common';
 
 
-const accessToken = sessionStorage.getItem('accessToken');
 
 function NoticeRegisterationForm() {
+  const accessToken = sessionStorage.getItem('accessToken');
   const [notice, setNotice] = useState({
     noticeTitle: 'title',
     noticeContent: 'content',

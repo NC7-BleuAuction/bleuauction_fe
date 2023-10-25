@@ -17,7 +17,17 @@ function StoreListItem(props) {
   }, []);
   return (
     <div className={styles.storeListItemBox}>
-      <img src='/images/boss.png' className={styles.storeListItemBoss} />
+
+
+    {store.storeAttaches && store.storeAttaches[0] ? (
+                  <img  className={styles.storeListItemBoss}
+                    src={`https:kr.object.ncloudstorage.com/bleuauction-bucket/store/${store.storeAttaches[0].saveFilename}`}
+                    alt={store.storeAttaches[0].originFilename}
+                  />
+                ) : (
+                  <img src="/images/boss.png" alt="store" />
+                )}
+
       <div className={styles.storeListItemDetailTop}>
         <div className={styles.storeListItemHeader}>
           <strong className={styles.storeListItemDetailName}>{store.storeName}</strong>
