@@ -86,7 +86,7 @@ function StoreIntro({storeInfo, store, coupons }) {
                     <img src="/images/boss.png" alt="store" />
                   )}
 
-      <h2>{store.storeName}</h2>
+      <h1 style={storename}>{store.storeName}</h1>
       {/* <img src={store.image} alt={store.name} style={imageStyle} /> */}
     </div>
     </div>
@@ -121,10 +121,10 @@ const storeInfoContainer = {
   };
 
 const imageStyle = {
-  width: '100%',
-  height: 'auto',
-  objectFit: 'cover',
-  // display: 'block',
+  width: '1344px', // 원하는 너비로 설정
+  height: '530px', // 원하는 높이로 설정
+  objectFit: 'cover', // 이미지 비율을 유지하면서 채우기 위한 설정 ('cover'는 이미지가 컨테이너를 꽉 채우도록 하며, 필요한 경우 이미지를 잘라냄)
+  borderRadius: '4px', 
 };
 
 const infoList = {
@@ -132,6 +132,11 @@ const infoList = {
   padding: '0',
   margin: '10px 0',
 };
+
+const storename = {
+  margin: '10px 0',
+
+}
 
 
 export default StoreIntro;
