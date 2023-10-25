@@ -1,9 +1,0 @@
-<changelist name="Uncommitted_changes_before_Update_at_2023-10-18_PM_8_09_[Changes]1" date="1697627770011" recycled="true" deleted="true">
-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-10-18_PM_8_09_[Changes]1/shelved.patch" />
-  <option name="DESCRIPTION" value="Uncommitted changes before Update at 2023-10-18 PM 8:09 [Changes]" />
-  <binary>
-    <option name="BEFORE_PATH" value="node_modules/.cache/default-development/index.pack" />
-    <option name="AFTER_PATH" value="node_modules/.cache/default-development/index.pack" />
-    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-10-18_PM_8_09_[Changes]1/index.pack" />
-  </binary>
-</changelist>

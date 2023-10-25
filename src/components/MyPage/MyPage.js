@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import axios, { formToJSON } from 'axios';
 import { isOpenNow, sendAxiosRequest, isTokenExpired } from '../utility/common';
 import jwtDecode from 'jwt-decode';
-
+import { useUser } from '../Auth/UserContext';
 function MyPage() {
   // 사용자 정보를 상태 혹은 API로부터 불러오기.
   // 예시
@@ -14,10 +14,12 @@ function MyPage() {
   //   profilePicture: '/images/rose.png',
   // };
 
+  const {user, login} = useUser();
   const defaultImage = '/images/rose.png';
-
   const accessToken = sessionStorage.getItem('accessToken');
   const member = isTokenExpired(accessToken) ? null : jwtDecode(accessToken);
+
+  console.log('user', useUser());
 
   const outerContainerStyle = {
     display: 'flex',
