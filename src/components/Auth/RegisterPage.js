@@ -76,10 +76,10 @@ function RegisterPage() {
 
     let formData = new FormData(e.target);
     let formObj = formToJSON(formData);
-    sendAxiosRequest('/api/member/signup', 'POST', formObj, response => {
-      console.log('응답값:', response.data);
+    sendAxiosRequest('/api/member/signup', 'POST', formData, response => {
+      console.log('회원 가입 응답값:', response.data);
       alert('회원가입에 성공하셨습니다!');
-      navigate('/');
+      // navigate('/');
     },
       error => {
         console.error('API 호출 중 에러 발생: ', error);
