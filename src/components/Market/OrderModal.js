@@ -152,8 +152,8 @@ const [order, setOrder] = useState({
         }, 'multipart/form-data', accessToken);
       })
     // }, 2000);
-        
-      
+
+
   }
 
   // const handleOrderMenu = () => {

@@ -61,7 +61,6 @@ function Home() {
       {stores && (
         <>
           <StoreHome stores={stores} />
-          <button onClick={() => { console.log(stores); window.sessionStorage.getItem("memberNo") }}>더보기-></button>
         </>
       )}
     </>
