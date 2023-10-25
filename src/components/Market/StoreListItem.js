@@ -32,9 +32,9 @@ function StoreListItem(props) {
         <div className={styles.storeListItemHeader}>
           <strong className={styles.storeListItemDetailName}>{store.storeName}</strong>
           <span className={styles.storeListItemDetailMarket}>{store.marketName}</span>
+          <span className={styles.storeListItemDetailIntroduce}>{store.storeAddr}</span>
         </div>
-        <p className={styles.storeListItemDetailIntroduce}>{store.storeAddr}</p>
-
+        
         <p className={styles.storeListItemBoxReview}>
           <img className={styles.storeListItemFresh} src='/images/fresh.png' />5.0 (1024)
         </p>
@@ -42,6 +42,7 @@ function StoreListItem(props) {
           <img className={styles.storeListItemStateIcon} src='/images/heart.png' />
           {open == 'O' ? '영업중' : '영업종료'}
         </p>
+
         <div className={styles.storeListItemDetailBoxMore}>
           <Link to="/market/detail" state={store}>더보기&gt;</Link>
         </div>
