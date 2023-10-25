@@ -15,17 +15,14 @@ function Home() {
 
   /* 토큰 들고 요청 예시 */
   // useEffect(() => {
-  //   if (isNullUndefinedOrEmpty(accessToken)) {   // AccessToken이 있을 때만 요청 
-
+  //   if (isNullUndefinedOrEmpty(accessToken)) {   // AccessToken이 있을 때만 요청
   //     // 요청 헤더에 엑세스 토큰 추가
   //     const config = {
   //       headers: {
   //         'Authorization': `Bearer ${accessToken}`
   //       }
   //     };
-
   //     console.log('Home.js headers: ', config);
-
   //     axios.get(`/api/store/list?pageLowCount=${pageRowCount}`, config)
   //       .then(response => {
   //         console.log('response.data: ', response.data);

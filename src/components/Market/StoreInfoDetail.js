@@ -27,8 +27,8 @@ function StoreInfoDetail({storeDetail}) {
             <li style={listItem}><FaRegBuilding style={{ marginRight: '10px' }} />시장 이름: {storeDetail.marketName}</li>
             <li style={listItem}><FaMapMarkerAlt style={{ marginRight: '10px' }} />기본 주소: {storeDetail.storeAddr}</li>
             <li style={listItem}><FaMapMarkerAlt style={{ marginRight: '10px' }} />상세 주소: {storeDetail.storeDetailAddr}</li>
-            <li style={listItem}><FaClock style={{ marginRight: '10px' }} />평일 운영 시간: {storeDetail.weekdayStartTime} ~ {storeDetail.weekdayEndTime}</li>
-            <li style={listItem}><FaClock style={{ marginRight: '10px' }} /> 운영 시간: {storeDetail.weekendStartTime} ~ {storeDetail.weekendEndTime}</li>
+            <li style={listItem}><FaClock style={{ marginRight: '10px' }} />평일 운영 시간: {storeDetail.weekdayStartTime} ~ {storeDetail.weekdayEndTime}<span>ddd</span></li>
+            <li style={listItem}><FaClock style={{ marginRight: '10px' }} />주말 운영 시간: {storeDetail.weekendStartTime} ~ {storeDetail.weekendEndTime}</li>
             <li style={listItem}>{storeDetail.store}</li>
           </ul>
         </div>

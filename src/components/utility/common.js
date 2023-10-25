@@ -108,6 +108,21 @@ export function getLoginUserInfo(decodedToken) {
   return null;
 }
 
+
+export function processAxiosTokenError(error) {
+  console.log('processAxiosTokenError ==========> ', error.data);
+  if (error.data === 'E') { // 토큰이 있으나 기간이 만료된 경우 => 엑세스 토큰 재발급
+    console.error('토큰의 기간이 만료되었습니다!');
+    accessTokenRefresh();
+  } else if (error.data === 'I') { // 서버에서 검증 받는데 실패한 토큰의 경우 => 로그인을 통한 완전 재발급
+    console.error('값이 누락되거나 유효하지 않은 토큰입니다!');
+    redirectLogin();
+  } else {
+    console.error('토큰 이외의 에러 발생!');
+  }
+}
+
+
 export function sendAxiosRequest(url, method, data, successCallback, errorCallback, contentType, jwtToken) {
   console.log('sendAxiosRequest의 요청 URL: ', url);
   console.log('sendAxiosRequest의 요청 데이터: ', data);
@@ -138,12 +153,13 @@ export function sendAxiosRequest(url, method, data, successCallback, errorCallba
       'Authorization': jwtToken !== 'UA' ? `Bearer ${jwtToken}` : 'UA',
     };
   }
-
   console.log('sendAxiosRequest().axiosConfig: ', axiosConfig);
 
   axios(axiosConfig)
     .then(successCallback)
-    .catch(errorCallback);
+    .catch(error => {
+      processAxiosTokenError(error);
+    });
 }
 
 
@@ -160,7 +176,9 @@ export function sendAxiosMultipartRequest(url, formData, successCallback, errorC
       'Content-Type': 'multipart/form-data',
     }
   };
-  axios(axiosConfig).then(successCallback).catch(errorCallback);
+  axios(axiosConfig).then(successCallback).catch(error => {
+    processAxiosTokenError(error);
+  });
 }
 
 export function putsendAxiosMultipartRequest(url, formData, successCallback, errorCallback, jwtToken) {
@@ -176,7 +194,9 @@ export function putsendAxiosMultipartRequest(url, formData, successCallback, err
       'Content-Type': 'multipart/form-data',
     }
   };
-  axios(axiosConfig).then(successCallback).catch(errorCallback);
+  axios(axiosConfig).then(successCallback).catch(error => {
+    processAxiosTokenError(error);
+  });
 }
 
 
