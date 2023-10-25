@@ -22,17 +22,18 @@ function NoticeDetail() {
           </colgroup>
           <thead className="thead-dark">
             <tr>
-              <th style={{ verticalAlign: 'middle' }}>제목</th>
+              <th style={{ verticalAlign: 'middle', backgroundColor: 'lightblue', fontSize: '20px' }}>제목</th>
               <td style={{ textAlign: 'left', verticalAlign: 'middle' }}>{notice.noticeTitle}</td>
             </tr>
             <tr>
-              <th style={{ verticalAlign: 'middle' }}>내용</th>
+              <th style={{ verticalAlign: 'middle', backgroundColor: 'lightblue', fontSize: '20px' }}>내용</th>
               <td style={{ textAlign: 'left', verticalAlign: 'middle' }}>
                 <textarea
                   className="form-control"
                   rows="10"
                   value={notice.noticeContent}
                   readOnly
+                  style={{ fontSize: '25px', height: '200px' }}
                 ></textarea>
               </td>
             </tr>

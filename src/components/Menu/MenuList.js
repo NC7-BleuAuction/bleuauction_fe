@@ -8,7 +8,7 @@ function MenuList({ menus }) {
     padding: '10px',
     marginBottom: '10px',
     textAlign: 'center',
-    width: '300px',
+    width: '690px',
   };
 
   return (
@@ -16,10 +16,13 @@ function MenuList({ menus }) {
       <ul style={{ listStyleType: 'none' }}>
         {menus.map(menu => (
           <li key={menu.menuNo} style={menuItemStyle}>
-            {menu.menuAttaches && <img src={menu.menuAttaches} alt={menu.menuName} style={{ width: '100%', height: 'auto' }} />}
+            {menu.menuAttaches &&
+                menu.menuAttaches.map(attach => (
+                    <img src={`https://kr.object.ncloudstorage.com/bleuauction-bucket/${attach.filePath}` + `${attach.saveFilename}`} alt={attach.originFilename} style={{ width: '100%', height: 'auto' }} />)
+                )}
             <h2>{menu.menuName}</h2>
-            <p>{menu.menuSize}</p>
-            <p>{menu.menuPrice}</p>
+            <h5><b>{menu.menuSize === 'L' ? '<대(大)>' : menu.menuSize === 'M' ? '<중(中)>' : '<소(小)>'}</b></h5>
+            <p>{menu.menuPrice.toLocaleString()} (원)</p>
             <p>{menu.menuContent}</p>
           </li>
         ))}

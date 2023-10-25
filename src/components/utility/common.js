@@ -39,10 +39,9 @@ export function isNullUndefinedOrEmpty(value) {
   return value;
 }
 
-
 export function redirectLogin() {
-  alert('세션이 만료되어 재로그인이 필요합니다!');
   window.location.href = '/login';
+  alert('인증이 만료되어 재로그인이 필요합니다!');
 }
 
 export function accessTokenRefresh() {
@@ -87,12 +86,15 @@ export function getAccessToken(encodingOrDecodingType) {
 
   const accessToken = sessionStorage.getItem('accessToken');
 
-  if (isNullUndefinedOrEmpty(accessToken)) {
-    if (encodingOrDecodingType === 'a') {
-      return accessToken;
-    } else if (encodingOrDecodingType === 'd') {
-      return jwtDecode(accessToken);
-    }
+  if (isTokenExpired(accessToken)) {
+    redirectLogin();
+    return;
+  }
+
+  if (encodingOrDecodingType === 'a') {
+    return accessToken;
+  } else if (encodingOrDecodingType === 'd') {
+    return jwtDecode(accessToken);
   }
 
   return null;
@@ -105,6 +107,21 @@ export function getLoginUserInfo(decodedToken) {
   }
   return null;
 }
+
+
+export function processAxiosTokenError(error) {
+  console.log('processAxiosTokenError ==========> ', error.data);
+  if (error.data === 'E') { // 토큰이 있으나 기간이 만료된 경우 => 엑세스 토큰 재발급
+    console.error('토큰의 기간이 만료되었습니다!');
+    accessTokenRefresh();
+  } else if (error.data === 'I') { // 서버에서 검증 받는데 실패한 토큰의 경우 => 로그인을 통한 완전 재발급
+    console.error('값이 누락되거나 유효하지 않은 토큰입니다!');
+    redirectLogin();
+  } else {
+    console.error('토큰 이외의 에러 발생!');
+  }
+}
+
 
 export function sendAxiosRequest(url, method, data, successCallback, errorCallback, contentType, jwtToken) {
   console.log('sendAxiosRequest의 요청 URL: ', url);
@@ -136,12 +153,13 @@ export function sendAxiosRequest(url, method, data, successCallback, errorCallba
       'Authorization': jwtToken !== 'UA' ? `Bearer ${jwtToken}` : 'UA',
     };
   }
-
   console.log('sendAxiosRequest().axiosConfig: ', axiosConfig);
 
   axios(axiosConfig)
     .then(successCallback)
-    .catch(errorCallback);
+    .catch(error => {
+      processAxiosTokenError(error);
+    });
 }
 
 
@@ -158,7 +176,9 @@ export function sendAxiosMultipartRequest(url, formData, successCallback, errorC
       'Content-Type': 'multipart/form-data',
     }
   };
-  axios(axiosConfig).then(successCallback).catch(errorCallback);
+  axios(axiosConfig).then(successCallback).catch(error => {
+    processAxiosTokenError(error);
+  });
 }
 
 export function putsendAxiosMultipartRequest(url, formData, successCallback, errorCallback, jwtToken) {
@@ -174,7 +194,9 @@ export function putsendAxiosMultipartRequest(url, formData, successCallback, err
       'Content-Type': 'multipart/form-data',
     }
   };
-  axios(axiosConfig).then(successCallback).catch(errorCallback);
+  axios(axiosConfig).then(successCallback).catch(error => {
+    processAxiosTokenError(error);
+  });
 }
 
 
@@ -201,6 +223,14 @@ export function handleInputChange(e, index, state, stateSetter) {
 export function scrollMoveTop() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+
+export function getCurrentDay() {
+  const currentDate = new Date();
+  const dayOfWeek = currentDate.getDay(); // 0 (일요일)부터 6 (토요일)까지
+
+  return dayOfWeek;
+}
+
 
 // 현재 일 기준 가게 시작, 종료 시간
 export function startEndTimeInfo(store) {
@@ -233,6 +263,19 @@ export function isOpenNow(startTime, endTime) {
 
   // O: 마감 C: 영업중
   return currentTimeMinutes >= startTimeMinutes && currentTimeMinutes <= endTimeMinutes ? 'O' : 'C';
+}
+
+
+export function isStoreOpen(startTime, endTime, currentDay) {
+  const currentTime = new Date();
+  const openTime = new Date(currentTime.toDateString() + ' ' + startTime);
+  const closeTime = new Date(currentTime.toDateString() + ' ' + endTime);
+
+  if (currentTime >= openTime && currentTime <= closeTime) {
+    return <span style={{ color: 'blue' }}> (영업중)</span>;
+  } else {
+    return <span style={{ color: 'red' }}> (영업종료)</span>;
+  }
 }
 
 

@@ -40,6 +40,17 @@
   }
 
   .order-item-box img {
-    width: 70%;
+    height: 100%;
+    /* width: 70%; */
   }
   
+  .delivery {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 7fr;
+    place-items: center;
+  }
+
+  .delivery input {
+    width: 40%;
+  }
