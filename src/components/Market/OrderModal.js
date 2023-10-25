@@ -133,17 +133,15 @@ const [order, setOrder] = useState({
     })
       .then(response => console.log("주문 생성에 성공했습니다:", response.data), console.log('order=> : ', order))
       .catch(error => console.log(error));
-        
-    handleOrderMenu()
-  }
 
-  const handleOrderMenu = () => {
-    //주문 메뉴 추가 생성
-    setTimeout(() => {
+    // setTimeout(() => {
       orderMenus.map((orderMenu) => {
-        console.log('orderMenu=> : ', orderMenu);
+        const data2 = new FormData();
+        data2.append('menuNo', orderMenu.menuNo)
+        data2.append('orderMenuCount', orderMenu.orderMenuCount)
+        console.log('orderMenu=> : ', data2);
 
-        sendAxiosRequest('/api/ordermenu/new', 'POST', orderMenu, response => {
+        sendAxiosRequest('/api/ordermenu/new', 'POST', data2, response => {
           if (response.data && response.data.length > 0) {
             console.log("주문메뉴 생성에 성공했습니다:", response.data);
             // console.log('orderMenu=> : ', orderMenu);
@@ -151,10 +149,32 @@ const [order, setOrder] = useState({
           }
         }, error => {
           console.error("주문메뉴 생성에 실패했습니다:", error);
-        }, null, accessToken);
+        }, 'multipart/form-data', accessToken);
       })
-    }, 6000);
+    // }, 2000);
+        
+      
   }
+
+  // const handleOrderMenu = () => {
+  //   //주문 메뉴 추가 생성
+  //   // setTimeout(() => {
+  //     orderMenus.map((orderMenu) => {
+  //       const data = new FormData(orderMenu);
+  //       console.log('orderMenu=> : ', orderMenu);
+
+  //       sendAxiosRequest('/api/ordermenu/new', 'POST', data, response => {
+  //         if (response.data && response.data.length > 0) {
+  //           console.log("주문메뉴 생성에 성공했습니다:", response.data);
+  //           // console.log('orderMenu=> : ', orderMenu);
+  //           console.log(typeof(orderMenu.menuNo))
+  //         }
+  //       }, error => {
+  //         console.error("주문메뉴 생성에 실패했습니다:", error);
+  //       }, 'multipart/form-data', accessToken);
+  //     })
+  //   // }, 6000);
+  // }
 
 
   const [activeSection, setActiveSection] = useState('orderInfo'); // 현재 활성화된 섹션을 추적
@@ -223,6 +243,7 @@ const [order, setOrder] = useState({
             </div>
 
             <h2>수령 정보</h2>
+            <div className='delivery'>
             <input
             type="text"
             name="recipientName"
@@ -271,8 +292,9 @@ const [order, setOrder] = useState({
             onChange={handleInputChange}
             required
           />
-            <button onClick={handleOrder}>결제하기</button>
-            {/* <Payment onClick={handleOrder}>결제하기</Payment> */}
+            {/* <button onClick={handleOrder}>결제하기</button> */}
+            <Payment orderData={order}  onClick={handleOrder}>결제하기</Payment>
+            </div>
           </div>
         )}
 

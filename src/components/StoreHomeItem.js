@@ -45,7 +45,7 @@ function StoreHomeItem({store}) {
       state= {store}
       className={styles.storeHomeItemDetailBoxMore}>
       <Card style={{ width: '18rem' }}>
-        <p>가게 이름: {store.storeName}</p>
+        {/* <p>가게 이름: {store.storeName}</p> */}
             {store.storeAttaches && store.storeAttaches[0] ? (
               <img
                 src={`https:kr.object.ncloudstorage.com/bleuauction-bucket/store/${store.storeAttaches[0].saveFilename}`}
@@ -57,7 +57,8 @@ function StoreHomeItem({store}) {
             )}
             {/* 가게 정보의 나머지 부분도 표시 */}
         <div className={styles.storeHomeItemHeader}>
-          <p className={styles.storeHomeItemTitle}>{store.storeName}</p>
+          <p className={styles.storeHomeItemTitle}>{store.storeName}</p>.\
+
           <p className={styles.storeHomeItemBoxReview}>
             {/* <img className={styles.storeHomeItemFresh}src="/images/fresh.png"/>5.0 */}
           </p>
