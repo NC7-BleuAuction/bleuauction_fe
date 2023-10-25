@@ -15,7 +15,7 @@ function StoreHomeItem({store}) {
     // 현재 날짜와 시간을 생성
     const currentDate = new Date();
     // 시작 시간과 종료 시간을 파싱 (예: "08:00" 형식)
-    
+
     // 현재 시간이 시작 시간과 종료 시간 사이에 있는지 확인
     return currentDate >= startTime && currentDate <= endTime;
   }
@@ -32,7 +32,7 @@ function StoreHomeItem({store}) {
   endTime.setMinutes(parseInt(endMinutes, 10));
   // endTime.setSecond(parseInt(endSecond, 10));
 
-  
+
   const isWorking = isCurrentTimeInRange(startTime, endTime) ? '영업중' : '영업 종료';
 
   // console.log(store);
@@ -45,7 +45,16 @@ function StoreHomeItem({store}) {
       state= {store}
       className={styles.storeHomeItemDetailBoxMore}>
       <Card style={{ width: '18rem' }}>
-        <img className={styles.storeHomeItemBoss} variant="top" src="/images/boss.png" />
+        <p>가게 이름: {store.storeName}</p>
+            {store.storeAttaches && store.storeAttaches[0] ? (
+              <img
+                src={`https:kr.object.ncloudstorage.com/bleuauction-bucket/store/${store.storeAttaches[0].saveFilename}`}
+                alt={store.storeAttaches[0].originFilename}
+              />
+            ) : (
+              <img src="/images/boss.png" alt="store" />
+            )}
+            {/* 가게 정보의 나머지 부분도 표시 */}
         <div className={styles.storeHomeItemHeader}>
           <p className={styles.storeHomeItemTitle}>{store.storeName}</p>
           <p className={styles.storeHomeItemBoxReview}>
