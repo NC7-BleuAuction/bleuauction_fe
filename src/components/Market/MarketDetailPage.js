@@ -75,6 +75,7 @@ function MarketDetailPage() {
     }
   }, [store]); // store가 변경될 때마다 이 훅을 재실행합니다.
 
+  console.log("store정보!!",store);
 
   const handleOrderClick = () => {
     // alert('주문하기 버튼 클릭!');
@@ -89,7 +90,7 @@ function MarketDetailPage() {
   return (
     <div>
       <div style={infoContainerStyle}>
-      <StoreInfo storeInfo={storeInfo} store={store} />
+      <StoreInfo store={store}/>
       </div>
       <div style={tabContainerStyle}>
         <TabBar activeTab={activeTab} onTabClick={setActiveTab} />

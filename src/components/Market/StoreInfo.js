@@ -69,7 +69,6 @@
 // export default StoreIntro;
 
 import React from 'react';
-import Coupon from '../Coupon/Coupon'; 
 
 function StoreIntro({storeInfo, store, coupons }) {
 
@@ -78,20 +77,17 @@ function StoreIntro({storeInfo, store, coupons }) {
   return (
     <div style={outerContainer}>
     <div style={introContainer}>
-      <img src={storeInfo.image} alt={storeInfo.name} style={imageStyle} />
-     <div style={storeInfoContainer}>
-      <h2>{storeInfo.name}</h2>
-      <ul style={infoList}>
-        <li>{storeInfo.storeDetailAddr}</li>
-        <li>{storeInfo.weekdayStartTime} ~ {storeInfo.weekdayEndTime}</li>
-        <li>{storeInfo.store}</li>
-      </ul>
-      </div>
-      {/* <div style={couponContainer}>
-        {coupons.map(coupon => (
-          <Coupon key={coupon.id} coupon={coupon} />
-        ))}
-      </div> */}
+    {store.storeAttaches && store.storeAttaches[0] ? (
+                    <img style={imageStyle}
+                      src={`https:kr.object.ncloudstorage.com/bleuauction-bucket/store/${store.storeAttaches[0].saveFilename}`}
+                      alt={store.storeAttaches[0].originFilename }
+                    />
+                  ) : (
+                    <img src="/images/boss.png" alt="store" />
+                  )}
+
+      <h2>{store.storeName}</h2>
+      {/* <img src={store.image} alt={store.name} style={imageStyle} /> */}
     </div>
     </div>
   );
@@ -110,16 +106,17 @@ const introContainer = {
     alignItems: 'center', // children들을 가운데 정렬
     backgroundColor: '#f0f0f0', // 연한 회색 배경
     padding: '0px',
-    borderRadius: '8px', // 소프트한 테두리를 위한 둥근 모서리 추가
+    borderRadius: '0px', // 소프트한 테두리를 위한 둥근 모서리 추가
     textAlign: 'center',
     width : '70%',
-    height: '100%'
+    height: '100%',
+    margin: '0px',
 };
 
 const storeInfoContainer = {
     textAlign: 'left', 
     padding: '20px',
-    marginBottom: '10px', // 쿠폰 컨테이너와의 간격을 조절
+    marginBottom: '0px', // 쿠폰 컨테이너와의 간격을 조절
     width : '100%',
   };
 
@@ -127,6 +124,7 @@ const imageStyle = {
   width: '100%',
   height: 'auto',
   objectFit: 'cover',
+  // display: 'block',
 };
 
 const infoList = {
