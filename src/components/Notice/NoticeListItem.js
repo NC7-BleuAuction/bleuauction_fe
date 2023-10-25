@@ -24,8 +24,8 @@ function NoticeListItem() {
           </colgroup>
           <thead className="thead-dark">
             <tr>
-              <th className="text-primary">번호</th>
-              <th className="text-primary">제목</th>
+              <th className="text-primary" style={{ backgroundColor: 'lightblue' }}>번호</th>
+              <th className="text-primary" style={{ backgroundColor: 'lightblue' }}>제목</th>
             </tr>
           </thead>
           <tbody>
