@@ -7,7 +7,21 @@ import { Carousel } from 'react-bootstrap';
 import { useLocation } from 'react-router-dom';
 import ReactPlayer from 'react-player';
 
-function Announce() {
+function Announce(props) {
+  const location = useLocation();
+  console.log(props.storeList);
+
+  let attaches;
+  if(location.pathname === '/store/list') {
+    attaches = props.storeList
+        .filter(store => store.storeAttaches.length > 0)
+        .flatMap(store => store.storeAttaches.map(attach => 'https://kr.object.ncloudstorage.com/bleuauction-bucket/' + attach.filePath + attach.saveFilename));
+    console.log('props.storeList', attaches);
+  }
+
+
+
+
   const carouselContainer = {
     height: '400px',
     width: '60%',
@@ -17,16 +31,15 @@ function Announce() {
     boxShadow: '0px 0px 5px 20px #1565c0', /* 옅은 파랑색 */
   };
 
-  const location = useLocation();
+
+
   const images = location.pathname !== '/store/list' ? [
     "/images/11ad8.png",
     "/images/11ad9.png",
     "/images/11ad6.png",
     "/images/11ad7.png",
     "https://www.youtube.com/watch?v=BTsODTH2SRk" // Add the video URL here
-  ] : [
-    "/images/login.png"
-  ];
+  ] :  attaches;
 
   return (
     <div style={carouselContainer}>
@@ -34,16 +47,17 @@ function Announce() {
         {images.map((image, index) => (
           <Carousel.Item key={index} id={styles.carousel}>
             {index === images.length - 1 ? (
+
               <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
                 <ReactPlayer url={image} playing style={{ margin: 'auto' }} />
               </div>
-            ) : (
-              <img src={image} alt={`슬라이드 ${index + 1}`} />
+            ) : (   <>
+                  <img src={image} alt={`슬라이드 ${index + 1}`} />
+                </>
             )}
           </Carousel.Item>
         ))}
       </Carousel>
-      <div>쿠폰div</div>
     </div>
   );
 }

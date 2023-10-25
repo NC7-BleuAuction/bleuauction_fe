@@ -15,7 +15,6 @@ function StoreListItem(props) {
     let openStatus = isOpenNow(startEndTime[0], startEndTime[1]);
     setOpen(openStatus);
   }, []);
-
   return (
     <div className={styles.storeListItemBox}>
       <img src='/images/boss.png' className={styles.storeListItemBoss} />

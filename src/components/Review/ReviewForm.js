@@ -14,20 +14,15 @@ import {
 
 function ReviewForm(props) {
     const [accessToken, setAccessToken] = useState(getAccessToken('a'));
-    const [tokenMeber, setTokenMember] = useState(getAccessToken('d'));
     const [store, setStore] = useState(props.store);
 
     // 로그인 확인
-    console.log('accessToken: ', accessToken);
-    console.log('tokenMeber: ', tokenMeber);
-
     if (!isTokenExpired(accessToken)) {
         return (
             <div id='maindDiv' className="review-main-div">
                 <div id='mainContentDiv' className="ba-main-content-div">
-                    <ReviewWriteForm accessToken={accessToken} loginUser={tokenMeber}
-                                     store={store}></ReviewWriteForm>
-                    <ReviewListDiv accessToken={accessToken} store={store} loginUser={tokenMeber}></ReviewListDiv>
+                    <ReviewWriteForm store={store}></ReviewWriteForm>
+                    <ReviewListDiv store={store} ></ReviewListDiv>
                 </div>
                 <div id="topBtnDiv" onClick={scrollMoveTop}>↑</div>
             </div>
@@ -37,21 +32,21 @@ function ReviewForm(props) {
 
 
 function ReviewWriteForm(props) {
-    let [loginUser, setLoginUser] = useState(props.loginUser);
+    const [accessToken, setAccessToken] = useState(getAccessToken('a'));
+    const [tokenMember, setTokenMember] = useState(getAccessToken('d'));
     let [store, setStore] = useState(props.store);
     let [reviewFreshness, setReviewFreshness] = useState('M');
 
-    if (loginUser != null && loginUser != undefined) {
-
+    if (!isTokenExpired(accessToken)) {
         return (
             <form id="reviewWriteForm" encType='multipart/form-data' className='ba-form'>
                 <label htmlFor='storeNo'><input id='storeNo' name='storeNo' value={store.storeNo}
                                                 hidden readOnly></input></label>
-                <label htmlFor='memberNo'><input id='memberNo' name='memberNo' value={loginUser.sub}
+                <label htmlFor='memberNo'><input id='memberNo' name='memberNo' value={tokenMember.sub}
                                                  hidden readOnly></input></label>
                 <img className='ba-member-profile'
                      src='http://fvhsczepiibf19983519.cdn.ntruss.com/member/defaultProfile.jpg?type=f&w=50&h=50&ttype=jpg'></img>
-                <sapn className='ba-font-name'>{loginUser.memberName}</sapn>
+                <sapn className='ba-font-name'>{tokenMember.memberName}</sapn>
                 <span className='ba-font-title'>신선도 :</span>
                 <label htmlFor='freshness-low' className='ba-freshness'><img src='/images/low.png'/><input
                     type="radio" id='freshness-low' name='reviewFreshness' value={'L'}
@@ -94,13 +89,13 @@ function ReviewWriteForm(props) {
                         sendAxiosMultipartRequest('/api/review/add', formData,
                             response => {
                                 console.log('/api/review/add =======> ', response.data);
-                                console.log('props.accessToken', props.accessToken)
+                                console.log('props.accessToken', accessToken)
                                 if (isNotNullOrNonEmpty(response.data)) {
                                     alert('리뷰를 성공적으로 작성하였습니다!');
                                     // window.location.reload();
                                 }
 
-                            }, error => console.log(error), props.accessToken);
+                            }, error => console.log(error), accessToken);
 
                     }}>리뷰작성
                     </button>
@@ -117,7 +112,6 @@ function ReviewWriteForm(props) {
                                document.getElementById('fileInfoSpan').textContent = '파일명: ' + fileInfoStr + ' 등 ' + files.length + '개의 첨부파일';
                            }}/>
                 </div>
-
             </form>
         );
     }
@@ -125,9 +119,9 @@ function ReviewWriteForm(props) {
 
 function ReviewListDiv(props) {
     const pageRowCnt = 4;
+    let [accessToken, setAccessToekn] = useState(getAccessToken('a'));
+    let [tokenMember, setTokenMember] = useState(getAccessToken('d'));
     let [store, setStore] = useState(props.store);
-    let [accessToken, setAccessToekn] = useState(props.accessToken);
-    let [loginUser, setLoginUser] = useState(props.loginUser);
     let [startPageNo, setStartPageNo] = useState(0);
     let [reviewList, setReviewList] = useState([]);
     let [selectedReviewNo, setSelectedReviewNo] = useState(null);
@@ -171,18 +165,16 @@ function ReviewListDiv(props) {
             response => {
                 console.log('/api/review/list => ', response.data);
                 if (isNotNullOrNonEmpty(response.data)) {
-                    let reviewList = response.data;
-                    setReviewList(reviewList);
-                    setNewAddLength(reviewList.length);
+                    let initReviewList = response.data;
+                    setReviewList(initReviewList);
+                    setNewAddLength(initReviewList.length);
                     setStartPageNo(Math.floor(newAddLength / pageRowCnt));
                 }
 
             }, error => console.log(error), null, accessToken)
     }, []);
 
-    console.log('reviewList', reviewList);
-    console.log('loginUser', loginUser);
-    if (reviewList) {
+    if (isNotNullOrNonEmpty(reviewList)) {
         return (
             <div id="reviewListDiv" className='review-list-div'>
                 {reviewList.length > 0 && reviewList.map((review, index) => (
@@ -252,7 +244,7 @@ function ReviewListDiv(props) {
                                         </div>
                                     </div>
                                 )}
-                                {review.member.memberNo == loginUser.sub ?
+                                {review.member.memberNo == tokenMember.sub ?
                                     (<textarea name='reviewContent' value={review.reviewContent}
                                                className='ba-textarea'
                                                onChange={(e) => handleInputChange(e, index, reviewList, setReviewList)}/>)
@@ -261,7 +253,7 @@ function ReviewListDiv(props) {
                                     )}
                             </div>
 
-                            {review.member.memberNo == loginUser.sub ?
+                            {review.member.memberNo == tokenMember.sub ?
                                 (<div className='ba-btn-div'>
                                     <div className='ba-file-list'>
                                         {review.reviewAttaches.map((attach) => (
@@ -320,7 +312,7 @@ function ReviewListDiv(props) {
 
                         {
                             selectedReviewNo == review.reviewNo && (
-                                <AnswerForm accessToken={accessToken} reviewNo={review.reviewNo} loginUser={loginUser}/>
+                                <AnswerForm reviewNo={review.reviewNo} />
                             )
                         }
                     </div>
@@ -333,7 +325,8 @@ function ReviewListDiv(props) {
 }
 
 function AnswerForm(props) {
-    const [accessToken, setAccessToken] = useState(props.accessToken);
+    const [accessToken, setAccessToken] = useState(getAccessToken('a'));
+    const [tokenMember, setTokenMember] = useState(getAccessToken('a'));
     return (
         <div>
             <hr/>
@@ -347,7 +340,7 @@ function AnswerForm(props) {
                 <h4 className='ba-font-title'>답글작성</h4>
                 <form id="answerWriteForm">
                     <input name='reviewNo'  hidden value={props.reviewNo}></input>
-                    <input name='memberNo'  hidden value={props.loginUser.sub}></input>
+                    <input name='memberNo'   value={tokenMember.sub}></input>
                     <button type='button' className='ba-close-btn' onClick={
                         () => {
                             document.getElementById('answerWriteFormDiv').style.display = 'none';
@@ -377,15 +370,18 @@ function AnswerForm(props) {
                     </div>
                 </form>
             </div>
-            <AnswerListDiv accessToken={accessToken} reviewNo={props.reviewNo} loginUser={props.loginUser}></AnswerListDiv>
+            <AnswerListDiv accessToken={accessToken} reviewNo={props.reviewNo} ></AnswerListDiv>
         </div>
     );
 }
 
 function AnswerListDiv(props) {
     const pageRowCnt = 2;
+    const [accessToken, setAccessToken] = useState(getAccessToken('a'));
+    const [tokenMember, setTokenMember] = useState(getAccessToken('d'));
     let [answerList, setAnswerList] = useState([]);
     let [startPageNo, setStartPageNo] = useState(0);
+
 
     useEffect(() => {
         sendAxiosRequest(`/api/answer/list?reviewNo=${props.reviewNo}`, "GET", null,
@@ -403,7 +399,7 @@ function AnswerListDiv(props) {
                 }
                 setAnswerList(response.data.answerList);
                 setStartPageNo(response.data.answerList.length / 2);
-            }, error => console.log(error), null, props.accessToken);
+            }, error => console.log(error), null, accessToken);
 
         return () => {
         }
@@ -425,7 +421,7 @@ function AnswerListDiv(props) {
                                                         className='ba-input-text' disabled/></span>
                             </div>
                         </div>
-                        {answer.member.memberNo == props.loginUser.sub ?
+                        {answer.member.memberNo == tokenMember.sub ?
                             (
                                 <div>
                                     <input type='text' name='answerNo' hidden
@@ -450,7 +446,7 @@ function AnswerListDiv(props) {
                                                             alert('답글이 성공적으로 변경되었습니다!');
                                                         }, error => {
                                                             console.log(error);
-                                                        }, null, props.accessToken);
+                                                        }, null, accessToken);
                                                     }
                                                 }>답글수정
                                         </button>
@@ -462,7 +458,7 @@ function AnswerListDiv(props) {
                                                             alert('답글이 성공적으로 삭제되었습니다!');
                                                         }, error => {
                                                             console.log(error);
-                                                        }, null, props.accessToken);
+                                                        }, null, accessToken);
                                                     }
                                                 }>답글삭제
                                         </button>
@@ -490,7 +486,7 @@ function AnswerListDiv(props) {
 
                         }, error => {
                             console.log(error);
-                        }, null, props.accessToken)
+                        }, null, accessToken)
                 }}>더 보기
                 </button>
             </div>
