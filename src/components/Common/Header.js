@@ -36,6 +36,7 @@ function Header() {
     } else if (isTokenExpired(accessToken) && isTokenExpired(refreshToken)) { // accessToken 과 refreshsToken이 모두 유효하지 않은경우
       console.log('Header.js => accessToken (X) && refreshToken (X)');
       redirectLogin(); // 로그인 필요 => 로그인 시 refreshsToken으로 accessToken 재발급
+
     } else { // 둘다 유효하거나 accessToken만 유효한 경우
       console.log('Header.js => accessToken만 유효 OR accessToken과 refreshToken 모두 유효');
       setTokenMember(getAccessToken('d')); //엑세스토큰 디코딩 한 값 으로 tokenMember 객체 초기화

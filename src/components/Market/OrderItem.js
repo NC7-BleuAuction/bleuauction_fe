@@ -48,34 +48,34 @@ function OrderItem({ key, menu, orderMenu, update }) {
 
       </div>
 
-      <div>
-        <p>{menu.menuName}</p>
-      </div>
+          <div>
+            <p>{menu.menuName}</p>
+          </div>
 
-      <div>
-        <p>{menu.menuSize}</p>
-      </div>
+          <div>
+            <p>{menu.menuSize}</p>
+          </div>
 
-      <div>
-       <p>{menu.menuPrice}</p>
-      </div>
+          <div>
+            <p>{menu.menuPrice}</p>
+          </div>
 
-      <div>
-        {/* <button onClick={()=>setCount(count + 1)}>+</button> */}
-        <input
-              type="number"
-              name='count'
-              value={localItem.count}
-              onChange={handleNameChange}
+          <div>
+            {/* <button onClick={()=>setCount(count + 1)}>+</button> */}
+            <input
+                type="number"
+                name='count'
+                value={localItem.count}
+                onChange={handleNameChange}
             />
-        {/* <button onClick={()=>setCount(count + 1)}>-</button> */}
-      </div>
-      
-    </div>
-    </>
+            {/* <button onClick={()=>setCount(count + 1)}>-</button> */}
+          </div>
+
+        </div>
+      </>
   );
 }
 
-          
+
 
 export default OrderItem;
