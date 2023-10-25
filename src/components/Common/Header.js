@@ -47,11 +47,12 @@ function Header() {
       <div className={styles.headerBox}>
         <div className={styles.headerTop}>
           <Link to="/" id={styles.headerTitle}>BLEU AUCTION</Link>
-          <form className={styles.headerSearchForm}>
+          {/* <form className={styles.headerSearchForm}>
             <input className={styles.headerSearchBox} type='text'
               placeholder='검색어를 입력하세요.'></input>
             <button id={styles.searchBtn} type="submit"></button>
-          </form>
+          </form> */}
+          <div/>
           {isNullUndefinedOrEmpty(tokenMember) ? (
             <>
               <Link to='/mypage'>{tokenMember.memberName}님 환영합니다!</Link>
