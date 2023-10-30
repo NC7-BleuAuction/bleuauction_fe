@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, PureComponent } from 'react';
 import axios from 'axios';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import './StoreItemDailyPrice.css';
 import { sendAxiosRequest, accessTokenRefresh, redirectLogin, isTokenExpired, getAccessToken, isNullUndefinedOrEmpty } from '../utility/common';
+import LineChart from '../utility/chartForm';
 
 // handsontable라이브러리 관련 import
 import 'handsontable/dist/handsontable.full.min.css';
@@ -11,6 +12,7 @@ import Handsontable from 'handsontable/base';
 import { registerAllModules } from 'handsontable/registry';
 import { HotTable } from '@handsontable/react';
 import { registerRenderer, textRenderer } from 'handsontable/renderers';
+
 
 registerAllModules();
 
@@ -119,6 +121,7 @@ function StoreItemDailyPrice() {
       'originStatus': originOptions[item.originStatus],
       'originPlaceStatus': originPlaceOptions[item.originPlaceStatus],
       'dailyPrice': item.dailyPrice,
+      'chartIcon': '차트',
     };
   });
 
@@ -148,19 +151,24 @@ function StoreItemDailyPrice() {
   console.log('transformedData: ', transformedData);
 
   return (
+
     <div className="daily-box">
+
       <h1>오늘의 시세</h1>
       <br />
       <div className="ba-price-list-div">
         <div>
+          <div className='ba-charts-div'>
+            <LineChart />
+          </div>
           <HotTable
             mergeCells={mergeCells}
             licenseKey="non-commercial-and-evaluation"
-            colHeaders={['기준날짜', '품목구분', '품목명', '품목크기', '자연/양식', '국산/수입', '원산지', '품목가격(원)',]}
+            // colHeaders={['기준날짜', '품목구분', '품목명', '품목크기', '자연/양식', '국산/수입', '원산지', '품목가격(원)', '차트보기']}
             data={transformedData}
             formattedAvg={'0,0,0'}
             rowHeaders={true}
-            colWidths={[250, 200, 200, 300, 200, 250, 200, 250]}
+            colWidths={[250, 200, 200, 300, 200, 200, 200, 200, 100]}
             columnHeaderHeight={50}
             filters={true}
             dropdownMenu={true}
@@ -178,7 +186,7 @@ function StoreItemDailyPrice() {
               },
               className: 'customFilterButtonExample1',
               width: 'auto',
-              height: 'auto',
+              height: '1000px',
               rowHeights: 60,
               readOnly: true,
               afterGetColHeader: function (col, th) {
@@ -248,6 +256,12 @@ function StoreItemDailyPrice() {
                     pattern: '0,0'
                   }
                 },
+                {
+                  title: '차트보기',
+                  type: 'text',
+                  data: 'chartIcon',
+                  className: 'htMiddle',
+                },
               ],
               afterFilter() {
                 const handsontableInstance = this;
@@ -255,8 +269,6 @@ function StoreItemDailyPrice() {
                 console.log('filters: ', filters.filtersRowsMap.indexedValues);
 
                 let filteredList = filters.filtersRowsMap.indexedValues;
-
-
                 let total = 0;
                 let avg = 0;
                 let totalCnt = 0;
@@ -288,7 +300,6 @@ function StoreItemDailyPrice() {
             <span><strong>합계:</strong> {totalDailyPrice.toLocaleString()} (원)</span>
           </div>
         </div>
-
       </div>
     </div>
   );

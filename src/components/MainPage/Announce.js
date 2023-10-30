@@ -9,14 +9,11 @@ import ReactPlayer from 'react-player';
 
 function Announce(props) {
   const location = useLocation();
-  console.log(props.storeList);
-
   let attaches;
-  if(location.pathname === '/store/list') {
+  if (location.pathname === '/store/list') {
     attaches = props.storeList
-        .filter(store => store.storeAttaches.length > 0)
-        .flatMap(store => store.storeAttaches.map(attach => 'https://kr.object.ncloudstorage.com/bleuauction-bucket/' + attach.filePath + attach.saveFilename));
-    console.log('props.storeList', attaches);
+      .filter(store => store.storeAttaches.length > 0)
+      .flatMap(store => store.storeAttaches.map(attach => 'https://kr.object.ncloudstorage.com/bleuauction-bucket/' + attach.filePath + attach.saveFilename));
   }
 
 
@@ -39,7 +36,7 @@ function Announce(props) {
     "/images/11ad6.png",
     "/images/11ad7.png",
     "https://www.youtube.com/watch?v=BTsODTH2SRk" // Add the video URL here
-  ] :  attaches;
+  ] : attaches;
 
   return (
     <div style={carouselContainer}>
@@ -51,9 +48,9 @@ function Announce(props) {
               <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
                 <ReactPlayer url={image} playing style={{ margin: 'auto' }} />
               </div>
-            ) : (   <>
-                  <img src={image} alt={`슬라이드 ${index + 1}`} />
-                </>
+            ) : (<>
+              <img src={image} alt={`슬라이드 ${index + 1}`} />
+            </>
             )}
           </Carousel.Item>
         ))}
