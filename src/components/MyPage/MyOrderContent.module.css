@@ -1,4 +1,3 @@
-
 .order_box {
   /* background-color: yellow; */
   width: 1500px;
@@ -6,49 +5,44 @@
   margin: 100px auto;
   border: 1px solid #000;
   /* border-radius: 15px; */
+
+.orderCard {
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  margin-bottom: 20px;
+  padding: 15px;
 }
 
-.order_store_title {
-  width:100%;
-  height: 100px;
-  text-align: left;
-  border-bottom: 1px solid black;
-
+.orderHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 15px;
 }
 
-.order_store_title span {
-  font-size: 30px;
-  position: relative;
-  left: 5%;
+.orderContent {
+  display: flex;
 }
 
-.order_item_box {
-  width:100%;
-  display: grid;
-  place-items: center;
-  grid-template-columns: 1fr 2fr 2fr 2fr;
-  border-bottom: 1px solid black;
+.orderImage img {
+  max-width: 160px;
+  max-height: 160px;
+  border-radius: 5px;
 }
 
-.order_item_box img {
-  width: 50%;
+.orderDetails {
+  flex-grow: 1;
+  padding-left: 10px;
 }
 
-.order_item_box span {
-
+.detailLink {
+  display: inline-block;
+  color: #3498db;
+  text-decoration: none;
+  margin-bottom: 10px;
 }
 
-.order_result_box {
-  height: 400px;
-  
-}
-
-.order_result_box span {
-  /* width: 30%; */
-  position: relative;
-  left: 30%;
-  top: 30%;
-  margin-right: 5%;
-}
-
-
+/* Additional styles as per your design requirements */

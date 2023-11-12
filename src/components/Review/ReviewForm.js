@@ -323,9 +323,15 @@ function ReviewListDiv(props) {
                   selectedReviewNo === review.reviewNo ? setSelectedReviewNo(null) : setSelectedReviewNo(review.reviewNo);
                 }}>답글
                 </button>
-              </div>
-            </form >
-
+            </div>
+            <div id="answerWriteFormDiv">
+                <h4 className='ba-font-title'>답글작성</h4>
+                <form id="answerWriteForm">
+                    <input name='reviewNo' hidden value={props.reviewNo}></input>
+                    <input name='memberNo' hidden value={tokenMember.sub}></input>
+                    <button type='button' className='ba-close-btn' onClick={
+                        () => {
+                            document.getElementById('answerWriteFormDiv').style.display = 'none';
             {
               selectedReviewNo == review.reviewNo && (
                 <AnswerForm reviewNo={review.reviewNo} />

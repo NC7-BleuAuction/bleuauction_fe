@@ -13,7 +13,6 @@ function Home() {
   const [pageRowCount, setPageRowCount] = useState([6]);
   const accessToken = sessionStorage.getItem('accessToken');
 
-
   useEffect(() => {
     sendAxiosRequest(`/api/store/list?pageLowCount=${pageRowCount}`, 'GET', null, response => {
       console.log('/api/store/list => response.data: ' + response.data);
