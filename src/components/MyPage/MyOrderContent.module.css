@@ -1,9 +1,10 @@
-/* MyOrderContent.module.css */
-.orderListContainer {
-  padding: 20px;
-  max-width: 1000px;
-  margin: auto;
-}
+.order_box {
+  /* background-color: yellow; */
+  width: 1500px;
+  /* height: 330px; */
+  margin: 100px auto;
+  border: 1px solid #000;
+  /* border-radius: 15px; */
 
 .orderCard {
   background-color: white;

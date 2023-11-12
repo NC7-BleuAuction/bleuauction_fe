@@ -96,16 +96,6 @@ function StroeItemAdd() {
 
     const navigate = useNavigate();
 
-    const handleSubmit = (event) => {
-        event.preventDefault(); // 기본 동작 막기
-        sendAxiosRequest ('/api/sidp/add', 'POST', item, response => {
-            console.log(response.data);
-        }, error => {
-            console.log(error);
-        }, null, accessToken);
-
-    };
-
     const item = {
         'dailyPrice': price,
         'itemName': fish,
@@ -116,6 +106,16 @@ function StroeItemAdd() {
         'wildFarmStatus': wild,
         'itemPrice': price
     }
+
+    const handleSubmit = (event) => {
+        event.preventDefault(); // 기본 동작 막기
+        sendAxiosRequest ('/api/sidp/add', 'POST', item, response => {
+            console.log(response.data);
+        }, error => {
+            console.log(error);
+        }, null, accessToken);
+
+    };
 
 
     return (

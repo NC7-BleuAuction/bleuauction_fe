@@ -4,7 +4,7 @@
 
 .ba-important-text {
   font-weight: bold;
-  color:red;
+  color: red;
 }
 
 .ba-main-content-div {
@@ -12,7 +12,7 @@
 }
 
 .ba-margin-bottom150 {
- margin-bottom: 150px;
+  margin-bottom: 150px;
 }
 
 .ba-margin-tb50 {
@@ -90,8 +90,8 @@
   width: 80%;
   height: 150px;
   border-radius: 8px;
+  border: none;
 }
-
 
 .ba-small-textarea {
   resize: none;
@@ -432,4 +432,10 @@ table thead {
 
 .ba-span-div>span {
   padding-left: 100px;
+}
+
+
+.ba-charts-div {
+  width: 60%;
+  height: 30%;
 }
