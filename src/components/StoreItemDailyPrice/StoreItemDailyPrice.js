@@ -159,7 +159,7 @@ function StoreItemDailyPrice() {
       <div className="ba-price-list-div">
         <div>
           <div className='ba-charts-div'>
-            <LineChart />
+            {/* <LineChart /> */}
           </div>
           <HotTable
             mergeCells={mergeCells}
@@ -168,7 +168,7 @@ function StoreItemDailyPrice() {
             data={transformedData}
             formattedAvg={'0,0,0'}
             rowHeaders={true}
-            colWidths={[250, 200, 200, 300, 200, 200, 200, 200, 100]}
+            colWidths={[250, 200, 200, 300, 200, 200, 250, 250]}
             columnHeaderHeight={50}
             filters={true}
             dropdownMenu={true}
@@ -256,12 +256,12 @@ function StoreItemDailyPrice() {
                     pattern: '0,0'
                   }
                 },
-                {
-                  title: '차트보기',
-                  type: 'text',
-                  data: 'chartIcon',
-                  className: 'htMiddle',
-                },
+                // {
+                //   title: '차트보기',
+                //   type: 'text',
+                //   data: 'chartIcon',
+                //   className: 'htMiddle',
+                // },
               ],
               afterFilter() {
                 const handsontableInstance = this;

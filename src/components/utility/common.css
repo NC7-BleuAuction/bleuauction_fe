@@ -90,8 +90,8 @@
   width: 80%;
   height: 150px;
   border-radius: 8px;
+  border: none;
 }
-
 
 .ba-small-textarea {
   resize: none;
