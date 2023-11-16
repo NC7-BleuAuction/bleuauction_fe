@@ -1,0 +1,139 @@
+
+/*.menu-item {
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+  }
+  
+  .menu-title {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+  }
+  
+  .menu-detail {
+    margin-bottom: 10px;
+  }
+  
+  .menu-actions {
+  }
+  
+  .delete-button, .edit-button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+    border-radius: 5px;
+  }
+  
+  .delete-button {
+    background-color: #ff6262;
+  }
+  
+  .edit-button {
+    background-color: #62a2ff;
+  }
+  
+  .delete-button:hover, .edit-button:hover {
+    opacity: 0.8;
+  }
+   
+
+
+
+
+
+
+.menu-item {
+  display: flex; 
+  align-items: center; 
+  border-bottom: 1px solid #ddd; 
+  padding: 10px 0;
+}
+
+.menu-image-container {
+  margin-right: 20px; 
+}
+
+.menu-details {
+  flex-grow: 1; 
+}
+
+.delete-button, .edit-button {
+  background: #4169e1;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px; 
+}
+
+.edit-button {
+  text-decoration: none; 
+}
+*/
+
+/* MenuEdit.css */
+
+.menu-item {
+  display: flex;
+  flex-direction: column; /* 요소들을 세로로 배열합니다. */
+  /* align-items: flex-start; 요소들이 컨테이너의 시작 부분(왼쪽)으로 정렬되게 합니다. */
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  position: relative; /* 삭제 버튼 위치 조정을 위해 추가합니다. */
+  display: flex; /* 항목들을 가로로 나열합니다. */
+  margin-bottom: 10px;
+  align-items: center; /* 이미지와 텍스트 항목이 상단에 정렬되도록 합니다. */
+
+}
+
+.menu-image-container {
+  margin-bottom: 20px; /* 이미지 아래에 공간을 추가합니다 (이미지와 텍스트 사이). */
+}
+
+.menu-details {
+  /* 이전에 flex-grow를 사용했던 것을 제거합니다. 이제 세로 배열이므로 필요 없습니다. */
+}
+
+.menu-title {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+.menu-detail {
+  margin-bottom: 10px;
+}
+
+.menu-actions {
+  margin-top: 10px;
+  position: absolute; /* 이 부분이 삭제 버튼을 오른쪽에 배치합니다. */
+  right: 15px; /* 오른쪽 경계로부터의 거리를 설정합니다. */
+  bottom: 15px; /* 하단 경계로부터의 거리를 설정합니다. */
+}
+
+.delete-button, .edit-button {
+  background: #ff6262;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.edit-button {
+  background: #62a2ff;
+}
+
+.delete-button:hover, .edit-button:hover {
+  opacity: 0.8;
+}
+

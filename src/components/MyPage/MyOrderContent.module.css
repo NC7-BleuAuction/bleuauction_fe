@@ -1,0 +1,48 @@
+.order_box {
+  /* background-color: yellow; */
+  width: 1500px;
+  /* height: 330px; */
+  margin: 100px auto;
+  border: 1px solid #000;
+  /* border-radius: 15px; */
+
+.orderCard {
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  margin-bottom: 20px;
+  padding: 15px;
+}
+
+.orderHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 15px;
+}
+
+.orderContent {
+  display: flex;
+}
+
+.orderImage img {
+  max-width: 160px;
+  max-height: 160px;
+  border-radius: 5px;
+}
+
+.orderDetails {
+  flex-grow: 1;
+  padding-left: 10px;
+}
+
+.detailLink {
+  display: inline-block;
+  color: #3498db;
+  text-decoration: none;
+  margin-bottom: 10px;
+}
+
+/* Additional styles as per your design requirements */

@@ -1,0 +1,92 @@
+/* StoreItemAdd.css */
+.freezer_box {
+  margin: 0 auto;
+  padding: 1%;
+  width: 80%;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.fish_item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.fish_image {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.selected {
+  border: 5px solid #0063f9;
+}
+
+.fish_size,
+.fish_price {
+  margin: 30px 0;
+}
+
+.fish_size input,
+.fish_price input {
+  width: 100%;
+  padding: 15px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+.fish_origin {
+  margin: 30px 0;
+}
+
+.origin_buttons,
+.filter_buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin: 30px 0;
+}
+
+.origin_buttons button,
+.filter_buttons button {
+  flex: 1;
+  background-color: #007bff;
+  color: #fff;
+  padding: 15px 30px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 5px;
+}
+
+.origin_buttons button.selected,
+.filter_buttons button.selected {
+  background-color: #0056b3;
+}
+
+.submit_button {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.submit_button button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 15px 30px;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 5px;
+}
