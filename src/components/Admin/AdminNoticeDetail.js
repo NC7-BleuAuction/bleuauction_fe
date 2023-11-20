@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { sendAxiosRequest } from '../utility/common';
-
+import { sendAxiosRequest } from '../../lib/common';
 
 function AdminNoticeDetail() {
   const accessToken = sessionStorage.getItem('accessToken');
@@ -14,17 +13,16 @@ function AdminNoticeDetail() {
 
   console.log('보내기 전 noticeNo 확인:', noticeNo);
 
-
   useEffect(() => {
-    axios.get(`/api/notice/detail/${noticeNo}`)
-      .then(response => {
+    axios
+      .get(`/api/notice/detail/${noticeNo}`)
+      .then((response) => {
         setNotice(response.data);
         setEditedTitle(response.data.noticeTitle);
         setEditedContent(response.data.noticeContent);
       })
-      .catch(error => console.log(error));
+      .catch((error) => console.log(error));
   }, [noticeNo]);
-
 
   const navigate = useNavigate();
 
@@ -34,17 +32,20 @@ function AdminNoticeDetail() {
     formData.append('noticeContent', editedContent);
     formData.append('noticeNo', noticeNo);
 
-
-    sendAxiosRequest(`/api/notice/update/${noticeNo}`, 'POST', formData, response => {
-      console.log('응답값:', response.data);
-      alert('공지사항이 수정 되었습니다.');
-    },
-    error => {
-      console.error('API 호출 중 에러 발생: ', error);
-      alert('공지사항 수정 실패하셨습니다!');
-    },
-    null,
-    accessToken
+    sendAxiosRequest(
+      `/api/notice/update/${noticeNo}`,
+      'POST',
+      formData,
+      (response) => {
+        console.log('응답값:', response.data);
+        alert('공지사항이 수정 되었습니다.');
+      },
+      (error) => {
+        console.error('API 호출 중 에러 발생: ', error);
+        alert('공지사항 수정 실패하셨습니다!');
+      },
+      null,
+      accessToken
     );
     navigate('/admin/notice/list');
   };
@@ -54,12 +55,20 @@ function AdminNoticeDetail() {
   } else {
     return (
       <div className="container-fluid">
-        <div className="row justify-content-center align-items-center" style={{ height: '100vh' }}>
+        <div
+          className="row justify-content-center align-items-center"
+          style={{ height: '100vh' }}
+        >
           <div className="col-md-6">
-            <form onSubmit={handleUpdateNotice} className="p-4 bg-light rounded shadow-sm">
+            <form
+              onSubmit={handleUpdateNotice}
+              className="p-4 bg-light rounded shadow-sm"
+            >
               <h2>공지사항 수정</h2>
               <div className="mb-3">
-                <label htmlFor="editedTitle" className="form-label">제목</label>
+                <label htmlFor="editedTitle" className="form-label">
+                  제목
+                </label>
                 <input
                   type="text"
                   id="editedTitle"
@@ -69,7 +78,9 @@ function AdminNoticeDetail() {
                 />
               </div>
               <div className="mb-3">
-                <label htmlFor="editedContent" className="form-label">내용</label>
+                <label htmlFor="editedContent" className="form-label">
+                  내용
+                </label>
                 <textarea
                   id="editedContent"
                   value={editedContent}
