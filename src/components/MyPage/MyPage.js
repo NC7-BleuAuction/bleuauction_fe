@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios, { formToJSON } from 'axios';
-import { isOpenNow, sendAxiosRequest, isTokenExpired } from '../utility/common';
+import { isOpenNow, sendAxiosRequest, isTokenExpired } from '../../lib/common';
 import jwtDecode from 'jwt-decode';
 import { useUser } from '../Auth/UserContext';
 function MyPage() {
@@ -14,7 +14,7 @@ function MyPage() {
   //   profilePicture: '/images/rose.png',
   // };
 
-  const {user, login} = useUser();
+  const { user, login } = useUser();
   const defaultImage = '/images/rose.png';
   const accessToken = sessionStorage.getItem('accessToken');
   const member = isTokenExpired(accessToken) ? null : jwtDecode(accessToken);
@@ -88,10 +88,14 @@ function MyPage() {
   const personalLinks = (
     <>
       <div style={styles.linkContainer}>
-        <Link to="/useredit" style={styles.link}>회원정보 수정</Link>
+        <Link to="/useredit" style={styles.link}>
+          회원정보 수정
+        </Link>
       </div>
       <div style={styles.linkContainer}>
-        <Link to="/my-orders" style={styles.link}>마이 오더</Link>
+        <Link to="/my-orders" style={styles.link}>
+          마이 오더
+        </Link>
       </div>
     </>
   );
@@ -100,24 +104,29 @@ function MyPage() {
   const businessLinks = (
     <>
       <div style={styles.linkContainer}>
-        <Link to="/useredit" style={styles.link}>회원정보 수정</Link>
+        <Link to="/useredit" style={styles.link}>
+          회원정보 수정
+        </Link>
       </div>
       <div style={styles.linkContainer}>
-          <Link
-            to= "/menuEdit"
-            style={styles.link}
-          >
-            메뉴 관리
-      </Link>
-      </div>
-        <div style={styles.linkContainer}>
-            <Link to="/mypage/store/edit" style={styles.link}>가게수정</Link>
+        <Link to="/menuEdit" style={styles.link}>
+          메뉴 관리
+        </Link>
       </div>
       <div style={styles.linkContainer}>
-        <Link to="/order-confirmation" style={styles.link}>주문확인</Link>
+        <Link to="/mypage/store/edit" style={styles.link}>
+          가게수정
+        </Link>
       </div>
       <div style={styles.linkContainer}>
-        <Link to="/storeRegister" style={styles.link}>가게등록</Link>
+        <Link to="/order-confirmation" style={styles.link}>
+          주문확인
+        </Link>
+      </div>
+      <div style={styles.linkContainer}>
+        <Link to="/storeRegister" style={styles.link}>
+          가게등록
+        </Link>
       </div>
     </>
   );
@@ -126,9 +135,10 @@ function MyPage() {
   const adminLinks = (
     <>
       <div style={styles.linkContainer}>
-        <Link to="/admin/notice/list" style={styles.link}>공지사항 관리</Link>
+        <Link to="/admin/notice/list" style={styles.link}>
+          공지사항 관리
+        </Link>
       </div>
-
     </>
   );
 
@@ -139,13 +149,24 @@ function MyPage() {
       <div style={outerContainerStyle}>
         <div style={styles.container}>
           <div style={styles.profileSection}>
-            <img src={defaultImage} alt={member.memberName} style={styles.profilePicture} />
+            <img
+              src={defaultImage}
+              alt={member.memberName}
+              style={styles.profilePicture}
+            />
             <div style={styles.userInfo}>
               <h2>{member.memberName}</h2>
-              <p> {member.memberCategory === 'M' ? '개인' :
-                member.memberCategory === 'S' ? '비즈니스' :
-                  member.memberCategory === 'A' ? '관리자' : '기타'}
-                계정</p>
+              <p>
+                {' '}
+                {member.memberCategory === 'M'
+                  ? '개인'
+                  : member.memberCategory === 'S'
+                  ? '비즈니스'
+                  : member.memberCategory === 'A'
+                  ? '관리자'
+                  : '기타'}
+                계정
+              </p>
               <p>{member.memberEmail}</p>
             </div>
           </div>
@@ -153,9 +174,13 @@ function MyPage() {
           <div style={styles.linkSection}>
             {/* member.memberCategory 값에 따라 링크 섹션을 조건부로 렌더링합니다. */}
             {/* member.memberCategory 값에 따라 링크 섹션을 조건부로 렌더링합니다. */}
-            {member.memberCategory === 'M' ? personalLinks :
-              member.memberCategory === 'S' ? businessLinks :
-                member.memberCategory === 'A' ? adminLinks : undefined}
+            {member.memberCategory === 'M'
+              ? personalLinks
+              : member.memberCategory === 'S'
+              ? businessLinks
+              : member.memberCategory === 'A'
+              ? adminLinks
+              : undefined}
           </div>
         </div>
       </div>
