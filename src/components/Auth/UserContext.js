@@ -1,5 +1,5 @@
-import { createContext, useContext, useState } from "react";
-import { getAccessToken } from "../utility/common";
+import { createContext, useContext, useState } from 'react';
+import { getAccessToken } from '../../lib/common';
 import jwtDecode from 'jwt-decode';
 
 const UserContext = createContext();
@@ -21,14 +21,12 @@ export default function UserProvider({ children }) {
     setUser(null);
   };
 
-
   return (
     <UserContext.Provider value={{ user, login, logout }}>
       {children}
     </UserContext.Provider>
   );
 }
-
 
 // const Context = createContext({
 //     loggedUser: {
@@ -57,7 +55,7 @@ export default function UserProvider({ children }) {
 //   const setLoggedIn = () => {
 //       setState(prevState => (
 //           {
-//               ...prevState, 
+//               ...prevState,
 //               loggedIn: !prevState.loggedIn
 //           }
 //       ))
