@@ -3,6 +3,8 @@ import { axios, formToJSON } from 'axios';
 import styles from './Header.module.css';
 import { Link } from 'react-router-dom';
 import { useUser } from '../Auth/UserContext';
+import { useNavigate } from 'react-router-dom';
+
 import {
   redirectLogin,
   getAccessToken,
@@ -30,7 +32,7 @@ function Header() {
   console.log('Header.js => accessToken 디코딩값 : ', decodedAccToken);
   console.log('Header.js => refreshToken 디코딩값 : ', decodedRefToken);
   // console.log('(currentURL.replace(mainUrl)', currentURL.replace(mainUrl, ''));
-
+  
   useEffect(() => {
     if (isTokenExpired(accessToken)) {
       // accessToken이 유효하지 않은경우
@@ -43,7 +45,7 @@ function Header() {
       setTokenMember(getAccessToken('d')); //엑세스토큰 디코딩 한 값 으로 tokenMember 객체 초기화
     }
   }, []);
-
+  
   return (
     <>
       <div className={styles.headerBox}>
@@ -57,8 +59,8 @@ function Header() {
           {/* <form className={styles.headerSearchForm}>
             <input className={styles.headerSearchBox} type='text'
               placeholder='검색어를 입력하세요.'></input>
-            <button id={styles.searchBtn} type="submit"></button>
-          </form> */}
+              <button id={styles.searchBtn} type="submit"></button>
+            </form> */}
           <div />
           {isNullUndefinedOrEmpty(tokenMember) ? (
             <>

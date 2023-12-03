@@ -13,7 +13,7 @@ import {
   getAccessToken,
   isTokenExpired,
 } from '../../lib/common';
-import styles from './StoreList.module.css';
+import styles from './StoreList.module.css';  
 import jwtDecode from 'jwt-decode';
 
 function StoreList() {

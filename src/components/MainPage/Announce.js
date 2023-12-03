@@ -34,8 +34,9 @@ function Announce(props) {
     "/images/11ad8.png",
     "/images/11ad9.png",
     "/images/11ad6.png",
-    "/images/11ad7.png",
-    "https://www.youtube.com/watch?v=BTsODTH2SRk" // Add the video URL here
+    "/images/11ad7.png"
+    // ,
+    // "https://www.youtube.com/watch?v=BTsODTH2SRk" // Add the video URL here
   ] : attaches;
 
   return (
