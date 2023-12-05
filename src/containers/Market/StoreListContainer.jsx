@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import Announce from '../MainPage/Announce';
-import Coupon from '../MainPage/Announce';
-import Category from '../MainPage/Category';
-import StoreListItem from './StoreListItem';
-import StoreHome from '../StoreHome';
-import { Routes, Route } from 'react-router-dom';
+import Announce from '../../components/MainPage/Announce';
 import {
   isOpenNow,
   sendAxiosRequest,
@@ -13,10 +7,9 @@ import {
   getAccessToken,
   isTokenExpired,
 } from '../../lib/common';
-import styles from './StoreList.module.css';
-import jwtDecode from 'jwt-decode';
+import StoreListComponent from '../../components/Market/StoreListComponent';
 
-function StoreList() {
+function StoreListContainer() {
   const pageLowCount = 3;
   const [startPageNo, setStartPageNo] = useState(0);
   const [storeList, setStoreList] = useState([]);
@@ -87,16 +80,9 @@ function StoreList() {
   return (
     <>
       <Announce storeList={storeList} />
-      <div className={styles.storeListBox}>
-        {storeList.map((store, index) => (
-          <StoreListItem key={index} data={store} />
-        ))}
-      </div>
-      <div id="topBtnDiv" onClick={scrollMoveTop}>
-        ↑
-      </div>
+      <StoreListComponent storeList={storeList} scrollMoveTop={scrollMoveTop} />
     </>
   );
 }
 
-export default StoreList;
+export default StoreListContainer;

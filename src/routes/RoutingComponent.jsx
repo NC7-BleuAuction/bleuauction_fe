@@ -9,7 +9,7 @@ import LoginPage from '../components/Auth/LoginPage';
 import RegisterPage from '../components/Auth/RegisterPage';
 import MenuList from '../components/Menu/MenuList';
 import MenuRegisterationForm from '../components/Menu/MenuRegisterationForm';
-import StoreList from '../components/Market/StoreList';
+import StoreListPage from '../pages/StoreListPage';
 import MarketDetailPage from '../components/Market/MarketDetailPage';
 import StoreInfoDetail from '../components/Market/StoreInfoDetail';
 import ReviewForm from '../components/Review/ReviewForm';
@@ -48,7 +48,7 @@ function RoutingComponent() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/" exact={true} element={<Home />} />
-        <Route path="/store/list" element={<StoreList />} />
+        <Route path="/store/list" element={<StoreListPage />} />
         <Route path="/api/test" element={<Test />} />
         <Route path="/api/test2" element={<Test2 />} />
         <Route path="/menulist" element={<MenuList />} />
