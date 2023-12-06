@@ -4,20 +4,18 @@ import {
   isNullUndefinedOrEmpty,
   sendAxiosRequest,
 } from '../common';
+import springClient from '../springClient';
 
-export const list = ({ pageRowCount, setStores }) => {
-  sendAxiosRequest(
-    `/api/store/list?pageLowCount=${pageRowCount}`,
-    'GET',
-    null,
-    (response) => {
-      console.log('/api/store/list => response.data: ' + response.data);
-      if (isNullUndefinedOrEmpty(response.data)) {
-        setStores(response.data);
-      }
-    },
-    (error) => console.log(error),
-    null,
-    'UA'
+export const list = async ({
+  pageRowCount = 3,
+  jwtToken = null,
+  startPageNo = 0,
+}) =>
+  await springClient.get(
+    `/store/list?pageLowCount=${pageRowCount}&startPage=${startPageNo}`,
+    {
+      headers: {
+        Authorization: jwtToken !== 'UA' ? `Bearer ${jwtToken}` : 'UA',
+      },
+    }
   );
-};

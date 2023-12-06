@@ -6,6 +6,7 @@ import StoreListItem from '../components/Market/StoreListItem';
 import StoreHome from '../components/StoreHome';
 import { accordionSummaryClasses } from '@mui/material';
 import { list } from '../lib/api/store';
+import { isNullUndefinedOrEmpty } from '../lib/common';
 
 const HomeContainer = () => {
   const [stores, setStores] = useRecoilState(storeListState);
@@ -13,8 +14,15 @@ const HomeContainer = () => {
   const [pageRowCount, setPageRowCount] = useState([6]);
   const accessToken = sessionStorage.getItem('accessToken');
 
+  const initList = async () => {
+    const response = await list({ pageRowCount, jwtToken: 'UA' });
+    if (isNullUndefinedOrEmpty(response.data)) {
+      setStores(response.data);
+    }
+  };
+
   useEffect(() => {
-    list({ pageRowCount, setStores });
+    initList();
   }, []);
 
   return (

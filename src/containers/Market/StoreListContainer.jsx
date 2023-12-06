@@ -7,32 +7,45 @@ import {
   getAccessToken,
   isTokenExpired,
 } from '../../lib/common';
+import { list } from '../../lib/api/store';
 import StoreListComponent from '../../components/Market/StoreListComponent';
+import { useRecoilState } from 'recoil';
+import { storeListState } from '../../modules/stores';
 
 function StoreListContainer() {
   const pageLowCount = 3;
   const [startPageNo, setStartPageNo] = useState(0);
-  const [storeList, setStoreList] = useState([]);
+  const [storeList, setStoreList] = useRecoilState(storeListState);
   const [newAddLength, setNewAddLength] = useState(pageLowCount);
   const [isFetching, setIsFetching] = useState(false); // 스크롤 이벤트 실행 여부 체크 위한 flag
   const accessToken = sessionStorage.getItem('accessToken');
 
+  const initList = async () => {
+    const response = await list({ jwtToken: accessToken });
+    if (response?.data) {
+      setStoreList(response.data);
+      setNewAddLength(response.data.length);
+      setStartPageNo(Math.floor(response.data.length / pageLowCount));
+    }
+  };
   useEffect(() => {
-    sendAxiosRequest(
-      `/api/store/list`,
-      'GET',
-      null,
-      (response) => {
-        console.log('/api/store/list의 응답값 => ', response.data);
-        setStoreList(response.data);
-        setNewAddLength(response.data.length);
-        setStartPageNo(Math.floor(response.data.length / pageLowCount));
-      },
-      (error) => console.log(error),
-      null,
-      accessToken
-    );
+    initList();
   }, []);
+
+  const addList = async () => {
+    const response = await list({
+      jwtToken: accessToken,
+      startPageNo,
+    });
+    if (response?.data) {
+      let addReviewList = response.data;
+      setNewAddLength(addReviewList.length);
+      let newReviewList = [...storeList, ...addReviewList];
+      setStartPageNo(Math.floor(newReviewList.length / pageLowCount));
+      setStoreList(newReviewList);
+      setIsFetching(false);
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -46,29 +59,7 @@ function StoreListContainer() {
         setIsFetching(true);
 
         console.log('스크롤 이벤트 핸들러 작동');
-        sendAxiosRequest(
-          `/api/store/list?startPage=${startPageNo}`,
-          'GET',
-          null,
-          (response) => {
-            console.log(
-              `/api/store/list?startPage=${startPageNo}의 응답값 => `,
-              response.data
-            );
-            let addReviewList = response.data;
-            setNewAddLength(addReviewList.length);
-            let newReviewList = [...storeList, ...addReviewList];
-            setStartPageNo(Math.floor(newReviewList.length / pageLowCount));
-            setStoreList(newReviewList);
-            setIsFetching(false);
-          },
-          (error) => {
-            console.log(error);
-            setIsFetching(false);
-          },
-          null,
-          accessToken
-        );
+        addList();
       }
     };
     window.addEventListener('scroll', handleScroll);
