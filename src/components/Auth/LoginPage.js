@@ -12,17 +12,15 @@ import { useNavigate } from 'react-router-dom';
 import { formToJSON } from 'axios';
 import { useState, useContext } from 'react';
 import { useUser } from './UserContext';
-import { isOpenNow, sendAxiosRequest, isTokenExpired } from '../utility/common';
+import { isOpenNow, sendAxiosRequest, isTokenExpired } from '../../lib/common';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
-
-
 
 const defaultTheme = createTheme();
 
 function LoginPage() {
   const navigate = useNavigate();
-  const {user, login} = useUser();
+  const { user, login } = useUser();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -30,29 +28,39 @@ function LoginPage() {
 
     const loginRequest = {
       memberEmail: data.get('memberEmail'),
-      memberPwd: data.get('memberPwd')
+      memberPwd: data.get('memberPwd'),
     };
 
-    sendAxiosRequest('/api/member/login', 'POST', loginRequest, response => {
-      const repDataList = response.data;
-      console.log('repDataList',repDataList);
+    sendAxiosRequest(
+      '/api/member/login',
+      'POST',
+      loginRequest,
+      (response) => {
+        const repDataList = response.data;
+        console.log('repDataList', repDataList);
 
-      if (repDataList) {
-        const accessToken = response.data.accessToken;
-        const refreshToken = response.data.refreshToken;
-        const loginUser = response.data.loginUser;
-        login(loginUser);
-        if (!isTokenExpired(accessToken) && !isTokenExpired(refreshToken)) {
-          sessionStorage.setItem('accessToken', accessToken);
-          localStorage.setItem('refreshToken', refreshToken);
+        if (repDataList) {
+          const accessToken = response.data.accessToken;
+          const refreshToken = response.data.refreshToken;
+          const loginUser = response.data.loginUser;
+          login(loginUser);
+          if (!isTokenExpired(accessToken) && !isTokenExpired(refreshToken)) {
+            sessionStorage.setItem('accessToken', accessToken);
+            localStorage.setItem('refreshToken', refreshToken);
 
-          const decodedAccessToken = jwtDecode(accessToken);
-          alert("'" + decodedAccessToken.memberName + "' 회원님 BLEU AUCTION에 오신 것을 환영합니다!");
-          navigate('/');
+            const decodedAccessToken = jwtDecode(accessToken);
+            alert(
+              "'" +
+                decodedAccessToken.memberName +
+                "' 회원님 BLEU AUCTION에 오신 것을 환영합니다!"
+            );
+            navigate('/');
+          }
         }
-      }
-
-    }, error => console.log(error), 'application/json');
+      },
+      (error) => console.log(error),
+      'application/json'
+    );
   };
 
   return (
@@ -68,7 +76,9 @@ function LoginPage() {
             backgroundImage: 'url(/images/login.png)',
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) =>
-              t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+              t.palette.mode === 'light'
+                ? t.palette.grey[50]
+                : t.palette.grey[900],
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}
@@ -83,11 +93,15 @@ function LoginPage() {
               alignItems: 'center',
             }}
           >
-
             <Typography component="h1" variant="h5">
               안녕하세요 블루옥션입니다.
             </Typography>
-            <Box component="form" sx={{ mt: 1 }} noValidate onSubmit={handleSubmit}>
+            <Box
+              component="form"
+              sx={{ mt: 1 }}
+              noValidate
+              onSubmit={handleSubmit}
+            >
               <TextField
                 margin="normal"
                 required
@@ -95,7 +109,6 @@ function LoginPage() {
                 id="email"
                 label="Email Address"
                 name="memberEmail"
-
                 autoComplete="email"
                 autoFocus
                 InputProps={{ style: { borderRadius: '30px' } }}
@@ -105,7 +118,6 @@ function LoginPage() {
                 required
                 fullWidth
                 name="memberPwd"
-
                 label="Password"
                 type="password"
                 id="password"
@@ -139,18 +151,22 @@ function LoginPage() {
                 <img
                   src="/images/kakao_login_medium_wide.png" // 이미지 경로 수정
                   alt="kakao-login"
-                  style={{ height: '150%', width: '150%', objectFit: 'contain' }} // objectFit 속성 추가
+                  style={{
+                    height: '150%',
+                    width: '150%',
+                    objectFit: 'contain',
+                  }} // objectFit 속성 추가
                 />
-               </Button>
-                  <Grid container sx={{ mt: 2, justifyContent: 'flex-end' }}>
-                    <Grid item xs={6}>
-                      <Link href="/register" variant="body2">
-                        {"회원가입"}
-                      </Link>
-                    </Grid>
-                  </Grid>
-                </Box>
-              </Box>
+              </Button>
+              <Grid container sx={{ mt: 2, justifyContent: 'flex-end' }}>
+                <Grid item xs={6}>
+                  <Link href="/register" variant="body2">
+                    {'회원가입'}
+                  </Link>
+                </Grid>
+              </Grid>
+            </Box>
+          </Box>
         </Grid>
       </Grid>
     </ThemeProvider>

@@ -4,7 +4,7 @@
   margin: 0 auto;
   display: grid;
   grid-template-rows: 1fr 1fr;
-  position: fixed;
+  position: relative;
   top:0;
 
   z-index: 9999; 
@@ -14,7 +14,7 @@
 
 .hidden_block {
   width:auto;
-  height: 300px;
+  height: 100px;
 }
 
 .headerTop {

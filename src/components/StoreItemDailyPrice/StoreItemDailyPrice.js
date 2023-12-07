@@ -3,7 +3,14 @@ import axios from 'axios';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import './StoreItemDailyPrice.css';
-import { sendAxiosRequest, accessTokenRefresh, redirectLogin, isTokenExpired, getAccessToken, isNullUndefinedOrEmpty } from '../utility/common';
+import {
+  sendAxiosRequest,
+  accessTokenRefresh,
+  redirectLogin,
+  isTokenExpired,
+  getAccessToken,
+  isNullUndefinedOrEmpty,
+} from '../../lib/common';
 import LineChart from '../utility/chartForm';
 
 // handsontable라이브러리 관련 import
@@ -12,7 +19,6 @@ import Handsontable from 'handsontable/base';
 import { registerAllModules } from 'handsontable/registry';
 import { HotTable } from '@handsontable/react';
 import { registerRenderer, textRenderer } from 'handsontable/renderers';
-
 
 registerAllModules();
 
@@ -65,7 +71,6 @@ const recommendationItems = [
   },
 ];
 
-
 function firstRowRenderer(instance, td, row, col, prop, value, cellProperties) {
   textRenderer.apply(this, arguments);
   td.style.fontSize = '20px';
@@ -75,92 +80,100 @@ function firstRowRenderer(instance, td, row, col, prop, value, cellProperties) {
   td.style.background = '#f2f2f2';
 }
 
-
 function StoreItemDailyPrice() {
   const [totalDailyPrice, setTotalDailyPrice] = useState(0);
   const [averageDailyPrice, setAverageDailyPrice] = useState(0);
   const [items, setItems] = useState([]);
   const accessToken = sessionStorage.getItem('accessToken');
 
-
   useEffect(() => {
-    if (!isTokenExpired(accessToken)) {   // AccessToken이 있을 때만 요청
-      sendAxiosRequest('/api/sidp/list', 'GET', null, response => {
-        if (response.data) {
-          let sidpList = response.data;
-          const columnData = sidpList.map((sidp) => sidp.dailyPrice);
-          const total = columnData.reduce((acc, current) => acc + current, 0);
-          const avg = total / (sidpList.length || 1); // 0으로 나누는 것을 방지
+    if (!isTokenExpired(accessToken)) {
+      // AccessToken이 있을 때만 요청
+      sendAxiosRequest(
+        '/api/sidp/list',
+        'GET',
+        null,
+        (response) => {
+          if (response.data) {
+            let sidpList = response.data;
+            const columnData = sidpList.map((sidp) => sidp.dailyPrice);
+            const total = columnData.reduce((acc, current) => acc + current, 0);
+            const avg = total / (sidpList.length || 1); // 0으로 나누는 것을 방지
 
-          // 상태 업데이트
-          setTotalDailyPrice(total);
-          setAverageDailyPrice(avg);
-          setItems(sidpList);
-        }
-      }, error => {
-        if (error.response.data) {
-          const errorData = error.response.data;
-          console.log('errorData: ', errorData);
-          if (errorData === 'E') { // 토큰이 있으나 만료
-            accessTokenRefresh();
-          } else if (errorData === 'I') { // 토큰이 아예없거나 유효하지 않은 토큰
-            redirectLogin();
+            // 상태 업데이트
+            setTotalDailyPrice(total);
+            setAverageDailyPrice(avg);
+            setItems(sidpList);
           }
-        }
-      }, null, accessToken);
+        },
+        (error) => {
+          if (error.response.data) {
+            const errorData = error.response.data;
+            console.log('errorData: ', errorData);
+            if (errorData === 'E') {
+              // 토큰이 있으나 만료
+              accessTokenRefresh();
+            } else if (errorData === 'I') {
+              // 토큰이 아예없거나 유효하지 않은 토큰
+              redirectLogin();
+            }
+          }
+        },
+        null,
+        accessToken
+      );
     }
   }, [accessToken]); // accessToken이 변경될 때만 실행
 
   const transformedData = items.map((item) => {
     return {
-      'daliyPriceDate': item.daliyPriceDate,
-      'itemCode': categoryOptions[item.itemCode],
-      'itemName': item.itemName,
-      'itemSize': sizeOptions[item.itemSize],
-      'wildFarmStatus': wildFarmOptions[item.wildFarmStatus],
-      'originStatus': originOptions[item.originStatus],
-      'originPlaceStatus': originPlaceOptions[item.originPlaceStatus],
-      'dailyPrice': item.dailyPrice,
-      'chartIcon': '차트',
+      daliyPriceDate: item.daliyPriceDate,
+      itemCode: categoryOptions[item.itemCode],
+      itemName: item.itemName,
+      itemSize: sizeOptions[item.itemSize],
+      wildFarmStatus: wildFarmOptions[item.wildFarmStatus],
+      originStatus: originOptions[item.originStatus],
+      originPlaceStatus: originPlaceOptions[item.originPlaceStatus],
+      dailyPrice: item.dailyPrice,
+      chartIcon: '차트',
     };
   });
 
   // items 배열이 비어있을 때, 빈 행 추가
   if (items.length === 0) {
     transformedData.push({
-      'daliyPriceDate': '품목에 대한 시세 데이터가 존재하지 않습니다!',
-      'itemCode': '',
-      'itemName': '',
-      'itemSize': '',
-      'wildFarmStatus': '',
-      'originStatus': '',
-      'originPlaceStatus': '',
-      'dailyPrice': '',
+      daliyPriceDate: '품목에 대한 시세 데이터가 존재하지 않습니다!',
+      itemCode: '',
+      itemName: '',
+      itemSize: '',
+      wildFarmStatus: '',
+      originStatus: '',
+      originPlaceStatus: '',
+      dailyPrice: '',
     });
   }
 
   console.log(items.length);
-  const mergeCells = items.length === 0 ? [
-    {
-      row: 0,
-      col: 0,
-      rowspan: 1,
-      colspan: 8,
-    }
-  ] : [];
+  const mergeCells =
+    items.length === 0
+      ? [
+          {
+            row: 0,
+            col: 0,
+            rowspan: 1,
+            colspan: 8,
+          },
+        ]
+      : [];
   console.log('transformedData: ', transformedData);
 
   return (
-
     <div className="daily-box">
-
       <h1>오늘의 시세</h1>
       <br />
       <div className="ba-price-list-div">
         <div>
-          <div className='ba-charts-div'>
-            {/* <LineChart /> */}
-          </div>
+          <div className="ba-charts-div">{/* <LineChart /> */}</div>
           <HotTable
             mergeCells={mergeCells}
             licenseKey="non-commercial-and-evaluation"
@@ -253,8 +266,8 @@ function StoreItemDailyPrice() {
                   data: 'dailyPrice',
                   className: 'htRight htMiddle',
                   numericFormat: {
-                    pattern: '0,0'
-                  }
+                    pattern: '0,0',
+                  },
                 },
                 // {
                 //   title: '차트보기',
@@ -287,17 +300,20 @@ function StoreItemDailyPrice() {
                 setAverageDailyPrice(avg);
               },
             }}
-
             cells={(row, col) => {
               const cellProperties = {};
               cellProperties.renderer = firstRowRenderer; // 사용자 정의 렌더러 함수를 셀에 적용
               return cellProperties;
             }}
-
           />
           <div className="ba-span-div">
-            <span><strong>평균:</strong> {Math.floor(averageDailyPrice).toLocaleString()} (원)</span>
-            <span><strong>합계:</strong> {totalDailyPrice.toLocaleString()} (원)</span>
+            <span>
+              <strong>평균:</strong>{' '}
+              {Math.floor(averageDailyPrice).toLocaleString()} (원)
+            </span>
+            <span>
+              <strong>합계:</strong> {totalDailyPrice.toLocaleString()} (원)
+            </span>
           </div>
         </div>
       </div>
