@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import { sendAxiosRequest } from '../utility/common';
+import { sendAxiosRequest } from '../../lib/common';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
 
 function AdminNoticeListItem() {
   const accessToken = sessionStorage.getItem('accessToken');
@@ -46,9 +45,15 @@ function AdminNoticeListItem() {
         <table className="table table-striped table-bordered table-hover">
           <thead className="thead-dark">
             <tr>
-              <th scope="col" style={{ width: '10%' }}>번호</th>
-              <th scope="col" style={{ width: '70%' }}>제목</th>
-              <th scope="col" style={{ width: '20%' }}>삭제</th>
+              <th scope="col" style={{ width: '10%' }}>
+                번호
+              </th>
+              <th scope="col" style={{ width: '70%' }}>
+                제목
+              </th>
+              <th scope="col" style={{ width: '20%' }}>
+                삭제
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -56,7 +61,10 @@ function AdminNoticeListItem() {
               <tr key={notice.noticeNo}>
                 <td>{notice.noticeNo}</td>
                 <td>
-                  <Link to={`/admin/notice/detail/${notice && notice.noticeNo}`} style={{ color: '#000' }}>
+                  <Link
+                    to={`/admin/notice/detail/${notice && notice.noticeNo}`}
+                    style={{ color: '#000' }}
+                  >
                     {notice && notice.noticeTitle}
                   </Link>
                 </td>

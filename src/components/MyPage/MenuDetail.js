@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { sendAxiosRequest } from '../utility/common';
-
+import { sendAxiosRequest } from '../../lib/common';
 
 function MenuDetail() {
   const accessToken = sessionStorage.getItem('accessToken');
@@ -13,10 +12,9 @@ function MenuDetail() {
   const [editedPrice, setEditedPrice] = useState('');
   const [editedContent, setEditedContent] = useState('');
   const [menu, setMenu] = useState(null);
-  
-  // 만약 menuNo가 undefined라면, 잘못된 요청을 보내고 있을 수 있습니다.
-console.log('보내기 전 menuNo 확인:', menuNo);
 
+  // 만약 menuNo가 undefined라면, 잘못된 요청을 보내고 있을 수 있습니다.
+  console.log('보내기 전 menuNo 확인:', menuNo);
 
   useEffect(() => {
     if (!menuNo) {
@@ -24,20 +22,18 @@ console.log('보내기 전 menuNo 확인:', menuNo);
       // 필요한 경우 추가적인 오류 처리를 수행할 수 있습니다.
       return;
     }
-      axios.get(`/api/menu/detail/${menuNo}`)
-      .then(response => {
-
-        console.log('응답 데이터:', response.data); 
-          setMenu(response.data);
-          setEditedName(response.data.menuName);
-          setEditedSize(response.data.menuSize);
-          setEditedPrice(response.data.menuPrice);
-          setEditedContent(response.data.menuContent);
-        })
-        .catch(error => console.log(error));
-    }, [menuNo]);
-    
-
+    axios
+      .get(`/api/menu/detail/${menuNo}`)
+      .then((response) => {
+        console.log('응답 데이터:', response.data);
+        setMenu(response.data);
+        setEditedName(response.data.menuName);
+        setEditedSize(response.data.menuSize);
+        setEditedPrice(response.data.menuPrice);
+        setEditedContent(response.data.menuContent);
+      })
+      .catch((error) => console.log(error));
+  }, [menuNo]);
 
   const navigate = useNavigate();
 
@@ -47,20 +43,24 @@ console.log('보내기 전 menuNo 확인:', menuNo);
     formData.append('menuSize', editedSize);
     formData.append('menuPrice', editedPrice);
     formData.append('menuContent', editedContent);
-    formData.append('menuNo',menuNo);
+    formData.append('menuNo', menuNo);
 
-    sendAxiosRequest(`/api/menu/update/${menuNo}`,  'POST', formData, response => {
-      console.log('응답값:', response.data);
-      alert('메뉴가 수정 되었습니다.');
-      navigate('/menuEdit');
-    },
-      error => {
+    sendAxiosRequest(
+      `/api/menu/update/${menuNo}`,
+      'POST',
+      formData,
+      (response) => {
+        console.log('응답값:', response.data);
+        alert('메뉴가 수정 되었습니다.');
+        navigate('/menuEdit');
+      },
+      (error) => {
         console.error('API 호출 중 에러 발생: ', error);
         alert('메뉴 수정 실패하셨습니다!');
       },
       null,
-      accessToken 
-    )
+      accessToken
+    );
   };
 
   if (menu === null) {
@@ -69,7 +69,7 @@ console.log('보내기 전 menuNo 확인:', menuNo);
     return (
       <div className="container">
         <div className="top-controls"></div>
-        <div style={{ padding: "0 12px" }}>
+        <div style={{ padding: '0 12px' }}>
           <table className="board_list text-center">
             <colgroup>
               <col width="20%" />
