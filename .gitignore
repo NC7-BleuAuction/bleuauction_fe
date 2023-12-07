@@ -1,3 +1,11 @@
+### IntelliJ IDEA ###
+.DS_STORE
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+
 # dependencies
 /node_modules
 /.pnp
