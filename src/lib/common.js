@@ -2,6 +2,7 @@ import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import { isValidDateValue } from "@testing-library/user-event/dist/utils";
 
+
 export const mainUrl = 'http://localhost:3000';
 
 export function isNotNullOrNonEmpty(value) {
@@ -77,7 +78,8 @@ export function logout() {
     sessionStorage.clear();
     localStorage.clear();
     alert('정상적으로 로그아웃 되었습니다!');
-    window.location.reload();
+    window.location.href = '/';
+    // window.location.reload();
   }
 }
 
