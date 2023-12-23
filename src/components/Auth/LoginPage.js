@@ -15,12 +15,16 @@ import { useUser } from './UserContext';
 import { isOpenNow, sendAxiosRequest, isTokenExpired } from '../../lib/common';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
+import { login } from '../../lib/api/login';
+import { useRecoilState } from 'recoil';
+import { loginUserState } from '../../modules/login';
 
 const defaultTheme = createTheme();
 
 function LoginPage() {
   const navigate = useNavigate();
-  const { user, login } = useUser();
+  const [loginUser, setLoginUser] = useRecoilState(loginUserState);
+  // const { user, login } = useUser();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -31,36 +35,7 @@ function LoginPage() {
       memberPwd: data.get('memberPwd'),
     };
 
-    sendAxiosRequest(
-      '/api/member/login',
-      'POST',
-      loginRequest,
-      (response) => {
-        const repDataList = response.data;
-        console.log('repDataList', repDataList);
-
-        if (repDataList) {
-          const accessToken = response.data.accessToken;
-          const refreshToken = response.data.refreshToken;
-          const loginUser = response.data.loginUser;
-          login(loginUser);
-          if (!isTokenExpired(accessToken) && !isTokenExpired(refreshToken)) {
-            sessionStorage.setItem('accessToken', accessToken);
-            localStorage.setItem('refreshToken', refreshToken);
-
-            const decodedAccessToken = jwtDecode(accessToken);
-            alert(
-              "'" +
-                decodedAccessToken.memberName +
-                "' 회원님 BLEU AUCTION에 오신 것을 환영합니다!"
-            );
-            navigate('/');
-          }
-        }
-      },
-      (error) => console.log(error),
-      'application/json'
-    );
+    login({loginRequest, navigate, setLoginUser});
   };
 
   return (

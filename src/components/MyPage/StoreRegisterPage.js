@@ -135,7 +135,7 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '60vh',
+    height: '80vh',
   },
   card: {
     width: '50%',

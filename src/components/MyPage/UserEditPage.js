@@ -1,40 +1,30 @@
 import React, { useState, useEffect } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import InputField from './InputField';
 import { sendAxiosMultipartRequest, sendAxiosRequest } from '../../lib/common';
 import axios, { formToJSON } from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
+import { memberData, memberUpdate } from '../../lib/api/member';
+import { memberState } from '../../modules/member';
 
 function UserEditPage() {
   const [currentImage, setCurrentImage] = useState(
     'http://fvhsczepiibf19983519.cdn.ntruss.com/member/defaultProfile.jpg?type=f&w=50&h=50&ttype=jpg'
   );
-  const [member, setMember] = useState(null);
+  const [member, setMember] = useRecoilState(memberState);
+  const [initPwd, setInitPwd] = useState("");
   const [loginUser, setLoginUser] = useState(null);
   const accessToken = sessionStorage.getItem('accessToken');
 
   useEffect(() => {
-    sendAxiosRequest(
-      `/api/member/${jwtDecode(accessToken).sub}`,
-      'GET',
-      null,
-      (response) => {
-        console.log('응답 성공', response.data);
-        setMember(response.data);
-        setCurrentImage(
-          'http://kr.object.ncloudstorage.com/bleuauction-bucket/' +
-            loginUser.memberAttaches[0].filePath +
-            loginUser.memberAttaches[0].saveFilename
-        );
-      },
-      (error) => {
-        console.log('응답 실패', error);
-      },
-      null,
-      accessToken
-    );
+    memberData( {accessToken, loginUser, setMember, setCurrentImage} )
   }, []);
   console.log('로그인유저: ', member);
+
+  useEffect(() => {
+    setMember({...member, memberPwd: initPwd});
+  }, [initPwd]);
 
   // useEffect(() => {
   //   sendAxiosRequest('api/member/loginCheck', 'GET', null, response => {
@@ -45,7 +35,7 @@ function UserEditPage() {
   //   }, error => console.log(error))
   // }, []);
 
-  function memberUpdate() {
+  function sendMemberUpdate() {
     let memberForm = document.getElementById('memberForm');
     // const formData = new FormData(memberForm);
     const formData = new FormData();
@@ -63,35 +53,8 @@ function UserEditPage() {
 
     console.log('formData: ', formData);
     console.log('formData: ', formToJSON(formData));
-    // axios.post('/api/member/update', formData, {
-    //   headers: {
-    //     'Content-Type': 'multipart/form-data',
-    //     'Authorization': `Bearer ${accessToken}`
-    //   },
-    // })
-    //   .then(response => {
-    //     console.log('서버 응답:', response.data);
-    //   })
-    //   .catch(error => {
-    //     console.error('에러 발생:', error);
-    //   });
 
-    sendAxiosMultipartRequest(
-      '/api/member/update',
-      formData,
-      (response) => {
-        console.log('수정한 정보', formToJSON(formData));
-        console.log('서버 응답:', response.data);
-
-        // console.log(formToJSON(updateStoreRequest));
-        // 성공적으로 업데이트된 경우에 수행할 작업을 추가하세요
-      },
-      (error) => {
-        console.error('가게 업데이트 중에 오류가 발생했습니다', error);
-        // 오류 발생 시 처리를 추가하세요
-      },
-      accessToken
-    );
+    memberUpdate( { accessToken, formData} );
   }
 
   const handleImageChange = (event) => {
@@ -160,9 +123,9 @@ function UserEditPage() {
             <InputField
               type="text"
               name="memberPwd"
-              value={member.memberPwd}
+              value={initPwd}
               onChange={(e) =>
-                setMember({ ...member, memberPwd: e.target.value })
+                setInitPwd(e.target.value )
               }
               placeholder="Password"
             />
@@ -222,7 +185,7 @@ function UserEditPage() {
             />
             <button
               type="button"
-              onClick={memberUpdate}
+              onClick={sendMemberUpdate}
               style={styles.buttonStyle}
             >
               수정
